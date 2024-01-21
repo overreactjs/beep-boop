@@ -3,9 +3,10 @@ import { useElement, useDevice, useRender, Size, useProperty, Prop } from "@over
 type ScreenProps = {
   children: React.ReactNode;
   size: Prop<Size>;
+  scale: number | 'auto';
 }
 
-export const Screen: React.FC<ScreenProps> = ({ children, ...props }) => {
+export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => {
   const element = useElement();
   const device = useDevice();
   const size = useProperty(props.size);
@@ -18,13 +19,17 @@ export const Screen: React.FC<ScreenProps> = ({ children, ...props }) => {
       size.invalidated = false;
     }
 
-    if (device.size.invalidated || size.invalidated) {  
-      const [width, height] = device.size.current;
-      const widthScale = Math.floor(width / size.current[0]);
-      const heightScale = Math.floor(height / size.current[1]);
-      const scale = Math.min(widthScale, heightScale);
+    if (device.size.invalidated || size.invalidated) {
+      if (scale === 'auto') {
+        const [width, height] = device.size.current;
+        const widthScale = Math.floor(width / size.current[0]);
+        const heightScale = Math.floor(height / size.current[1]);
+        const autoScale = Math.min(widthScale, heightScale);
 
-      element.setStyle('scale', scale);
+        element.setStyle('scale', autoScale);
+      } else {
+        element.setStyle('scale', scale);
+      }
 
       device.size.invalidated = false;
     }
@@ -32,7 +37,7 @@ export const Screen: React.FC<ScreenProps> = ({ children, ...props }) => {
 
   return (
     <div className="w-full h-full grid place-items-center">
-      <div ref={element.ref} className="bg-pink-500">
+      <div ref={element.ref}>
         {children}
       </div>
     </div>
