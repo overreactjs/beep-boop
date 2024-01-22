@@ -1,15 +1,18 @@
-import { Box, Camera, CollisionBox, Device, Engine, Node, Tilemap, Viewport, World } from "@overreact/engine";
+import { Box, Camera, CollisionBox, Device, Engine, Node, Tilemap, Viewport, World, useProperty } from "@overreact/engine";
 import { TILESET } from "./assets";
-import { ArcadeText, Player, Scoreboard, Screen } from "./components";
+import { ArcadeText, Game, Player, Scoreboard, Screen } from "./components";
 import { LEVEL001 } from "./data";
+import { useGame } from "./hooks";
 
 export const App = () => {
   return (
     <Engine>
       <Device mode="desktop" bg="black" showFPS hideClose>
         <Screen size={[256, 240]} scale="auto">
-          <TopBar />
-          <Arena />
+          <Game>
+            <TopBar />
+            <Arena />
+          </Game>
         </Screen>
       </Device>
     </Engine>
@@ -17,14 +20,19 @@ export const App = () => {
 };
 
 const TopBar = () => {
+  const game = useGame();
+  const highscore = useProperty(game.current.highscore);
+  const score1 = useProperty(game.current.players[0].score);
+  const score2 = useProperty(game.current.players[1].score);
+  
   return (
     <Node>
       <ArcadeText pos={[16, 0]} color="#0f0" text="1UP" />
       <ArcadeText pos={[88, 0]} color="#f00" text="HIGH SCORE" />
       <ArcadeText pos={[216, 0]} color="#0ff" text="2UP" />
-      <Scoreboard pos={[8, 8]} score={34080} />
-      <Scoreboard pos={[104, 8]} score={165240} />
-      <Scoreboard pos={[208, 8]} score={76050} />
+      <Scoreboard pos={[0, 8]} score={score1} />
+      <Scoreboard pos={[104, 8]} score={highscore} />
+      <Scoreboard pos={[200, 8]} score={score2} />
     </Node>
   );
 };
