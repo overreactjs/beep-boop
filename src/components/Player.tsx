@@ -39,7 +39,7 @@ export const Player: React.FC = () => {
   return (
     <Node pos={pos}>
       <BitmapImage pos={spritePos} size={[16, 16]} offset={[0, 0]} flip={flip} image={PLAYER1} />
-      <CollisionBox pos={collisionPos} size={[16, 16]} id={collider} />
+      <CollisionBox pos={collisionPos} size={[16, 16]} id={collider} tags={['player']} />
     </Node>
   );
 };

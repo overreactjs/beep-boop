@@ -3,6 +3,7 @@ import { BitmapAsset, Size, Tileset } from "@overreact/engine";
 import arcadeFontUrl from "./arcade.png";
 import player1Url from "./player1.png";
 import tilesetUrl from "./tileset.png";
+import itemsUrl from "./items.png";
 
 export type BitmapFontFace = {
   image: BitmapAsset;
@@ -31,4 +32,9 @@ export const TILESET: Tileset = {
 export const PLAYER1: BitmapAsset = {
   url: player1Url,
   size: [16, 16],
+};
+
+export const ITEM_IMAGE: BitmapAsset = {
+  url: itemsUrl,
+  size: [256, 64],
 };

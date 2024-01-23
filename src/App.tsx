@@ -1,7 +1,7 @@
-import { Box, Camera, CollisionBox, Device, Engine, Node, Tilemap, Viewport, World, useProperty } from "@overreact/engine";
+import { Box, Camera, CollisionBox, Device, Engine, Node, Tilemap, Viewport, World, useFixedUpdate, useProperty, useSync } from "@overreact/engine";
 import { TILESET } from "./assets";
-import { ArcadeText, Game, Player, Scoreboard, Screen } from "./components";
-import { LEVEL001 } from "./data";
+import { ArcadeText, Game, Item, Player, Scoreboard, Screen } from "./components";
+import { LEVELS } from "./data";
 import { useGame } from "./hooks";
 
 export const App = () => {
@@ -38,12 +38,19 @@ const TopBar = () => {
 };
 
 const Arena = () => {
+  const game = useGame();
+
+  useFixedUpdate(1, () => {
+    game.current.createRandomItem();
+  });
+
   return (
     <Box pos={[0, 24]} size={[256, 200]} color="#000">
       <Viewport>
         <World>
           <Level />
           <Player />
+          <Items />
           <ArenaCamera />
         </World>
       </Viewport>
@@ -60,9 +67,13 @@ const ArenaCamera = () => {
 };
 
 const Level = () => {
+  const game = useGame();
+  const level = useSync(() => game.current.level.current);
+  const { tiles, collisions } = LEVELS[level - 1];
+
   return (
     <Node>
-      <Tilemap pos={[0, 0]} tileset={TILESET} tiles={LEVEL001.tiles} collisions={LEVEL001.collisions} />
+      <Tilemap pos={[0, 0]} tileset={TILESET} tiles={tiles} collisions={collisions} />
       <CollisionBox pos={[0, 0]} size={[256, 8]} tags={['solid']} />
       <CollisionBox pos={[0, 192]} size={[256, 8]} tags={['solid']} />
       <CollisionBox pos={[0, 8]} size={[16, 184]} tags={['solid']} />
@@ -71,6 +82,15 @@ const Level = () => {
   );
 };
 
+const Items = () => {
+  const game = useGame();
+  const items = useSync(() => game.current.items);
 
-
-
+  return (
+    <Node>
+      {items.map((item) => (
+        <Item key={item.id} item={item} />
+      ))}
+    </Node>
+  );
+};
