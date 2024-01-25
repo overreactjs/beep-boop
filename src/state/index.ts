@@ -1,1 +1,1 @@
-export { GameState, ItemState, PlayerState } from "./GameState";
+export { GameState, ItemState, PlayerState, PointsState } from "./GameState";

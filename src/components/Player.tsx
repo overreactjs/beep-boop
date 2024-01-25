@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useId } from "react";
-import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions } from "@overreact/engine";
+import { useId } from "react";
+import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useSync } from "@overreact/engine";
+import { PLAYER1_IMAGE } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
-import { PLAYER1 } from "../assets";
+import { Points } from "./Points";
 
 export const Player: React.FC = () => {
   const game = useGame();
   const pos = usePosition(game.current.players[0].pos);
   const flip = useProperty(game.current.players[0].flip);
+  const points = useSync(() => game.current.points);
 
   const velocity = useProperty<Velocity>([0, 0]);
   const collisionPos = useOffsetPosition(pos, [-8, -16]);
@@ -16,20 +18,9 @@ export const Player: React.FC = () => {
   // Setup standard platform movement.
   const movement = usePlatformMovement(collider, pos, velocity, {
     gravity: [0, 0.0004],
-    speed: 0.08,
+    speed: 0.06,
     jumpStrength: 0.165,
   });
-
-  // For testing: Add points each time the player jumps.
-  const onJump = useCallback(() => {
-    game.current.players[0].addPoints(100);
-  }, [game]);
-
-  // Listen for jump events.
-  useEffect(() => {
-    movement.addEventListener('jump', onJump);
-    return () => movement.removeEventListener('jump', onJump);
-  }, [movement, onJump])
 
   // Update animations and flip direction.
   usePostCollisions(() => {
@@ -37,9 +28,12 @@ export const Player: React.FC = () => {
   });
   
   return (
-    <Node pos={pos}>
-      <BitmapImage pos={spritePos} size={[16, 16]} offset={[0, 0]} flip={flip} image={PLAYER1} />
+    <Node>
+      <BitmapImage pos={spritePos} size={[16, 16]} offset={[0, 0]} flip={flip} image={PLAYER1_IMAGE} />
       <CollisionBox pos={collisionPos} size={[16, 16]} id={collider} tags={['player']} />
+      {points.map((entry) => (
+        <Points key={entry.id} points={entry} />
+      ))}
     </Node>
   );
 };

@@ -45,15 +45,41 @@ export type ItemType =
 
 export type ItemConfig = {
   offset: Position;
+  value: PointsValue;
 };
 
 export type RawLevelData = {
+  background: string;
+  foreground: string;
   geometry: string[];
-  enemies: string[];
 };
 
 export type LevelData = {
+  background: string;
+  foreground: string;
   tiles: number[];
   collisions: (false | string)[];
   targets: Position[];
 };
+
+export type PointsValue = 
+  | 50
+  | 100
+  | 200
+  | 300
+  | 400
+  | 500
+  | 600
+  | 700
+  | 800
+  | 900
+  | 1000
+  | 2000
+  | 3000
+  | 4000
+  | 5000
+  | 6000
+  | 7000
+  | 8000
+  | 9000
+  | 10000;

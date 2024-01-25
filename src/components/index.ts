@@ -1,7 +1,5 @@
-export { ArcadeText } from "./ArcadeText";
-export { BitmapText } from "./BitmapText";
+export { Arena } from "./Arena";
+export { BottomBar } from "./BottomBar";
 export { Game } from "./Game";
-export { Item } from "./Item";
-export { Player } from "./Player";
 export { Screen } from "./Screen";
-export { Scoreboard } from "./Scoreboard";
+export { TopBar } from "./TopBar";

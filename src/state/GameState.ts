@@ -1,5 +1,5 @@
 import { ObjectState, Position, Property, VariableProperty } from "@overreact/engine";
-import { ItemType } from "../types";
+import { ItemType, PointsValue } from "../types";
 import { ITEMS, LEVELS } from "../data";
 
 /**
@@ -7,6 +7,7 @@ import { ITEMS, LEVELS } from "../data";
  */
 export class GameState {
   highscore = new VariableProperty(100000);
+  
   level = new VariableProperty(1);
 
   players: PlayerState[] = [
@@ -14,8 +15,9 @@ export class GameState {
     new PlayerState([224, 192]),
   ];
 
-  items: ItemState[] = [
-  ];
+  items: ItemState[] = [];
+
+  points: PointsState[] = [];
 
   constructor() {
     this.createRandomItem();
@@ -23,7 +25,16 @@ export class GameState {
 
   collectItem(item: ItemState) {
     this.items = this.items.filter(({ id }) => id !== item.id);
-    this.players[0].addPoints(1000);
+    this.players[0].addPoints(ITEMS[item.type].value);
+    this.showPoints(item);
+  }
+
+  showPoints(item: ItemState) {
+    this.points = [...this.points, new PointsState(item.pos.current, ITEMS[item.type].value)];
+  }
+
+  hidePoints(id: number) {
+    this.points = this.points.filter((entry) => entry.id !== id);
   }
 
   createRandomItem() {
@@ -35,17 +46,24 @@ export class GameState {
   }
 }
 
-/**
- * Player
- */
-export class PlayerState extends ObjectState {
+class PositionedObjectState extends ObjectState {
   pos: Property<Position>;
-  flip: Property<boolean>;
-  score: Property<number>;
 
   constructor(pos: Position) {
     super();
     this.pos = new VariableProperty(pos);
+  }
+}
+
+/**
+ * Player
+ */
+export class PlayerState extends PositionedObjectState {
+  flip: Property<boolean>;
+  score: Property<number>;
+
+  constructor(pos: Position) {
+    super(pos);
     this.flip = new VariableProperty(false);
     this.score = new VariableProperty(0);
   }
@@ -58,13 +76,28 @@ export class PlayerState extends ObjectState {
 /**
  * Item
  */
-export class ItemState extends ObjectState {
-  pos: Property<Position>;
+export class ItemState extends PositionedObjectState {
   type: ItemType;
+  target: Property<Position>;
+  state: Property<'falling' | 'landed'>;
 
-  constructor(pos: Position, type: ItemType) {
-    super();
-    this.pos = new VariableProperty(pos);
+  constructor(target: Position, type: ItemType) {
+    super([target[0], 0]);
     this.type = type;
+    this.target = new VariableProperty(target);
+    this.state = new VariableProperty('falling');
   }
 }
+
+/**
+ * Points
+ */
+export class PointsState extends PositionedObjectState {
+  value: PointsValue;
+
+  constructor(pos: Position, value: PointsValue) {
+    super(pos);
+    this.value = value;
+  }
+}
+
