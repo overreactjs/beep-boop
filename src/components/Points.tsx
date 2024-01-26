@@ -38,7 +38,7 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
   const age = useProperty(0);
 
   const fn = useCallback((age: number): Position => {
-    return [pos.current[0] - 12, Math.round(pos.current[1] - 12 - Math.min(24, age))];
+    return [pos.current[0] - 12, Math.round(pos.current[1] - 12 - Math.min(20, age))];
   }, [pos]);
 
   const imagePos = useDynamicProperty(age, fn);

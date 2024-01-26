@@ -1,11 +1,12 @@
 import { useId } from "react";
-import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useSync } from "@overreact/engine";
+import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useSync, useKeyboardMap } from "@overreact/engine";
 import { PLAYER1_IMAGE } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
 import { Points } from "./Points";
 
 export const Player: React.FC = () => {
   const game = useGame();
+
   const pos = usePosition(game.current.players[0].pos);
   const flip = useProperty(game.current.players[0].flip);
   const points = useSync(() => game.current.points);
@@ -14,6 +15,9 @@ export const Player: React.FC = () => {
   const collisionPos = useOffsetPosition(pos, [-8, -16]);
   const spritePos = useIntegerPosition(collisionPos);
   const collider = useId();
+
+  // Map from keyboard input to virtual input events.
+  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW' });
 
   // Setup standard platform movement.
   const movement = usePlatformMovement(collider, pos, velocity, {
