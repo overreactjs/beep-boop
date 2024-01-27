@@ -1,11 +1,12 @@
 import { BitmapAsset, BitmapFontFace, BitmapSpriteAsset, Tileset } from "@overreact/engine";
 
 import arcadeFontUrl from "./arcade.png";
-import player1Url from "./player1.png";
-import tilesetUrl from "./tileset.png";
+import enemy1RunUrl from "./enemy-1-run.png";
 import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
+import player1Url from "./player1.png";
 import pointsUrl from "./points.png";
+import tilesetUrl from "./tileset.png";
 import zapUrl from "./zap.png";
 
 export const ARCADE_FONT: BitmapFontFace = {
@@ -40,7 +41,7 @@ export const MYSTERY_SPRITE: BitmapSpriteAsset = {
   url: mysteryUrl,
   size: [384, 16],
   count: 24,
-  rate: 15,
+  rate: 10,
 };
 
 export const POINTS_IMAGE: BitmapAsset = {
@@ -51,4 +52,11 @@ export const POINTS_IMAGE: BitmapAsset = {
 export const ZAP_IMAGE: BitmapAsset = {
   url: zapUrl,
   size: [8, 8],
+};
+
+export const ENEMY_1_RUN: BitmapSpriteAsset = {
+  url: enemy1RunUrl,
+  size: [48, 16],
+  count: 3,
+  rate: 10,
 };

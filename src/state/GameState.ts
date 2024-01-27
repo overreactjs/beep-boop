@@ -5,6 +5,7 @@ import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
 import { ZapState } from "./ZapState";
+import { EnemyState } from "./EnemyState";
 
 export class GameState {
   highscore = new VariableProperty(100000);
@@ -20,6 +21,10 @@ export class GameState {
   players: PlayerState[] = [
     new PlayerState([32, 192]),
     new PlayerState([224, 192]),
+  ];
+
+  enemies: EnemyState[] = [
+    new EnemyState([92, 96]),
   ];
 
   createRandomItem() {
