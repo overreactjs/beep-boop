@@ -1,15 +1,18 @@
 import { useId } from "react";
-import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useSync, useKeyboardMap } from "@overreact/engine";
+import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useSync, useKeyboardMap, useKeyPressed } from "@overreact/engine";
 import { PLAYER1_IMAGE } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
 import { Points } from "./Points";
+import { Zap } from "./Zap";
 
 export const Player: React.FC = () => {
   const game = useGame();
+  const player = game.current.players[0];
 
-  const pos = usePosition(game.current.players[0].pos);
-  const flip = useProperty(game.current.players[0].flip);
+  const pos = usePosition(player.pos);
+  const flip = useProperty(player.flip);
   const points = useSync(() => game.current.points);
+  const zaps = useSync(() => game.current.zaps);
 
   const velocity = useProperty<Velocity>([0, 0]);
   const collisionPos = useOffsetPosition(pos, [-8, -16]);
@@ -30,6 +33,10 @@ export const Player: React.FC = () => {
   usePostCollisions(() => {
     flip.current = movement.direction.current === 'left';
   });
+
+  useKeyPressed('Space', () => {
+    game.current.fireZap(player);
+  });
   
   return (
     <Node>
@@ -37,6 +44,9 @@ export const Player: React.FC = () => {
       <CollisionBox pos={collisionPos} size={[16, 16]} id={collider} tags={['player']} />
       {points.map((entry) => (
         <Points key={entry.id} points={entry} />
+      ))}
+      {zaps.map((zap) => (
+        <Zap key={zap.id} zap={zap} />
       ))}
     </Node>
   );

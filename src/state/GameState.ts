@@ -4,20 +4,23 @@ import { ItemType } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
+import { ZapState } from "./ZapState";
 
 export class GameState {
   highscore = new VariableProperty(100000);
   
   level = new VariableProperty(1);
 
+  items: ItemState[] = [];
+
+  points: PointsState[] = [];
+
+  zaps: ZapState[] = [];
+
   players: PlayerState[] = [
     new PlayerState([32, 192]),
     new PlayerState([224, 192]),
   ];
-
-  items: ItemState[] = [];
-
-  points: PointsState[] = [];
 
   createRandomItem() {
     const types = Object.keys(ITEMS) as ItemType[];
@@ -39,5 +42,15 @@ export class GameState {
 
   hidePoints(id: number) {
     this.points = this.points.filter((entry) => entry.id !== id);
+  }
+
+  fireZap(player: PlayerState) {
+    const [x, y] = player.pos.current;
+    const direction = player.flip.current ? -1 : 1;
+    this.zaps = [...this.zaps, new ZapState([x + direction * 4, y - 8], direction)];
+  }
+
+  destroyZap(zap: ZapState) {
+    this.zaps = this.zaps.filter(({ id }) => id !== zap.id);
   }
 }

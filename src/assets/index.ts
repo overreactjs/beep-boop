@@ -6,6 +6,7 @@ import tilesetUrl from "./tileset.png";
 import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
 import pointsUrl from "./points.png";
+import zapUrl from "./zap.png";
 
 export const ARCADE_FONT: BitmapFontFace = {
   image: {
@@ -45,4 +46,9 @@ export const MYSTERY_SPRITE: BitmapSpriteAsset = {
 export const POINTS_IMAGE: BitmapAsset = {
   url: pointsUrl,
   size: [24, 320],
+};
+
+export const ZAP_IMAGE: BitmapAsset = {
+  url: zapUrl,
+  size: [8, 8],
 };
