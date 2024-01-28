@@ -1,5 +1,7 @@
 import { Position } from "@overreact/engine";
 
+export type Direction = 'left' | 'right';
+
 export type ItemType =
   | 'apple'
   | 'banana'

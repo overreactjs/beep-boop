@@ -24,8 +24,17 @@ export class GameState {
   ];
 
   enemies: EnemyState[] = [
-    new EnemyState([92, 96]),
+    new EnemyState([32, 64]),
+    new EnemyState([128, 64]),
+    new EnemyState([192, 64]),
+    new EnemyState([128, 96]),
+    new EnemyState([128, 128]),
+    new EnemyState([128, 160]),
   ];
+
+  isSolid(x: number, y: number): boolean {
+    return !!LEVELS[this.level.current - 1].collisions[y * 32 + x];
+  }
 
   createRandomItem() {
     const types = Object.keys(ITEMS) as ItemType[];

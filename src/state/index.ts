@@ -1,3 +1,4 @@
+export { EnemyState } from "./EnemyState";
 export { GameState } from "./GameState";
 export { ItemState } from "./ItemState";
 export { PlayerState } from "./PlayerState";

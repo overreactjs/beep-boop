@@ -1,4 +1,4 @@
-import { Box, Camera, Node, Viewport, World, useFixedUpdate, useSync } from "@overreact/engine";
+import { Box, Camera, Node, Viewport, World, useSync } from "@overreact/engine";
 import { useGame } from "../hooks";
 import { Enemy } from "./Enemy";
 import { Items } from "./Items";
@@ -12,10 +12,6 @@ export const Arena: React.FC = () => {
   const points = useSync(() => game.current.points);
   const zaps = useSync(() => game.current.zaps);
   const enemies = useSync(() => game.current.enemies);
-
-  useFixedUpdate(0.75, () => {
-    game.current.createRandomItem();
-  });
 
   return (
     <Box pos={[0, 24]} size={[256, 200]} color="#000">
