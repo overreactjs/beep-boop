@@ -1,24 +1,25 @@
 import { useId } from "react";
-import { usePosition, useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useKeyboardMap, useKeyPressed } from "@overreact/engine";
+import { useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useKeyboardMap, useKeyPressed, useDynamicProperty, Box, Position, Prop, usePosition } from "@overreact/engine";
 import { PLAYER1_IMAGE } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
+import { BlockIndicator } from "./BlockIndicator";
 
 export const Player: React.FC = () => {
   const game = useGame();
   const player = game.current.players[0];
 
-  const pos = usePosition(player.pos);
+  const collisionPos = useOffsetPosition(player.pos, [-8, -16]);
+  const spritePos = useIntegerPosition(collisionPos);
+  
   const flip = useProperty(player.flip);
   const velocity = useProperty<Velocity>([0, 0]);
-  const collisionPos = useOffsetPosition(pos, [-8, -16]);
-  const spritePos = useIntegerPosition(collisionPos);
   const collider = useId();
 
   // Map from keyboard input to virtual input events.
   useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW' });
 
   // Setup standard platform movement.
-  const movement = usePlatformMovement(collider, pos, velocity, {
+  const movement = usePlatformMovement(collider, player.pos, velocity, {
     gravity: [0, 0.0004],
     speed: 0.06,
     jumpStrength: 0.165,
@@ -29,6 +30,7 @@ export const Player: React.FC = () => {
     flip.current = movement.direction.current === 'left';
   });
 
+  // Fire an electric bolt when space is pressed.
   useKeyPressed('Space', () => {
     game.current.fireZap(player);
   });
@@ -37,6 +39,7 @@ export const Player: React.FC = () => {
     <Node>
       <BitmapImage pos={spritePos} size={[16, 16]} offset={[0, 0]} flip={flip} image={PLAYER1_IMAGE} />
       <CollisionBox pos={collisionPos} size={[16, 16]} id={collider} tags={['player']} />
+      <BlockIndicator pos={player.block} />
     </Node>
   );
 };
