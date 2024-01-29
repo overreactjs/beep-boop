@@ -1,19 +1,20 @@
-export type StateBehaviour<T> = (fsm: StateMachine<T>, delta: number) => void;
+export type StateBehaviour<S extends string, T> = (fsm: StateMachine<S, T>, delta: number) => void;
 
-export type StateDefinitions<T> = Record<string, StateBehaviour<T>>;
+export type StateDefinitions<S extends string, T> = Record<string, StateBehaviour<S, T>>;
 
-export class StateMachine<T> {
+export class StateMachine<S extends string, T> {
 
   entity: T;
 
-  states: StateDefinitions<T>;
+  states: StateDefinitions<S, T>;
 
-  state: string[] = ['idle'];
+  state: S[] = [];
 
   age: number = 0;
 
-  constructor(entity: T, states: StateDefinitions<T>) {
+  constructor(entity: T, state: S, states: StateDefinitions<S, T>) {
     this.entity = entity;
+    this.state = [state];
     this.states = states;
   }
 
@@ -22,7 +23,7 @@ export class StateMachine<T> {
     (this.states[this.state[this.state.length - 1]])?.(this, delta);
   }
 
-  push(state: string) {
+  push(state: S) {
     this.state.push(state);
     this.age = 0;
   }
@@ -32,7 +33,7 @@ export class StateMachine<T> {
     this.age = 0;
   }
 
-  replace(state: string) {
+  replace(state: S) {
     this.state[this.state.length - 1] = state;
     this.age = 0;
   }

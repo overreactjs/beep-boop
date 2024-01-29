@@ -1,4 +1,4 @@
-import { Position, Property, VariableProperty } from "@overreact/engine";
+import { Position, Property, UsePlatformMovementResult, VariableProperty, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { Direction } from "../types";
 
@@ -16,12 +16,17 @@ class StatefulObjectState extends PositionedObjectState {
 }
 
 export class EnemyState extends StatefulObjectState {
-  flip: Property<boolean>;
   direction: Property<Direction>;
+  velocity: Property<Velocity>;
+  movement?: UsePlatformMovementResult;
 
   constructor(pos: Position) {
     super(pos);
-    this.flip = new VariableProperty(false);
     this.direction = new VariableProperty('right');
+    this.velocity = new VariableProperty([0, 0]);
+  }
+
+  reverse() {
+    this.direction.current = this.direction.current === 'left' ? 'right' : 'left';
   }
 }

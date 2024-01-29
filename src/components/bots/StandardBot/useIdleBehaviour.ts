@@ -1,11 +1,8 @@
 import { useCallback } from "react";
-import { EnemyState } from "../../../state";
-import { StateMachine } from "../../../utils";
+import { StateMachine } from "./types";
 
 export const useIdleBehaviour = () => {
-  return useCallback((fsm: StateMachine<EnemyState>) => {
-    if (fsm.age >= 4000) {
-      fsm.push('patrol');
-    }
+  return useCallback((fsm: StateMachine) => {
+    fsm.push('patrol');
   }, []);
 };

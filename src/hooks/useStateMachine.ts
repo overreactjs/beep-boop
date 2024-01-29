@@ -1,11 +1,13 @@
-import { useRef } from "react";
-import { useUpdate } from "@overreact/engine";
+import { useMemo, useRef } from "react";
+import { usePostCollisions } from "@overreact/engine";
 import { StateDefinitions, StateMachine } from "../utils";
 
-export function useStateMachine<T>(entity: T, states: StateDefinitions<T>) {
-  const fsm = useRef(new StateMachine(entity, states));
+export function useStateMachine<S extends string, T>(entity: T, state: S, states: StateDefinitions<S, T>) {
+  const fsm = useRef(new StateMachine(entity, state, states));
 
-  useUpdate((delta) => {
+  usePostCollisions((delta) => {
     fsm.current.update(delta);
   });
+
+  return useMemo(() => fsm, [fsm]);
 }
