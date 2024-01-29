@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useKeyboardMap, useKeyPressed, useDynamicProperty, Box, Position, Prop, usePosition } from "@overreact/engine";
+import { useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useKeyboardMap, useKeyPressed } from "@overreact/engine";
 import { PLAYER1_IMAGE } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
 import { BlockIndicator } from "./BlockIndicator";
@@ -16,7 +16,7 @@ export const Player: React.FC = () => {
   const collider = useId();
 
   // Map from keyboard input to virtual input events.
-  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW' });
+  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' });
 
   // Setup standard platform movement.
   const movement = usePlatformMovement(collider, player.pos, velocity, {
