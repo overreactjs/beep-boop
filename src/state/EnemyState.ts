@@ -18,12 +18,14 @@ class StatefulObjectState extends PositionedObjectState {
 export class EnemyState extends StatefulObjectState {
   direction: Property<Direction>;
   velocity: Property<Velocity>;
+  animation: Property<string>;
   movement?: UsePlatformMovementResult;
 
-  constructor(pos: Position) {
+  constructor(pos: Position, direction: Direction) {
     super(pos);
-    this.direction = new VariableProperty('right');
+    this.direction = new VariableProperty(direction);
     this.velocity = new VariableProperty([0, 0]);
+    this.animation = new VariableProperty('idle');
   }
 
   reverse() {

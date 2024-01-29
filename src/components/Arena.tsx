@@ -19,16 +19,10 @@ export const Arena: React.FC = () => {
         <World>
           <Level />
           <Items />
+          {enemies.map((enemy) => <Enemy key={enemy.id} enemy={enemy} />)}
+          {points.map((entry) => <Points key={entry.id} points={entry} />)}
+          {zaps.map((zap) => <Zap key={zap.id} zap={zap} />)}
           <Player />
-          {enemies.map((enemy) => (
-            <Enemy key={enemy.id} enemy={enemy} />
-          ))}
-          {points.map((entry) => (
-            <Points key={entry.id} points={entry} />
-          ))}
-          {zaps.map((zap) => (
-            <Zap key={zap.id} zap={zap} />
-          ))}
           <Node pos={[128, 100]}>
             <Camera />
           </Node>

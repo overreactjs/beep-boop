@@ -2,14 +2,14 @@ import { useId } from "react";
 import { useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useKeyboardMap, useKeyPressed } from "@overreact/engine";
 import { PLAYER1_IMAGE } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
-import { BlockIndicator } from "./BlockIndicator";
 
 export const Player: React.FC = () => {
   const game = useGame();
   const player = game.current.players[0];
 
-  const collisionPos = useOffsetPosition(player.pos, [-8, -16]);
-  const spritePos = useIntegerPosition(collisionPos);
+  const pos = useOffsetPosition(player.pos, [-8, -16]);
+  const collisionPos = useOffsetPosition(player.pos, [-6, -16]);
+  const spritePos = useIntegerPosition(pos);
   
   const flip = useProperty(player.flip);
   const velocity = useProperty<Velocity>([0, 0]);
@@ -38,8 +38,7 @@ export const Player: React.FC = () => {
   return (
     <Node>
       <BitmapImage pos={spritePos} size={[16, 16]} offset={[0, 0]} flip={flip} image={PLAYER1_IMAGE} />
-      <CollisionBox pos={collisionPos} size={[16, 16]} id={collider} tags={['player']} />
-      <BlockIndicator pos={player.block} />
+      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} />
     </Node>
   );
 };

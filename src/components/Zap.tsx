@@ -21,6 +21,10 @@ export const Zap: React.FC<ZapProps> = ({ zap }) => {
     game.current.destroyZap(zap);
   });
 
+  useTaggedCollision(collider, 'enemy', () => {
+    game.current.destroyZap(zap);
+  });
+
   return (
     <Node pos={pos}>
       <BitmapImage size={[8, 8]} offset={[0, 0]} image={ZAP_IMAGE} />

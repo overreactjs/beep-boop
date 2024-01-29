@@ -24,12 +24,10 @@ export class GameState {
   ];
 
   enemies: EnemyState[] = [
-    new EnemyState([32, 64]),
-    new EnemyState([128, 64]),
-    new EnemyState([192, 64]),
-    new EnemyState([128, 96]),
-    new EnemyState([128, 128]),
-    new EnemyState([128, 160]),
+    new EnemyState([32, 64], 'right'),
+    new EnemyState([224, 64], 'left'),
+    new EnemyState([120, 96], 'left'),
+    new EnemyState([132, 96], 'right'),
   ];
 
   isSolid(x: number, y: number): boolean {

@@ -2,6 +2,7 @@ import { BitmapAsset, BitmapFontFace, BitmapSpriteAsset, Tileset } from "@overre
 
 import arcadeFontUrl from "./arcade.png";
 import enemy1RunUrl from "./enemy-1-run.png";
+import enemy1IdleUrl from "./enemy-1-idle.png";
 import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
 import player1Url from "./player1.png";
@@ -52,6 +53,13 @@ export const POINTS_IMAGE: BitmapAsset = {
 export const ZAP_IMAGE: BitmapAsset = {
   url: zapUrl,
   size: [8, 8],
+};
+
+export const ENEMY_1_IDLE: BitmapSpriteAsset = {
+  url: enemy1IdleUrl,
+  size: [16, 16],
+  count: 1,
+  rate: 10,
 };
 
 export const ENEMY_1_RUN: BitmapSpriteAsset = {
