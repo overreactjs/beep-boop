@@ -2,20 +2,7 @@ import { Position, Property, UsePlatformMovementResult, VariableProperty, Veloci
 import { PositionedObjectState } from "./PositionedObjectState";
 import { Direction } from "../types";
 
-class StatefulObjectState extends PositionedObjectState {
-  state: Property<string[]>;
-
-  constructor(pos: Position) {
-    super(pos);
-    this.state = new VariableProperty(['idle']);
-  }
-
-  push(state: string) {
-    this.state.current.push(state);
-  }
-}
-
-export class EnemyState extends StatefulObjectState {
+export class EnemyState extends PositionedObjectState {
   direction: Property<Direction>;
   velocity: Property<Velocity>;
   animation: Property<string>;

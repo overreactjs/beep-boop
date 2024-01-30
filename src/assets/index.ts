@@ -3,6 +3,7 @@ import { BitmapAsset, BitmapFontFace, BitmapSpriteAsset, Tileset } from "@overre
 import arcadeFontUrl from "./arcade.png";
 import enemy1RunUrl from "./enemy-1-run.png";
 import enemy1IdleUrl from "./enemy-1-idle.png";
+import enemy1StunnedUrl from "./enemy-1-stunned.png";
 import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
 import player1Url from "./player1.png";
@@ -66,5 +67,12 @@ export const ENEMY_1_RUN: BitmapSpriteAsset = {
   url: enemy1RunUrl,
   size: [48, 16],
   count: 3,
+  rate: 10,
+};
+
+export const ENEMY_1_STUNNED: BitmapSpriteAsset = {
+  url: enemy1StunnedUrl,
+  size: [144, 16],
+  count: 9,
   rate: 10,
 };
