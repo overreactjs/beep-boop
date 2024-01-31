@@ -1,33 +1,43 @@
 import { useId } from "react";
-import { useProperty, Velocity, useOffsetPosition, usePlatformMovement, CollisionBox, Node, BitmapImage, usePostCollisions, useKeyboardMap, useKeyPressed } from "@overreact/engine";
-import { PLAYER1_IMAGE } from "../assets";
+import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision } from "@overreact/engine";
+import { PLAYER_1_IDLE, PLAYER_1_RUN } from "../assets";
 import { useGame, useIntegerPosition } from "../hooks";
 
 export const Player: React.FC = () => {
   const game = useGame();
   const player = game.current.players[0];
+  const { animation, combo, flip, pos, velocity } = player;
 
-  const pos = useOffsetPosition(player.pos, [-8, -16]);
-  const collisionPos = useOffsetPosition(player.pos, [-6, -16]);
-  const spritePos = useIntegerPosition(pos);
-  
-  const flip = useProperty(player.flip);
-  const velocity = useProperty<Velocity>([0, 0]);
+  const collisionPos = useOffsetPosition(pos, [-6, -16]);
+  const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
+
   const collider = useId();
 
   // Map from keyboard input to virtual input events.
   useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' });
 
   // Setup standard platform movement.
-  const movement = usePlatformMovement(collider, player.pos, velocity, {
-    gravity: [0, 0.0004],
+  const movement = usePlatformMovement(collider, pos, velocity, {
+    gravity: [0, 0.0006],
     speed: 0.06,
-    jumpStrength: 0.165,
+    jumpStrength: 0.21,
+    canTurnMidair: true,
   });
 
-  // Update animations and flip direction.
+  // When the player touches a stunned enemy, do a little jump.
+  useTaggedCollision(collider, 'stunned', () => {
+    velocity.current[1] = Math.min(-0.125, velocity.current[1]);
+    combo.current++;
+  });
+
+  // Update animations, flip direction, and combo state.
   usePostCollisions(() => {
     flip.current = movement.direction.current === 'left';
+    animation.current = Math.round(velocity.current[0] * 100) / 100 !== 0 ? 'run' : 'idle';
+
+    if (movement.isOnFloor && velocity.current[1] === 0) {
+      combo.current = -1;
+    }
   });
 
   // Fire an electric bolt when space is pressed.
@@ -37,7 +47,10 @@ export const Player: React.FC = () => {
   
   return (
     <Node>
-      <BitmapImage pos={spritePos} size={[16, 16]} offset={[0, 0]} flip={flip} image={PLAYER1_IMAGE} />
+      <SpriteSet animation={animation}>
+        <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={PLAYER_1_IDLE} flip={flip} />
+        <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={PLAYER_1_RUN} flip={flip} />
+      </SpriteSet>
       <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} />
     </Node>
   );

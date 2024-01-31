@@ -1,6 +1,6 @@
-import { VariableProperty } from "@overreact/engine";
+import { Position, VariableProperty } from "@overreact/engine";
 import { ITEMS, LEVELS } from "../data";
-import { ItemType } from "../types";
+import { ItemType, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
@@ -24,10 +24,14 @@ export class GameState {
   ];
 
   enemies: EnemyState[] = [
-    new EnemyState([32, 64], 'right'),
-    new EnemyState([224, 64], 'left'),
-    new EnemyState([120, 96], 'left'),
-    new EnemyState([132, 96], 'right'),
+    new EnemyState([112, 32], 'left'),
+    new EnemyState([112, 64], 'right'),
+    new EnemyState([112, 96], 'left'),
+    new EnemyState([112, 128], 'right'),
+    new EnemyState([144, 32], 'left'),
+    new EnemyState([144, 64], 'right'),
+    new EnemyState([144, 96], 'left'),
+    new EnemyState([144, 128], 'right'),
   ];
 
   isSolid(x: number, y: number): boolean {
@@ -45,11 +49,15 @@ export class GameState {
   collectItem(item: ItemState) {
     this.items = this.items.filter(({ id }) => id !== item.id);
     this.players[0].addPoints(ITEMS[item.type].value);
-    this.showPoints(item);
+    this.showItemPoints(item);
   }
 
-  showPoints(item: ItemState) {
-    this.points = [...this.points, new PointsState(item.pos.current, ITEMS[item.type].value)];
+  showItemPoints(item: ItemState) {
+    this.showPoints(item.pos.current, ITEMS[item.type].value);
+  }
+
+  showPoints(pos: Position, value: PointsValue) {
+    this.points = [...this.points, new PointsState(pos, value)];
   }
 
   hidePoints(id: number) {
@@ -64,5 +72,9 @@ export class GameState {
 
   destroyZap(zap: ZapState) {
     this.zaps = this.zaps.filter(({ id }) => id !== zap.id);
+  }
+
+  killEnemy(enemy: EnemyState) {
+    this.enemies = this.enemies.filter(({ id }) => id !== enemy.id);
   }
 }

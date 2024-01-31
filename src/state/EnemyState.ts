@@ -3,15 +3,19 @@ import { PositionedObjectState } from "./PositionedObjectState";
 import { Direction } from "../types";
 
 export class EnemyState extends PositionedObjectState {
-  direction: Property<Direction>;
   velocity: Property<Velocity>;
+  direction: Property<Direction>;
+  angle: Property<number>;
+  scale: Property<number>;
   animation: Property<string>;
   movement?: UsePlatformMovementResult;
 
   constructor(pos: Position, direction: Direction) {
     super(pos);
-    this.direction = new VariableProperty(direction);
     this.velocity = new VariableProperty([0, 0]);
+    this.direction = new VariableProperty(direction);
+    this.angle = new VariableProperty(0);
+    this.scale = new VariableProperty(1);
     this.animation = new VariableProperty('idle');
   }
 

@@ -1,3 +1,4 @@
+export { useDeadState } from "./useDeadState";
 export { useFallingState } from "./useFallingState";
 export { useIdleState } from "./useIdleState";
 export { useJumpingState } from "./useJumpingState";

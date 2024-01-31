@@ -1,4 +1,4 @@
-import { Property, VariableProperty } from "@overreact/engine";
+import { DynamicProperty, Property, VariableProperty } from "@overreact/engine";
 
 export type StateBehaviour<S extends string, T> = (fsm: StateMachine<S, T>, delta: number) => void;
 
@@ -10,7 +10,9 @@ export class StateMachine<S extends string, T> {
 
   states: StateDefinitions<S, T>;
 
-  state: Property<S[]>;
+  stack: Property<S[]>;
+
+  readonly state: Property<S>;
 
   age: number = 0;
   
@@ -18,7 +20,8 @@ export class StateMachine<S extends string, T> {
 
   constructor(entity: T, state: S, states: StateDefinitions<S, T>) {
     this.entity = entity;
-    this.state = new VariableProperty([state]);
+    this.stack = new VariableProperty([state]);
+    this.state = new DynamicProperty(this.stack, (stack) => stack[stack.length - 1]);
     this.states = states;
   }
 
@@ -29,27 +32,27 @@ export class StateMachine<S extends string, T> {
     
     this.init = false;
   
-    const state = this.state.current;
-    (this.states[state[state.length - 1]])?.(this, delta);
+    const stack = this.stack.current;
+    (this.states[stack[stack.length - 1]])?.(this, delta);
   }
 
   push(state: S) {
-    this.state.current.push(state);
+    this.stack.current.push(state);
     this.age = 0;
     this.init = true;
   }
 
   pop() {
-    this.state.current.pop();
+    this.stack.current.pop();
     this.age = 0;
     this.init = true;
   }
 
   replace(state: S) {
-    const index = this.state.current.length - 1;
+    const index = this.stack.current.length - 1;
     
-    if (this.state.current[index] !== state) {
-      this.state.current[index] = state;
+    if (this.stack.current[index] !== state) {
+      this.stack.current[index] = state;
       this.age = 0;
       this.init = true;
     }
