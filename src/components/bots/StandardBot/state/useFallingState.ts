@@ -3,11 +3,15 @@ import { StateBehaviour } from "../types";
 
 export const useFallingState = (): StateBehaviour => {
   return useCallback((fsm) => {
-    const { movement } = fsm.entity;
+    const { animation, movement } = fsm.entity;
 
-    fsm.entity.animation.current = 'idle';
+    animation.current = 'idle';
 
     if (movement?.isOnFloor.current) {
+      if (Math.random() < 0.25) {
+        fsm.entity.reverse();
+      }
+
       fsm.replace('patrol');
     }
   }, []);

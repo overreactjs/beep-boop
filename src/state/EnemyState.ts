@@ -1,4 +1,4 @@
-import { Position, Property, UsePlatformMovementResult, VariableProperty, Velocity } from "@overreact/engine";
+import { DynamicProperty, Position, Property, UsePlatformMovementResult, VariableProperty, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { Direction } from "../types";
 
@@ -8,6 +8,7 @@ export class EnemyState extends PositionedObjectState {
   angle: Property<number>;
   scale: Property<number>;
   animation: Property<string>;
+  flip: Property<boolean>;
   movement?: UsePlatformMovementResult;
 
   constructor(pos: Position, direction: Direction) {
@@ -17,6 +18,7 @@ export class EnemyState extends PositionedObjectState {
     this.angle = new VariableProperty(0);
     this.scale = new VariableProperty(1);
     this.animation = new VariableProperty('idle');
+    this.flip = new DynamicProperty(this.direction, (direction) => direction === 'left');
   }
 
   reverse() {

@@ -11,12 +11,10 @@ type StandardBotProps = {
 }
 
 export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
-  const { angle, animation, direction, pos, scale, velocity } = enemy;
+  const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const collisionPos = useOffsetPosition(pos, [-6, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
-
-  const flip = useDynamicProperty(direction, (direction) => direction === 'left');
   const collider = useId();
 
   // Standard platformer physics, attached to the enemy state object.

@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { StateBehaviour } from "../types";
 
-const DURATION = 300;
+const DURATION = 200;
 
 export const useThinkingState = (): StateBehaviour => {
   const init = useRef(0);

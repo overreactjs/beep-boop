@@ -32,6 +32,7 @@ export class GameState {
     new EnemyState([144, 64], 'right'),
     new EnemyState([144, 96], 'left'),
     new EnemyState([144, 128], 'right'),
+
   ];
 
   isSolid(x: number, y: number): boolean {
@@ -60,6 +61,10 @@ export class GameState {
     this.points = [...this.points, new PointsState(pos, value)];
   }
 
+  awardPoints(player: PlayerState, points: PointsValue) {
+    player.addPoints(points);
+  }
+
   hidePoints(id: number) {
     this.points = this.points.filter((entry) => entry.id !== id);
   }
@@ -75,6 +80,15 @@ export class GameState {
   }
 
   killEnemy(enemy: EnemyState) {
+    const player = this.players[0];
+    const points = (Math.pow(2, Math.min(3, player.combo.current)) * 1000) as PointsValue;
+    enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 1 : -1;
+    this.showPoints([...enemy.pos.current], points);
+    this.awardPoints(player, points);
+  }
+
+  destroyEnemy(enemy: EnemyState) {
     this.enemies = this.enemies.filter(({ id }) => id !== enemy.id);
+    this.createRandomItem();
   }
 }
