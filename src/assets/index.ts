@@ -3,8 +3,6 @@ import { BitmapAsset, BitmapFontFace, BitmapSpriteAsset, Tileset } from "@overre
 import arcadeFontUrl from "./arcade.png";
 import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
-import player1IdleUrl from "./player-1-idle.png";
-import player1RunUrl from "./player-1-run.png";
 import pointsUrl from "./points.png";
 import tilesetUrl from "./tileset.png";
 import zapUrl from "./zap.png";
@@ -25,20 +23,6 @@ export const TILESET: Tileset = {
   },
   cellSize: [8, 8],
   gridSize: [32, 25],
-};
-
-export const PLAYER_1_IDLE: BitmapSpriteAsset = {
-  url: player1IdleUrl,
-  size: [16, 16],
-  count: 1,
-  rate: 10,
-};
-
-export const PLAYER_1_RUN: BitmapSpriteAsset = {
-  url: player1RunUrl,
-  size: [144, 16],
-  count: 9,
-  rate: 30,
 };
 
 export const ITEM_IMAGE: BitmapAsset = {

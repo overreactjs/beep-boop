@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition } from "@overreact/engine";
-import { PLAYER_1_IDLE, PLAYER_1_RUN } from "../assets";
-import { useGame } from "../hooks";
+import { useGame } from "../../hooks";
+import { IDLE, RUN } from "./assets";
 
 export const Player: React.FC = () => {
   const game = useGame();
@@ -48,8 +48,8 @@ export const Player: React.FC = () => {
   return (
     <Node>
       <SpriteSet animation={animation}>
-        <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={PLAYER_1_IDLE} flip={flip} />
-        <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={PLAYER_1_RUN} flip={flip} />
+        <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={IDLE} flip={flip} />
+        <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={RUN} flip={flip} />
       </SpriteSet>
       <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} />
     </Node>
