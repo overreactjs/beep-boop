@@ -15,7 +15,7 @@ export const Level = () => {
       <Tilemap pos={[0, 0]} tileset={TILESET} tiles={tiles} collisions={collisions} />
       <Box pos={[0, 0]} size={[16, 8]} color={background} />
       <ArcadeText pos={[0, 0]} color={foreground} text={number} />
-      <CollisionBox pos={[0, 0]} size={[256, 8]} tags={['solid']} />
+      {/* <CollisionBox pos={[0, 0]} size={[256, 8]} tags={['solid']} /> */}
       <CollisionBox pos={[0, 8]} size={[16, 184]} tags={['solid']} />
       <CollisionBox pos={[240, 8]} size={[16, 184]} tags={['solid']} />
     </Node>

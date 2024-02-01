@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, SpriteSet, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
-import { useEnemyCollisions } from "../../hooks";
+import { useEnemyCollisions, useWrapAround } from "../../hooks";
 import { EnemyState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
@@ -16,6 +16,9 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   const collisionPos = useOffsetPosition(pos, [-6, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
   const collider = useId();
+
+  // When the bot leaves the screen, wrap to the other side.
+  useWrapAround(pos);
 
   // Standard platformer physics, attached to the enemy state object.
   enemy.movement = usePlatformMovement(collider, pos, velocity, {

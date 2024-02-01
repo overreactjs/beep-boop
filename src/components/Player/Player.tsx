@@ -1,17 +1,20 @@
 import { useId } from "react";
 import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition } from "@overreact/engine";
-import { useGame } from "../../hooks";
+import { useGame, useWrapAround } from "../../hooks";
 import { IDLE, RUN } from "./assets";
 
 export const Player: React.FC = () => {
   const game = useGame();
+  
   const player = game.current.players[0];
   const { animation, combo, flip, pos, velocity } = player;
 
   const collisionPos = useOffsetPosition(pos, [-6, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
-
   const collider = useId();
+
+  // When the player leaves the screen, wrap to the other side.
+  useWrapAround(pos);
 
   // Map from keyboard input to virtual input events.
   useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' });
