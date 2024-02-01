@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { BitmapSprite, CollisionBox, Node, SpriteSet, useDynamicProperty, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, SpriteSet, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
 import { useEnemyCollisions } from "../../../hooks";
 import { EnemyState } from "../../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
@@ -36,8 +36,7 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.
-  const tags = useEnemyCollisions(collider, fsm);
-  const active = useDynamicProperty(fsm.current.state, (state) => state !== 'dead');
+  const collisions = useEnemyCollisions(collider, fsm);
 
   return (
     <Node>
@@ -46,7 +45,7 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
         <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={RUN} flip={flip} angle={angle} scale={scale} />
         <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={STUNNED} flip={flip} repeat={false} angle={angle} scale={scale} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={tags} active={active} />
+      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} {...collisions} />
     </Node>
   )
 };

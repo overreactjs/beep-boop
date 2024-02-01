@@ -1,10 +1,13 @@
 import { Property, StateMachine, useDynamicProperty, useTaggedCollision } from "@overreact/engine";
 import { BaseEnemyStates } from "../types";
 
-export function useEnemyCollisions<S extends string, T>(collider: string, fsm: Property<StateMachine<S | BaseEnemyStates, T>>) {
-  const tags = useDynamicProperty(fsm.current.state, (state): string[] => {
-    return state === 'stunned' ? ['stunned'] : ['enemy'];
-  });
+type FSM<S extends string, T> = Property<StateMachine<S | BaseEnemyStates, T>>;
+
+type Result = [Property<string[]>, Property<boolean>];
+
+export function useEnemyCollisions<S extends string, T>(collider: string, fsm: FSM<S, T>): Result {
+  const tags = useDynamicProperty(fsm.current.state, (state): string[] => state === 'stunned' ? ['stunned'] : ['enemy']);
+  const active = useDynamicProperty(fsm.current.state, (state) => state !== 'dead');
 
   useTaggedCollision(collider, 'zap', () => {
     if (tags.current.includes('enemy')) {
@@ -18,5 +21,5 @@ export function useEnemyCollisions<S extends string, T>(collider: string, fsm: P
     }
   });
 
-  return tags;
+  return [tags, active];
 }
