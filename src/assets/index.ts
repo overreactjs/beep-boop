@@ -1,9 +1,6 @@
 import { BitmapAsset, BitmapFontFace, BitmapSpriteAsset, Tileset } from "@overreact/engine";
 
 import arcadeFontUrl from "./arcade.png";
-import enemy1IdleUrl from "./enemy-1-idle.png";
-import enemy1RunUrl from "./enemy-1-run.png";
-import enemy1StunnedUrl from "./enemy-1-stunned.png";
 import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
 import player1IdleUrl from "./player-1-idle.png";
@@ -64,25 +61,4 @@ export const POINTS_IMAGE: BitmapAsset = {
 export const ZAP_IMAGE: BitmapAsset = {
   url: zapUrl,
   size: [8, 8],
-};
-
-export const ENEMY_1_IDLE: BitmapSpriteAsset = {
-  url: enemy1IdleUrl,
-  size: [16, 16],
-  count: 1,
-  rate: 10,
-};
-
-export const ENEMY_1_RUN: BitmapSpriteAsset = {
-  url: enemy1RunUrl,
-  size: [48, 16],
-  count: 3,
-  rate: 10,
-};
-
-export const ENEMY_1_STUNNED: BitmapSpriteAsset = {
-  url: enemy1StunnedUrl,
-  size: [144, 16],
-  count: 9,
-  rate: 10,
 };

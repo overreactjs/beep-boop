@@ -1,8 +1,8 @@
 import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, SpriteSet, useDynamicProperty, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
-import { ENEMY_1_IDLE, ENEMY_1_RUN, ENEMY_1_STUNNED } from "../../../assets";
 import { useEnemyCollisions } from "../../../hooks";
 import { EnemyState } from "../../../state";
+import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";
 
@@ -42,9 +42,9 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   return (
     <Node>
       <SpriteSet animation={animation}>
-        <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={ENEMY_1_IDLE} flip={flip} angle={angle} scale={scale} />
-        <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={ENEMY_1_RUN} flip={flip} angle={angle} scale={scale} />
-        <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={ENEMY_1_STUNNED} flip={flip} repeat={false} angle={angle} scale={scale} />
+        <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={IDLE} flip={flip} angle={angle} scale={scale} />
+        <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={RUN} flip={flip} angle={angle} scale={scale} />
+        <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={STUNNED} flip={flip} repeat={false} angle={angle} scale={scale} />
       </SpriteSet>
       <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={tags} active={active} />
     </Node>
