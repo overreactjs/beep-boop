@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useGame } from "../../../../hooks";
+import { useGame } from "../../../hooks";
 import { StateFunction } from "../types";
 
 export const useDeadState = (): StateFunction => {

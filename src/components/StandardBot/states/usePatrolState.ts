@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { chance, useVirtualInput } from "@overreact/engine";
-import { useGame } from "../../../../hooks";
+import { useGame } from "../../../hooks";
 import { StateFunction } from "../types";
 
 const JUMP_CHANCE = 2.0;

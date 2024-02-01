@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, SpriteSet, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
-import { useEnemyCollisions } from "../../../hooks";
-import { EnemyState } from "../../../state";
+import { useEnemyCollisions } from "../../hooks";
+import { EnemyState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";

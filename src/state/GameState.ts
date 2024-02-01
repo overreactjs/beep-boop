@@ -24,14 +24,14 @@ export class GameState {
   ];
 
   enemies: EnemyState[] = [
-    new EnemyState([112, 32], 'left'),
-    new EnemyState([112, 64], 'right'),
-    new EnemyState([112, 96], 'left'),
-    new EnemyState([112, 128], 'right'),
-    new EnemyState([144, 32], 'left'),
-    new EnemyState([144, 64], 'right'),
-    new EnemyState([144, 96], 'left'),
-    new EnemyState([144, 128], 'right'),
+    new EnemyState('standard', [112, 32], 'left'),
+    new EnemyState('standard', [112, 64], 'right'),
+    new EnemyState('standard', [112, 96], 'left'),
+    new EnemyState('standard', [112, 128], 'right'),
+    new EnemyState('standard', [144, 32], 'left'),
+    new EnemyState('standard', [144, 64], 'right'),
+    new EnemyState('standard', [144, 96], 'left'),
+    new EnemyState('standard', [144, 128], 'right'),
 
   ];
 

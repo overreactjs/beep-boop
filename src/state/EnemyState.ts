@@ -1,8 +1,9 @@
 import { DynamicProperty, Position, Property, UsePlatformMovementResult, VariableProperty, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
-import { Direction } from "../types";
+import { Direction, EnemyType } from "../types";
 
 export class EnemyState extends PositionedObjectState {
+  type: EnemyType;
   velocity: Property<Velocity>;
   direction: Property<Direction>;
   angle: Property<number>;
@@ -11,8 +12,9 @@ export class EnemyState extends PositionedObjectState {
   flip: Property<boolean>;
   movement?: UsePlatformMovementResult;
 
-  constructor(pos: Position, direction: Direction) {
+  constructor(type: EnemyType, pos: Position, direction: Direction) {
     super(pos);
+    this.type = type;
     this.velocity = new VariableProperty([0, 0]);
     this.direction = new VariableProperty(direction);
     this.angle = new VariableProperty(0);
