@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateBehaviour } from "../types";
+import { StateFunction } from "../types";
 
-export const useStunnedState = (): StateBehaviour => {
+export const useStunnedState = (): StateFunction => {
   return useCallback((fsm) => {
     fsm.entity.animation.current = 'stunned';
   }, []);

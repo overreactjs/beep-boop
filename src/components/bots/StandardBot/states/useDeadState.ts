@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { StateBehaviour } from "../types";
 import { useGame } from "../../../../hooks";
+import { StateFunction } from "../types";
 
-export const useDeadState = (): StateBehaviour => {
+export const useDeadState = (): StateFunction => {
   const game = useGame();
   
   return useCallback((fsm, delta) => {

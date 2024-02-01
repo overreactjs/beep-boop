@@ -1,9 +1,9 @@
 import { useCallback, useRef } from "react";
-import { StateBehaviour } from "../types";
+import { StateFunction } from "../types";
 
 const DURATION = 200;
 
-export const useThinkingState = (): StateBehaviour => {
+export const useThinkingState = (): StateFunction => {
   const init = useRef(0);
 
   return useCallback((fsm) => {

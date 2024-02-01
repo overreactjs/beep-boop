@@ -2,6 +2,8 @@ import { Position } from "@overreact/engine";
 
 export type Direction = 'left' | 'right';
 
+export type BaseEnemyStates = 'stunned' | 'dead' | 'gone';
+
 export type ItemType =
   | 'apple'
   | 'banana'

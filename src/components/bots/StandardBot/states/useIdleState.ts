@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateBehaviour } from "../types";
+import { StateFunction } from "../types";
 
-export const useIdleState = (): StateBehaviour => {
+export const useIdleState = (): StateFunction => {
   return useCallback((fsm) => {
     fsm.entity.animation.current = 'idle';
     fsm.replace('patrol');

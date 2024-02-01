@@ -1,7 +1,5 @@
-import { Property, useDynamicProperty, useTaggedCollision } from "@overreact/engine";
-import { StateMachine } from "../utils";
-
-export type BaseEnemyStates = 'stunned' | 'dead' | 'gone';
+import { Property, StateMachine, useDynamicProperty, useTaggedCollision } from "@overreact/engine";
+import { BaseEnemyStates } from "../types";
 
 export function useEnemyCollisions<S extends string, T>(collider: string, fsm: Property<StateMachine<S | BaseEnemyStates, T>>) {
   const tags = useDynamicProperty(fsm.current.state, (state): string[] => {

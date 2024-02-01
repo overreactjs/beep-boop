@@ -1,9 +1,9 @@
 import { useId } from "react";
-import { BitmapSprite, CollisionBox, Node, SpriteSet, useDynamicProperty, useOffsetPosition, usePlatformMovement } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, SpriteSet, useDynamicProperty, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
 import { ENEMY_1_IDLE, ENEMY_1_RUN, ENEMY_1_STUNNED } from "../../../assets";
-import { useEnemyCollisions, useIntegerPosition, useStateMachine } from "../../../hooks";
+import { useEnemyCollisions } from "../../../hooks";
 import { EnemyState } from "../../../state";
-import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./state";
+import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";
 
 type StandardBotProps = {

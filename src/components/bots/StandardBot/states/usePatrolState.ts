@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { chance, useVirtualInput } from "@overreact/engine";
 import { useGame } from "../../../../hooks";
-import { StateBehaviour } from "../types";
+import { StateFunction } from "../types";
 
 const JUMP_CHANCE = 2.0;
 
-export const usePatrolState = (): StateBehaviour => {
+export const usePatrolState = (): StateFunction => {
   const game = useGame();
   const input = useVirtualInput();
   

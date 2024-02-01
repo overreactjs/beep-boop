@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useVirtualInput } from "@overreact/engine";
-import { StateBehaviour } from "../types";
+import { StateFunction } from "../types";
 
-export const useJumpingState = (): StateBehaviour => {
+export const useJumpingState = (): StateFunction => {
   const input = useVirtualInput();
 
   return useCallback((fsm) => {

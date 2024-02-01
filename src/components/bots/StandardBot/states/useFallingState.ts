@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateBehaviour } from "../types";
+import { StateFunction } from "../types";
 
-export const useFallingState = (): StateBehaviour => {
+export const useFallingState = (): StateFunction => {
   return useCallback((fsm) => {
     const { animation, movement } = fsm.entity;
 
