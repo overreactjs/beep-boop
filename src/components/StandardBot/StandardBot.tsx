@@ -36,7 +36,7 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.
-  const collisions = useEnemyCollisions(collider, fsm);
+  const [tags, active] = useEnemyCollisions(collider, fsm);
 
   return (
     <Node>
@@ -45,7 +45,7 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
         <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={RUN} flip={flip} angle={angle} scale={scale} />
         <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={STUNNED} flip={flip} repeat={false} angle={angle} scale={scale} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} {...collisions} />
+      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={tags} active={active} />
     </Node>
   )
 };

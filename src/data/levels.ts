@@ -1,8 +1,15 @@
 import { Position } from '@overreact/engine';
-import { LevelData, RawLevelData } from '../types';
+import { EnemyType, LevelData, RawLevelData } from '../types';
+import { EnemyState } from '../state';
 
 const SOLID = '0';
 const EMPTY = ' ';
+const LEFT  = '<';
+const RIGHT = '>';
+
+const ENEMIES: Record<string, EnemyType> = {
+  'A': 'standard',
+};
 
 export const LEVELS = [
   buildLevel((await import('./level001.json')).default),
@@ -14,6 +21,7 @@ function buildLevel(data: RawLevelData): LevelData {
     foreground: data.foreground,
     ...buildLevelTilesAndCollisions(data.geometry),
     ...buildLevelItemTargets(data.geometry),
+    ...buildLevelEnemies(data.geometry),
   };
 }
 
@@ -76,4 +84,34 @@ function buildLevelItemTargets(geometry: string[]): Pick<LevelData, 'targets'> {
   }
 
   return { targets };
+}
+
+function buildLevelEnemies(geometry: string[]): Pick<LevelData, 'enemies'> {
+  const enemies: EnemyState[] = [];
+
+  for (let y = 0; y < 25; y++) {
+    for (let x = 0; x < 32; x++) {
+      if (geometry[y][x] === LEFT) {
+        const a = geometry[y-1][x];
+        const b = geometry[y-1][x+1];
+        const c = geometry[y][x+1];
+
+        if (a === b && b === c && ENEMIES[a]) {
+          enemies.push(new EnemyState(ENEMIES[a], [(x + 1) * 8, (y + 1) * 8], 'left'));
+        }
+      }
+
+      if (geometry[y][x] === RIGHT) {
+        const a = geometry[y-1][x-1];
+        const b = geometry[y-1][x];
+        const c = geometry[y][x-1];
+
+        if (a === b && b === c && ENEMIES[a]) {
+          enemies.push(new EnemyState(ENEMIES[a], [x * 8, (y + 1) * 8], 'right'));
+        }
+      }
+    }
+  }
+
+  return { enemies };
 }

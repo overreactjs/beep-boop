@@ -1,7 +1,7 @@
 import { useId } from "react";
-import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision } from "@overreact/engine";
+import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition } from "@overreact/engine";
 import { PLAYER_1_IDLE, PLAYER_1_RUN } from "../assets";
-import { useGame, useIntegerPosition } from "../hooks";
+import { useGame } from "../hooks";
 
 export const Player: React.FC = () => {
   const game = useGame();

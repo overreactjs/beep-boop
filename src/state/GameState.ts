@@ -18,22 +18,20 @@ export class GameState {
 
   zaps: ZapState[] = [];
 
+  enemies: EnemyState[] = [];
+
   players: PlayerState[] = [
     new PlayerState([32, 192]),
     new PlayerState([224, 192]),
   ];
 
-  enemies: EnemyState[] = [
-    new EnemyState('standard', [112, 32], 'left'),
-    new EnemyState('standard', [112, 64], 'right'),
-    new EnemyState('standard', [112, 96], 'left'),
-    new EnemyState('standard', [112, 128], 'right'),
-    new EnemyState('standard', [144, 32], 'left'),
-    new EnemyState('standard', [144, 64], 'right'),
-    new EnemyState('standard', [144, 96], 'left'),
-    new EnemyState('standard', [144, 128], 'right'),
+  constructor() {
+    this.loadLevel();
+  }
 
-  ];
+  loadLevel() {
+    this.enemies = [...LEVELS[this.level.current - 1].enemies];
+  }
 
   isSolid(x: number, y: number): boolean {
     return !!LEVELS[this.level.current - 1].collisions[y * 32 + x];

@@ -1,7 +1,7 @@
 import { Property, StateMachine, useDynamicProperty, useTaggedCollision } from "@overreact/engine";
-import { BaseEnemyStates } from "../types";
+import { EnemyStates } from "../types";
 
-type FSM<S extends string, T> = Property<StateMachine<S | BaseEnemyStates, T>>;
+type FSM<S extends string, T> = Property<StateMachine<S | EnemyStates, T>>;
 
 type Result = [Property<string[]>, Property<boolean>];
 

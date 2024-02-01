@@ -1,4 +1,5 @@
 import { Position } from "@overreact/engine";
+import { EnemyState } from "./state";
 
 export type Direction = 'left' | 'right';
 
@@ -66,6 +67,7 @@ export type LevelData = {
   tiles: number[];
   collisions: (false | string)[];
   targets: Position[];
+  enemies: EnemyState[];
 };
 
 export type PointsValue = 

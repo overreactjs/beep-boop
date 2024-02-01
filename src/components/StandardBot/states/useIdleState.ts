@@ -4,6 +4,9 @@ import { StateFunction } from "../types";
 export const useIdleState = (): StateFunction => {
   return useCallback((fsm) => {
     fsm.entity.animation.current = 'idle';
-    fsm.replace('patrol');
+
+    if (fsm.age > 2000) {
+      fsm.replace('patrol');
+    }
   }, []);
 };
