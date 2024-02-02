@@ -1,7 +1,7 @@
 import { VirtualInput } from "@overreact/engine";
 import { EnemyState } from "../state";
-import { StandardBot } from "./StandardBot";
 import { EnemyType } from "../types";
+import { StandardBot } from "./StandardBot";
 
 const ENEMIES: Record<EnemyType, React.FC<EnemyProps>> = {
   standard: StandardBot,

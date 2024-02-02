@@ -10,7 +10,9 @@ import itemsUrl from "./items.png";
 import mysteryUrl from "./mystery.png";
 import pointsUrl from "./points.png";
 import tilesetUrl from "./tileset.png";
+
 import zapUrl from "./zap.png";
+import zapFlashUrl from "./zap-flash.png";
 
 const BASE_ARCADE_FONT: Pick<BitmapFontFace, 'glyphSize' | 'glyphs'> = {
   glyphSize: [8, 8],
@@ -84,7 +86,16 @@ export const POINTS_IMAGE: BitmapAsset = {
   size: [24, 320],
 };
 
-export const ZAP_IMAGE: BitmapAsset = {
+export const ZAP_SPRITE: BitmapSpriteAsset = {
   url: zapUrl,
   size: [8, 8],
+  count: 1,
+  rate: 10,
+};
+
+export const ZAP_FLASH_SPRITE: BitmapSpriteAsset = {
+  url: zapFlashUrl,
+  size: [16, 8],
+  count: 2,
+  rate: 30,
 };
