@@ -1,7 +1,5 @@
 {
   "tileset": 12,
-  "background": "#00f7d7",
-  "foreground": "#ffff00",
   "geometry": [
     "00000000000000000000000000000000",
     "00                            00",

@@ -1,22 +1,19 @@
-import { BitmapText, Box, CollisionBox, Node, Tilemap, useDynamicProperty, useSync } from "@overreact/engine";
+import { BitmapText, CollisionBox, Node, Tilemap } from "@overreact/engine";
 import { LEVELS_FONT, TILESET } from "../assets";
 import { LEVELS } from "../data";
-import { useGame } from "../hooks";
-import { ArcadeText } from "./ArcadeText";
 
-export const Level = () => {
-  const game = useGame();
-  const number = useDynamicProperty(game.current.level, (level) => String(level).padStart(2, '0'));
-  const level = useSync(() => game.current.level.current);
-  const { background, foreground, tiles, collisions } = LEVELS[level - 1];
+type LevelProps = {
+  level: number;
+}
+
+export const Level: React.FC<LevelProps> = ({ level }) => {
+  const { tiles, collisions } = LEVELS[level - 1];
+  const number = String(level).padStart(2, '0');
 
   return (
     <Node>
       <Tilemap pos={[0, 0]} tileset={TILESET} tiles={tiles} collisions={collisions} />
       <BitmapText pos={[0, 0]} font={LEVELS_FONT} text={number} />
-      {/* <Box pos={[0, 0]} size={[16, 8]} color={background} />
-      <ArcadeText pos={[0, 0]} color={foreground} text={number} /> */}
-      {/* <CollisionBox pos={[0, 0]} size={[256, 8]} tags={['solid']} /> */}
       <CollisionBox pos={[0, 8]} size={[16, 184]} tags={['solid']} />
       <CollisionBox pos={[240, 8]} size={[16, 184]} tags={['solid']} />
     </Node>

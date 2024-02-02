@@ -12,7 +12,7 @@ export const Arena: React.FC = () => {
     <Box pos={[0, 24]} size={[256, 200]} color="#000">
       <Viewport>
         <World>
-          <Level />
+          <Level level={1} />
           <Items />
           <EnemyList />
           <PointsList />

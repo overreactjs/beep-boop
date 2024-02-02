@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useProperty, Position, useDynamicProperty, useUpdate, BitmapImage } from "@overreact/engine";
 import { POINTS_IMAGE } from "../assets";
 import { useGame } from "../hooks";
@@ -37,11 +36,9 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
   const game = useGame();
   const age = useProperty(0);
 
-  const fn = useCallback((age: number): Position => {
+  const imagePos = useDynamicProperty(age, (age: number): Position => {
     return [pos.current[0] - 12, Math.round(pos.current[1] - 12 - Math.min(20, age))];
-  }, [pos]);
-
-  const imagePos = useDynamicProperty(age, fn);
+  });
 
   useUpdate((delta) => {
     age.current += delta / 40;

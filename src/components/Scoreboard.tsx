@@ -11,5 +11,5 @@ export const Scoreboard: React.FC<ScoreboardProps> = (props) => {
   const score = useProperty(props.score);
   const text = useDynamicProperty(score, (score) => String(score).padStart(6, ' '));
 
-  return <ArcadeText pos={pos} color="#fff" text={text} />
+  return <ArcadeText pos={pos} color="white" text={text} />
 };

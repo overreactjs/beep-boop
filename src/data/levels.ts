@@ -18,8 +18,6 @@ export const LEVELS = [
 function buildLevel(data: RawLevelData): LevelData {
   return {
     tileset: data.tileset,
-    background: data.background,
-    foreground: data.foreground,
     ...buildLevelTilesAndCollisions(data.geometry, data.tileset),
     ...buildLevelItemTargets(data.geometry),
     ...buildLevelEnemies(data.geometry),
@@ -38,9 +36,9 @@ function buildLevelTilesAndCollisions(geometry: string[], tileset: number): Pick
       if (isSolid(x, y)) {
         collisions.push('platform');
 
-        if (x === 0 || x === 30) {
+        if ((x === 0 || x === 30) && y < 24) {
           tiles.push(offset + (y % 2 === 0 ? 4 : 6));
-        } else if (x === 1 || x === 31) {
+        } else if ((x === 1 || x === 31) && y < 24) {
           tiles.push(offset + (y % 2 === 0 ? 5 : 7));
         } else {
           tiles.push(offset + parseInt(geometry[y][x], 10));
