@@ -88,5 +88,6 @@ export class GameState {
   destroyEnemy(enemy: EnemyState) {
     this.enemies = this.enemies.filter(({ id }) => id !== enemy.id);
     this.createRandomItem();
+    this.createRandomItem();
   }
 }
