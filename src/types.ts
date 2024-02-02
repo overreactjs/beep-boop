@@ -56,12 +56,14 @@ export type ItemConfig = {
 };
 
 export type RawLevelData = {
+  tileset: number;
   background: string;
   foreground: string;
   geometry: string[];
 };
 
 export type LevelData = {
+  tileset: number;
   background: string;
   foreground: string;
   tiles: number[];

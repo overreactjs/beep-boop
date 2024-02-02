@@ -17,17 +17,19 @@ export const LEVELS = [
 
 function buildLevel(data: RawLevelData): LevelData {
   return {
+    tileset: data.tileset,
     background: data.background,
     foreground: data.foreground,
-    ...buildLevelTilesAndCollisions(data.geometry),
+    ...buildLevelTilesAndCollisions(data.geometry, data.tileset),
     ...buildLevelItemTargets(data.geometry),
     ...buildLevelEnemies(data.geometry),
   };
 }
 
-function buildLevelTilesAndCollisions(geometry: string[]): Pick<LevelData, 'tiles' | 'collisions'> {
+function buildLevelTilesAndCollisions(geometry: string[], tileset: number): Pick<LevelData, 'tiles' | 'collisions'> {
   const tiles: number[] = [];
   const collisions: (string | false)[] = [];
+  const offset = tileset * 20;
 
   const isSolid = (x: number, y: number) => parseInt(geometry[y][x], 10) >= 0;
 
@@ -37,11 +39,11 @@ function buildLevelTilesAndCollisions(geometry: string[]): Pick<LevelData, 'tile
         collisions.push('platform');
 
         if (x === 0 || x === 30) {
-          tiles.push(y % 2 === 0 ? 24 : 26);
+          tiles.push(offset + (y % 2 === 0 ? 4 : 6));
         } else if (x === 1 || x === 31) {
-          tiles.push(y % 2 === 0 ? 25 : 27);
+          tiles.push(offset + (y % 2 === 0 ? 5 : 7));
         } else {
-          tiles.push(20 + parseInt(geometry[y][x], 10));
+          tiles.push(offset + parseInt(geometry[y][x], 10));
         }
       } else {
         collisions.push(false);
