@@ -1,7 +1,8 @@
 import { BitmapAsset, BitmapFontFace, BitmapSpriteAsset, Tileset } from "@overreact/engine";
 
-import arcadeFontUrl from "./arcade.png";
+import arcadeFontUrl from "./arcade-font.png";
 import itemsUrl from "./items.png";
+import levelsFontUrl from "./levels-font.png";
 import mysteryUrl from "./mystery.png";
 import pointsUrl from "./points.png";
 import tilesetUrl from "./tileset.png";
@@ -14,6 +15,15 @@ export const ARCADE_FONT: BitmapFontFace = {
   },
   glyphSize: [8, 8],
   glyphs: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .',
+};
+
+export const LEVELS_FONT: BitmapFontFace = {
+  image: {
+    url: levelsFontUrl,
+    size: [80, 16],
+  },
+  glyphSize: [8, 16],
+  glyphs: '0123456789',
 };
 
 export const TILESET: Tileset = {
