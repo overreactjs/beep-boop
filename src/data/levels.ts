@@ -34,7 +34,7 @@ function buildLevelTilesAndCollisions(geometry: string[], tileset: number): Pick
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 32; x++) {
       if (isSolid(x, y)) {
-        collisions.push('platform');
+        collisions.push(y > 0 ? 'platform' : false);
 
         if ((x === 0 || x === 30) && y < 24) {
           tiles.push(offset + (y % 2 === 0 ? 4 : 6));

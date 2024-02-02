@@ -1,9 +1,10 @@
-import { Position, Property, useUpdate } from "@overreact/engine";
+import { useUpdate } from "@overreact/engine";
+import { PositionedObjectState } from "../state/PositionedObjectState";
 
-export const useWrapAround = (pos: Property<Position>) => {
+export const useWrapAround = (entity: PositionedObjectState) => {
   useUpdate(() => {
-    if (pos.current[1] >= 216) {
-      pos.current[1] -= 224;
+    if (entity.pos.current[1] >= 216) {
+      entity.pos.current[1] -= 224;
     }
   });
 };

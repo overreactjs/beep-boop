@@ -14,7 +14,7 @@ export const Player: React.FC = () => {
   const collider = useId();
 
   // When the player leaves the screen, wrap to the other side.
-  useWrapAround(pos);
+  useWrapAround(player);
 
   // Map from keyboard input to virtual input events.
   useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' });

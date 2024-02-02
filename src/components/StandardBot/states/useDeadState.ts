@@ -14,7 +14,7 @@ export const useDeadState = (): StateFunction => {
     fsm.entity.scale.current += 0.002 * delta;
     fsm.entity.angle.current += 0.1 * delta;
 
-    if (fsm.age >= 750) {
+    if (fsm.age >= 750 || fsm.entity.pos.current[1] >= 216) {
       game.current.destroyEnemy(fsm.entity);
       fsm.replace('gone');
     }

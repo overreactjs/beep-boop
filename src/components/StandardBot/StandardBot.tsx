@@ -18,7 +18,7 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   const collider = useId();
 
   // When the bot leaves the screen, wrap to the other side.
-  useWrapAround(pos);
+  useWrapAround(enemy);
 
   // Standard platformer physics, attached to the enemy state object.
   enemy.movement = usePlatformMovement(collider, pos, velocity, {
