@@ -12,15 +12,16 @@ const ENEMIES: Record<string, EnemyType> = {
 };
 
 export const LEVELS = [
-  buildLevel((await import('./level001.json')).default),
+  buildLevel(1, (await import('./level001.json')).default),
+  buildLevel(2, (await import('./level002.json')).default),
 ];
 
-function buildLevel(data: RawLevelData): LevelData {
+function buildLevel(level: number, data: RawLevelData): LevelData {
   return {
     tileset: data.tileset,
     ...buildLevelTilesAndCollisions(data.geometry, data.tileset),
     ...buildLevelItemTargets(data.geometry),
-    ...buildLevelEnemies(data.geometry),
+    ...buildLevelEnemies(level, data.geometry),
   };
 }
 
@@ -51,13 +52,13 @@ function buildLevelTilesAndCollisions(geometry: string[], tileset: number): Pick
         const hasAboveLeft = y > 0 && x > 0 && isSolid(x - 1, y - 1);
 
         if (hasAbove && hasLeft) {
-          tiles.push(0);
+          tiles.push(offset + 10);
         } else if (hasAbove) {
-          tiles.push(hasAboveLeft ? 1 : 4);
+          tiles.push(offset + (hasAboveLeft ? 11 : 14));
         } else if (hasLeft) {
-          tiles.push(hasAboveLeft ? 2 : 5);
+          tiles.push(offset + (hasAboveLeft ? 12 : 15));
         } else if (hasAboveLeft) {
-          tiles.push(3);
+          tiles.push(offset + 13);
         } else {
           tiles.push(-1);
         }
@@ -86,8 +87,9 @@ function buildLevelItemTargets(geometry: string[]): Pick<LevelData, 'targets'> {
   return { targets };
 }
 
-function buildLevelEnemies(geometry: string[]): Pick<LevelData, 'enemies'> {
+function buildLevelEnemies(level: number, geometry: string[]): Pick<LevelData, 'enemies'> {
   const enemies: EnemyState[] = [];
+  const offset = (level - 1) * 200;
 
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 32; x++) {
@@ -97,7 +99,7 @@ function buildLevelEnemies(geometry: string[]): Pick<LevelData, 'enemies'> {
         const c = geometry[y][x+1];
 
         if (a === b && b === c && ENEMIES[a]) {
-          enemies.push(new EnemyState(ENEMIES[a], [(x + 1) * 8, (y + 1) * 8], 'left'));
+          enemies.push(new EnemyState(ENEMIES[a], [(x + 1) * 8, (y + 1) * 8 + offset], 'left'));
         }
       }
 
@@ -107,7 +109,7 @@ function buildLevelEnemies(geometry: string[]): Pick<LevelData, 'enemies'> {
         const c = geometry[y][x-1];
 
         if (a === b && b === c && ENEMIES[a]) {
-          enemies.push(new EnemyState(ENEMIES[a], [x * 8, (y + 1) * 8], 'right'));
+          enemies.push(new EnemyState(ENEMIES[a], [x * 8, (y + 1) * 8 + offset], 'right'));
         }
       }
     }
