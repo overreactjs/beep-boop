@@ -4,6 +4,10 @@ import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "../assets";
 import { useGame } from "../hooks";
 import { ZapState } from "../state";
 
+const FLASH_AGE = 400;
+const COLLISION_AGE = 500;
+const DESTROY_AGE = 600;
+
 type ZapProps = {
   zap: ZapState;
 }
@@ -13,14 +17,14 @@ export const Zap: React.FC<ZapProps> = ({ zap }) => {
   const collider = useId();
   const pos = useOffsetPosition(usePosition(zap.pos), [-4, -4]);
   const age = useProperty(0);
-  const animation = useDynamicProperty(age, (age) => age >= 400 ? 'flash' : 'solid');
-  const active = useDynamicProperty(age, (age) => age <= 500);
+  const animation = useDynamicProperty(age, (age) => age >= FLASH_AGE ? 'flash' : 'solid');
+  const active = useDynamicProperty(age, (age) => age <= COLLISION_AGE);
 
   useUpdate((delta) => {
     zap.pos.current[0] += delta / 8 * zap.direction;
     age.current += delta;
 
-    if (age.current > 600) {
+    if (age.current > DESTROY_AGE) {
       game.current.destroyZap(zap);
     }
   });

@@ -7,8 +7,8 @@ export class ItemState extends PositionedObjectState {
   target: Property<Position>;
   state: Property<'falling' | 'landed'>;
 
-  constructor(target: Position, type: ItemType) {
-    super([target[0], 0]);
+  constructor(pos: Position, target: Position, type: ItemType) {
+    super(pos);
     this.type = type;
     this.target = new VariableProperty(target);
     this.state = new VariableProperty('falling');

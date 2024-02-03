@@ -8,6 +8,9 @@ import { ZapState } from "./ZapState";
 import { EnemyState } from "./EnemyState";
 
 export class GameState {
+
+  initialized = false;
+
   highscore = new VariableProperty(100000);
   
   level = new VariableProperty(1);
@@ -25,12 +28,27 @@ export class GameState {
     new PlayerState([224, 192]),
   ];
 
-  constructor() {
-    this.loadLevel();
+  init() {
+    if (!this.initialized) {
+      this.initialized = true;
+      this.enemies = [...LEVELS[this.level.current - 1].enemies];
+      this.players[0].pos.current = [32, (this.level.current - 1) * 200 + 192];
+    }
   }
 
-  loadLevel() {
-    this.enemies = [...LEVELS[this.level.current - 1].enemies];
+  prevLevel() {
+    this.setLevel(this.level.current - 1);
+  }
+
+  nextLevel() {
+    this.setLevel(this.level.current + 1);
+  }
+
+  setLevel(level: number) {
+    this.initialized = false;
+    this.level.current = level;
+    this.enemies = [];
+    this.players[0].pos.current = [32, (level - 1) * 200 + 192];
   }
 
   isSolid(x: number, y: number): boolean {
@@ -41,8 +59,10 @@ export class GameState {
     const types = Object.keys(ITEMS) as ItemType[];
     const type = types[Math.floor(Math.random() * types.length)];
     const level = LEVELS[this.level.current - 1];
-    const target = level.targets[Math.floor(Math.random() * level.targets.length)];
-    this.items = [...this.items, new ItemState(target, type)];
+    const offset = (this.level.current - 1) * 200;
+    const [tx, ty] = level.targets[Math.floor(Math.random() * level.targets.length)];
+    const item = new ItemState([tx, offset], [tx, offset + ty], type);
+    this.items = [...this.items, item];
   }
 
   collectItem(item: ItemState) {
