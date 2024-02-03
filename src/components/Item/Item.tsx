@@ -1,9 +1,9 @@
 import { useId } from "react";
 import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useDynamicProperty, useElement, useIntegerPosition, useOffsetPosition, useRender, useTaggedCollision, useUpdate } from "@overreact/engine";
-import { ITEM_IMAGE, MYSTERY_SPRITE } from "../assets";
-import { ITEMS } from "../data";
-import { useGame } from "../hooks";
-import { ItemState } from "../state";
+import { ITEMS } from "../../data";
+import { useGame } from "../../hooks";
+import { ItemState } from "../../state";
+import { ITEM_IMAGE, MYSTERY_SPRITE } from "./assets";
 
 const SIZE: Size = [16, 16];
 

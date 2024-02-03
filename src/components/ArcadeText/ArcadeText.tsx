@@ -1,5 +1,5 @@
 import { BitmapFontFace, BitmapText, Position, Prop } from "@overreact/engine";
-import { ARCADE_FONT, ARCADE_FONT_BLUE, ARCADE_FONT_GREEN, ARCADE_FONT_RED } from "../assets";
+import { ARCADE_FONT, ARCADE_FONT_BLUE, ARCADE_FONT_GREEN, ARCADE_FONT_RED } from "./assets";
 
 type ArcadeTextColor = 'white' | 'green' | 'blue' | 'red';
 

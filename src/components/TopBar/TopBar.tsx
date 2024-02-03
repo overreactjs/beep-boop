@@ -1,7 +1,7 @@
 import { Node } from "@overreact/engine";
-import { useGame } from "../hooks";
-import { ArcadeText } from "./ArcadeText";
-import { Scoreboard } from "./Scoreboard";
+import { useGame } from "../../hooks";
+import { ArcadeText } from "../ArcadeText";
+import { Scoreboard } from "../Scoreboard";
 
 export const TopBar: React.FC = () => {
   const game = useGame();

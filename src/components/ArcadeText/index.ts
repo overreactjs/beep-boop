@@ -1,0 +1,1 @@
+export { ArcadeText } from "./ArcadeText";

@@ -1,8 +1,8 @@
 import { useOffsetPosition, usePosition, useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, useDynamicProperty, BitmapSprite } from "@overreact/engine";
 import { useId } from "react";
-import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "../assets";
-import { useGame } from "../hooks";
-import { ZapState } from "../state";
+import { useGame } from "../../hooks";
+import { ZapState } from "../../state";
+import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "./assets";
 
 const FLASH_AGE = 400;
 const COLLISION_AGE = 500;

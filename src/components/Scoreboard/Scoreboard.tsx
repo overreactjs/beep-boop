@@ -1,5 +1,5 @@
 import { Prop, Position, usePosition, useProperty, useDynamicProperty } from "@overreact/engine";
-import { ArcadeText } from "./ArcadeText";
+import { ArcadeText } from "../ArcadeText";
 
 export type ScoreboardProps = {
   pos: Prop<Position>;

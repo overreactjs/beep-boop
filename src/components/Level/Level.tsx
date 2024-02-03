@@ -1,7 +1,7 @@
 import { BitmapText, CollisionBox, Node, Tilemap, useDynamicProperty } from "@overreact/engine";
-import { LEVELS_FONT, TILESET } from "../assets";
-import { LEVELS } from "../data";
-import { useGame } from "../hooks";
+import { LEVELS } from "../../data";
+import { useGame } from "../../hooks";
+import { LEVELS_FONT, TILESET } from "./assets";
 
 type LevelProps = {
   level: number;

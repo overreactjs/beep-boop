@@ -1,5 +1,5 @@
 import React, { MutableRefObject, useRef } from "react";
-import { GameState } from "../state";
+import { GameState } from "../../state";
 
 export const GameContext = React.createContext<MutableRefObject<GameState>>({
   current: new GameState(),
