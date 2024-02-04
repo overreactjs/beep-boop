@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition } from "@overreact/engine";
+import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition, useProperty, useUpdate } from "@overreact/engine";
 import { useGame, useWrapAround } from "../../hooks";
 import { IDLE, RUN } from "./assets";
 
@@ -11,6 +11,7 @@ export const Player: React.FC = () => {
 
   const collisionPos = useOffsetPosition(pos, [-6, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
+  const cooldown = useProperty(0);
   const collider = useId();
 
   // When the player leaves the screen, wrap to the other side.
@@ -45,7 +46,15 @@ export const Player: React.FC = () => {
 
   // Fire an electric bolt when space is pressed.
   useKeyPressed('Space', () => {
-    game.current.fireZap(player);
+    if (cooldown.current === 0) {
+      game.current.fireZap(player);
+      cooldown.current = 300;
+    }
+  });
+
+  // Reduce the cooldown period, until the player is allowed to fire again.
+  useUpdate((delta) => {
+    cooldown.current = Math.max(0, cooldown.current - delta);
   });
   
   return (
