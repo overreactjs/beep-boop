@@ -6,6 +6,7 @@ import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Zap } from "../Zap";
+import { LEVELS } from "../../data";
 
 export const Arena: React.FC = () => {
   const game = useGame();
@@ -23,12 +24,16 @@ export const Arena: React.FC = () => {
     game.current.initLevel();
   });
 
+  const levels = [];
+  for (let i = 0; i < LEVELS.length; i++) {
+    levels.push(<Level key={i} level={i + 1} />);
+  }
+
   return (
     <Box pos={[0, 24]} size={[256, 200]} color="#000">
       <Viewport>
         <World>
-          <Level level={1} />
-          <Level level={2} />
+          {levels}
 
           <ItemList />
           <EnemyList />
