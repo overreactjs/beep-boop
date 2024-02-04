@@ -20,7 +20,7 @@ export const Arena: React.FC = () => {
   });
 
   useKeyPressed('KeyJ', () => {
-    game.current.init();
+    game.current.initLevel();
   });
 
   return (

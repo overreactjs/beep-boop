@@ -12,24 +12,16 @@ export const useCamera = (): Property<Position> => {
 
     if (cy < ty) {
       cy += delta / 8;
-
-      if (cy >= ty) {
-        camera.current[1] = ty;
-        game.current.init();
-      } else {
-        camera.current[1] = cy;
-      }
+      camera.current[1] = cy >= ty ? ty : cy;
     }
     
     if (cy > ty) {
       cy -= delta / 8;
+      camera.current[1] = cy <= ty ? ty : cy;
+    }
 
-      if (cy <= ty) {
-        camera.current[1] = ty;
-        game.current.init();
-      } else {
-        camera.current[1] = cy;
-      }
+    if (cy === ty && !game.current.initialized) {
+      game.current.initLevel();
     }
   });
 

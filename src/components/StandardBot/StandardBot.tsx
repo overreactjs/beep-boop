@@ -5,6 +5,7 @@ import { EnemyState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";
+import { BlockIndicator } from "../BlockIndicator";
 
 type StandardBotProps = {
   enemy: EnemyState;
@@ -13,7 +14,7 @@ type StandardBotProps = {
 export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
-  const collisionPos = useOffsetPosition(pos, [-6, -16]);
+  const collisionPos = useOffsetPosition(pos, [-5, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
   const collider = useId();
 
@@ -48,7 +49,8 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
         <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={RUN} flip={flip} angle={angle} scale={scale} />
         <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={STUNNED} flip={flip} repeat={false} angle={angle} scale={scale} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={tags} active={active} />
+      <CollisionBox pos={collisionPos} size={[10, 16]} id={collider} tags={tags} active={active} />
+      <BlockIndicator entity={enemy} />
     </Node>
   )
 };

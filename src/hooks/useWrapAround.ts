@@ -1,12 +1,12 @@
 import { useUpdate } from "@overreact/engine";
 import { PositionedObjectState } from "../state/PositionedObjectState";
-import { useGame } from ".";
+import { useLevel } from "./useGame";
 
 export const useWrapAround = (entity: PositionedObjectState) => {
-  const game = useGame();
+  const level = useLevel();
 
   useUpdate(() => {
-    const threshold = game.current.level.current * 200 + 16;
+    const threshold = level.current * 200 + 16;
 
     if (entity.pos.current[1] >= threshold) {
       entity.pos.current[1] -= 224;

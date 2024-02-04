@@ -28,10 +28,14 @@ export class GameState {
     new PlayerState([224, 192]),
   ];
 
-  init() {
+  get levelData() {
+    return LEVELS[this.level.current - 1];
+  }
+
+  initLevel() {
     if (!this.initialized) {
       this.initialized = true;
-      this.enemies = [...LEVELS[this.level.current - 1].enemies];
+      this.enemies = [...this.levelData.enemies];
       this.players[0].pos.current = [32, (this.level.current - 1) * 200 + 192];
     }
   }
@@ -52,15 +56,15 @@ export class GameState {
   }
 
   isSolid(x: number, y: number): boolean {
-    return !!LEVELS[this.level.current - 1].collisions[y * 32 + x];
+    return !!this.levelData.collisions[y * 32 + x];
   }
 
   createRandomItem() {
     const types = Object.keys(ITEMS) as ItemType[];
     const type = types[Math.floor(Math.random() * types.length)];
-    const level = LEVELS[this.level.current - 1];
+    const targets = this.levelData.targets;
+    const [tx, ty] = targets[Math.floor(Math.random() * targets.length)];
     const offset = (this.level.current - 1) * 200;
-    const [tx, ty] = level.targets[Math.floor(Math.random() * level.targets.length)];
     const item = new ItemState([tx, offset], [tx, offset + ty], type);
     this.items = [...this.items, item];
   }

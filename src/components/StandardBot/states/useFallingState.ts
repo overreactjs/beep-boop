@@ -8,7 +8,7 @@ export const useFallingState = (): StateFunction => {
     animation.current = 'idle';
 
     if (movement?.isOnFloor.current) {
-      if (Math.random() < 0.25) {
+      if (Math.random() < 0.15) {
         fsm.entity.reverse();
       }
 
