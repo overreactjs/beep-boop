@@ -1,8 +1,8 @@
 import { BitmapSpriteAsset } from "@overreact/engine";
 
-import idleUrl from "./enemy-1-idle.png";
-import runUrl from "./enemy-1-run.png";
-import stunnedUrl from "./enemy-1-stunned.png";
+import idleUrl from "./idle.png";
+import runUrl from "./run.png";
+import stunnedUrl from "./stunned.png";
 
 export const IDLE: BitmapSpriteAsset = {
   url: idleUrl,

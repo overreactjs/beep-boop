@@ -1,17 +1,16 @@
 import { useId } from "react";
-import { BitmapSprite, CollisionBox, Node, SpriteSet, useIntegerPosition, useOffsetPosition, usePlatformMovement, useStateMachine } from "@overreact/engine";
-import { useEnemyCollisions, useWrapAround } from "../../hooks";
+import { BitmapSprite, CollisionBox, Node, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
+import { useBubbleBobbleMovement, useEnemyCollisions, useWrapAround } from "../../hooks";
 import { EnemyState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";
-import { BlockIndicator } from "../BlockIndicator";
 
-type StandardBotProps = {
+type SecurityBotProps = {
   enemy: EnemyState;
 }
 
-export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
+export const SecurityBot: React.FC<SecurityBotProps> = ({ enemy }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const collisionPos = useOffsetPosition(pos, [-5, -16]);
@@ -22,7 +21,7 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
   useWrapAround(enemy);
 
   // Standard platformer physics, attached to the enemy state object.
-  enemy.movement = usePlatformMovement(collider, pos, velocity, {
+  enemy.movement = useBubbleBobbleMovement(collider, pos, velocity, {
     gravity: [0, 0.0006],
     speed: 0.03,
     jumpStrength: 0.21,
@@ -50,7 +49,6 @@ export const StandardBot: React.FC<StandardBotProps> = ({ enemy }) => {
         <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={STUNNED} flip={flip} repeat={false} angle={angle} scale={scale} />
       </SpriteSet>
       <CollisionBox pos={collisionPos} size={[10, 16]} id={collider} tags={tags} active={active} />
-      <BlockIndicator entity={enemy} />
     </Node>
-  )
+  );
 };
