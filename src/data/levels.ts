@@ -41,7 +41,7 @@ function parseLevelMetadata(data: string[]): Pick<LevelData, 'tileset'> {
 
 function buildLevelTilesAndCollisions(data: string[], tileset: number): Pick<LevelData, 'tiles' | 'collisions'> {
   const tiles: number[] = [];
-  const collisions: (string | false)[] = [];
+  const collisions: (string[] | false)[] = [];
   const offset = tileset * 20;
 
   const isSolid = (x: number, y: number) => parseInt(data[y][x], 10) >= 0;
@@ -49,7 +49,28 @@ function buildLevelTilesAndCollisions(data: string[], tileset: number): Pick<Lev
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 32; x++) {
       if (isSolid(x, y)) {
-        collisions.push(y > 0 ? 'platform' : false);
+        if (y === 0) {
+          if (isSolid(x, y + 1)) {
+            collisions.push(['platform', 'left', 'right']);
+          } else {
+            collisions.push(false);
+          }
+
+        } else {
+          const tags = ['platform'];
+
+          if (!isSolid(x, y - 1)) {
+            tags.push('top');
+          }
+          if (!isSolid(x - 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
+            tags.push('left');
+          }
+          if (!isSolid(x + 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
+            tags.push('right');
+          }
+
+          collisions.push(tags);
+        }
 
         if ((x === 0 || x === 30) && y < 24) {
           tiles.push(offset + (y % 2 === 0 ? 4 : 6));
