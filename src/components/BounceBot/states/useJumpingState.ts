@@ -7,7 +7,7 @@ export const useJumpingState = (): StateFunction => {
 
   return useCallback((fsm) => {
     if (fsm.age === 0) {
-      fsm.entity.velocity.current[0] = 0.05 * (fsm.entity.direction.current === 'right' ? 1 : -1);
+      fsm.entity.velocity.current[0] = 0.04 * (fsm.entity.direction.current === 'right' ? 1 : -1);
       fsm.entity.animation.current = 'jumping';
       input.simulate('jump');
     }
