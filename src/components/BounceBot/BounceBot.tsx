@@ -2,8 +2,8 @@ import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { useWrapAround, useEnemyCollisions, useBubbleBobbleMovement } from "../../hooks";
 import { EnemyState } from "../../state";
-import { IDLE, JUMPING } from "./assets";
-import { useIdleState, useJumpingState } from "./states";
+import { IDLE, JUMPING, STUNNED } from "./assets";
+import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
 import { States } from "./types";
 
 type BounceBotProps = {
@@ -31,6 +31,8 @@ export const BounceBot: React.FC<BounceBotProps> = ({ enemy }) => {
   const fsm = useStateMachine<States, EnemyState>(enemy, 'idle', {
     idle: useIdleState(),
     jumping: useJumpingState(),
+    stunned: useStunnedState(),
+    dead: useDeadState(),
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.
@@ -41,6 +43,7 @@ export const BounceBot: React.FC<BounceBotProps> = ({ enemy }) => {
       <SpriteSet animation={animation}>
         <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={IDLE} flip={flip} angle={angle} scale={scale} />
         <BitmapSprite name="jumping" pos={spritePos} size={[16, 16]} sprite={JUMPING} flip={flip} angle={angle} scale={scale} repeat={false} />
+        <BitmapSprite name="stunned" pos={spritePos} size={[16, 16]} sprite={STUNNED} flip={flip} angle={angle} scale={scale} repeat={false} />
       </SpriteSet>
       <CollisionBox pos={collisionPos} size={[10, 16]} id={collider} tags={tags} active={active} />
     </Node>
