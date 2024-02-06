@@ -1,5 +1,6 @@
-import { DynamicProperty, Position, Property, UsePlatformMovementResult, VariableProperty, Velocity } from "@overreact/engine";
+import { DynamicProperty, Position, Property, VariableProperty, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
+import { UseBubbleBobbleMovementResult } from "../hooks/useBubbleBobbleMovement";
 import { Direction, EnemyType } from "../types";
 
 export class EnemyState extends PositionedObjectState {
@@ -10,7 +11,7 @@ export class EnemyState extends PositionedObjectState {
   scale: Property<number>;
   animation: Property<string>;
   flip: Property<boolean>;
-  movement?: UsePlatformMovementResult;
+  movement?: UseBubbleBobbleMovementResult;
 
   constructor(type: EnemyType, pos: Position, direction: Direction) {
     super(pos);

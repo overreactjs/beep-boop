@@ -1,11 +1,13 @@
 import { VirtualInput } from "@overreact/engine";
 import { EnemyState } from "../../state";
 import { EnemyType } from "../../types";
-import { StandardBot } from "../StandardBot";
+import { SecurityBot } from "../SecurityBot";
+import { BounceBot } from "../BounceBot/BounceBot";
 
 const ENEMIES: Record<EnemyType, React.FC<EnemyProps>> = {
-  standard: StandardBot,
-}
+  securityBot: SecurityBot,
+  bounceBot: BounceBot,
+};
 
 type EnemyProps = {
   enemy: EnemyState;

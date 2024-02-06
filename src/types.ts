@@ -3,7 +3,7 @@ import { EnemyState } from "./state";
 
 export type Direction = 'left' | 'right';
 
-export type EnemyType = 'standard';
+export type EnemyType = 'securityBot' | 'bounceBot';
 
 export type EnemyStates = 'stunned' | 'dead' | 'gone';
 
@@ -63,7 +63,7 @@ export type RawLevelData = {
 export type LevelData = {
   tileset: number;
   tiles: number[];
-  collisions: (false | string)[];
+  collisions: (false | string[])[];
   targets: Position[];
   enemies: EnemyState[];
 };
