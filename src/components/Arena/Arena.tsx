@@ -1,4 +1,5 @@
-import { Box, Camera, Node, Viewport, World, useKeyPressed, useSync } from "@overreact/engine";
+import { Box, Camera, Node, Viewport, World, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { LEVELS } from "../../data";
 import { useCamera, useGame } from "../../hooks";
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -6,24 +7,35 @@ import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Zap } from "../Zap";
-import { LEVELS } from "../../data";
 
 export const Arena: React.FC = () => {
   const game = useGame();
   const camera = useCamera();
+  const timeout = useProperty(5000);
 
-  useKeyPressed('KeyO', () => {
-    game.current.prevLevel();
-    camera.current[1] -= 200;
-  });
+  // useKeyPressed('KeyO', () => {
+  //   game.current.prevLevel();
+  // });
 
-  useKeyPressed('KeyK', () => {
-    game.current.nextLevel();
-    camera.current[1] += 200;
-  });
+  // useKeyPressed('KeyK', () => {
+  //   game.current.nextLevel();
+  // });
 
-  useKeyPressed('KeyJ', () => {
-    game.current.initLevel();
+  // Once all enemies have fallen, and all of the items have finished falling to the ground, move
+  // on to the next level.
+  useUpdate((delta) => {
+    if (game.current.enemies.length === 0) {
+      if (game.current.items.some((item) => item.state.current === 'falling')) {
+        return;
+      }
+
+      if (timeout.current > 0) {
+        timeout.current -= delta;
+      } else {
+        game.current.nextLevel();
+        timeout.current = 5000;
+      }
+    }
   });
 
   const levels = [];
