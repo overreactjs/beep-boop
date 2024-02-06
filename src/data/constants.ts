@@ -6,5 +6,6 @@ export const LEFT  = '<';
 export const RIGHT = '>';
 
 export const ENEMIES: Record<string, EnemyType> = {
-  'A': 'standard',
+  'A': 'securityBot',
+  'C': 'bounceBot',
 };

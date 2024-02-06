@@ -14,10 +14,12 @@ export const Arena: React.FC = () => {
 
   useKeyPressed('KeyO', () => {
     game.current.prevLevel();
+    camera.current[1] -= 200;
   });
 
   useKeyPressed('KeyK', () => {
     game.current.nextLevel();
+    camera.current[1] += 200;
   });
 
   useKeyPressed('KeyJ', () => {

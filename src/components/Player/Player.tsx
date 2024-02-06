@@ -1,6 +1,6 @@
 import { useId } from "react";
-import { useOffsetPosition, usePlatformMovement, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition, useProperty, useUpdate } from "@overreact/engine";
-import { useGame, useWrapAround } from "../../hooks";
+import { useOffsetPosition, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition, useProperty, useUpdate } from "@overreact/engine";
+import { useBubbleBobbleMovement, useGame, useWrapAround } from "../../hooks";
 import { IDLE, RUN } from "./assets";
 
 export const Player: React.FC = () => {
@@ -21,7 +21,7 @@ export const Player: React.FC = () => {
   useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' });
 
   // Setup standard platform movement.
-  const movement = usePlatformMovement(collider, pos, velocity, {
+  const movement = useBubbleBobbleMovement(collider, pos, velocity, {
     gravity: [0, 0.0006],
     speed: 0.06,
     jumpStrength: 0.21,
@@ -48,7 +48,7 @@ export const Player: React.FC = () => {
   useKeyPressed('Space', () => {
     if (cooldown.current === 0) {
       game.current.fireZap(player);
-      cooldown.current = 300;
+      cooldown.current = 250;
     }
   });
 
