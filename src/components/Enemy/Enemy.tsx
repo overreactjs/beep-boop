@@ -3,10 +3,12 @@ import { EnemyState } from "../../state";
 import { EnemyType } from "../../types";
 import { SecurityBot } from "../SecurityBot";
 import { BounceBot } from "../BounceBot/BounceBot";
+import { GuardBot } from "../GuardBot";
 
 const ENEMIES: Record<EnemyType, React.FC<EnemyProps>> = {
-  securityBot: SecurityBot,
   bounceBot: BounceBot,
+  guardBot: GuardBot,
+  securityBot: SecurityBot,
 };
 
 type EnemyProps = {

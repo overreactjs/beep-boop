@@ -7,5 +7,6 @@ export const RIGHT = '>';
 
 export const ENEMIES: Record<string, EnemyType> = {
   'A': 'securityBot',
+  'B': 'guardBot',
   'C': 'bounceBot',
 };
