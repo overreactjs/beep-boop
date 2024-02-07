@@ -1,67 +1,50 @@
 import { useId } from "react";
-import { useOffsetPosition, CollisionBox, Node, usePostCollisions, useKeyboardMap, useKeyPressed, BitmapSprite, SpriteSet, useTaggedCollision, useIntegerPosition, useProperty, useUpdate } from "@overreact/engine";
+import { useOffsetPosition, CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, useIntegerPosition, Size, useMergeProperty } from "@overreact/engine";
 import { useBubbleBobbleMovement, useGame, useWrapAround } from "../../hooks";
-import { IDLE, RUN } from "./assets";
+import { DEAD, IDLE, RUN } from "./assets";
+import { MOVEMENT_PROPS } from "./constants";
+import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
+import { usePlayerFireZaps } from "./usePlayerFireZaps";
+import { usePlayerUpdateState } from "./usePlayerUpdateState";
 
 export const Player: React.FC = () => {
   const game = useGame();
   
   const player = game.current.players[0];
-  const { animation, combo, flip, pos, velocity } = player;
+  const { flip, pos, velocity } = player;
 
   const collisionPos = useOffsetPosition(pos, [-6, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
-  const cooldown = useProperty(0);
+  const animation = useMergeProperty(player.animation, player.alive, (animation, alive) => alive ? animation : 'dead');
   const collider = useId();
 
   // When the player leaves the screen, wrap to the other side.
   useWrapAround(player);
 
-  // Map from keyboard input to virtual input events.
-  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' });
+  // Map from keyboard input to virtual input events, but only when the player is still alive.
+  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' }, player.alive);
 
   // Setup standard platform movement.
-  const movement = useBubbleBobbleMovement(collider, pos, velocity, {
-    gravity: [0, 0.0006],
-    speed: 0.06,
-    jumpStrength: 0.21,
-    canTurnMidair: true,
-  });
+  const movement = useBubbleBobbleMovement(collider, pos, velocity, MOVEMENT_PROPS);
 
-  // When the player touches a stunned enemy, do a little jump.
-  useTaggedCollision(collider, 'stunned', () => {
-    velocity.current[1] = Math.min(-0.125, velocity.current[1]);
-    combo.current++;
-  });
+  // Handle collisions between the player and enemies, either alive or stunned.
+  usePlayerEnemyCollisions(collider, player);
 
   // Update animations, flip direction, and combo state.
-  usePostCollisions(() => {
-    flip.current = movement.direction.current === 'left';
-    animation.current = Math.round(velocity.current[0] * 100) / 100 !== 0 ? 'run' : 'idle';
-
-    if (movement.isOnFloor && velocity.current[1] === 0) {
-      combo.current = -1;
-    }
-  });
+  usePlayerUpdateState(player, movement);
 
   // Fire an electric bolt when space is pressed.
-  useKeyPressed('Space', () => {
-    if (cooldown.current === 0) {
-      game.current.fireZap(player);
-      cooldown.current = 250;
-    }
-  });
-
-  // Reduce the cooldown period, until the player is allowed to fire again.
-  useUpdate((delta) => {
-    cooldown.current = Math.max(0, cooldown.current - delta);
-  });
+  usePlayerFireZaps(player);
   
+  // Common props for all sprites in the sprite set.
+  const spriteProps = { size: [16, 16] as Size, flip };
+
   return (
-    <Node>
+    <Node pos={spritePos}>
       <SpriteSet animation={animation}>
-        <BitmapSprite name="idle" pos={spritePos} size={[16, 16]} sprite={IDLE} flip={flip} />
-        <BitmapSprite name="run" pos={spritePos} size={[16, 16]} sprite={RUN} flip={flip} />
+        <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
+        <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
+        <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
       </SpriteSet>
       <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} />
     </Node>

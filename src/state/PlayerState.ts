@@ -7,6 +7,7 @@ export class PlayerState extends PositionedObjectState {
   score: Property<number>;
   animation: Property<string>;
   combo: Property<number>;
+  alive: Property<boolean>;
 
   constructor(pos: Position) {
     super(pos);
@@ -15,6 +16,7 @@ export class PlayerState extends PositionedObjectState {
     this.score = new VariableProperty(0);
     this.animation = new VariableProperty('idle');
     this.combo = new VariableProperty(-1);
+    this.alive = new VariableProperty(true);
   }
 
   addPoints(points: number) {

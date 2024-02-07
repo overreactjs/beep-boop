@@ -2,6 +2,7 @@ import { BitmapSpriteAsset } from "@overreact/engine";
 
 import idleUrl from "./idle.png";
 import runUrl from "./run.png";
+import deadUrl from "./dead.png";
 
 export const IDLE: BitmapSpriteAsset = {
   url: idleUrl,
@@ -15,4 +16,11 @@ export const RUN: BitmapSpriteAsset = {
   size: [144, 16],
   count: 9,
   rate: 30,
+};
+
+export const DEAD: BitmapSpriteAsset = {
+  url: deadUrl,
+  size: [144, 16],
+  count: 9,
+  rate: 10,
 };
