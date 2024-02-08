@@ -3,11 +3,18 @@ import { LevelData } from '../types';
 import { EnemyState } from '../state';
 import { EMPTY, ENEMIES, LEFT, RIGHT, SOLID } from './constants';
 
-export const LEVELS = [
-  buildLevel(1, (await import('./001.txt?raw')).default),
-  buildLevel(2, (await import('./002.txt?raw')).default),
-  buildLevel(3, (await import('./003.txt?raw')).default),
-];
+export const LEVELS = await buildLevels(6);
+
+async function buildLevels(count: number): Promise<LevelData[]> {
+  const levels: LevelData[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const data = (await import(`./${String(i + 1).padStart(3, '0')}.txt?raw`)).default;
+    levels.push(buildLevel(i + 1, data));
+  }
+
+  return levels;
+}
 
 function buildLevel(level: number, data: string): LevelData {
   const lines = data.split('\n');
