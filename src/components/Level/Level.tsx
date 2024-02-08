@@ -1,4 +1,4 @@
-import { BitmapText, CollisionBox, Node, Tilemap, useDynamicProperty } from "@overreact/engine";
+import { BitmapText, Node, Tilemap, useDynamicProperty } from "@overreact/engine";
 import { LEVELS } from "../../data";
 import { useGame } from "../../hooks";
 import { LEVELS_FONT, TILESET } from "./assets";
@@ -19,8 +19,6 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
     <Node>
       <Tilemap pos={[0, offset]} tileset={TILESET} tiles={tiles} collisions={collisions} active={active} />
       <BitmapText pos={[0, offset]} font={LEVELS_FONT} text={number} />
-      <CollisionBox pos={[0, offset - 40]} size={[16, 240]} tags={['solid']} />
-      <CollisionBox pos={[240, offset - 40]} size={[16, 240]} tags={['solid']} />
     </Node>
   );
 };

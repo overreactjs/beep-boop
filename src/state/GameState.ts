@@ -6,6 +6,7 @@ import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
 import { ZapState } from "./ZapState";
 import { EnemyState } from "./EnemyState";
+import { EnemyZapState } from "./EnemyZapState";
 
 export class GameState {
 
@@ -22,6 +23,8 @@ export class GameState {
   zaps: ZapState[] = [];
 
   enemies: EnemyState[] = [];
+
+  enemyZaps: EnemyZapState[] = [];
 
   players: PlayerState[] = [
     new PlayerState([32, 192]),
@@ -99,6 +102,16 @@ export class GameState {
 
   destroyZap(zap: ZapState) {
     this.zaps = this.zaps.filter(({ id }) => id !== zap.id);
+  }
+
+  fireEnemyZap(enemy: EnemyState) {
+    const [x, y] = enemy.pos.current;
+    const direction = enemy.flip.current ? -1 : 1;
+    this.enemyZaps = [...this.enemyZaps, new EnemyZapState([x + direction * 4, y - 8], direction)];
+  }
+
+  destroyEnemyZap(zap: ZapState) {
+    this.enemyZaps = this.enemyZaps.filter(({ id }) => id !== zap.id);
   }
 
   killEnemy(enemy: EnemyState) {

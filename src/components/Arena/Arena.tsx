@@ -1,4 +1,4 @@
-import { Box, Camera, Node, Viewport, World, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { LEVELS } from "../../data";
 import { useCamera, useGame } from "../../hooks";
 import { Enemy } from "../Enemy";
@@ -7,19 +7,22 @@ import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Zap } from "../Zap";
+import { EnemyZap } from "../EnemyZap";
 
 export const Arena: React.FC = () => {
   const game = useGame();
   const camera = useCamera();
   const timeout = useProperty(5000);
 
-  // useKeyPressed('KeyO', () => {
-  //   game.current.prevLevel();
-  // });
+  useKeyPressed('KeyO', () => {
+    game.current.prevLevel();
+    camera.current[1] -= 200;
+  });
 
-  // useKeyPressed('KeyK', () => {
-  //   game.current.nextLevel();
-  // });
+  useKeyPressed('KeyK', () => {
+    game.current.nextLevel();
+    camera.current[1] += 200;
+  });
 
   // Once all enemies have fallen, and all of the items have finished falling to the ground, move
   // on to the next level.
@@ -53,6 +56,7 @@ export const Arena: React.FC = () => {
           <EnemyList />
           <PointsList />
           <ZapsList />
+          <EnemyZapsList />
           <Player />
 
           <Node pos={camera}>
@@ -86,4 +90,10 @@ const ZapsList: React.FC = () => {
   const game = useGame();
   const zaps = useSync(() => game.current.zaps);
   return <>{zaps.map((entry) => <Zap key={entry.id} zap={entry} />)}</>;
+};
+
+const EnemyZapsList: React.FC = () => {
+  const game = useGame();
+  const zaps = useSync(() => game.current.enemyZaps);
+  return <>{zaps.map((entry) => <EnemyZap key={entry.id} zap={entry} />)}</>;
 };
