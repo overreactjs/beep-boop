@@ -1,12 +1,13 @@
-import { Position, VariableProperty } from "@overreact/engine";
+import { Position, VariableProperty, dist } from "@overreact/engine";
 import { ITEMS, LEVELS } from "../data";
-import { ItemType, PointsValue } from "../types";
+import { ItemType, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
 import { ZapState } from "./ZapState";
 import { EnemyState } from "./EnemyState";
 import { EnemyZapState } from "./EnemyZapState";
+import { PositionedObjectState } from "./PositionedObjectState";
 
 export class GameState {
 
@@ -126,5 +127,29 @@ export class GameState {
     this.enemies = this.enemies.filter(({ id }) => id !== enemy.id);
     this.createRandomItem();
     this.createRandomItem();
+  }
+
+  teleport(entity: PositionedObjectState) {
+    const pos: Position = [entity.pos.current[0], entity.pos.current[1] % 200];
+
+    let source: LevelPortalData | null = null;
+    let best = Number.MAX_VALUE;
+
+    for (const portal of this.levelData.portals) {
+      const distance = dist(pos, portal.pos);
+      if (distance < best) {
+        best = distance;
+        source = portal;
+      }
+    }
+
+    if (source) {
+      const target = this.levelData.portals[source?.target - 1];
+      const dx = target.pos[0] - source.pos[0];
+      const dy = target.pos[1] - source.pos[1];
+
+      entity.pos.current[0] += dx + (28 * -Math.sign(dx)); // 28 = width of teleporter + width of player
+      entity.pos.current[1] += dy;
+    }
   }
 }

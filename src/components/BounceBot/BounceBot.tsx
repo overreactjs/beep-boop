@@ -1,21 +1,16 @@
-import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { useWrapAround, useEnemyCollisions, useBubbleBobbleMovement } from "../../hooks";
 import { EnemyState } from "../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
 import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
 import { States } from "./types";
+import { EnemyProps } from "../Enemy";
 
-type BounceBotProps = {
-  enemy: EnemyState;
-}
-
-export const BounceBot: React.FC<BounceBotProps> = ({ enemy }) => {
+export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const collisionPos = useOffsetPosition(pos, [-5, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
-  const collider = useId();
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);

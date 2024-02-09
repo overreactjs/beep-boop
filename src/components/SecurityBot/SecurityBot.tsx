@@ -1,21 +1,16 @@
-import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { useBubbleBobbleMovement, useEnemyCollisions, useWrapAround } from "../../hooks";
 import { EnemyState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";
+import { EnemyProps } from "../Enemy";
 
-type SecurityBotProps = {
-  enemy: EnemyState;
-}
-
-export const SecurityBot: React.FC<SecurityBotProps> = ({ enemy }) => {
+export const SecurityBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const collisionPos = useOffsetPosition(pos, [-5, -16]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
-  const collider = useId();
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);

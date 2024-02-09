@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { useOffsetPosition, CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, useIntegerPosition, Size, useMergeProperty } from "@overreact/engine";
+import { useOffsetPosition, CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, useIntegerPosition, Size, useMergeProperty, useTaggedCollision } from "@overreact/engine";
 import { useBubbleBobbleMovement, useGame, useWrapAround } from "../../hooks";
 import { DEAD, IDLE, RUN } from "./assets";
 import { MOVEMENT_PROPS } from "./constants";
@@ -35,6 +35,11 @@ export const Player: React.FC = () => {
 
   // Fire an electric bolt when space is pressed.
   usePlayerFireZaps(player);
+
+  // Teleport the player when they step into a portal.
+  useTaggedCollision(collider, 'portal', () =>{
+    game.current.teleport(player);
+  });
   
   // Common props for all sprites in the sprite set.
   const spriteProps = { size: [16, 16] as Size, flip };

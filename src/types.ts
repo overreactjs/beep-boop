@@ -61,12 +61,23 @@ export type RawLevelData = {
 };
 
 export type LevelData = {
-  tileset: number;
+  meta: LevelMetadata;
   tiles: number[];
   collisions: (false | string[])[];
   targets: Position[];
   enemies: EnemyState[];
+  portals: LevelPortalData[];
 };
+
+export type LevelPortalData = {
+  pos: Position;
+  direction: 'left' | 'right';
+  target: number; 
+}
+
+export type LevelMetadata = {
+  tileset: number;
+}
 
 export type PointsValue = 
   | 50
