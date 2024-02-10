@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { useWrapAround, useEnemyCollisions, useBubbleBobbleMovement } from "../../hooks";
 import { EnemyState } from "../../state";
@@ -9,7 +10,9 @@ import { EnemyProps } from "../Enemy";
 export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
-  const collisionPos = useOffsetPosition(pos, [-5, -16]);
+  const deathCollider = useId();
+  const deathCollisionPos = useOffsetPosition(pos, [-5, -16]);
+  const collisionPos = useOffsetPosition(pos, [-5, -6]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
 
   // When the bot leaves the screen, wrap to the other side.
@@ -19,7 +22,7 @@ export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   enemy.movement = useBubbleBobbleMovement(collider, pos, velocity, {
     gravity: [0, 0.0004],
     acceleration: 0.00,
-    jumpStrength: 0.13,
+    jumpStrength: 0.145,
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
@@ -31,7 +34,7 @@ export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.
-  const [tags, active] = useEnemyCollisions(collider, fsm);
+  const [tags, active] = useEnemyCollisions(deathCollider, fsm);
 
   // Common props for all sprites in the sprite set.
   const spriteProps = { size: [16, 16] as Size, flip, angle, scale };
@@ -43,7 +46,8 @@ export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
         <BitmapSprite {...spriteProps} name="jumping" sprite={JUMPING} repeat={false} />
         <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[10, 16]} id={collider} tags={tags} active={active} />
+      <CollisionBox pos={collisionPos} size={[10, 6]} id={collider} active={active} />
+      <CollisionBox pos={deathCollisionPos} size={[10, 16]} id={deathCollider} tags={tags} active={active} />
     </Node>
   );
 };
