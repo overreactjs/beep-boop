@@ -9,7 +9,7 @@ import { EnemyProps } from "../Enemy";
 export const GuardBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
-  const collisionPos = useOffsetPosition(pos, [-5, -16]);
+  const collisionPos = useOffsetPosition(pos, [-5, -12]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
 
   // When the bot leaves the screen, wrap to the other side.
@@ -46,7 +46,7 @@ export const GuardBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
         <BitmapSprite {...spriteProps} name="run" pos={spritePos} sprite={RUN} />
         <BitmapSprite {...spriteProps} name="stunned" pos={spritePos} sprite={STUNNED} repeat={false} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[10, 16]} id={collider} tags={tags} active={active} />
+      <CollisionBox pos={collisionPos} size={[10, 12]} id={collider} tags={tags} active={active} />
     </Node>
   );
 };

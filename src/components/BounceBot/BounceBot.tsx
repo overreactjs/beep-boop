@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
+import { BitmapSprite, Box, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { useWrapAround, useEnemyCollisions, useBubbleBobbleMovement } from "../../hooks";
 import { EnemyState } from "../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
@@ -11,8 +11,8 @@ export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const deathCollider = useId();
-  const deathCollisionPos = useOffsetPosition(pos, [-5, -16]);
-  const collisionPos = useOffsetPosition(pos, [-5, -6]);
+  const deathCollisionPos = useOffsetPosition(pos, [-5, -12]);
+  const collisionPos = useOffsetPosition(pos, [-5, -4]);
   const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
 
   // When the bot leaves the screen, wrap to the other side.
@@ -46,8 +46,8 @@ export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
         <BitmapSprite {...spriteProps} name="jumping" sprite={JUMPING} repeat={false} />
         <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[10, 6]} id={collider} active={active} />
-      <CollisionBox pos={deathCollisionPos} size={[10, 16]} id={deathCollider} tags={tags} active={active} />
+      <CollisionBox pos={collisionPos} size={[10, 4]} id={collider} active={active} />
+      <CollisionBox pos={deathCollisionPos} size={[10, 12]} id={deathCollider} tags={tags} active={active} />
     </Node>
   );
 };
