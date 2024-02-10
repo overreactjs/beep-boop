@@ -3,7 +3,7 @@ import { LevelData, LevelMetadata, LevelPortalData } from '../types';
 import { EnemyState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
 
-export const LEVELS = await buildLevels(6);
+export const LEVELS = await buildLevels(7);
 
 async function buildLevels(count: number): Promise<LevelData[]> {
   const levels: LevelData[] = [];
@@ -78,6 +78,12 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         }
         if (!isSolid(x + 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
           tags.push('right');
+        }
+        if (x <= 1 && isSolid(x, y + 1)) {
+          tags.push('right');
+        }
+        if (x >= 30 && isSolid(x, y + 1)) {
+          tags.push('left');
         }
 
         collisions.push(tags);
