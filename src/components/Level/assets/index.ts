@@ -1,7 +1,6 @@
-import { BitmapAsset, BitmapFontFace, Tileset } from "@overreact/engine";
+import { BitmapFontFace, Tileset } from "@overreact/engine";
 
 import levelsFontUrl from "./levels-font.png";
-import portalUrl from "./portal.png";
 import tilesetUrl from "./tileset.png";
 
 export const LEVELS_FONT: BitmapFontFace = {
@@ -20,9 +19,4 @@ export const TILESET: Tileset = {
   },
   cellSize: [8, 8],
   gridSize: [32, 25],
-};
-
-export const PORTAL_IMAGE: BitmapAsset = {
-  url: portalUrl,
-  size: [256, 64],
 };
