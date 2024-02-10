@@ -12,7 +12,7 @@ export const useJumpingState = (): StateFunction => {
       input.simulate('jump');
     }
 
-    if (fsm.age > 100 && fsm.entity.movement?.isOnFloor.current) {
+    if (fsm.age > 50 && fsm.entity.movement?.isOnFloor.current) {
       fsm.replace('idle');
       fsm.entity.velocity.current[0] = 0;
     }

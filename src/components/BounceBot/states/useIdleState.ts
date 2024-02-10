@@ -10,7 +10,7 @@ export const useIdleState = (): StateFunction => {
 
     if (fsm.age > cooldown.current) {
       fsm.replace('jumping');
-      cooldown.current = 200 + Math.random() * 150;
+      cooldown.current = 200 + Math.random() * 300;
     }
   }, [cooldown]);
 };
