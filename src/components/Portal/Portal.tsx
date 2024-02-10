@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { BitmapImage, Box, CollisionBox, Node, useOffsetPosition, usePosition } from "@overreact/engine";
+import { BitmapImage, CollisionBox, Node, useOffsetPosition, usePosition } from "@overreact/engine";
 import { LevelPortalData } from "../../types";
 import { PORTAL_IMAGE } from "./assets";
 

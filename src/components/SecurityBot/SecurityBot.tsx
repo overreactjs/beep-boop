@@ -1,4 +1,4 @@
-import { BitmapSprite, Box, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { useBubbleBobbleMovement, useEnemyCollisions, useWrapAround } from "../../hooks";
 import { EnemyState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
