@@ -5,8 +5,9 @@ import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { States } from "./types";
 import { EnemyProps } from "../Enemy";
+import { SecurityBotState } from "../../state/EnemyState";
 
-export const SecurityBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
+export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const collisionPos = useOffsetPosition(pos, [-5, -12]);

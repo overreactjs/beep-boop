@@ -3,19 +3,16 @@ import { PositionedObjectState } from "./PositionedObjectState";
 import { UseBubbleBobbleMovementResult } from "../hooks/useBubbleBobbleMovement";
 import { Direction, EnemyType } from "../types";
 
-export class EnemyState extends PositionedObjectState {
-  type: EnemyType;
+class BaseEnemyState extends PositionedObjectState {
   velocity: Property<Velocity>;
   direction: Property<Direction>;
   angle: Property<number>;
   scale: Property<number>;
   animation: Property<string>;
   flip: Property<boolean>;
-  movement?: UseBubbleBobbleMovementResult;
 
-  constructor(type: EnemyType, pos: Position, direction: Direction) {
+  constructor(pos: Position, direction: Direction) {
     super(pos);
-    this.type = type;
     this.velocity = new VariableProperty([0, 0]);
     this.direction = new VariableProperty(direction);
     this.angle = new VariableProperty(0);
@@ -28,3 +25,28 @@ export class EnemyState extends PositionedObjectState {
     this.direction.current = this.direction.current === 'left' ? 'right' : 'left';
   }
 }
+
+export class BounceBotState extends BaseEnemyState {
+  readonly type: EnemyType = 'bounceBot';
+  movement?: UseBubbleBobbleMovementResult;
+}
+
+export class FlyingBotState extends BaseEnemyState {
+  readonly type: EnemyType = 'flyingBot';
+}
+
+export class GuardBotState extends BaseEnemyState {
+  readonly type: EnemyType = 'guardBot';
+  movement?: UseBubbleBobbleMovementResult;
+}
+
+export class SecurityBotState extends BaseEnemyState {
+  readonly type: EnemyType = 'securityBot';
+  movement?: UseBubbleBobbleMovementResult;
+}
+
+export type EnemyState =
+  | BounceBotState
+  | FlyingBotState
+  | GuardBotState
+  | SecurityBotState;

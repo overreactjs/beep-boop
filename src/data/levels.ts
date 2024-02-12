@@ -1,7 +1,12 @@
 import { Position } from '@overreact/engine';
-import { LevelData, LevelMetadata, LevelPortalData } from '../types';
+import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
 import { EnemyState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
+import { BounceBotState, GuardBotState, SecurityBotState } from '../state/EnemyState';
+import { BounceBot } from '../components/BounceBot';
+import { GuardBot } from '../components/GuardBot';
+import { SecurityBot } from '../components/SecurityBot';
+import { EnemyProps } from '../components/Enemy';
 
 export const LEVELS = await buildLevels(7);
 
@@ -176,7 +181,7 @@ function buildLevelEnemies(level: number, data: string[]): Pick<LevelData, 'enem
         const c = data[y][x+1];
 
         if (a === b && b === c && ENEMIES[a]) {
-          enemies.push(new EnemyState(ENEMIES[a], [(x + 1) * 8, (y + 1) * 8 + offset], 'left'));
+          enemies.push(createEnemy(ENEMIES[a], [(x + 1) * 8, (y + 1) * 8 + offset], 'left'));
         }
       }
 
@@ -186,11 +191,34 @@ function buildLevelEnemies(level: number, data: string[]): Pick<LevelData, 'enem
         const c = data[y][x-1];
 
         if (a === b && b === c && ENEMIES[a]) {
-          enemies.push(new EnemyState(ENEMIES[a], [x * 8, (y + 1) * 8 + offset], 'right'));
+          enemies.push(createEnemy(ENEMIES[a], [x * 8, (y + 1) * 8 + offset], 'right'));
         }
       }
     }
   }
 
   return { enemies };
+}
+
+export function createEnemy<T extends EnemyType>(type: T, pos: Position, direction: Direction): Extract<EnemyState, { type: T }>;
+export function createEnemy(type: EnemyType, pos: Position, direction: Direction): EnemyState {
+  switch (type) {
+    case 'bounceBot':
+      return new BounceBotState(pos, direction);
+    case 'guardBot':
+      return new GuardBotState(pos, direction);
+    case 'securityBot':
+      return new SecurityBotState(pos, direction);
+  }
+}
+
+export function getEnemy(type: EnemyType): React.FC<EnemyProps> {
+  switch (type) {
+    case 'bounceBot':
+      return BounceBot;
+    case 'guardBot':
+      return GuardBot;
+    case 'securityBot':
+      return SecurityBot;
+  }
 }

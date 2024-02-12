@@ -6,8 +6,9 @@ import { IDLE, JUMPING, STUNNED } from "./assets";
 import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
 import { States } from "./types";
 import { EnemyProps } from "../Enemy";
+import { BounceBotState } from "../../state/EnemyState";
 
-export const BounceBot: React.FC<EnemyProps> = ({ enemy, collider }) => {
+export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const deathCollider = useId();
