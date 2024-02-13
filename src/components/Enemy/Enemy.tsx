@@ -1,18 +1,19 @@
 import { useId } from "react";
 import { VirtualInput, useTaggedCollision } from "@overreact/engine";
-import { EnemyState } from "../../state";
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState } from "../../state";
 import { useGame } from "../../hooks";
 
 import { BounceBot } from "../BounceBot";
+import { FlyingBot } from "../FlyingBot";
 import { GuardBot } from "../GuardBot";
 import { SecurityBot } from "../SecurityBot";
 
-export type EnemyProps<T = EnemyState> = {
+export type EnemyProps<T> = {
   enemy: T;
   collider: string;
 }
 
-export const Enemy: React.FC<EnemyProps> = ({ enemy }) => {
+export const Enemy: React.FC<EnemyProps<EnemyState>> = ({ enemy }) => {
   const game = useGame();
   const collider = useId();
 
@@ -23,13 +24,16 @@ export const Enemy: React.FC<EnemyProps> = ({ enemy }) => {
   return (
     <VirtualInput>
       {enemy.type === 'bounceBot' && (
-        <BounceBot enemy={enemy} collider={collider} />
+        <BounceBot enemy={enemy as BounceBotState} collider={collider} />
+      )}
+      {enemy.type === 'flyingBot' && (
+        <FlyingBot enemy={enemy as FlyingBotState} collider={collider} />
       )}
       {enemy.type === 'guardBot' && (
-        <GuardBot enemy={enemy} collider={collider} />
+        <GuardBot enemy={enemy as GuardBotState} collider={collider} />
       )}
       {enemy.type === 'securityBot' && (
-        <SecurityBot enemy={enemy} collider={collider} />
+        <SecurityBot enemy={enemy as SecurityBotState} collider={collider} />
       )}
     </VirtualInput>
   );

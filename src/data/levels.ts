@@ -2,11 +2,7 @@ import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
 import { EnemyState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
-import { BounceBotState, GuardBotState, SecurityBotState } from '../state/EnemyState';
-import { BounceBot } from '../components/BounceBot';
-import { GuardBot } from '../components/GuardBot';
-import { SecurityBot } from '../components/SecurityBot';
-import { EnemyProps } from '../components/Enemy';
+import { BounceBotState, FlyingBotState, GuardBotState, SecurityBotState } from '../state/EnemyState';
 
 export const LEVELS = await buildLevels(7);
 
@@ -200,25 +196,15 @@ function buildLevelEnemies(level: number, data: string[]): Pick<LevelData, 'enem
   return { enemies };
 }
 
-export function createEnemy<T extends EnemyType>(type: T, pos: Position, direction: Direction): Extract<EnemyState, { type: T }>;
 export function createEnemy(type: EnemyType, pos: Position, direction: Direction): EnemyState {
   switch (type) {
     case 'bounceBot':
       return new BounceBotState(pos, direction);
+    case 'flyingBot':
+      return new FlyingBotState(pos, direction);
     case 'guardBot':
       return new GuardBotState(pos, direction);
     case 'securityBot':
       return new SecurityBotState(pos, direction);
-  }
-}
-
-export function getEnemy(type: EnemyType): React.FC<EnemyProps> {
-  switch (type) {
-    case 'bounceBot':
-      return BounceBot;
-    case 'guardBot':
-      return GuardBot;
-    case 'securityBot':
-      return SecurityBot;
   }
 }

@@ -2,22 +2,31 @@ import { DynamicProperty, Position, Property, VariableProperty, Velocity } from 
 import { PositionedObjectState } from "./PositionedObjectState";
 import { UseBubbleBobbleMovementResult } from "../hooks/useBubbleBobbleMovement";
 import { Direction, EnemyType } from "../types";
+import { UseFlyingMovementResult } from "../hooks";
 
 class BaseEnemyState extends PositionedObjectState {
   velocity: Property<Velocity>;
-  direction: Property<Direction>;
   angle: Property<number>;
   scale: Property<number>;
   animation: Property<string>;
-  flip: Property<boolean>;
 
-  constructor(pos: Position, direction: Direction) {
+  constructor(pos: Position) {
     super(pos);
     this.velocity = new VariableProperty([0, 0]);
-    this.direction = new VariableProperty(direction);
     this.angle = new VariableProperty(0);
     this.scale = new VariableProperty(1);
     this.animation = new VariableProperty('idle');
+  }
+}
+
+class BasePlatformEnemyState extends BaseEnemyState {
+  direction: Property<Direction>;
+  flip: Property<boolean>;
+  movement?: UseBubbleBobbleMovementResult;
+
+  constructor(pos: Position, direction: Direction) {
+    super(pos);
+    this.direction = new VariableProperty(direction);
     this.flip = new DynamicProperty(this.direction, (direction) => direction === 'left');
   }
 
@@ -26,23 +35,36 @@ class BaseEnemyState extends PositionedObjectState {
   }
 }
 
-export class BounceBotState extends BaseEnemyState {
-  readonly type: EnemyType = 'bounceBot';
-  movement?: UseBubbleBobbleMovementResult;
+class BaseFlyingEnemyState extends BaseEnemyState {
+  direction: Property<Direction>;
+  flip: Property<boolean>;
+  movement?: UseFlyingMovementResult;
+
+  constructor(pos: Position, direction: Direction) {
+    super(pos);
+    this.direction = new VariableProperty(direction);
+    this.flip = new DynamicProperty(this.direction, (direction) => direction === 'left');
+  }
+
+  reverse() {
+    this.direction.current = this.direction.current === 'left' ? 'right' : 'left';
+  }
 }
 
-export class FlyingBotState extends BaseEnemyState {
+export class BounceBotState extends BasePlatformEnemyState {
+  readonly type: EnemyType = 'bounceBot';
+}
+
+export class FlyingBotState extends BaseFlyingEnemyState {
   readonly type: EnemyType = 'flyingBot';
 }
 
-export class GuardBotState extends BaseEnemyState {
+export class GuardBotState extends BasePlatformEnemyState {
   readonly type: EnemyType = 'guardBot';
-  movement?: UseBubbleBobbleMovementResult;
 }
 
-export class SecurityBotState extends BaseEnemyState {
+export class SecurityBotState extends BasePlatformEnemyState {
   readonly type: EnemyType = 'securityBot';
-  movement?: UseBubbleBobbleMovementResult;
 }
 
 export type EnemyState =

@@ -32,10 +32,10 @@ export type UseBubbleBobbleMovementResult = {
   wallToLeft: Property<boolean>;
   wallToRight: Property<boolean>;
   jumpCount: Property<number>;
-  direction: Property<'left' | 'right'>;
+  facing: Property<'left' | 'right'>;
   addEventListener: (type: BubbleBobbleMovementEventType, fn: () => void) => void;
   removeEventListener: (type: BubbleBobbleMovementEventType, fn: () => void) => void;
-}
+};
 
 export const useBubbleBobbleMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UseBubbleBobbleMovementOptions): UseBubbleBobbleMovementResult => {
   const { gravity, speed, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair } = { ...DEFAULT_OPTIONS, ...options };
@@ -49,7 +49,7 @@ export const useBubbleBobbleMovement = (collider: string, pos: Property<Position
   const wallToLeft = useProperty(false);
   const wallToRight = useProperty(false);
   const jumpCount = useProperty(0);
-  const direction = useProperty<'left' | 'right'>('right');
+  const facing = useProperty<'left' | 'right'>('right');
 
   /**
    * Update the players velocity, position, and state flags, based on current inputs.
@@ -89,12 +89,12 @@ export const useBubbleBobbleMovement = (collider: string, pos: Property<Position
     pos.current[0] += change.current[0];
     pos.current[1] += change.current[1];
 
-    // Update the player's direction.
+    // Update the direction the player is facing.
     if (canTurnMidair || isOnFloor.current) {
       if (horizontalInput < 0) {
-        direction.current = 'left';
+        facing.current = 'left';
       } else if (horizontalInput > 0) {
-        direction.current = 'right';
+        facing.current = 'right';
       }
     }
   });
@@ -172,7 +172,7 @@ export const useBubbleBobbleMovement = (collider: string, pos: Property<Position
   });
 
   return useMemo(() =>
-    ({ isOnFloor, isJumping, isFalling, jumpCount, direction, wallToLeft, wallToRight, addEventListener, removeEventListener }),
-    [isOnFloor, isJumping, isFalling, jumpCount, direction, wallToLeft, wallToRight, addEventListener, removeEventListener],
+    ({ isOnFloor, isJumping, isFalling, jumpCount, facing, wallToLeft, wallToRight, addEventListener, removeEventListener }),
+    [isOnFloor, isJumping, isFalling, jumpCount, facing, wallToLeft, wallToRight, addEventListener, removeEventListener],
   );
 };

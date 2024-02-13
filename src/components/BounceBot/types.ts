@@ -1,9 +1,9 @@
 import { StateFunction as _StateFunction, StateMachine as _StateMachine } from "@overreact/engine";
-import { EnemyState } from "../../state";
+import { BounceBotState } from "../../state";
 import { EnemyStates } from "../../types";
 
 export type States = EnemyStates | 'idle' | 'jumping';
 
-export type StateFunction = _StateFunction<States, EnemyState>;
+export type StateFunction = _StateFunction<States, BounceBotState>;
 
-export type StateMachine = _StateMachine<States, EnemyState>;
+export type StateMachine = _StateMachine<States, BounceBotState>;
