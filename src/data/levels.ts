@@ -10,7 +10,7 @@ async function buildLevels(count: number): Promise<LevelData[]> {
   const levels: LevelData[] = [];
 
   for (let i = 0; i < count; i++) {
-    const data = (await import(`./${String(i + 1).padStart(3, '0')}.txt?raw`)).default;
+    const data = (await import(`./levels/${String(i + 1).padStart(3, '0')}.txt?raw`)).default;
     levels.push(buildLevel(i + 1, data));
   }
 
