@@ -1,13 +1,25 @@
-import { CollisionEventFunctionProps, Position, Property, Velocity, intersects, permutator, useOverlap, useProperty, useUpdate } from "@overreact/engine";
-import { BBox } from "detect-collisions";
 import { useMemo } from "react";
+import { BBox } from "detect-collisions";
+import { CollisionEventFunctionProps, Position, Prop, Property, Velocity, intersects, permutator, useOverlap, useProperty, useUpdate } from "@overreact/engine";
+
+const DEFAULT_OPTIONS = {
+  enabled: true,
+} as const;
+
+export type UseFlyingMovementOptions = {
+  enabled?: Prop<boolean>;
+};
 
 export type UseFlyingMovementResult = {
+  enabled: Property<boolean>;
   wallToLeft: Property<boolean>;
   wallToRight: Property<boolean>;
 };
 
-export const useFlyingMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>): UseFlyingMovementResult => {
+export const useFlyingMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UseFlyingMovementOptions): UseFlyingMovementResult => {
+  const allOptions = { ...DEFAULT_OPTIONS, ...options };
+
+  const enabled = useProperty(allOptions.enabled);
   const wallToLeft = useProperty(false);
   const wallToRight = useProperty(false);
 
@@ -15,58 +27,62 @@ export const useFlyingMovement = (collider: string, pos: Property<Position>, vel
    * 
    */
   useUpdate((delta) => {
-    pos.current[0] += velocity.current[0] * delta;
-    pos.current[1] += velocity.current[1] * delta;
+    if (enabled.current) {
+      pos.current[0] += velocity.current[0] * delta;
+      pos.current[1] += velocity.current[1] * delta;
+    }
   });
 
   /**
    * 
    */
   useOverlap(collider, (collisions) => {
-    const adjustment: Position = [0, 0];
-    const surfaces = optimize(collisions.filter((event) => {
-      return event.tags.includes('solid') || event.tags.includes('platform');
-    }));
+    if (enabled.current) {
+      const adjustment: Position = [0, 0];
+      const surfaces = optimize(collisions.filter((event) => {
+        return event.tags.includes('solid') || event.tags.includes('platform');
+      }));
 
-    // Solids: These can't be passed through. Ever!
-    for (const { overlap } of surfaces) {
-      if (overlap.y > 0 && overlap.y > adjustment[1]) {
-        pos.current[1] -= overlap.y;
-        adjustment[1] = overlap.y;
+      // Solids: These can't be passed through. Ever!
+      for (const { overlap } of surfaces) {
+        if (overlap.y > 0 && overlap.y > adjustment[1]) {
+          pos.current[1] -= overlap.y;
+          adjustment[1] = overlap.y;
+        }
+
+        if (overlap.y < 0 && overlap.y < adjustment[1]) {
+          pos.current[1] -= overlap.y;
+          adjustment[1] = overlap.y;
+        }
+
+        if (overlap.x > 0 && overlap.x > adjustment[0]) {
+          pos.current[0] -= overlap.x;
+          adjustment[0] = overlap.x;
+        }
+
+        if (overlap.x < 0 && overlap.x < adjustment[0]) {
+          pos.current[0] -= overlap.x;
+          adjustment[0] = overlap.x;
+        }
       }
 
-      if (overlap.y < 0 && overlap.y < adjustment[1]) {
-        pos.current[1] -= overlap.y;
-        adjustment[1] = overlap.y;
+      // Update state flags.
+      wallToLeft.current = adjustment[0] > 0;
+      wallToRight.current = adjustment[0] < 0;
+
+      // Flip the velocity (bounce) when colliding with any surface.
+      if (adjustment[0] > 0 || adjustment[0] < 0) {
+        velocity.current[0] = -velocity.current[0];
       }
-
-      if (overlap.x > 0 && overlap.x > adjustment[0]) {
-        pos.current[0] -= overlap.x;
-        adjustment[0] = overlap.x;
+      if (adjustment[1] > 0 || adjustment[1] < 0) {
+        velocity.current[1] = -velocity.current[1];
       }
-
-      if (overlap.x < 0 && overlap.x < adjustment[0]) {
-        pos.current[0] -= overlap.x;
-        adjustment[0] = overlap.x;
-      }
-    }
-
-    // Update state flags.
-    wallToLeft.current = adjustment[0] > 0;
-    wallToRight.current = adjustment[0] < 0;
-
-    // Flip the velocity (bounce) when colliding with any surface.
-    if (adjustment[0] > 0 || adjustment[0] < 0) {
-      velocity.current[0] = -velocity.current[0];
-    }
-    if (adjustment[1] > 0 || adjustment[1] < 0) {
-      velocity.current[1] = -velocity.current[1];
     }
   });
 
   return useMemo(() =>
-    ({ wallToLeft, wallToRight }),
-    [wallToLeft, wallToRight],
+    ({ enabled, wallToLeft, wallToRight }),
+    [enabled, wallToLeft, wallToRight],
   );
 };
 
