@@ -65,7 +65,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         if (isSolid(x, y + 1)) {
           collisions.push(['platform', 'left', 'right']);
         } else {
-          collisions.push(false);
+          collisions.push(['platform']);
         }
 
       } else {
