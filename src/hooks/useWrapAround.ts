@@ -9,7 +9,9 @@ export const useWrapAround = (entity: PositionedObjectState) => {
     const threshold = level.current * 200 + 16;
 
     if (entity.pos.current[1] >= threshold) {
-      entity.pos.current[1] -= 224;
+      entity.pos.current[1] -= 216;
+    } else if (entity.pos.current[1] <= threshold - 200) {
+      entity.pos.current[1] += 216;
     }
   });
 };
