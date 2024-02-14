@@ -1,3 +1,4 @@
+export { useBaseDeadState as useDeadState } from "../../../hooks/useBaseDeadState";
 export { useFallingState } from "./useFallingState";
 export { useIdleState } from "./useIdleState";
 export { useJumpingState } from "./useJumpingState";

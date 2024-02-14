@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
-import { UsePlatformMovementResult, UseFlyingMovementResult, useDeadState } from "../../../hooks";
+import { UsePlatformMovementResult, UseFlyingMovementResult, useBaseDeadState } from "../../../hooks";
 import { FlyingBotState } from "../../../state";
 
-export function useFlyingBotDeadState(flying: UseFlyingMovementResult, platform: UsePlatformMovementResult): StateFunction<FlyingBotState> {
-  const upstream = useDeadState();
+export function useDeadState(flying: UseFlyingMovementResult, platform: UsePlatformMovementResult): StateFunction<FlyingBotState> {
+  const upstream = useBaseDeadState();
 
   return useCallback((fsm, delta) => {
     if (fsm.age === 0) {

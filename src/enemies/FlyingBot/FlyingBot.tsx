@@ -1,7 +1,7 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { usePlatformMovement, useEnemyCollisions, useFlyingMovement, useWrapAround } from "../../hooks";
 import { FlyingBotState } from "../../state";
-import { useFlyingBotDeadState, useIdleState, usePatrolState, useStunnedState } from "./states";
+import { useDeadState, useIdleState, usePatrolState, useStunnedState } from "./states";
 import { IDLE, STUNNED } from "./assets";
 import { EnemyProps } from "../Enemy";
 
@@ -23,7 +23,7 @@ export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collide
     idle: useIdleState(),
     patrol: usePatrolState(flying),
     stunned: useStunnedState(),
-    dead: useFlyingBotDeadState(flying, platform),
+    dead: useDeadState(flying, platform),
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.

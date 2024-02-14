@@ -1,8 +1,8 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
-import { usePlatformMovement, useDeadState, useEnemyCollisions, useWrapAround } from "../../hooks";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../hooks";
 import { SecurityBotState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
-import { useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
+import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { EnemyProps } from "../Enemy";
 
 export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, collider }) => {

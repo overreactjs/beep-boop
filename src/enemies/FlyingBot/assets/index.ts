@@ -12,7 +12,7 @@ export const IDLE: BitmapSpriteAsset = {
 
 export const STUNNED: BitmapSpriteAsset = {
   url: stunnedUrl,
-  size: [128, 16],
-  count: 8,
+  size: [144, 16],
+  count: 9,
   rate: 10,
 };

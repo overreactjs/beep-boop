@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
-import { UsePlatformMovementResult } from "../../../hooks";
+import { UsePlatformMovementResult, useBaseStunnedState } from "../../../hooks";
 import { BounceBotState } from "../../../state";
 
 export const useStunnedState = (movement: UsePlatformMovementResult): StateFunction<BounceBotState> => {
-  return useCallback((fsm) => {
+  const upstream = useBaseStunnedState();
+
+  return useCallback((fsm, delta) => {
     fsm.entity.animation.current = 'stunned';
 
     if (fsm.age > 100 && movement.isOnFloor.current) {
@@ -17,5 +19,7 @@ export const useStunnedState = (movement: UsePlatformMovementResult): StateFunct
       movement.wallToLeft.current = false;
       movement.wallToRight.current = false;
     }
-  }, [movement]);
+
+    upstream(fsm, delta);
+  }, [movement, upstream]);
 };

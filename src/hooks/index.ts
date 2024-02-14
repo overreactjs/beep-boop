@@ -1,9 +1,10 @@
-export { usePlatformMovement } from "./usePlatformMovement";
+export { useBaseDeadState } from "./useBaseDeadState";
+export { useBaseStunnedState } from "./useBaseStunnedState";
 export { useCamera } from "./useCamera";
-export { useDeadState } from "./useDeadState";
 export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame, useLevel } from "./useGame";
+export { usePlatformMovement } from "./usePlatformMovement";
 export { useWrapAround } from "./useWrapAround";
 
 export type { UsePlatformMovementOptions, UsePlatformMovementResult } from "./usePlatformMovement";

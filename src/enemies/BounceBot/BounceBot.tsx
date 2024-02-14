@@ -1,9 +1,9 @@
 import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
-import { useWrapAround, useEnemyCollisions, usePlatformMovement, useDeadState } from "../../hooks";
+import { useWrapAround, useEnemyCollisions, usePlatformMovement } from "../../hooks";
 import { BounceBotState } from "../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
-import { useIdleState, useJumpingState, useStunnedState } from "./states";
+import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
 import { EnemyProps } from "../Enemy";
 
 export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collider }) => {

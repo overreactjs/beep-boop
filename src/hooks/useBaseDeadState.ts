@@ -3,7 +3,7 @@ import { StateFunction } from "@overreact/engine";
 import { EnemyState } from "../state";
 import { useGame } from "./useGame";
 
-export function useDeadState<T extends EnemyState>(): StateFunction<T> {
+export function useBaseDeadState<T extends EnemyState>(): StateFunction<T> {
   const game = useGame();
   const threshold = game.current.level.current * 200 + 16;
   
