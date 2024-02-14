@@ -4,7 +4,7 @@ import { EnemyState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
 import { BounceBotState, FlyingBotState, GuardBotState, SecurityBotState } from '../state/EnemyState';
 
-export const LEVELS = await buildLevels(7);
+export const LEVELS = await buildLevels(10);
 
 async function buildLevels(count: number): Promise<LevelData[]> {
   const levels: LevelData[] = [];
