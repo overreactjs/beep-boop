@@ -1,5 +1,6 @@
 export { useBubbleBobbleMovement } from "./useBubbleBobbleMovement";
 export { useCamera } from "./useCamera";
+export { useDeadState } from "./useDeadState";
 export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame, useLevel } from "./useGame";

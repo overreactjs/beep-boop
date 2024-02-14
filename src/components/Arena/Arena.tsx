@@ -1,7 +1,7 @@
 import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { LEVELS } from "../../data";
 import { useCamera, useGame } from "../../hooks";
-import { Enemy } from "../Enemy";
+import { Enemy } from "../../enemies";
 import { Item } from "../Item";
 import { Level } from "../Level";
 import { Player } from "../Player";

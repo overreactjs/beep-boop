@@ -1,8 +1,6 @@
 import { DynamicProperty, Position, Property, VariableProperty, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
-import { UseBubbleBobbleMovementResult } from "../hooks/useBubbleBobbleMovement";
 import { Direction, EnemyType } from "../types";
-import { UseFlyingMovementResult } from "../hooks";
 
 class BaseEnemyState extends PositionedObjectState {
   velocity: Property<Velocity>;
@@ -22,7 +20,6 @@ class BaseEnemyState extends PositionedObjectState {
 class BasePlatformEnemyState extends BaseEnemyState {
   direction: Property<Direction>;
   flip: Property<boolean>;
-  movement?: UseBubbleBobbleMovementResult;
 
   constructor(pos: Position, direction: Direction) {
     super(pos);
@@ -38,7 +35,6 @@ class BasePlatformEnemyState extends BaseEnemyState {
 class BaseFlyingEnemyState extends BaseEnemyState {
   direction: Property<Direction>;
   flip: Property<boolean>;
-  movement?: UseFlyingMovementResult;
 
   constructor(pos: Position, direction: Direction) {
     super(pos);
