@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { useOffsetPosition, CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, useIntegerPosition, Size, useMergeProperty, useTaggedCollision } from "@overreact/engine";
-import { useBubbleBobbleMovement, useGame, useWrapAround } from "../../hooks";
+import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { DEAD, IDLE, RUN } from "./assets";
 import { MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
@@ -25,7 +25,7 @@ export const Player: React.FC = () => {
   useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' }, player.alive);
 
   // Setup standard platform movement.
-  const movement = useBubbleBobbleMovement(collider, pos, velocity, MOVEMENT_PROPS);
+  const movement = usePlatformMovement(collider, pos, velocity, MOVEMENT_PROPS);
 
   // Handle collisions between the player and enemies, either alive or stunned.
   usePlayerEnemyCollisions(collider, player);

@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
-import { UseBubbleBobbleMovementResult } from "../../../hooks";
+import { UsePlatformMovementResult } from "../../../hooks";
 import { GuardBotState } from "../../../state";
 
-export const useFallingState = (movement: UseBubbleBobbleMovementResult): StateFunction<GuardBotState> => {
+export const useFallingState = (movement: UsePlatformMovementResult): StateFunction<GuardBotState> => {
   return useCallback((fsm) => {
     const { animation } = fsm.entity;
 

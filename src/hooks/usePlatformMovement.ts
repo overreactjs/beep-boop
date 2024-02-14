@@ -14,9 +14,9 @@ const DEFAULT_OPTIONS = {
   canTurnMidair: false,
 } as const;
 
-export type BubbleBobbleMovementEventType = 'jump';
+export type PlatformMovementEventType = 'jump';
 
-export type UseBubbleBobbleMovementOptions = {
+export type UsePlatformMovementOptions = {
   enabled?: Prop<boolean>;
   gravity?: Velocity;
   speed?: number;
@@ -27,7 +27,7 @@ export type UseBubbleBobbleMovementOptions = {
   canTurnMidair?: boolean;
 };
 
-export type UseBubbleBobbleMovementResult = {
+export type UsePlatformMovementResult = {
   enabled: Property<boolean>;
   isOnFloor: Property<boolean>;
   isJumping: Property<boolean>;
@@ -36,14 +36,14 @@ export type UseBubbleBobbleMovementResult = {
   wallToRight: Property<boolean>;
   jumpCount: Property<number>;
   facing: Property<'left' | 'right'>;
-  addEventListener: (type: BubbleBobbleMovementEventType, fn: () => void) => void;
-  removeEventListener: (type: BubbleBobbleMovementEventType, fn: () => void) => void;
+  addEventListener: (type: PlatformMovementEventType, fn: () => void) => void;
+  removeEventListener: (type: PlatformMovementEventType, fn: () => void) => void;
 };
 
-export const useBubbleBobbleMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UseBubbleBobbleMovementOptions): UseBubbleBobbleMovementResult => {
+export const usePlatformMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UsePlatformMovementOptions): UsePlatformMovementResult => {
   const allOptions = { ...DEFAULT_OPTIONS, ...options };
   const { gravity, speed, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair } = allOptions;
-  const { addEventListener, removeEventListener, fireEvent } = useEventListeners<BubbleBobbleMovementEventType>();
+  const { addEventListener, removeEventListener, fireEvent } = useEventListeners<PlatformMovementEventType>();
   const input = useVirtualInput();
 
   const enabled = useProperty(allOptions.enabled);

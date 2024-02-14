@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
-import { UseBubbleBobbleMovementResult, UseFlyingMovementResult, useDeadState } from "../../../hooks";
+import { UsePlatformMovementResult, UseFlyingMovementResult, useDeadState } from "../../../hooks";
 import { FlyingBotState } from "../../../state";
 
-export function useFlyingBotDeadState(flying: UseFlyingMovementResult, platform: UseBubbleBobbleMovementResult): StateFunction<FlyingBotState> {
+export function useFlyingBotDeadState(flying: UseFlyingMovementResult, platform: UsePlatformMovementResult): StateFunction<FlyingBotState> {
   const upstream = useDeadState();
 
   return useCallback((fsm, delta) => {

@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { StateFunction, chance, useVirtualInput } from "@overreact/engine";
-import { UseBubbleBobbleMovementResult, useGame } from "../../../hooks";
+import { UsePlatformMovementResult, useGame } from "../../../hooks";
 import { SecurityBotState } from "../../../state";
 
 const JUMP_CHANCE = 2.0;
 
-export const usePatrolState = (movement: UseBubbleBobbleMovementResult): StateFunction<SecurityBotState> => {
+export const usePatrolState = (movement: UsePlatformMovementResult): StateFunction<SecurityBotState> => {
   const game = useGame();
   const input = useVirtualInput();
   

@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
-import { useWrapAround, useEnemyCollisions, useBubbleBobbleMovement, useDeadState } from "../../hooks";
+import { useWrapAround, useEnemyCollisions, usePlatformMovement, useDeadState } from "../../hooks";
 import { BounceBotState } from "../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
 import { useIdleState, useJumpingState, useStunnedState } from "./states";
@@ -18,7 +18,7 @@ export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collide
   useWrapAround(enemy);
 
   // Standard platformer physics, attached to the enemy state object.
-  const movement = useBubbleBobbleMovement(collider, pos, velocity, {
+  const movement = usePlatformMovement(collider, pos, velocity, {
     gravity: [0, 0.0004],
     acceleration: 0.00,
     jumpStrength: 0.145,

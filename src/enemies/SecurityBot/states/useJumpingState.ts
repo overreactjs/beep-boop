@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { StateFunction, useVirtualInput } from "@overreact/engine";
-import { UseBubbleBobbleMovementResult } from "../../../hooks";
+import { UsePlatformMovementResult } from "../../../hooks";
 import { SecurityBotState } from "../../../state";
 
-export const useJumpingState = (movement: UseBubbleBobbleMovementResult): StateFunction<SecurityBotState> => {
+export const useJumpingState = (movement: UsePlatformMovementResult): StateFunction<SecurityBotState> => {
   const input = useVirtualInput();
 
   return useCallback((fsm) => {

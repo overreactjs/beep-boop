@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { StateFunction, chance, useProperty, useVirtualInput } from "@overreact/engine";
-import { UseBubbleBobbleMovementResult, useGame } from "../../../hooks";
+import { UsePlatformMovementResult, useGame } from "../../../hooks";
 import { GuardBotState } from "../../../state";
 
 const JUMP_CHANCE = 3.0;
@@ -8,7 +8,7 @@ const FIRE_CHANCE = 5.0;
 const TURN_CHANCE = 3.0;
 const COOLDOWN_DURATION = 2000;
 
-export const usePatrolState = (movement: UseBubbleBobbleMovementResult): StateFunction<GuardBotState> => {
+export const usePatrolState = (movement: UsePlatformMovementResult): StateFunction<GuardBotState> => {
   const game = useGame();
   const input = useVirtualInput();
 

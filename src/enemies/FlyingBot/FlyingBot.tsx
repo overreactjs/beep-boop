@@ -1,5 +1,5 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
-import { useBubbleBobbleMovement, useEnemyCollisions, useFlyingMovement, useWrapAround } from "../../hooks";
+import { usePlatformMovement, useEnemyCollisions, useFlyingMovement, useWrapAround } from "../../hooks";
 import { FlyingBotState } from "../../state";
 import { useFlyingBotDeadState, useIdleState, usePatrolState, useStunnedState } from "./states";
 import { IDLE, STUNNED } from "./assets";
@@ -16,7 +16,7 @@ export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collide
 
   // Standard platformer physics, attached to the enemy state object.
   const flying = useFlyingMovement(collider, pos, velocity, { enabled: true });
-  const platform = useBubbleBobbleMovement(collider, pos, velocity, { enabled: false });
+  const platform = usePlatformMovement(collider, pos, velocity, { enabled: false });
 
   // Setup the finite state machine, to handle the behaviour of each state.
   const fsm = useStateMachine(enemy, 'idle', {

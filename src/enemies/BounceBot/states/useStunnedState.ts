@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
-import { UseBubbleBobbleMovementResult } from "../../../hooks";
+import { UsePlatformMovementResult } from "../../../hooks";
 import { BounceBotState } from "../../../state";
 
-export const useStunnedState = (movement: UseBubbleBobbleMovementResult): StateFunction<BounceBotState> => {
+export const useStunnedState = (movement: UsePlatformMovementResult): StateFunction<BounceBotState> => {
   return useCallback((fsm) => {
     fsm.entity.animation.current = 'stunned';
 

@@ -1,6 +1,6 @@
-import { UseBubbleBobbleMovementOptions } from "../../hooks/useBubbleBobbleMovement";
+import { UsePlatformMovementOptions } from "../../hooks/usePlatformMovement";
 
-export const MOVEMENT_PROPS: UseBubbleBobbleMovementOptions = {
+export const MOVEMENT_PROPS: UsePlatformMovementOptions = {
   gravity: [0, 0.0006],
   speed: 0.06,
   jumpStrength: 0.21,
