@@ -14,7 +14,10 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
   const age = useProperty(0);
 
   const imagePos = useDynamicProperty(age, (age: number): Position => {
-    return [pos.current[0] - 12, Math.round(pos.current[1] - 14 - Math.min(20, age))];
+    return [
+      Math.round(pos.current[0] - 12),
+      Math.round(pos.current[1] - 14 - Math.min(20, age)),
+    ];
   });
 
   useUpdate((delta) => {
