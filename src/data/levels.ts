@@ -1,8 +1,7 @@
 import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
-import { EnemyState } from '../state';
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
-import { BounceBotState, FlyingBotState, GuardBotState, SecurityBotState } from '../state/EnemyState';
 
 export const LEVELS = await buildLevels(10);
 
@@ -204,6 +203,8 @@ export function createEnemy(type: EnemyType, pos: Position, direction: Direction
       return new FlyingBotState(pos, direction);
     case 'guardBot':
       return new GuardBotState(pos, direction);
+    case 'rollingBot':
+      return new RollingBotState(pos, direction);
     case 'securityBot':
       return new SecurityBotState(pos, direction);
   }

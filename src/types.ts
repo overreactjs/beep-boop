@@ -3,7 +3,7 @@ import { EnemyState } from "./state";
 
 export type Direction = 'left' | 'right';
 
-export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'securityBot';
+export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'rollingBot' | 'securityBot';
 
 export type EnemyStates = 'stunned' | 'dead' | 'gone';
 

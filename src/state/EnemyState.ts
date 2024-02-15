@@ -40,6 +40,10 @@ export class GuardBotState extends BaseEnemyState {
   readonly type: EnemyType = 'guardBot';
 }
 
+export class RollingBotState extends BaseEnemyState {
+  readonly type: EnemyType = 'rollingBot';
+}
+
 export class SecurityBotState extends BaseEnemyState {
   readonly type: EnemyType = 'securityBot';
 }
