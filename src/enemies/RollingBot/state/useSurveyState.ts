@@ -4,6 +4,11 @@ import { RollingBotState } from "../../../state";
 
 export const useSurveyState = (): StateFunction<RollingBotState> => {
   return useCallback((fsm) => {
-    fsm.replace('idle');
+    fsm.entity.animation.current = 'idle';
+
+    if (fsm.age >= 1200) {
+      fsm.entity.reverse();
+      fsm.replace('idle');
+    }
   }, []);
 };

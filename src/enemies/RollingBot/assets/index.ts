@@ -13,9 +13,9 @@ export const IDLE: BitmapSpriteAsset = {
 
 export const ROLLING: BitmapSpriteAsset = {
   url: rollingUrl,
-  size: [64, 16],
-  count: 4,
-  rate: 10,
+  size: [128, 16],
+  count: 8,
+  rate: 8,
 };
 
 export const JUMPING: BitmapSpriteAsset = {

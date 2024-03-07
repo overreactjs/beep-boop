@@ -19,7 +19,7 @@ export type PlatformMovementEventType = 'jump';
 export type UsePlatformMovementOptions = {
   enabled?: Prop<boolean>;
   gravity?: Velocity;
-  speed?: number;
+  speed?: Prop<number>;
   jumpStrength?: number;
   acceleration?: number;
   maxFallSpeed?: number;
@@ -42,11 +42,13 @@ export type UsePlatformMovementResult = {
 
 export const usePlatformMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UsePlatformMovementOptions): UsePlatformMovementResult => {
   const allOptions = { ...DEFAULT_OPTIONS, ...options };
-  const { gravity, speed, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair } = allOptions;
+  const { gravity, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair } = allOptions;
   const { addEventListener, removeEventListener, fireEvent } = useEventListeners<PlatformMovementEventType>();
   const input = useVirtualInput();
 
   const enabled = useProperty(allOptions.enabled);
+  const speed = useProperty(allOptions.speed);
+
   const change = useProperty([0, 0]);
   const isOnFloor = useProperty(false);
   const isJumping = useProperty(false);
@@ -64,7 +66,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
       // Apply keyboard input to the player's velocity.
       const horizontalInput = input.hasAxis('left', 'right');
       const accelerationFactor = isOnFloor.current ? 1.0 : 0.2;
-      velocity.current[0] = lerp(velocity.current[0], horizontalInput * speed, acceleration * accelerationFactor);
+      velocity.current[0] = lerp(velocity.current[0], horizontalInput * speed.current, acceleration * accelerationFactor);
 
       // Jump, if one of the following conditions are met:
       // 1. The entity is stood on the ground.

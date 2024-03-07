@@ -42,6 +42,20 @@ export class GuardBotState extends BaseEnemyState {
 
 export class RollingBotState extends BaseEnemyState {
   readonly type: EnemyType = 'rollingBot';
+  speed: Property<number>;
+
+  constructor(pos: Position, direction: Direction) {
+    super(pos, direction);
+    this.speed = new VariableProperty(0.015);
+  }
+
+  charge() {
+    this.speed.current = 0.08;
+  }
+
+  patrol() { 
+    this.speed.current = 0.02;
+  }
 }
 
 export class SecurityBotState extends BaseEnemyState {
@@ -52,4 +66,5 @@ export type EnemyState =
   | BounceBotState
   | FlyingBotState
   | GuardBotState
+  | RollingBotState
   | SecurityBotState;

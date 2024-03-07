@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { StateFunction, useVirtualInput } from "@overreact/engine";
 import { UsePlatformMovementResult, useGame } from "../../../hooks";
-import { GuardBotState } from "../../../state";
+import { RollingBotState } from "../../../state";
 
-export const usePatrolState = (movement: UsePlatformMovementResult): StateFunction<GuardBotState> => {
+export const usePatrolState = (movement: UsePlatformMovementResult): StateFunction<RollingBotState> => {
   const game = useGame();
   const input = useVirtualInput();
   
@@ -12,9 +12,11 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     const [bx, by] = fsm.entity.block.current;
     const [px, py] = game.current.players[0].block.current;
 
+    fsm.entity.patrol();
+
     const isFacingLeft = direction.current === 'left';
-    const isLevelWithPlayer = py === by;
-    const canSeePlayer = (px < bx && isFacingLeft) || (px > py && !isFacingLeft);
+    const isLevelWithPlayer = by >= py - 1 && by <= py + 1;
+    const canSeePlayer = (px < bx && isFacingLeft) || (px > bx && !isFacingLeft);
     const offset = !isFacingLeft ? 1 : -1;
 
     // Change direction if the enemy reached a wall.
@@ -24,12 +26,12 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     // Change direction if the enemy reached the end of a platform.
     if (movement.isOnFloor.current && !game.current.isSolid(bx + offset, by)) {
-      fsm.entity.reverse();
+      fsm.replace('survey');
     }
 
     // Charge at the player if they are level and can see them.
     if (isLevelWithPlayer && canSeePlayer) {
-      // TODO!
+      fsm.replace('charge');
     }
 
     // Simulate the left or right movements.

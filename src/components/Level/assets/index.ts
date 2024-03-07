@@ -18,5 +18,6 @@ export const TILESET: Tileset = {
     size: [160, 320],
   },
   cellSize: [8, 8],
+  tileSize: [8, 8],
   gridSize: [32, 25],
 };

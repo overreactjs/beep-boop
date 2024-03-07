@@ -1,11 +1,11 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
 import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../hooks";
-import { GuardBotState } from "../../state";
+import { RollingBotState } from "../../state";
 import { IDLE, ROLLING, JUMPING } from "./assets";
 import { EnemyProps } from "../Enemy";
-import { useChargeState, useDeadState, useIdleState, usePatrolState, useStunnedState, useSurveyState } from "./state";
+import { useChargeState, useDeadState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useSurveyState } from "./state";
 
-export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider }) => {
+export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
 
   const collisionPos = useOffsetPosition(pos, [-6, -12]);
@@ -16,9 +16,9 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
 
   // Standard platformer physics, attached to the enemy state object.
   const movement = usePlatformMovement(collider, pos, velocity, {
-    gravity: [0, 0.0006],
-    speed: 0.03,
-    jumpStrength: 0.21,
+    gravity: [0, 0.0003],
+    speed: enemy.speed,
+    jumpStrength: 0.10,
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
@@ -26,7 +26,8 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
     idle: useIdleState(),
     patrol: usePatrolState(movement),
     survey: useSurveyState(),
-    charge: useChargeState(),
+    charge: useChargeState(movement),
+    jump: useJumpingState(movement),
     stunned: useStunnedState(),
     dead: useDeadState(),
   });
