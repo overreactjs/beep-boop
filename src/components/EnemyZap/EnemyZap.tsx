@@ -20,11 +20,11 @@ export const EnemyZap: React.FC<EnemyZapProps> = ({ zap }) => {
   });
 
   useTaggedCollision(collider, 'solid', () => {
-    game.current.destroyZap(zap);
+    game.destroyZap(zap);
   });
 
   useTaggedCollision(collider, 'player', () => {
-    game.current.destroyZap(zap);
+    game.destroyZap(zap);
   });
 
   return (

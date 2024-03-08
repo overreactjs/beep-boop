@@ -9,12 +9,12 @@ type LevelProps = {
 }
 
 export const Level: React.FC<LevelProps> = ({ level }) => {
-  const { tiles, collisions, portals } = LEVELS[level - 1];
+  const game = useGame();
+  const { tiles, collisions, portals } = game.levels[level - 1];
   const number = String(level).padStart(2, '0');
   const offset = (level - 1) * 200;
 
-  const game = useGame();
-  const active = useDynamicProperty(game.current.level, (current) => current === level);
+  const active = useCachedDynamicProperty(game.level, (current) => current === level);
 
   return (
     <Node>

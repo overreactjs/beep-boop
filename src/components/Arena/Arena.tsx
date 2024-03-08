@@ -1,5 +1,5 @@
 import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
-import { LEVELS } from "../../data";
+
 import { useCamera, useGame } from "../../hooks";
 import { Enemy } from "../../enemies";
 import { Item } from "../Item";
@@ -15,34 +15,34 @@ export const Arena: React.FC = () => {
   const timeout = useProperty(5000);
 
   useKeyPressed('KeyO', () => {
-    game.current.prevLevel();
+    game.prevLevel();
     camera.current[1] -= 200;
   });
 
   useKeyPressed('KeyK', () => {
-    game.current.nextLevel();
+    game.nextLevel();
     camera.current[1] += 200;
   });
 
   // Once all enemies have fallen, and all of the items have finished falling to the ground, move
   // on to the next level.
   useUpdate((delta) => {
-    if (game.current.enemies.length === 0) {
-      if (game.current.items.some((item) => item.state.current === 'falling')) {
+    if (game.enemies.length === 0) {
+      if (game.items.some((item) => item.state.current === 'falling')) {
         return;
       }
 
       if (timeout.current > 0) {
         timeout.current -= delta;
       } else {
-        game.current.nextLevel();
+        game.nextLevel();
         timeout.current = 5000;
       }
     }
   });
 
   const levels = [];
-  for (let i = 0; i < LEVELS.length; i++) {
+  for (let i = 0; i < game.levels.length; i++) {
     levels.push(<Level key={i} level={i + 1} />);
   }
 
@@ -70,30 +70,30 @@ export const Arena: React.FC = () => {
 
 const ItemList: React.FC = () => {
   const game = useGame();
-  const items = useSync(() => game.current.items);
+  const items = useSync(() => game.items);
   return <>{items.map((entry) => <Item key={entry.id} item={entry} />)}</>;
 };
 
 const EnemyList: React.FC = () => {
   const game = useGame();
-  const enemies = useSync(() => game.current.enemies);
+  const enemies = useSync(() => game.enemies);
   return <>{enemies.map((entry) => <Enemy key={entry.id} enemy={entry} />)}</>;
 };
 
 const PointsList: React.FC = () => {
   const game = useGame();
-  const points = useSync(() => game.current.points);
+  const points = useSync(() => game.points);
   return <>{points.map((entry) => <Points key={entry.id} points={entry} />)}</>;
 };
 
 const ZapsList: React.FC = () => {
   const game = useGame();
-  const zaps = useSync(() => game.current.zaps);
+  const zaps = useSync(() => game.zaps);
   return <>{zaps.map((entry) => <Zap key={entry.id} zap={entry} />)}</>;
 };
 
 const EnemyZapsList: React.FC = () => {
   const game = useGame();
-  const zaps = useSync(() => game.current.enemyZaps);
+  const zaps = useSync(() => game.enemyZaps);
   return <>{zaps.map((entry) => <EnemyZap key={entry.id} zap={entry} />)}</>;
 };

@@ -17,7 +17,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     // Change direction if the enemy reached the end of a platform or a wall.
     const offset = direction.current === 'right' ? 1 : -1;
-    if (movement.isOnFloor.current && game.current.isSolid(bx + offset, by - 1)) {
+    if (movement.isOnFloor.current && game.isSolid(bx + offset, by - 1)) {
       fsm.entity.reverse();
     }
 
@@ -27,8 +27,8 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     }
 
     // Jump if the player is above the enemy, and there's a platform to jump on to.
-    const isBelowPlayer = game.current.players[0].block.current[1] <= by;
-    const isBelowPlatform = game.current.isSolid(bx, by - 4);
+    const isBelowPlayer = game.players[0].block.current[1] <= by;
+    const isBelowPlatform = game.isSolid(bx, by - 4);
     if (isBelowPlayer && isBelowPlatform && chance(JUMP_CHANCE * delta)) {
       return fsm.replace('thinking');
     }

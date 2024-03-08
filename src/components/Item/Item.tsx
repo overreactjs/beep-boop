@@ -22,7 +22,7 @@ export const Item: React.FC<ItemProps> = ({ item }) => {
   const landedElement = useElement();
 
   useTaggedCollision(collider, 'player', () => {
-    game.current.collectItem(item);
+    game.collectItem(item);
   });
 
   useUpdate((delta) => {

@@ -3,9 +3,7 @@ import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from 
 import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
 
-export const LEVELS = await buildLevels(10);
-
-async function buildLevels(count: number): Promise<LevelData[]> {
+export async function buildLevels(count: number): Promise<LevelData[]> {
   const levels: LevelData[] = [];
 
   for (let i = 0; i < count; i++) {

@@ -24,7 +24,7 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
     age.current += delta / 40;
 
     if (age.current >= 40) {
-      game.current.hidePoints(points.id);
+      game.hidePoints(points.id);
     }
   });
   

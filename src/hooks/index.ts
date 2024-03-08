@@ -3,7 +3,7 @@ export { useBaseStunnedState } from "./useBaseStunnedState";
 export { useCamera } from "./useCamera";
 export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useFlyingMovement } from "./useFlyingMovement";
-export { useGame, useLevel } from "./useGame";
+export { useGame } from "./useGame";
 export { usePlatformMovement } from "./usePlatformMovement";
 export { useWrapAround } from "./useWrapAround";
 

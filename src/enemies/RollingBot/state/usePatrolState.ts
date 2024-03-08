@@ -10,7 +10,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
   return useCallback((fsm) => {
     const { direction } = fsm.entity;
     const [bx, by] = fsm.entity.block.current;
-    const [px, py] = game.current.players[0].block.current;
+    const [px, py] = game.players[0].block.current;
 
     fsm.entity.patrol();
 
@@ -20,12 +20,12 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     const offset = !isFacingLeft ? 1 : -1;
 
     // Change direction if the enemy reached a wall.
-    if (movement.isOnFloor.current && game.current.isSolid(bx + offset, by - 1)) {
+    if (movement.isOnFloor.current && game.isSolid(bx + offset, by - 1)) {
       fsm.entity.reverse();
     }
 
     // Change direction if the enemy reached the end of a platform.
-    if (movement.isOnFloor.current && !game.current.isSolid(bx + offset, by)) {
+    if (movement.isOnFloor.current && !game.isSolid(bx + offset, by)) {
       fsm.replace('survey');
     }
 

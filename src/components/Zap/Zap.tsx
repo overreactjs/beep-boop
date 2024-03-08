@@ -25,16 +25,16 @@ export const Zap: React.FC<ZapProps> = ({ zap }) => {
     age.current += delta;
 
     if (age.current > DESTROY_AGE) {
-      game.current.destroyZap(zap);
+      game.destroyZap(zap);
     }
   });
 
   useTaggedCollision(collider, 'solid', () => {
-    game.current.destroyZap(zap);
+    game.destroyZap(zap);
   });
 
   useTaggedCollision(collider, 'enemy', () => {
-    game.current.destroyZap(zap);
+    game.destroyZap(zap);
   });
 
   return (

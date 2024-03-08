@@ -8,7 +8,7 @@ export const usePlayerFireZaps = (player: PlayerState) => {
   
   useVirtualAction('fire', () => {
     if (cooldown.current === 0) {
-      game.current.fireZap(player);
+      game.fireZap(player);
       cooldown.current = 250;
     }
   });

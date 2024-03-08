@@ -19,7 +19,7 @@ export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
   const collider = useId();
 
   useTaggedCollision(collider, 'portal', () => {
-    game.current.teleport(enemy);
+    game.teleport(enemy);
   });
 
   return (

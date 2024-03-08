@@ -1,20 +1,44 @@
-import React, { MutableRefObject, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GameState } from "../../state";
+import { buildLevels } from "../../data/levels";
 
-export const GameContext = React.createContext<MutableRefObject<GameState>>({
-  current: new GameState(),
-});
+export const GameContext = React.createContext<GameState>(new GameState([]));
+
+type GameInnerProps = {
+  game: GameState;
+  children: React.ReactNode;
+}
+
+const GameInner: React.FC<GameInnerProps> = ({ game, children }) => {
+
+  return (
+    <GameContext.Provider value={game}>
+      {children}
+    </GameContext.Provider>
+  )
+};
 
 type GameProps = {
   children: React.ReactNode;
 }
 
 export const Game: React.FC<GameProps> = ({ children }) => {
-  const state = useRef(new GameState());
+  const loading = useRef(false);
+  const [game, setGame] = useState<GameState>();
 
-  return (
-    <GameContext.Provider value={state}>
+  useEffect(() => {
+    if (!loading.current) {
+      loading.current = true;
+      buildLevels(10).then((levels) => {
+        setGame(new GameState(levels));
+      });
+    }
+  }, []);
+
+  return game && (
+    <GameInner game={game}>
       {children}
-    </GameContext.Provider>
+    </GameInner>
   );
 };
+

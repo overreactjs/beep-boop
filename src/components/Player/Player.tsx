@@ -10,7 +10,7 @@ import { usePlayerUpdateState } from "./usePlayerUpdateState";
 export const Player: React.FC = () => {
   const game = useGame();
   
-  const player = game.current.players[0];
+  const player = game.players[0];
   const { flip, pos, velocity } = player;
 
   const collisionPos = useOffsetPosition(pos, [-6, -16]);
@@ -38,7 +38,7 @@ export const Player: React.FC = () => {
 
   // Teleport the player when they step into a portal.
   useTaggedCollision(collider, 'portal', () =>{
-    game.current.teleport(player);
+    game.teleport(player);
   });
   
   // Common props for all sprites in the sprite set.

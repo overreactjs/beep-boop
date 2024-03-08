@@ -17,18 +17,18 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
   return useCallback((fsm, delta) => {
     const { direction } = fsm.entity;
     const [bx, by] = fsm.entity.block.current;
-    const [px, py] = game.current.players[0].block.current;
+    const [px, py] = game.players[0].block.current;
 
     const isLevelWithPlayer = py === by;
     const isBelowPlayer = py <= by;
-    const isBelowPlatform = game.current.isSolid(bx, by - 4);
+    const isBelowPlatform = game.isSolid(bx, by - 4);
     const isFacingLeft = direction.current === 'left';
     const canSeePlayer = (px < bx && isFacingLeft) || (px > py && !isFacingLeft);
     const canFire = cooldown.current === 0;
 
     // Change direction if the enemy reached the end of a platform or a wall.
     const offset = !isFacingLeft ? 1 : -1;
-    if (movement.isOnFloor.current && game.current.isSolid(bx + offset, by - 1)) {
+    if (movement.isOnFloor.current && game.isSolid(bx + offset, by - 1)) {
       fsm.entity.reverse();
     }
 
@@ -39,7 +39,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     // Fire if the player is in front of the enemy.
     if (isLevelWithPlayer && canSeePlayer && canFire && chance(FIRE_CHANCE * delta)) {
-      game.current.fireEnemyZap(fsm.entity);
+      game.fireEnemyZap(fsm.entity);
       cooldown.current = COOLDOWN_DURATION;
     }
     

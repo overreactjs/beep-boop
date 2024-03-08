@@ -1,6 +1,6 @@
 import { Position, VariableProperty, dist } from "@overreact/engine";
-import { ITEMS, LEVELS } from "../data";
-import { ItemType, LevelPortalData, PointsValue } from "../types";
+import { ITEMS } from "../data";
+import { ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
@@ -12,6 +12,8 @@ import { PositionedObjectState } from "./PositionedObjectState";
 export class GameState {
 
   initialized = false;
+
+  levels: LevelData[];
 
   highscore = new VariableProperty(100000);
   
@@ -33,7 +35,11 @@ export class GameState {
   ];
 
   get levelData() {
-    return LEVELS[this.level.current - 1];
+    return this.levels[this.level.current - 1];
+  }
+
+  constructor(levels: LevelData[]) {
+    this.levels = levels;
   }
 
   initLevel() {
@@ -41,6 +47,7 @@ export class GameState {
       this.initialized = true;
       this.enemies = [...this.levelData.enemies];
       this.players[0].pos.current = [32, (this.level.current - 1) * 200 + 192];
+      this.players[0].velocity.current = [0, 0];
     }
   }
 
