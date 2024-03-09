@@ -1,4 +1,4 @@
-import { Prop, Position, usePosition, useProperty, useDynamicProperty } from "@overreact/engine";
+import { Prop, Position, usePosition, useProperty, useCachedDynamicProperty } from "@overreact/engine";
 import { ArcadeText } from "../ArcadeText";
 
 export type ScoreboardProps = {
@@ -9,7 +9,7 @@ export type ScoreboardProps = {
 export const Scoreboard: React.FC<ScoreboardProps> = (props) => {
   const pos = usePosition(props.pos);
   const score = useProperty(props.score);
-  const text = useDynamicProperty(score, (score) => String(score).padStart(6, ' '));
+  const text = useCachedDynamicProperty(score, (score) => String(score).padStart(6, ' '));
 
   return <ArcadeText pos={pos} color="white" text={text} />
 };

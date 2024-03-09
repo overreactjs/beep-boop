@@ -1,5 +1,4 @@
-import { BitmapText, Node, Tilemap, useDynamicProperty } from "@overreact/engine";
-import { LEVELS } from "../../data";
+import { BitmapText, Node, Tilemap, useCachedDynamicProperty } from "@overreact/engine";
 import { useGame } from "../../hooks";
 import { Portal } from "../Portal";
 import { LEVELS_FONT, TILESET } from "./assets";

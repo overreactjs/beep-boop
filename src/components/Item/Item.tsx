@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useDynamicProperty, useElement, useIntegerPosition, useOffsetPosition, useRender, useTaggedCollision, useUpdate } from "@overreact/engine";
+import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useIntegerPosition, useOffsetPosition, useRender, useTaggedCollision, useUpdate } from "@overreact/engine";
 import { ITEMS } from "../../data";
 import { useGame } from "../../hooks";
 import { ItemState } from "../../state";
@@ -13,7 +13,7 @@ export type ItemProps = {
 
 export const Item: React.FC<ItemProps> = ({ item }) => {
   const game = useGame();
-  const active = useDynamicProperty(item.state, (state) => state === 'landed');
+  const active = useCachedDynamicProperty(item.state, (state) => state === 'landed');
   const pos = useIntegerPosition(item.pos);
   const spritePos = useOffsetPosition(pos, [-8, -16]);
   const collider = useId();
