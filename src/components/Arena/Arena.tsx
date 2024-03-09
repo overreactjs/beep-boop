@@ -41,9 +41,13 @@ export const Arena: React.FC = () => {
     }
   });
 
+  // Only show the previous level, the current level, and the next level.
+  const currentLevel = useSync(() => game.level.current);
   const levels = [];
-  for (let i = 0; i < game.levels.length; i++) {
-    levels.push(<Level key={i} level={i + 1} />);
+  const min = Math.max(1, currentLevel - 1);
+  const max = Math.min(10, currentLevel + 1);
+  for (let i = min; i <= max; i++) {
+    levels.push(<Level key={i} level={i} />);
   }
 
   return (

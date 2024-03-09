@@ -45,9 +45,10 @@ export class GameState {
   initLevel() {
     if (!this.initialized) {
       this.initialized = true;
-      this.enemies = [...this.levelData.enemies];
       this.players[0].pos.current = [32, (this.level.current - 1) * 200 + 192];
       this.players[0].velocity.current = [0, 0];
+      this.enemies = [...this.levelData.enemies];
+      this.items = [];
     }
   }
 
