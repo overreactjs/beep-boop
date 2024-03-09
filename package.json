@@ -10,14 +10,19 @@
     "build-styles": "tailwindcss -i ./src/index.css -o ./dist/output.css",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "assets": "npx @capacitor/assets generate",
-    "ios-create": "npm run build && npx cap add ios",
-    "ios": "npm run build && npx cap sync && npm run assets && npx cap run ios",
-    "ios-open": "npm run build && npx cap sync && npm run assets && npx cap open ios",
-    "android-create": "npm run build && npx cap add android",
-    "android": "npm run build && npx cap sync && npm run assets && npx cap run android",
-    "android-open": "npm run build && npx cap sync && npm run assets && npx cap open android"
+    
+    "android": "npm run build && npx cap sync android && npx cap run android",
+    "ios": "npm run build && npx cap sync ios && npx cap run ios",
+    "electron": "npm run build && npx cap sync @capacitor-community/electron && npx cap open @capacitor-community/electron",
+
+    "create-android": "npm run build && npx cap add android",
+    "create-ios": "npm run build && npx cap add ios",
+    
+    "open-android": "npm run build && npx cap sync android && npx cap open android",
+    "open-ios": "npm run build && npx cap sync ios && npx cap open ios"
   },
   "dependencies": {
+    "@capacitor-community/electron": "^5.0.1",
     "@capacitor/android": "^5.7.2",
     "@capacitor/core": "^5.7.2",
     "@capacitor/ios": "^5.7.2",

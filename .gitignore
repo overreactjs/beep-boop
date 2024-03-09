@@ -25,6 +25,4 @@ dist-ssr
 
 # Project specific
 .yalc
-android
-ios
 yalc.lock
