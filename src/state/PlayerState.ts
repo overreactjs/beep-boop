@@ -1,8 +1,7 @@
-import { Property, Position, VariableProperty, Velocity } from "@overreact/engine";
-import { PositionedObjectState } from "./PositionedObjectState";
+import { Property, Position, VariableProperty } from "@overreact/engine";
+import { EntityObjectState } from "./EntityObjectState";
 
-export class PlayerState extends PositionedObjectState {
-  velocity: Property<Velocity>;
+export class PlayerState extends EntityObjectState {
   flip: Property<boolean>;
   score: Property<number>;
   animation: Property<string>;
@@ -11,7 +10,6 @@ export class PlayerState extends PositionedObjectState {
 
   constructor(pos: Position) {
     super(pos);
-    this.velocity = new VariableProperty([0, 0]);
     this.flip = new VariableProperty(false);
     this.score = new VariableProperty(0);
     this.animation = new VariableProperty('idle');

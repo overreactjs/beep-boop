@@ -1,12 +1,11 @@
-import { DynamicProperty, Position, Property, VariableProperty, Velocity } from "@overreact/engine";
-import { PositionedObjectState } from "./PositionedObjectState";
+import { DynamicProperty, Position, Property, VariableProperty } from "@overreact/engine";
 import { Direction, EnemyType } from "../types";
+import { EntityObjectState } from "./EntityObjectState";
 
 /**
  * Basic stuff that all enemies need so that they can be stunned and bounced off the screen.
  */
-class BaseEnemyState extends PositionedObjectState {
-  velocity: Property<Velocity>;
+class BaseEnemyState extends EntityObjectState {
   angle: Property<number>;
   scale: Property<number>;
   animation: Property<string>;
@@ -15,7 +14,6 @@ class BaseEnemyState extends PositionedObjectState {
 
   constructor(pos: Position, direction: Direction) {
     super(pos);
-    this.velocity = new VariableProperty([0, 0]);
     this.angle = new VariableProperty(0);
     this.scale = new VariableProperty(1);
     this.animation = new VariableProperty('idle');
