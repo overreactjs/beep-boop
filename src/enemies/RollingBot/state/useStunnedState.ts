@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateFunction, useVirtualInput } from "@overreact/engine";
+import { StateFunction, StateMachine, useVirtualInput } from "@overreact/engine";
 import { UsePlatformMovementResult, useBaseStunnedState } from "../../../hooks";
-import { RollingBotState } from "../../../state";
+import { EnemyState, RollingBotState } from "../../../state";
 
 export const useStunnedState = (movement: UsePlatformMovementResult): StateFunction<RollingBotState> => {
   const upstream = useBaseStunnedState();
@@ -18,6 +18,6 @@ export const useStunnedState = (movement: UsePlatformMovementResult): StateFunct
       input.simulate(fsm.entity.direction.current);
     }
 
-    upstream(fsm, delta);
+    upstream(fsm as StateMachine<EnemyState>, delta);
   }, [input, movement.isOnFloor, upstream]);
 };
