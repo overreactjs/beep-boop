@@ -26,9 +26,11 @@ export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => 
         const heightScale = Math.floor(height / size.current[1]);
         const autoScale = Math.min(widthScale, heightScale);
 
-        element.setStyle('scale', autoScale);
+        // element.setStyle('scale', CSS.number(autoScale));
+        element.setLegacyStyle('scale', autoScale);
       } else {
-        element.setStyle('scale', scale);
+        // element.setStyle('scale', CSS.number(scale));
+        element.setLegacyStyle('scale', scale);
       }
 
       device.size.invalidated = false;
