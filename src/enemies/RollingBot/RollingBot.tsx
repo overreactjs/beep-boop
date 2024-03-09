@@ -28,7 +28,7 @@ export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, colli
     survey: useSurveyState(),
     charge: useChargeState(movement),
     jump: useJumpingState(movement),
-    stunned: useStunnedState(),
+    stunned: useStunnedState(movement),
     dead: useDeadState(),
   });
 
