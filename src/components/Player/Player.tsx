@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { useOffsetPosition, CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, useIntegerPosition, Size, useMergeProperty, useTaggedCollision } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
+import { ItemState } from "../../state";
 import { DEAD, IDLE, RUN } from "./assets";
 import { MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
@@ -39,6 +40,15 @@ export const Player: React.FC = () => {
   // Teleport the player when they step into a portal.
   useTaggedCollision(collider, 'portal', () =>{
     game.teleport(player);
+  });
+
+  // Collect items.
+  useTaggedCollision<ItemState>(collider, 'item', (collisions) => {
+    collisions.forEach(({ b }) => {
+      if (b.entity) {
+        game.collectItem(b.entity);
+      }
+    });
   });
   
   // Common props for all sprites in the sprite set.

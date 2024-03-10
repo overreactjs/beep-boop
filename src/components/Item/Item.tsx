@@ -1,7 +1,6 @@
 import { useId } from "react";
-import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useIntegerPosition, useOffsetPosition, useRender, useTaggedCollision, useUpdate } from "@overreact/engine";
+import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useIntegerPosition, useOffsetPosition, useRender, useUpdate } from "@overreact/engine";
 import { ITEMS } from "../../data";
-import { useGame } from "../../hooks";
 import { ItemState } from "../../state";
 import { ITEM_IMAGE, MYSTERY_SPRITE } from "./assets";
 
@@ -12,7 +11,6 @@ export type ItemProps = {
 };
 
 export const Item: React.FC<ItemProps> = ({ item }) => {
-  const game = useGame();
   const active = useCachedDynamicProperty(item.state, (state) => state === 'landed');
   const pos = useIntegerPosition(item.pos);
   const spritePos = useOffsetPosition(pos, [-8, -16]);
@@ -20,10 +18,6 @@ export const Item: React.FC<ItemProps> = ({ item }) => {
 
   const fallingElement = useElement();
   const landedElement = useElement();
-
-  useTaggedCollision(collider, 'player', () => {
-    game.collectItem(item);
-  });
 
   useUpdate((delta) => {
     if (item.state.current === 'falling') {
@@ -52,7 +46,7 @@ export const Item: React.FC<ItemProps> = ({ item }) => {
       <Box element={landedElement} pos={spritePos} size={SIZE}>
         <BitmapImage pos={[0, 0]} size={SIZE} offset={ITEMS[item.type].offset} image={ITEM_IMAGE} />
       </Box>
-      <CollisionBox pos={spritePos} size={SIZE} id={collider} active={active} tags={['item']} />
+      <CollisionBox pos={spritePos} size={SIZE} id={collider} active={active} tags={['item']} entity={item} />
     </Node>
   );
 };
