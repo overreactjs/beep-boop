@@ -29,6 +29,8 @@ export class GameState {
 
   enemyZaps: EnemyZapState[] = [];
 
+  circuits = new VariableProperty(0);
+
   players: PlayerState[] = [
     new PlayerState([32, 192]),
     new PlayerState([224, 192]),
