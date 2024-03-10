@@ -51,7 +51,7 @@ export const Player: React.FC = () => {
         <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
         <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
       </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} />
+      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} entity={player} />
     </Node>
   );
 };

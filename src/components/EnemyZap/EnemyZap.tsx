@@ -1,7 +1,7 @@
 import { useOffsetPosition, useUpdate, useTaggedCollision, CollisionBox, Node, BitmapSprite } from "@overreact/engine";
 import { useId } from "react";
 import { useGame } from "../../hooks";
-import { EnemyZapState } from "../../state";
+import { EnemyZapState, PlayerState } from "../../state";
 import { ZAP_SPRITE } from "./assets";
 
 type EnemyZapProps = {
@@ -20,11 +20,17 @@ export const EnemyZap: React.FC<EnemyZapProps> = ({ zap }) => {
   });
 
   useTaggedCollision(collider, 'solid', () => {
-    game.destroyZap(zap);
+    game.destroyEnemyZap(zap);
   });
 
-  useTaggedCollision(collider, 'player', () => {
-    game.destroyZap(zap);
+  // Kill the player and destroy the zap!
+  useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
+    for (const { b: { entity: player } } of collisions) {
+      if (player?.alive.current) {
+        player.alive.current = false;
+        game.destroyEnemyZap(zap);
+      }
+    }
   });
 
   return (
