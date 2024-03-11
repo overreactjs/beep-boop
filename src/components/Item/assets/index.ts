@@ -5,7 +5,7 @@ import mysteryUrl from "./mystery.png";
 
 export const ITEM_IMAGE: BitmapAsset = {
   url: itemsUrl,
-  size: [256, 64],
+  size: [256, 80],
 };
 
 export const MYSTERY_SPRITE: BitmapSpriteAsset = {

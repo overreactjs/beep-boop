@@ -165,4 +165,24 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     offset: [0, 48],
     value: 1000,
   },
+  circuit_1r: {
+    offset: [0, 64],
+    value: 1000,
+  },
+  circuit_2o: {
+    offset: [16, 64],
+    value: 1000,
+  },
+  circuit_3b: {
+    offset: [32, 64],
+    value: 1000,
+  },
+  circuit_4o: {
+    offset: [48, 64],
+    value: 1000,
+  },
+  circuit_5t: {
+    offset: [64, 64],
+    value: 1000,
+  },
 };

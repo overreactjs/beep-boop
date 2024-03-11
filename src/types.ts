@@ -48,7 +48,15 @@ export type ItemType =
   | 'star_red'
   | 'star_magenta'
   | 'star_cyan'
-  | 'hot_sauce';
+  | 'hot_sauce'
+  | 'circuit_1r'
+  | 'circuit_2o'
+  | 'circuit_3b'
+  | 'circuit_4o'
+  | 'circuit_5t'
+  ;
+
+export type ItemHandler = (game: GameState, item: ItemState) => void;
 
 export type ItemConfig = {
   offset: Position;

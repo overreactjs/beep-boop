@@ -1,6 +1,6 @@
 import { Position, VariableProperty, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
-import { ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
+import { ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
@@ -8,8 +8,12 @@ import { ZapState } from "./ZapState";
 import { EnemyState } from "./EnemyState";
 import { EnemyZapState } from "./EnemyZapState";
 import { PositionedObjectState } from "./PositionedObjectState";
+import { itemHandlers } from "./itemHandlers";
+
 
 export class GameState {
+
+  itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
 
   initialized = false;
 
@@ -42,6 +46,7 @@ export class GameState {
 
   constructor(levels: LevelData[]) {
     this.levels = levels;
+    this.itemHandlers = itemHandlers;
   }
 
   initLevel() {
@@ -83,10 +88,19 @@ export class GameState {
     this.items = [...this.items, item];
   }
 
-  collectItem(item: ItemState) {
-    this.items = this.items.filter(({ id }) => id !== item.id);
+  awardItemPoints(item: ItemState) {
     this.players[0].addPoints(ITEMS[item.type].value);
     this.showItemPoints(item);
+  }
+
+  collectItem(item: ItemState) {
+    this.items = this.items.filter(({ id }) => id !== item.id);
+
+    if (item.type in this.itemHandlers) {
+      this.itemHandlers[item.type]?.(this, item);
+    } else {
+      this.awardItemPoints(item);
+    }
   }
 
   showItemPoints(item: ItemState) {
