@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useIntegerPosition, useOffsetPosition, useRender, useUpdate } from "@overreact/engine";
+import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useRender, useUpdate } from "@overreact/engine";
 import { ITEMS } from "../../data";
 import { ItemState } from "../../state";
 import { ITEM_IMAGE, MYSTERY_SPRITE } from "./assets";
@@ -12,8 +12,6 @@ export type ItemProps = {
 
 export const Item: React.FC<ItemProps> = ({ item }) => {
   const active = useCachedDynamicProperty(item.state, (state) => state === 'landed');
-  const pos = useIntegerPosition(item.pos);
-  const spritePos = useOffsetPosition(pos, [-8, -16]);
   const collider = useId();
 
   const fallingElement = useElement();
@@ -39,14 +37,14 @@ export const Item: React.FC<ItemProps> = ({ item }) => {
   });
   
   return (
-    <Node pos={pos}>
-      <Box element={fallingElement} pos={spritePos} size={SIZE}>
+    <Node pos={item.pos} offset={[-8, -16]} rounded>
+      <Box element={fallingElement} size={SIZE}>
         <BitmapSprite pos={[0, 0]} size={SIZE} sprite={MYSTERY_SPRITE} />  
       </Box>
-      <Box element={landedElement} pos={spritePos} size={SIZE}>
+      <Box element={landedElement} size={SIZE}>
         <BitmapImage pos={[0, 0]} size={SIZE} offset={ITEMS[item.type].offset} image={ITEM_IMAGE} />
       </Box>
-      <CollisionBox pos={spritePos} size={SIZE} id={collider} active={active} tags={['item']} entity={item} />
+      <CollisionBox size={SIZE} id={collider} active={active} tags={['item']} entity={item} />
     </Node>
   );
 };

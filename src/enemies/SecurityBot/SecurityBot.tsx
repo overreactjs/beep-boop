@@ -1,4 +1,4 @@
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useIntegerPosition, useOffsetPosition, useStateMachine } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useStateMachine } from "@overreact/engine";
 import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../hooks";
 import { SecurityBotState } from "../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
@@ -7,9 +7,6 @@ import { EnemyProps } from "../Enemy";
 
 export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
-
-  const collisionPos = useOffsetPosition(pos, [-5, -12]);
-  const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);
@@ -40,12 +37,16 @@ export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, col
 
   return (
     <Node>
-      <SpriteSet animation={animation}>
-        <BitmapSprite {...spriteProps} name="idle" pos={spritePos} sprite={IDLE} />
-        <BitmapSprite {...spriteProps} name="run" pos={spritePos} sprite={RUN} />
-        <BitmapSprite {...spriteProps} name="stunned" pos={spritePos} sprite={STUNNED} repeat={false} />
-      </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[10, 12]} id={collider} tags={tags} active={active} />
+      <Node offset={[-8, -16]} rounded>
+        <SpriteSet animation={animation}>
+          <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
+          <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
+          <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
+        </SpriteSet>
+      </Node>
+      <Node offset={[-5, -12]}>
+        <CollisionBox size={[10, 12]} id={collider} tags={tags} active={active} />
+      </Node>
     </Node>
   );
 };

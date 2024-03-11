@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { useOffsetPosition, CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, useIntegerPosition, Size, useMergeProperty, useTaggedCollision } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
 import { DEAD, IDLE, RUN } from "./assets";
@@ -14,8 +14,6 @@ export const Player: React.FC = () => {
   const player = game.players[0];
   const { flip, pos, velocity } = player;
 
-  const collisionPos = useOffsetPosition(pos, [-6, -16]);
-  const spritePos = useIntegerPosition(useOffsetPosition(pos, [-8, -16]));
   const animation = useMergeProperty(player.animation, player.alive, (animation, alive) => alive ? animation : 'dead');
   const collider = useId();
 
@@ -55,13 +53,17 @@ export const Player: React.FC = () => {
   const spriteProps = { size: [16, 16] as Size, flip };
 
   return (
-    <Node pos={spritePos}>
-      <SpriteSet animation={animation}>
-        <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
-        <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
-        <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
-      </SpriteSet>
-      <CollisionBox pos={collisionPos} size={[12, 16]} id={collider} tags={['player']} entity={player} />
+    <Node pos={pos}>
+      <Node offset={[-8, -16]} rounded>
+        <SpriteSet animation={animation}>
+          <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
+          <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
+          <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
+        </SpriteSet>
+      </Node>
+      <Node offset={[-6, -16]}>
+        <CollisionBox size={[12, 16]} id={collider} tags={['player']} entity={player} />
+      </Node>
     </Node>
   );
 };
