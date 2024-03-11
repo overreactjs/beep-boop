@@ -36,7 +36,7 @@ export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, col
   const spriteProps = { size: [16, 16] as Size, flip, angle, scale };
 
   return (
-    <Node>
+    <Node pos={pos}>
       <Node offset={[-8, -16]} rounded>
         <SpriteSet animation={animation}>
           <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
