@@ -1,5 +1,5 @@
 import { Position } from "@overreact/engine";
-import { EnemyState } from "./state";
+import { EnemyState, GameState, ItemState } from "./state";
 
 export type Direction = 'left' | 'right';
 
@@ -107,4 +107,14 @@ export type PointsValue =
   | 7000
   | 8000
   | 9000
-  | 10000;
+  | 10000
+  ;
+
+export type PowerupType = 'fireballs' | 'speed';
+
+export type PowerupEnd = 'level' | 'death';
+
+export type Powerup = {
+  type: PowerupType;
+  end: PowerupEnd[];
+};

@@ -1,5 +1,6 @@
 import { Property, Position, VariableProperty } from "@overreact/engine";
 import { EntityObjectState } from "./EntityObjectState";
+import { PowerupType, Powerup } from "../types";
 
 export class PlayerState extends EntityObjectState {
   flip: Property<boolean>;
@@ -7,6 +8,7 @@ export class PlayerState extends EntityObjectState {
   animation: Property<string>;
   combo: Property<number>;
   alive: Property<boolean>;
+  powerups: Powerup[] = [];
 
   constructor(pos: Position) {
     super(pos);
@@ -19,5 +21,9 @@ export class PlayerState extends EntityObjectState {
 
   addPoints(points: number) {
     this.score.current += points;
+  }
+
+  powerup(type: PowerupType) {
+    this.powerups.push({ type, end: [] });
   }
 }
