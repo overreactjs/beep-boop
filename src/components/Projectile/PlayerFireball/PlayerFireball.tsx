@@ -1,4 +1,4 @@
-import { useOffsetPosition, usePosition, useUpdate, CollisionBox, Node, BitmapSprite, useProperty } from "@overreact/engine";
+import { useUpdate, CollisionBox, Node, BitmapSprite, useProperty } from "@overreact/engine";
 import { useId } from "react";
 import { PlayerFireballState } from "../../../state";
 import { ProjectileProps } from "../types";
@@ -8,7 +8,6 @@ const DESTROY_AGE = 5000;
 
 export const PlayerFireball: React.FC<ProjectileProps<PlayerFireballState>> = ({ projectile }) => {
   const collider = useId();
-  const pos = useOffsetPosition(usePosition(projectile.pos), [-8, -8]);
   const age = useProperty(0);
 
   useUpdate((delta) => {
@@ -21,7 +20,7 @@ export const PlayerFireball: React.FC<ProjectileProps<PlayerFireballState>> = ({
   });
 
   return (
-    <Node pos={pos}>
+    <Node pos={projectile.pos} offset={[-8, -8]} rounded>
       <BitmapSprite size={[16, 16]} sprite={FIREBALL_SPRITE} />
       <CollisionBox size={[16, 16]} id={collider} tags={['playerFireball']} />
     </Node>

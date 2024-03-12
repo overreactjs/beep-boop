@@ -1,12 +1,10 @@
-import { useOffsetPosition, useUpdate, useTaggedCollision, CollisionBox, Node, BitmapSprite } from "@overreact/engine";
+import { useUpdate, useTaggedCollision, CollisionBox, Node, BitmapSprite } from "@overreact/engine";
 import { useId } from "react";
 import { EnemyZapState, PlayerState } from "../../../state";
 import { ProjectileProps } from "../types";
 import { ZAP_SPRITE } from "./assets";
 
 export const EnemyZap: React.FC<ProjectileProps<EnemyZapState>> = ({ projectile }) => {
-  const spritePos = useOffsetPosition(projectile.pos, [-8, -4]);
-  const colliderPos = useOffsetPosition(projectile.pos, [-4, -4]);
   const collider = useId();
 
   useUpdate((delta) => {
@@ -28,9 +26,13 @@ export const EnemyZap: React.FC<ProjectileProps<EnemyZapState>> = ({ projectile 
   });
 
   return (
-    <Node>
-      <BitmapSprite pos={spritePos} size={[16, 8]} sprite={ZAP_SPRITE} />
-      <CollisionBox pos={colliderPos} size={[8, 8]} id={collider} tags={['enemyZap']} />
+    <Node pos={projectile.pos}>
+      <Node offset={[-8, -4]} rounded>
+        <BitmapSprite size={[16, 8]} sprite={ZAP_SPRITE} />
+      </Node>
+      <Node offset={[-4, -4]} rounded>
+        <CollisionBox size={[8, 8]} id={collider} tags={['enemyZap']} />
+      </Node>
     </Node>
   );
 };

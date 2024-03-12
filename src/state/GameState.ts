@@ -1,4 +1,4 @@
-import { Position, VariableProperty, dist } from "@overreact/engine";
+import { Position, VariableProperty, clamp, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
 import { ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
@@ -152,7 +152,7 @@ export class GameState {
 
   killEnemy(enemy: EnemyState) {
     const player = this.players[0];
-    const points = (Math.pow(2, Math.min(3, player.combo.current)) * 1000) as PointsValue;
+    const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * 1000) as PointsValue;
     enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 1 : -1;
     this.showPoints([...enemy.pos.current], points);
     this.awardPoints(player, points);
