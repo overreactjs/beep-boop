@@ -16,14 +16,14 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
   const imagePos = useDynamicProperty(age, (age: number): Position => {
     return [
       Math.round(pos.current[0] - 12),
-      Math.round(pos.current[1] - 14 - Math.min(20, age)),
+      Math.round(pos.current[1] - 14 - Math.min(16, age)),
     ];
   });
 
   useUpdate((delta) => {
     age.current += delta / 40;
 
-    if (age.current >= 40) {
+    if (age.current >= 32) {
       game.hidePoints(points.id);
     }
   });
