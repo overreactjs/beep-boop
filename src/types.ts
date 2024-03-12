@@ -3,6 +3,8 @@ import { EnemyState, GameState, ItemState } from "./state";
 
 export type Direction = 'left' | 'right';
 
+export type ProjectileType = 'playerZap' | 'enemyZap' | 'playerFireball';
+
 export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'rollingBot' | 'securityBot';
 
 export type EnemyStates = 'stunned' | 'dead' | 'gone';

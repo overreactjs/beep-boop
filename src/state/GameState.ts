@@ -4,11 +4,10 @@ import { ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
-import { ZapState } from "./ZapState";
 import { EnemyState } from "./EnemyState";
-import { EnemyZapState } from "./EnemyZapState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
+import { EnemyZapState, PlayerZapState, ProjectileState } from "./ProjectileState";
 
 
 export class GameState {
@@ -27,11 +26,9 @@ export class GameState {
 
   points: PointsState[] = [];
 
-  zaps: ZapState[] = [];
+  projectiles: ProjectileState[] = [];
 
   enemies: EnemyState[] = [];
-
-  enemyZaps: EnemyZapState[] = [];
 
   circuits = new VariableProperty(0);
 
@@ -122,21 +119,21 @@ export class GameState {
   fireZap(player: PlayerState) {
     const [x, y] = player.pos.current;
     const direction = player.flip.current ? -1 : 1;
-    this.zaps = [...this.zaps, new ZapState([x + direction * 4, y - 8], direction)];
+    this.projectiles = [...this.projectiles, new PlayerZapState([x + direction * 4, y - 8], direction)];
   }
 
-  destroyZap(zap: ZapState) {
-    this.zaps = this.zaps.filter(({ id }) => id !== zap.id);
+  destroyZap(zap: PlayerZapState) {
+    this.projectiles = this.projectiles.filter(({ id }) => id !== zap.id);
   }
 
   fireEnemyZap(enemy: EnemyState) {
     const [x, y] = enemy.pos.current;
     const direction = enemy.flip.current ? -1 : 1;
-    this.enemyZaps = [...this.enemyZaps, new EnemyZapState([x + direction * 4, y - 8], direction)];
+    this.projectiles = [...this.projectiles, new EnemyZapState([x + direction * 4, y - 8], direction)];
   }
 
-  destroyEnemyZap(zap: ZapState) {
-    this.enemyZaps = this.enemyZaps.filter(({ id }) => id !== zap.id);
+  destroyEnemyZap(zap: EnemyZapState) {
+    this.projectiles = this.projectiles.filter(({ id }) => id !== zap.id);
   }
 
   killEnemy(enemy: EnemyState) {

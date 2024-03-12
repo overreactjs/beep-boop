@@ -1,18 +1,13 @@
 import { useId } from "react";
 import { VirtualInput, useTaggedCollision } from "@overreact/engine";
-import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from "../../../state";
-import { useGame } from "../../../hooks";
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from "../../state";
+import { useGame } from "../../hooks";
 
-import { BounceBot } from "../BounceBot";
-import { FlyingBot } from "../FlyingBot";
-import { GuardBot } from "../GuardBot";
-import { RollingBot } from "../RollingBot";
-import { SecurityBot } from "../SecurityBot";
-
-export type EnemyProps<T> = {
-  enemy: T;
-  collider: string;
-}
+import { BounceBot } from "./BounceBot";
+import { FlyingBot } from "./FlyingBot";
+import { GuardBot } from "./GuardBot";
+import { RollingBot } from "./RollingBot";
+import { SecurityBot } from "./SecurityBot";
 
 export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
   const game = useGame();

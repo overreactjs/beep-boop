@@ -1,13 +1,12 @@
 import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
-
 import { useCamera, useGame } from "../../hooks";
-import { Enemy } from "../enemies";
-import { EnemyZap } from "../EnemyZap";
+
+import { Enemy } from "../Enemy";
 import { Item } from "../Item";
 import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
-import { Zap } from "../Zap";
+import { Projectile } from "../Projectile";
 
 export const Arena: React.FC = () => {
   const game = useGame();
@@ -59,8 +58,7 @@ export const Arena: React.FC = () => {
           <ItemList />
           <EnemyList />
           <PointsList />
-          <ZapsList />
-          <EnemyZapsList />
+          <ProjectilesList />
           <Player />
 
           <Node pos={camera}>
@@ -90,14 +88,8 @@ const PointsList: React.FC = () => {
   return <>{points.map((entry) => <Points key={entry.id} points={entry} />)}</>;
 };
 
-const ZapsList: React.FC = () => {
+const ProjectilesList: React.FC = () => {
   const game = useGame();
-  const zaps = useSync(() => game.zaps);
-  return <>{zaps.map((entry) => <Zap key={entry.id} zap={entry} />)}</>;
-};
-
-const EnemyZapsList: React.FC = () => {
-  const game = useGame();
-  const zaps = useSync(() => game.enemyZaps);
-  return <>{zaps.map((entry) => <EnemyZap key={entry.id} zap={entry} />)}</>;
+  const projectiles = useSync(() => game.projectiles);
+  return <>{projectiles.map((entry) => <Projectile key={entry.id} projectile={entry} />)}</>;
 };

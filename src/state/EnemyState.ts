@@ -65,4 +65,5 @@ export type EnemyState =
   | FlyingBotState
   | GuardBotState
   | RollingBotState
-  | SecurityBotState;
+  | SecurityBotState
+  ;
