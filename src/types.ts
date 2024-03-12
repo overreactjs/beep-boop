@@ -114,9 +114,10 @@ export type PointsValue =
 
 export type PowerupType = 'fireballs' | 'speed';
 
-export type PowerupEnd = 'level' | 'death';
+export type PowerupEnd = 'level' | 'death' | 'timer';
 
 export type Powerup = {
   type: PowerupType;
   end: PowerupEnd[];
+  ttl: number;
 };

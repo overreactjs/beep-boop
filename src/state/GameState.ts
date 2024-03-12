@@ -7,7 +7,7 @@ import { PointsState } from "./PointsState";
 import { EnemyState } from "./EnemyState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
-import { EnemyZapState, PlayerZapState, ProjectileState } from "./ProjectileState";
+import { EnemyZapState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
 
 
 export class GameState {
@@ -75,6 +75,10 @@ export class GameState {
     return !!this.levelData.collisions[y * 32 + x];
   }
 
+  /*
+   * Items
+   */
+
   createRandomItem() {
     const types = Object.keys(ITEMS) as ItemType[];
     const type = types[Math.floor(Math.random() * types.length)];
@@ -100,6 +104,10 @@ export class GameState {
     }
   }
 
+  /*
+   * Points
+   */
+
   showItemPoints(item: ItemState) {
     this.showPoints(item.pos.current, ITEMS[item.type].value);
   }
@@ -116,25 +124,31 @@ export class GameState {
     this.points = this.points.filter((entry) => entry.id !== id);
   }
 
-  fireZap(player: PlayerState) {
-    const [x, y] = player.pos.current;
-    const direction = player.flip.current ? -1 : 1;
-    this.projectiles = [...this.projectiles, new PlayerZapState([x + direction * 4, y - 8], direction)];
-  }
-
-  destroyZap(zap: PlayerZapState) {
-    this.projectiles = this.projectiles.filter(({ id }) => id !== zap.id);
-  }
+  /*
+   * Projectiles
+   */
 
   fireEnemyZap(enemy: EnemyState) {
     const [x, y] = enemy.pos.current;
     const direction = enemy.flip.current ? -1 : 1;
-    this.projectiles = [...this.projectiles, new EnemyZapState([x + direction * 4, y - 8], direction)];
+    this.projectiles = [...this.projectiles, new EnemyZapState(this, [x + direction * 4, y - 8], direction)];
   }
 
-  destroyEnemyZap(zap: EnemyZapState) {
-    this.projectiles = this.projectiles.filter(({ id }) => id !== zap.id);
+  firePlayerFireball(player: PlayerState) {
+    const [x, y] = player.pos.current;
+    const direction = player.flip.current ? -1 : 1;
+    this.projectiles = [...this.projectiles, new PlayerFireballState(this, [x + direction * 4, y - 8], direction)];
   }
+
+  firePlayerZap(player: PlayerState) {
+    const [x, y] = player.pos.current;
+    const direction = player.flip.current ? -1 : 1;
+    this.projectiles = [...this.projectiles, new PlayerZapState(this, [x + direction * 4, y - 8], direction)];
+  }
+
+  /*
+   * Enemies
+   */
 
   killEnemy(enemy: EnemyState) {
     const player = this.players[0];
@@ -149,6 +163,10 @@ export class GameState {
     this.createRandomItem();
     this.createRandomItem();
   }
+
+  /*
+   * Teleport
+   */
 
   teleport(entity: PositionedObjectState) {
     const pos: Position = [entity.pos.current[0], entity.pos.current[1] % 200];

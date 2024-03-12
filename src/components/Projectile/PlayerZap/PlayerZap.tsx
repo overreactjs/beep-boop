@@ -1,6 +1,5 @@
 import { useOffsetPosition, usePosition, useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, useDynamicProperty, BitmapSprite } from "@overreact/engine";
 import { useId } from "react";
-import { useGame } from "../../../hooks";
 import { PlayerZapState } from "../../../state";
 import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "./assets";
 import { ProjectileProps } from "../types";
@@ -10,7 +9,6 @@ const COLLISION_AGE = 500;
 const DESTROY_AGE = 600;
 
 export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectile }) => {
-  const game = useGame();
   const collider = useId();
   const pos = useOffsetPosition(usePosition(projectile.pos), [-4, -4]);
   const age = useProperty(0);
@@ -22,16 +20,16 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
     age.current += delta;
 
     if (age.current > DESTROY_AGE) {
-      game.destroyZap(projectile);
+      projectile.destroy();
     }
   });
 
   useTaggedCollision(collider, 'solid', () => {
-    game.destroyZap(projectile);
+    projectile.destroy();
   });
 
   useTaggedCollision(collider, 'enemy', () => {
-    game.destroyZap(projectile);
+    projectile.destroy();
   });
 
   return (

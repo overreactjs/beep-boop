@@ -34,7 +34,7 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
 
   // Give player fireball power up.
   'hot_sauce': (game, item) => {
-    game.players[0].powerup('fireballs');
+    game.players[0].powerup('fireballs', ['death', 'timer'], 20);
     game.awardItemPoints(item);
   },
 };

@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
 import { DEAD, IDLE, RUN } from "./assets";
@@ -47,6 +47,11 @@ export const Player: React.FC = () => {
         game.collectItem(b.entity);
       }
     });
+  });
+
+  // Update the player state.
+  useUpdate((delta) => {
+    player.update(delta);
   });
   
   // Common props for all sprites in the sprite set.

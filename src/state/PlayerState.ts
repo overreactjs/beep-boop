@@ -1,6 +1,6 @@
 import { Property, Position, VariableProperty } from "@overreact/engine";
 import { EntityObjectState } from "./EntityObjectState";
-import { PowerupType, Powerup } from "../types";
+import { PowerupType, Powerup, PowerupEnd } from "../types";
 
 export class PlayerState extends EntityObjectState {
   flip: Property<boolean>;
@@ -19,11 +19,48 @@ export class PlayerState extends EntityObjectState {
     this.alive = new VariableProperty(true);
   }
 
+  update(delta: number) {
+    const expired: Powerup[] = [];
+
+    for (const powerup of this.powerups) {
+      if (powerup.end.includes('timer')) {
+        powerup.ttl -= delta;
+
+        if (powerup.ttl <= 0) {
+          expired.push(powerup);
+        }
+      }
+
+      if (powerup.end.includes('death')) {
+        if (!this.alive.current) {
+          expired.push(powerup);
+        }
+      }
+    }
+
+    this.powerups = this.powerups.filter((powerup) => !expired.includes(powerup));
+  }
+
   addPoints(points: number) {
     this.score.current += points;
   }
 
-  powerup(type: PowerupType) {
-    this.powerups.push({ type, end: [] });
+  powerup(type: PowerupType, end: PowerupEnd[] = [], ttl: number = 0) {
+    const powerup = { type, end, ttl: ttl * 1000 };
+    const existing = this.powerups.findIndex((powerup) => powerup.type === type);
+
+    if (existing >= 0) {
+      this.powerups[existing] = powerup;
+    } else {
+      this.powerups.push(powerup);
+    }
+  }
+
+  hasPowerup(type: PowerupType) {
+    return this.powerups.some((powerup) => powerup.type === type);
+  }
+
+  clearPowerups() {
+    this.powerups = [];
   }
 }

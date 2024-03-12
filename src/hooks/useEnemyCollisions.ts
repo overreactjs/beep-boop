@@ -14,6 +14,10 @@ export function useEnemyCollisions<T>(collider: string, fsm: FSM<T>): Result {
     }
   });
 
+  useTaggedCollision(collider, 'playerFireball', () => {
+    fsm.current.replace('dead');
+  });
+
   useTaggedCollision(collider, 'player', () => {
     if (fsm.current.state.current === 'stunned') {
       fsm.current.replace('dead');
