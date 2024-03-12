@@ -37,6 +37,7 @@ export class PlayerState extends EntityObjectState {
         this.deadDuration -= delta;
       } else {
         this.deadDuration = 2000;
+        this.lives.current -= 1;
         this.alive.current = true;
         this.respawn();
       }
