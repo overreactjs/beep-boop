@@ -21,7 +21,8 @@ export const Player: React.FC = () => {
   useWrapAround(player);
 
   // Map from keyboard input to virtual input events, but only when the player is still alive.
-  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' }, player.alive);
+  const active = useMergeProperty(player.alive, game.initialized, (a, b) => a && b);
+  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' }, active);
 
   // Setup standard platform movement.
   const movement = usePlatformMovement(collider, pos, velocity, MOVEMENT_PROPS);
