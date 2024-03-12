@@ -14,7 +14,7 @@ export class GameState {
 
   itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
 
-  initialized = false;
+  initialized = new VariableProperty(false);
 
   levels: LevelData[];
 
@@ -32,10 +32,7 @@ export class GameState {
 
   circuits = new VariableProperty(0);
 
-  players: PlayerState[] = [
-    new PlayerState([32, 192]),
-    new PlayerState([224, 192]),
-  ];
+  players: PlayerState[] = [];
 
   get levelData() {
     return this.levels[this.level.current - 1];
@@ -44,13 +41,16 @@ export class GameState {
   constructor(levels: LevelData[]) {
     this.levels = levels;
     this.itemHandlers = itemHandlers;
+    this.players = [
+      new PlayerState(this, [32, 192]),
+      new PlayerState(this, [224, 192]),
+    ];
   }
 
   initLevel() {
-    if (!this.initialized) {
-      this.initialized = true;
-      this.players[0].pos.current = [32, (this.level.current - 1) * 200 + 192];
-      this.players[0].velocity.current = [0, 0];
+    if (!this.initialized.current) {
+      this.initialized.current = true;
+      this.players[0].respawn();
       this.enemies = [...this.levelData.enemies];
       this.items = [];
     }
@@ -65,10 +65,10 @@ export class GameState {
   }
 
   setLevel(level: number) {
-    this.initialized = false;
+    this.initialized.current = false;
     this.level.current = level;
+    this.players[0].respawn();
     this.enemies = [];
-    this.players[0].pos.current = [32, (level - 1) * 200 + 192];
   }
 
   isSolid(x: number, y: number): boolean {

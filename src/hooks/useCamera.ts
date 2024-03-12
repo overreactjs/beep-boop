@@ -20,7 +20,7 @@ export const useCamera = (): Property<Position> => {
       camera.current[1] = cy <= ty ? ty : cy;
     }
 
-    if (cy === ty && !game.initialized) {
+    if (cy === ty && !game.initialized.current) {
       game.initLevel();
     }
   });
