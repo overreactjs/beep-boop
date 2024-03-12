@@ -1,13 +1,13 @@
 import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
 
 import { useCamera, useGame } from "../../hooks";
-import { Enemy } from "../../enemies";
+import { Enemy } from "../enemies";
+import { EnemyZap } from "../EnemyZap";
 import { Item } from "../Item";
 import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Zap } from "../Zap";
-import { EnemyZap } from "../EnemyZap";
 
 export const Arena: React.FC = () => {
   const game = useGame();
