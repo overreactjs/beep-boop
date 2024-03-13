@@ -4,6 +4,7 @@ import { FlyingBotState } from "../../../state";
 import { useDeadState, useIdleState, usePatrolState, useStunnedState } from "./states";
 import { IDLE, STUNNED } from "./assets";
 import { EnemyProps } from "../types";
+import { Dizzy } from "../../Dizzy";
 
 export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
@@ -39,6 +40,9 @@ export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collide
       </Node>
       <Node offset={[-6, -14]}>
         <CollisionBox size={[12, 12]} id={collider} tags={tags} active={active} />
+      </Node>
+      <Node pos={enemy.pos} offset={[-8, -22]} rounded>
+        <Dizzy fsm={fsm} />
       </Node>
     </Node>
   );

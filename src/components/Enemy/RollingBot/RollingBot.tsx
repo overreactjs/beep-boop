@@ -4,6 +4,7 @@ import { RollingBotState } from "../../../state";
 import { IDLE, ROLLING, JUMPING, STUNNED } from "./assets";
 import { EnemyProps } from "../types";
 import { useChargeState, useDeadState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useSurveyState } from "./state";
+import { Dizzy } from "../../Dizzy";
 
 export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
@@ -47,6 +48,9 @@ export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, colli
       </Node>
       <Node offset={[-6, -12]}>
         <CollisionBox size={[12, 12]} id={collider} tags={tags} active={active} />
+      </Node>
+      <Node pos={enemy.pos} offset={[-8, -22]} rounded>
+        <Dizzy fsm={fsm} />
       </Node>
     </Node>
   );

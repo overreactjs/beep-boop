@@ -4,6 +4,7 @@ import { GuardBotState } from "../../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { EnemyProps } from "../types";
+import { Dizzy } from "../../Dizzy";
 
 export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
@@ -46,6 +47,9 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
       </Node>
       <Node offset={[-5, -12]}>
         <CollisionBox size={[10, 12]} id={collider} tags={tags} active={active} />
+      </Node>
+      <Node pos={enemy.pos} offset={[-8, -22]} rounded>
+        <Dizzy fsm={fsm} />
       </Node>
     </Node>
   );

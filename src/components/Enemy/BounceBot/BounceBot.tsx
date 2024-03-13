@@ -5,6 +5,7 @@ import { BounceBotState } from "../../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
 import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
 import { EnemyProps } from "../types";
+import { Dizzy } from "../../Dizzy";
 
 export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
@@ -48,6 +49,9 @@ export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collide
       </Node>
       <Node offset={[-5, -12]}>
         <CollisionBox size={[10, 12]} id={deathCollider} tags={tags} active={active} />
+      </Node>
+      <Node pos={enemy.pos} offset={[-8, -22]} rounded>
+        <Dizzy fsm={fsm} />
       </Node>
     </Node>
   );
