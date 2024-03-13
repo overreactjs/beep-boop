@@ -16,31 +16,31 @@ export class GameState {
 
   initialized = new VariableProperty(false);
 
-  levels: LevelData[];
-
   highscore = new VariableProperty(100000);
   
   level = new VariableProperty(1);
 
-  items: ItemState[] = [];
+  circuits = new VariableProperty(0);
 
-  points: PointsState[] = [];
+  levels: LevelData[] = [];
 
-  projectiles: ProjectileState[] = [];
+  players: PlayerState[] = [];
 
   enemies: EnemyState[] = [];
 
-  circuits = new VariableProperty(0);
+  projectiles: ProjectileState[] = [];
 
-  players: PlayerState[] = [];
+  items: ItemState[] = [];
+
+  points: PointsState[] = [];
 
   get levelData() {
     return this.levels[this.level.current - 1];
   }
 
   constructor(levels: LevelData[]) {
-    this.levels = levels;
     this.itemHandlers = itemHandlers;
+    this.levels = levels;
     this.players = [
       new PlayerState(this, [32, 192]),
       new PlayerState(this, [224, 192]),
@@ -164,10 +164,6 @@ export class GameState {
   /*
    * Enemies
    */
-
-  // killAllEnemies(enemy: EnemyState) {
-
-  // }
 
   killEnemy(enemy: EnemyState) {
     const player = this.players[0];

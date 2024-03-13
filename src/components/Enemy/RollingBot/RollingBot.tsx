@@ -1,7 +1,7 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useStateMachine } from "@overreact/engine";
 import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../../hooks";
 import { RollingBotState } from "../../../state";
-import { IDLE, ROLLING, JUMPING } from "./assets";
+import { IDLE, ROLLING, JUMPING, STUNNED } from "./assets";
 import { EnemyProps } from "../types";
 import { useChargeState, useDeadState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useSurveyState } from "./state";
 
@@ -42,6 +42,7 @@ export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, colli
           <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
           <BitmapSprite {...spriteProps} name="rolling" sprite={ROLLING} />
           <BitmapSprite {...spriteProps} name="jumping" sprite={JUMPING} repeat={false} />
+          <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
         </SpriteSet>
       </Node>
       <Node offset={[-6, -12]}>
