@@ -47,6 +47,21 @@ export class GameState {
     ];
   }
 
+  update() {
+    this.updateCircuits();
+  }
+
+  updateCircuits() {
+    if (this.circuits.current === 31) {
+      this.circuits.current = 0;
+      this.players[0].lives.current += 1;
+    }
+  }
+
+  /*
+   * Levels
+   */
+
   initLevel() {
     if (!this.initialized.current) {
       this.initialized.current = true;
@@ -149,6 +164,10 @@ export class GameState {
   /*
    * Enemies
    */
+
+  // killAllEnemies(enemy: EnemyState) {
+
+  // }
 
   killEnemy(enemy: EnemyState) {
     const player = this.players[0];

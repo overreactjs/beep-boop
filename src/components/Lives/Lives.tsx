@@ -14,7 +14,7 @@ export const Lives: React.FC<LivesProp> = (props) => {
 
   return (
     <Node pos={pos}>
-      <BitmapImage image={LIVES_IMAGE} size={[40, 8]} offset={[0, 8]} />
+      <BitmapImage image={LIVES_IMAGE} size={[40, 8]} offset={[0, 16]} />
       <BitmapImage image={LIVES_IMAGE} size={size} offset={[0, 0]} />
     </Node>
   );
