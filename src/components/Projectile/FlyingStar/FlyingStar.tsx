@@ -1,10 +1,19 @@
-import { useUpdate, CollisionBox, Node, useProperty, BitmapImage } from "@overreact/engine";
+import { useUpdate, CollisionBox, Node, useProperty, BitmapImage, useCachedDynamicProperty } from "@overreact/engine";
 import { useId } from "react";
 import { FlyingStarState } from "../../../state";
 import { ProjectileProps } from "../types";
 import { STARS_IMAGE } from "./assets";
+import { FlyingStarColor } from "../../../types";
 
 const DESTROY_AGE = 5000;
+
+const OFFSETS: Record<FlyingStarColor, number> = {
+  yellow: 0,
+  green: 10,
+  cyan: 40,
+  magenta: 30,
+  red: 20,
+}
 
 export const FlyingStar: React.FC<ProjectileProps<FlyingStarState>> = ({ projectile }) => {
   const collider = useId();
@@ -22,7 +31,7 @@ export const FlyingStar: React.FC<ProjectileProps<FlyingStarState>> = ({ project
 
   return (
     <Node pos={projectile.pos} offset={[-5, -5]} rounded>
-      <BitmapImage size={[10, 10]} offset={[0, 0]} image={STARS_IMAGE} />
+      <BitmapImage size={[10, 10]} offset={[OFFSETS[projectile.color], 0]} image={STARS_IMAGE} />
       <CollisionBox size={[10, 10]} id={collider} tags={['flyingStar']} />
     </Node>
   );

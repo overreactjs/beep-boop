@@ -40,26 +40,26 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
 
   // Fire yellow stars in all directions.
   'star_yellow': (game, item) => {
-    game.fireStars(item);
+    game.fireStars(item, 'yellow');
   },
 
   // Fire green stars in all directions.
   'star_green': (game, item) => {
-    game.fireStars(item);
+    game.fireStars(item, 'green');
   },
 
   // Fire cyan stars in all directions.
   'star_cyan': (game, item) => {
-    game.fireStars(item);
+    game.fireStars(item, 'cyan');
   },
 
   // Fire magenta stars in all directions.
   'star_magenta': (game, item) => {
-    game.fireStars(item);
+    game.fireStars(item, 'magenta');
   },
 
   // Fire red stars in all directions.
   'star_red': (game, item) => {
-    game.fireStars(item);
+    game.fireStars(item, 'red');
   },
 };

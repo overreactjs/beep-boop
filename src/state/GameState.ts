@@ -1,6 +1,6 @@
 import { Position, VariableProperty, clamp, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
-import { ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
+import { FlyingStarColor, ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
@@ -165,16 +165,16 @@ export class GameState {
     this.fireProjectile(new PlayerZapState(this, [x + direction * 4, y - 8], direction));
   }
   
-  fireStars(item: ItemState) {
+  fireStars(item: ItemState, color: FlyingStarColor) {
     const [x, y] = item.pos.current;
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 3.0,  0.0]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1,  2.1]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0,  3.0]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1,  2.1]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-3.0,  0.0]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1, -2.1]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0, -3.0]));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1, -2.1]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 3.0,  0.0], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1,  2.1], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0,  3.0], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1,  2.1], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-3.0,  0.0], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1, -2.1], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0, -3.0], color));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1, -2.1], color));
   }
 
   /*
