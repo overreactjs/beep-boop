@@ -7,7 +7,7 @@ import { PointsState } from "./PointsState";
 import { EnemyState } from "./EnemyState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
-import { EnemyZapState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
+import { EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
 
 
 export class GameState {
@@ -143,22 +143,38 @@ export class GameState {
    * Projectiles
    */
 
+  fireProjectile(projectile: ProjectileState) {
+    this.projectiles = [...this.projectiles, projectile];
+  }
+
   fireEnemyZap(enemy: EnemyState) {
     const [x, y] = enemy.pos.current;
     const direction = enemy.flip.current ? -1 : 1;
-    this.projectiles = [...this.projectiles, new EnemyZapState(this, [x + direction * 4, y - 8], direction)];
+    this.fireProjectile(new EnemyZapState(this, [x + direction * 4, y - 8], direction));
   }
 
   firePlayerFireball(player: PlayerState) {
     const [x, y] = player.pos.current;
     const direction = player.flip.current ? -1 : 1;
-    this.projectiles = [...this.projectiles, new PlayerFireballState(this, [x + direction * 4, y - 8], direction)];
+    this.fireProjectile(new PlayerFireballState(this, [x + direction * 4, y - 8], direction));
   }
 
   firePlayerZap(player: PlayerState) {
     const [x, y] = player.pos.current;
     const direction = player.flip.current ? -1 : 1;
-    this.projectiles = [...this.projectiles, new PlayerZapState(this, [x + direction * 4, y - 8], direction)];
+    this.fireProjectile(new PlayerZapState(this, [x + direction * 4, y - 8], direction));
+  }
+  
+  fireStars(item: ItemState) {
+    const [x, y] = item.pos.current;
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 3.0,  0.0]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1,  2.1]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0,  3.0]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1,  2.1]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-3.0,  0.0]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1, -2.1]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0, -3.0]));
+    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1, -2.1]));
   }
 
   /*

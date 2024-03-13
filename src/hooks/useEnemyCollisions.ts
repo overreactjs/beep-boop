@@ -14,7 +14,7 @@ export function useEnemyCollisions<T>(collider: string, fsm: FSM<T>): Result {
     }
   });
 
-  useTaggedCollision(collider, 'playerFireball', () => {
+  useTaggedCollision(collider, ['playerFireball', 'flyingStar'], () => {
     fsm.current.replace('dead');
   });
 

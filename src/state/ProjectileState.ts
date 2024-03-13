@@ -1,16 +1,15 @@
-import { Position } from "@overreact/engine";
+import { Position, Property, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { ProjectileType } from "../types";
 import { GameState } from "./GameState";
+import { VariableProperty } from "@overreact/engine";
 
 class BaseProjectileState extends PositionedObjectState {
   game: GameState;
-  direction: 1 | -1;
 
-  constructor(game: GameState, pos: Position, direction: 1 | -1) {
+  constructor(game: GameState, pos: Position) {
     super(pos);
     this.game = game;
-    this.direction = direction;
   }
 
   destroy() {
@@ -18,20 +17,42 @@ class BaseProjectileState extends PositionedObjectState {
   }
 }
 
-export class EnemyZapState extends BaseProjectileState {
+class BaseHorizontalProjectileState extends BaseProjectileState {
+  direction: 1 | -1;
+  
+  constructor(game: GameState, pos: Position, direction: 1 | -1) {
+    super(game, pos);
+    this.game = game;
+    this.direction = direction;
+  }
+}
+
+export class EnemyZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'enemyZap';
 }
 
-export class PlayerFireballState extends BaseProjectileState {
+export class PlayerFireballState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerFireball';
 }
 
-export class PlayerZapState extends BaseProjectileState {
+export class PlayerZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerZap';
+}
+
+export class FlyingStarState extends BaseProjectileState {
+  readonly type: ProjectileType = 'flyingStar';
+  velocity: Property<Velocity>;
+
+  constructor(game: GameState, pos: Position, velocity: Velocity) {
+    super(game, pos);
+    this.game = game;
+    this.velocity = new VariableProperty(velocity);
+  }
 }
 
 export type ProjectileState = 
   | EnemyZapState
   | PlayerFireballState
   | PlayerZapState
+  | FlyingStarState
   ;

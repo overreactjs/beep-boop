@@ -3,7 +3,7 @@ import { EnemyState, GameState, ItemState } from "./state";
 
 export type Direction = 'left' | 'right';
 
-export type ProjectileType = 'playerZap' | 'enemyZap' | 'playerFireball';
+export type ProjectileType = 'playerZap' | 'enemyZap' | 'playerFireball' | 'flyingStar';
 
 export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'rollingBot' | 'securityBot';
 
@@ -121,3 +121,5 @@ export type Powerup = {
   end: PowerupEnd[];
   ttl: number;
 };
+
+export type FlyingStarColor = 'yellow' | 'green' | 'cyan' | 'magenta' | 'red';
