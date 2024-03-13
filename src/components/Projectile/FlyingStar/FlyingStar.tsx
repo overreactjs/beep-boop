@@ -1,4 +1,4 @@
-import { useUpdate, CollisionBox, Node, useProperty, BitmapImage, useCachedDynamicProperty } from "@overreact/engine";
+import { useUpdate, CollisionBox, Node, useProperty, BitmapImage } from "@overreact/engine";
 import { useId } from "react";
 import { FlyingStarState } from "../../../state";
 import { ProjectileProps } from "../types";
