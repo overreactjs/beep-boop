@@ -6,7 +6,7 @@ export const useIdleState = (): StateFunction<GuardBotState> => {
   return useCallback((fsm) => {
     fsm.entity.animation.current = 'idle';
 
-    if (fsm.age > 200) {
+    if (fsm.age.current > 200) {
       fsm.replace('patrol');
     }
   }, []);

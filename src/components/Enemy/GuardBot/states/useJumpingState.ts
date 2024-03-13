@@ -7,7 +7,7 @@ export const useJumpingState = (movement: UsePlatformMovementResult): StateFunct
   const input = useVirtualInput();
 
   return useCallback((fsm) => {
-    if (fsm.age === 0) {
+    if (fsm.age.current === 0) {
       input.simulate('jump');
       fsm.entity.animation.current = 'run';
     }

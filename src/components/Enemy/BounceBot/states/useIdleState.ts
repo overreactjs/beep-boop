@@ -8,7 +8,7 @@ export const useIdleState = (): StateFunction<BounceBotState> => {
   return useCallback((fsm) => {
     fsm.entity.animation.current = 'idle';
 
-    if (fsm.age > cooldown.current) {
+    if (fsm.age.current > cooldown.current) {
       fsm.replace('jumping');
       cooldown.current = 200 + Math.random() * 300;
     }

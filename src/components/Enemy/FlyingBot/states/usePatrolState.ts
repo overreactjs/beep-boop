@@ -5,7 +5,7 @@ import { FlyingBotState } from "../../../../state";
 
 export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction<FlyingBotState> => {
   return useCallback((fsm) => {
-    if (fsm.age === 0) {
+    if (fsm.age.current === 0) {
       const dx = 0.020 * (fsm.entity.direction.current === 'right' ? 1 : -1);
       fsm.entity.velocity.current = [dx, 0.012];
     }

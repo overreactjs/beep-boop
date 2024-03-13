@@ -8,7 +8,7 @@ export function useBaseDeadState<T extends EnemyState>(): StateFunction<T> {
   const threshold = game.level.current * 200 + 16;
   
   return useCallback((fsm, delta) => {
-    if (fsm.age === 0) {
+    if (fsm.age.current === 0) {
       game.killEnemy(fsm.entity);
     }
 
@@ -16,7 +16,7 @@ export function useBaseDeadState<T extends EnemyState>(): StateFunction<T> {
     fsm.entity.scale.current += 0.002 * delta;
     fsm.entity.angle.current += 0.1 * delta;
 
-    if (fsm.age >= 750 || fsm.entity.pos.current[1] >= threshold) {
+    if (fsm.age.current >= 750 || fsm.entity.pos.current[1] >= threshold) {
       game.destroyEnemy(fsm.entity);
       fsm.replace('gone');
     }

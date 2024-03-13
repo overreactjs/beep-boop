@@ -4,7 +4,7 @@ import { EnemyState } from "../state";
 
 export function useBaseStunnedState<T extends EnemyState>(): StateFunction<T> {
   return useCallback((fsm) => {
-    if (fsm.age > 10000) {
+    if (fsm.age.current > 10000) {
       fsm.replace('idle');
     }
   }, []);

@@ -7,13 +7,13 @@ export const useJumpingState = (movement: UsePlatformMovementResult): StateFunct
   const input = useVirtualInput();
 
   return useCallback((fsm) => {
-    if (fsm.age === 0) {
+    if (fsm.age.current === 0) {
       fsm.entity.velocity.current[0] = 0.04 * (fsm.entity.direction.current === 'right' ? 1 : -1);
       fsm.entity.animation.current = 'jumping';
       input.simulate('jump');
     }
 
-    if (fsm.age > 50 && movement.isOnFloor.current) {
+    if (fsm.age.current > 50 && movement.isOnFloor.current) {
       fsm.replace('idle');
       fsm.entity.velocity.current[0] = 0;
     }

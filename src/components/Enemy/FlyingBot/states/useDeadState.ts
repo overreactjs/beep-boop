@@ -7,7 +7,7 @@ export function useDeadState(flying: UseFlyingMovementResult, platform: UsePlatf
   const upstream = useBaseDeadState();
 
   return useCallback((fsm, delta) => {
-    if (fsm.age === 0) {
+    if (fsm.age.current === 0) {
       flying.enabled.current = false;
       platform.enabled.current = true;
     }

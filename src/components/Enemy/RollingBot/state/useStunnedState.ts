@@ -10,7 +10,7 @@ export const useStunnedState = (movement: UsePlatformMovementResult): StateFunct
   return useCallback((fsm, delta) => {
     fsm.entity.animation.current = 'stunned';
 
-    if (fsm.age > 100 && movement.isOnFloor.current) {
+    if (fsm.age.current > 100 && movement.isOnFloor.current) {
       fsm.entity.velocity.current[0] = 0;
     }
 
