@@ -11,7 +11,7 @@ export function Dizzy<T>({ fsm, ...props }: DizzyProps<T>) {
   const stunned = useSync(() => fsm.current.state.current === 'stunned');
 
   const animation = useCachedDynamicProperty(fsm.current.age, (age) => {
-    return age > 8000 ? '3' : age > 6000 ? '2' : '1';
+    return age > 8000 ? '3' : age > 6000 ? '2' : age > 500 ? '1' : '';
   });
 
   return stunned ? (
