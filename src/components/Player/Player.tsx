@@ -67,8 +67,8 @@ export const Player: React.FC = () => {
           <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
         </SpriteSet>
       </Node>
-      <Node offset={[-6, -16]}>
-        <CollisionBox size={[12, 16]} id={collider} tags={['player']} entity={player} />
+      <Node offset={[-6, -10]}>
+        <CollisionBox size={[12, 10]} id={collider} tags={['player']} entity={player} />
       </Node>
     </Node>
   );
