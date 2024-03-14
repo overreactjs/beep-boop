@@ -44,7 +44,7 @@ export const Arena: React.FC = () => {
   const currentLevel = useSync(() => game.level.current);
   const levels = [];
   const min = Math.max(1, currentLevel - 1);
-  const max = Math.min(10, currentLevel + 1);
+  const max = Math.min(game.levels.length, currentLevel + 1);
   for (let i = min; i <= max; i++) {
     levels.push(<Level key={i} level={i} />);
   }

@@ -3,11 +3,13 @@ import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from 
 import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
 
-export async function buildLevels(count: number): Promise<LevelData[]> {
+export async function buildLevels(): Promise<LevelData[]> {
+  const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
+  const keys = Object.keys(modules).filter(name => !name.includes('000')).sort();
   const levels: LevelData[] = [];
 
-  for (let i = 0; i < count; i++) {
-    const data = (await import(`./levels/${String(i + 1).padStart(3, '0')}.txt?raw`)).default;
+  for (let i = 0; i < keys.length; i++) {
+    const data = (await modules[keys[i]]() as { default: string }).default;
     levels.push(buildLevel(i + 1, data));
   }
 
@@ -48,7 +50,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
   const tiles: number[] = [];
   const collisions: (string[] | false)[] = [];
   const portals: LevelPortalData[] = [];
-  const offset = meta.tileset * 20;
+  const offset = meta.tileset * 30;
 
   const isSolid = (x: number, y: number) => {
     const isNumber = parseInt(data[y][x], 10) >= 0;
@@ -169,22 +171,18 @@ function buildLevelEnemies(level: number, data: string[]): Pick<LevelData, 'enem
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 32; x++) {
       if (data[y][x] === LEFT) {
-        const a = data[y-1][x];
-        const b = data[y-1][x+1];
         const c = data[y][x+1];
 
-        if (a === b && b === c && ENEMIES[a]) {
-          enemies.push(createEnemy(ENEMIES[a], [(x + 1) * 8, (y + 1) * 8 + offset], 'left'));
+        if (ENEMIES[c]) {
+          enemies.push(createEnemy(ENEMIES[c], [(x + 1) * 8, (y + 1) * 8 + offset], 'left'));
         }
       }
 
       if (data[y][x] === RIGHT) {
-        const a = data[y-1][x-1];
-        const b = data[y-1][x];
         const c = data[y][x-1];
 
-        if (a === b && b === c && ENEMIES[a]) {
-          enemies.push(createEnemy(ENEMIES[a], [x * 8, (y + 1) * 8 + offset], 'right'));
+        if (ENEMIES[c]) {
+          enemies.push(createEnemy(ENEMIES[c], [x * 8, (y + 1) * 8 + offset], 'right'));
         }
       }
     }

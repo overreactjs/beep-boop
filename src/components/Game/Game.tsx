@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GameState } from "../../state";
 import { buildLevels } from "../../data/levels";
+import { useUpdate } from "@overreact/engine";
 
 export const GameContext = React.createContext<GameState>(new GameState([]));
 
@@ -29,11 +30,16 @@ export const Game: React.FC<GameProps> = ({ children }) => {
   useEffect(() => {
     if (!loading.current) {
       loading.current = true;
-      buildLevels(10).then((levels) => {
+      buildLevels().then((levels) => {
         setGame(new GameState(levels));
       });
     }
   }, []);
+
+  // Update the game state.
+  useUpdate(() => {
+    game?.update();
+  });
 
   return game && (
     <GameInner game={game}>
