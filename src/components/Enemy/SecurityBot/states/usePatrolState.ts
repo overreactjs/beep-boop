@@ -28,7 +28,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     // Jump if the player is above the enemy, and there's a platform to jump on to.
     const isBelowPlayer = game.players[0].block.current[1] <= by;
-    const isBelowPlatform = game.isSolid(bx, by - 4);
+    const isBelowPlatform = game.isPlatformAbove(bx, by);
     if (isBelowPlayer && isBelowPlatform && chance(JUMP_CHANCE * delta)) {
       return fsm.replace('thinking');
     }

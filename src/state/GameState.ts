@@ -90,6 +90,10 @@ export class GameState {
     return !!this.levelData.collisions[y * 32 + x];
   }
 
+  isPlatformAbove(x: number, y: number) : boolean {
+    return (this.isSolid(x, y - 4) && !this.isSolid(x, y - 5)) || (this.isSolid(x, y - 3) && !this.isSolid(x, y - 4));
+  }
+
   /*
    * Items
    */
@@ -167,14 +171,9 @@ export class GameState {
   
   fireStars(item: ItemState, color: FlyingStarColor) {
     const [x, y] = item.pos.current;
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 3.0,  0.0], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1,  2.1], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0,  3.0], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1,  2.1], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-3.0,  0.0], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [-2.1, -2.1], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 0.0, -3.0], color));
-    this.fireProjectile(new FlyingStarState(this, [x, y - 8], [ 2.1, -2.1], color));
+    for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 8) {
+      this.fireProjectile(new FlyingStarState(this, [x, y - 8], [Math.sin(angle) * 3, Math.cos(angle) * 3], color));
+    }
   }
 
   /*

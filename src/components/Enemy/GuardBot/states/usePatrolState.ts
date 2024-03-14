@@ -21,7 +21,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     const isLevelWithPlayer = py === by;
     const isBelowPlayer = py <= by;
-    const isBelowPlatform = game.isSolid(bx, by - 4);
+    const isBelowPlatform = game.isPlatformAbove(bx, by);
     const isFacingLeft = direction.current === 'left';
     const canSeePlayer = (px < bx && isFacingLeft) || (px > py && !isFacingLeft);
     const canFire = cooldown.current === 0;
