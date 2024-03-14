@@ -20,8 +20,8 @@ export const FlyingStar: React.FC<ProjectileProps<FlyingStarState>> = ({ project
   const age = useProperty(0);
 
   useUpdate((delta) => {
-    projectile.pos.current[0] += projectile.velocity.current[0];
-    projectile.pos.current[1] += projectile.velocity.current[1];
+    projectile.pos.current[0] += projectile.velocity.current[0] * delta / 16;
+    projectile.pos.current[1] += projectile.velocity.current[1] * delta / 16;
     age.current += delta;
 
     if (age.current > DESTROY_AGE) {
