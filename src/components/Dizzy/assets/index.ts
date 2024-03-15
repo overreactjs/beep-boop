@@ -15,12 +15,12 @@ export const DIZZY2_SPRITE: BitmapSpriteAsset = {
   url: dizzy2Url,
   size: [16, 16],
   count: 5,
-  rate: 10,
+  rate: 15,
 };
 
 export const DIZZY3_SPRITE: BitmapSpriteAsset = {
   url: dizzy3Url,
   size: [16, 16],
   count: 5,
-  rate: 10,
+  rate: 20,
 };
