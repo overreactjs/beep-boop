@@ -50,7 +50,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
   const tiles: number[] = [];
   const collisions: (string[] | false)[] = [];
   const portals: LevelPortalData[] = [];
-  const offset = meta.tileset * 30;
+  const offset = meta.tileset * 20;
 
   const isSolid = (x: number, y: number) => {
     const isNumber = parseInt(data[y][x], 10) >= 0;
@@ -108,13 +108,13 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
       const hasAboveLeft = y > 0 && x > 0 && isSolid(x - 1, y - 1);
 
       if (hasAbove && hasLeft) {
-        tiles.push(offset + 10);
+        tiles.push(0);
       } else if (hasAbove) {
-        tiles.push(offset + (hasAboveLeft || x === 0 ? 11 : 14));
+        tiles.push(hasAboveLeft || x === 0 ? 1 : 4);
       } else if (hasLeft) {
-        tiles.push(offset + (hasAboveLeft ? 12 : 15));
+        tiles.push(hasAboveLeft ? 2 : 5);
       } else if (hasAboveLeft) {
-        tiles.push(offset + 13);
+        tiles.push(3);
       } else {
         tiles.push(-1);
       }

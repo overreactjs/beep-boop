@@ -15,7 +15,7 @@ export const LEVELS_FONT: BitmapFontFace = {
 export const TILESET: Tileset = {
   image: {
     url: tilesetUrl,
-    size: [240, 320],
+    size: [160, 320],
   },
   cellSize: [8, 8],
   tileSize: [8, 8],
