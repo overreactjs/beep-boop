@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
 import { DEAD, IDLE, RUN } from "./assets";
@@ -20,9 +20,10 @@ export const Player: React.FC = () => {
   // When the player leaves the screen, wrap to the other side.
   useWrapAround(player);
 
-  // Map from keyboard input to virtual input events, but only when the player is still alive.
+  // Map from real inputs to virtual input events, but only when the player is still alive.
   const active = useMergeProperty(player.alive, game.initialized, (a, b) => a && b);
-  useKeyboardMap({ left: 'KeyA', right: 'KeyD', jump: 'KeyW', fire: 'Space' }, active);
+  useKeyboardMap({ KeyA: 'left', KeyD: 'right', KeyW: 'jump', Space: 'fire' }, active);
+  useGamepadMap(0, { Left: 'left', Right: 'right', A: 'jump', X: 'fire' }, active);
 
   // Setup standard platform movement.
   const movement = usePlatformMovement(collider, pos, velocity, MOVEMENT_PROPS);
