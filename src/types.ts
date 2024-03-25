@@ -87,6 +87,7 @@ export type LevelPortalData = {
 
 export type LevelMetadata = {
   tileset: number;
+  scheme?: 'autotile';
 }
 
 export type PointsValue = 

@@ -40,6 +40,11 @@ function parseLevelMetadata(data: string[]): LevelMetadata {
       case 'tileset':
         metadata.tileset = parseInt(value, 10);
         break;
+      case 'scheme':
+        if (value === 'autotile') {
+          metadata.scheme = value;
+        }
+        break;
     }
   }
 
@@ -96,28 +101,46 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
   const buildTile = (x: number, y: number) => {
     if (isSolid(x, y)) {
       if ((x === 0 || x === 30) && y < 24) {
-        tiles.push(offset + (y % 2 === 0 ? 4 : 6));
+        tiles.push(offset + (y % 2 === 0 ? 0 : 2));
       } else if ((x === 1 || x === 31) && y < 24) {
-        tiles.push(offset + (y % 2 === 0 ? 5 : 7));
+        tiles.push(offset + (y % 2 === 0 ? 1 : 3));
       } else {
-        tiles.push(offset + parseInt(data[y][x], 10));
+        tiles.push(offset + 4);
+        // tiles.push(offset + parseInt(data[y][x], 10));
       }
     } else {
-      const hasAbove = y > 0 && isSolid(x, y - 1);
-      const hasLeft = x > 0 && isSolid(x - 1, y);
-      const hasAboveLeft = y > 0 && x > 0 && isSolid(x - 1, y - 1);
+      buildBackgroundTile(x, y);
+    }
+  };
 
-      if (hasAbove && hasLeft) {
-        tiles.push(0);
-      } else if (hasAbove) {
-        tiles.push(hasAboveLeft || x === 0 ? 1 : 4);
-      } else if (hasLeft) {
-        tiles.push(hasAboveLeft ? 2 : 5);
-      } else if (hasAboveLeft) {
-        tiles.push(3);
-      } else {
-        tiles.push(-1);
-      }
+  const buildAutotile = (x: number, y: number) => {
+    if (isSolid(x, y)) {
+      const n = +(y > 0 && isSolid(x, y - 1));
+      const e = +(x < 31 && isSolid(x + 1, y));
+      const s = +(y < 24 && isSolid(x, y + 1));
+      const w = +(x > 0 && isSolid(x - 1, y));
+      const index = n + (e << 1) + (s << 2) + (w << 3);
+      tiles.push(offset + index);
+    } else {
+      buildBackgroundTile(x, y);
+    }
+  };
+
+  const buildBackgroundTile = (x: number, y: number) => {
+    const hasAbove = y > 0 && isSolid(x, y - 1);
+    const hasLeft = x > 0 && isSolid(x - 1, y);
+    const hasAboveLeft = y > 0 && x > 0 && isSolid(x - 1, y - 1);
+
+    if (hasAbove && hasLeft) {
+      tiles.push(0);
+    } else if (hasAbove) {
+      tiles.push(hasAboveLeft || x === 0 ? 1 : 4);
+    } else if (hasLeft) {
+      tiles.push(hasAboveLeft ? 2 : 5);
+    } else if (hasAboveLeft) {
+      tiles.push(3);
+    } else {
+      tiles.push(-1);
     }
   };
 
@@ -138,7 +161,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 32; x++) {
       buildCollisions(x, y);
-      buildTile(x, y);
+      meta.scheme === 'autotile' ? buildAutotile(x, y) : buildTile(x, y);
       buildPortal(x, y);
     }
   }
