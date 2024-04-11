@@ -8,6 +8,7 @@
     "tailwind": "tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
     "build": "tsc && npm run build-styles && vite build",
     "build-styles": "tailwindcss -i ./src/index.css -o ./dist/output.css",
+    "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "assets": "npx @capacitor/assets generate",
     "android": "npm run build && npx cap sync android && npx cap run android",

@@ -13,8 +13,10 @@ export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => 
 
   useRender(() => {
     if (size.invalidated) {
-      element.setStyle('width', CSS.px(size.current[0]));
-      element.setStyle('height', CSS.px(size.current[1]));
+      // element.setStyle('width', CSS.px(size.current[0]));
+      // element.setStyle('height', CSS.px(size.current[1]));
+      element.setStyle('width', `${size.current[0]}px`);
+      element.setStyle('height', `${size.current[1]}px`);
 
       size.invalidated = false;
     }
