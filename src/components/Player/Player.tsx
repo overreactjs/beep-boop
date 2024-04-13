@@ -2,7 +2,7 @@ import { useId } from "react";
 import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
-import { DEAD, IDLE, RUN } from "./assets";
+import { DEAD, FALL, IDLE, JUMP, RUN } from "./assets";
 import { MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
 import { usePlayerFireZaps } from "./usePlayerFireZaps";
@@ -64,6 +64,8 @@ export const Player: React.FC = () => {
       <Node offset={[-8, -16]} rounded>
         <SpriteSet animation={animation}>
           <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
+          <BitmapSprite {...spriteProps} name="jump" sprite={JUMP} />
+          <BitmapSprite {...spriteProps} name="fall" sprite={FALL} />
           <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
           <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
         </SpriteSet>
