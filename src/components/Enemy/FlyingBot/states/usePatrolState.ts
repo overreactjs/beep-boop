@@ -10,10 +10,14 @@ export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction
       fsm.entity.velocity.current = [dx, 0.012];
     }
 
-    if (movement.wallToLeft.current || movement.wallToRight.current) {
+    if (movement.flags.current.horizontal) {
       fsm.entity.reverse();
-      movement.wallToLeft.current = false;
-      movement.wallToRight.current = false;
+    }
+
+    if (movement.flags.current.vertical) {
+      fsm.entity.velocity.current[1] = -fsm.entity.velocity.current[1];
     }
   }, [movement]);
 };
+
+

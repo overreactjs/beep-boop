@@ -12,16 +12,14 @@ export type UseFlyingMovementOptions = {
 
 export type UseFlyingMovementResult = {
   enabled: Property<boolean>;
-  wallToLeft: Property<boolean>;
-  wallToRight: Property<boolean>;
+  flags: Property<CollisionFlags>;
 };
 
 export const useFlyingMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UseFlyingMovementOptions): UseFlyingMovementResult => {
   const allOptions = { ...DEFAULT_OPTIONS, ...options };
 
   const enabled = useProperty(allOptions.enabled);
-  const wallToLeft = useProperty(false);
-  const wallToRight = useProperty(false);
+  const flags = useProperty(new CollisionFlags());
 
   /**
    * 
@@ -30,6 +28,8 @@ export const useFlyingMovement = (collider: string, pos: Property<Position>, vel
     if (enabled.current) {
       pos.current[0] += velocity.current[0] * delta;
       pos.current[1] += velocity.current[1] * delta;
+
+      flags.current.reset();
     }
   });
 
@@ -67,23 +67,11 @@ export const useFlyingMovement = (collider: string, pos: Property<Position>, vel
       }
 
       // Update state flags.
-      wallToLeft.current = adjustment[0] > 0;
-      wallToRight.current = adjustment[0] < 0;
-
-      // Flip the velocity (bounce) when colliding with any surface.
-      if (adjustment[0] > 0 || adjustment[0] < 0) {
-        velocity.current[0] = -velocity.current[0];
-      }
-      if (adjustment[1] > 0 || adjustment[1] < 0) {
-        velocity.current[1] = -velocity.current[1];
-      }
+      flags.current.update(adjustment);
     }
   });
 
-  return useMemo(() =>
-    ({ enabled, wallToLeft, wallToRight }),
-    [enabled, wallToLeft, wallToRight],
-  );
+  return useMemo(() => ({ enabled, flags }), [enabled, flags]);
 };
 
 /**
@@ -145,3 +133,46 @@ const add = (box: BBox, delta: Position): BBox => {
     maxY: box.maxY + delta[1],
   };
 };
+
+class CollisionFlags {
+  flags: number = 0;
+
+  reset() {
+    this.flags = 0;
+  }
+
+  update(adjustment: Position) {
+    this.flags = +(adjustment[1] < 0)
+      | (+(adjustment[0] > 0) << 1)
+      | (+(adjustment[1] > 0) << 2)
+      | (+(adjustment[0] < 0) << 3);
+  }
+
+  get top(): boolean {
+    return (this.flags & 0b0001) > 0;
+  }
+
+  get right(): boolean {
+    return (this.flags & 0b0010) > 0;
+  }
+
+  get bottom(): boolean {
+    return (this.flags & 0b0100) > 0;
+  }
+
+  get left(): boolean {
+    return (this.flags & 0b1000) > 0;
+  }
+
+  get horizontal(): boolean {
+    return (this.flags & 0b1010) > 0;
+  }
+
+  get vertical(): boolean {
+    return (this.flags & 0b0101) > 0;
+  }
+
+  get any(): boolean {
+    return this.flags > 0;
+  }
+}
