@@ -19,8 +19,8 @@ export const useJumpingState = (movement: UsePlatformMovementResult): StateFunct
     }
 
     if (movement.wallToLeft.current || movement.wallToRight.current) {
-      fsm.entity.velocity.current[0] = -fsm.entity.velocity.current[0] * 0.75;
       fsm.entity.reverse();
+      fsm.entity.velocity.current[0] *= 0.75;
       movement.wallToLeft.current = false;
       movement.wallToRight.current = false;
     }

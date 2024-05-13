@@ -23,6 +23,7 @@ class BaseEnemyState extends EntityObjectState {
 
   reverse() {
     this.direction.current = this.direction.current === 'left' ? 'right' : 'left';
+    this.velocity.current[0] = -this.velocity.current[0];
   }
 }
 
