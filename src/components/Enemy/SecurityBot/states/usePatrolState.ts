@@ -15,7 +15,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     fsm.entity.animation.current = 'run';
 
-    // Change direction if the enemy reached the end of a platform or a wall.
+    // Change direction if the enemy reached a wall.
     const offset = direction.current === 'right' ? 1 : -1;
     if (movement.isOnFloor.current && game.isSolid(bx + offset, by - 1)) {
       fsm.entity.reverse();

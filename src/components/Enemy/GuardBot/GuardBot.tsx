@@ -17,6 +17,7 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
     gravity: [0, 0.0006],
     speed: 0.03,
     jumpStrength: 0.21,
+    maxFallSpeed: 0.08
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
