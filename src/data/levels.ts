@@ -1,11 +1,11 @@
 import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
-import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from '../state';
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
 
 export async function buildLevels(): Promise<LevelData[]> {
   const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
-  const keys = Object.keys(modules).filter(name => !name.includes('000')).sort();
+  const keys = Object.keys(modules).filter(name => !name.includes('template')).sort();
   const levels: LevelData[] = [];
 
   for (let i = 0; i < keys.length; i++) {
