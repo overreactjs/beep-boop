@@ -5,7 +5,7 @@ export type Direction = 'left' | 'right';
 
 export type ProjectileType = 'playerZap' | 'enemyZap' | 'playerFireball' | 'flyingStar';
 
-export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'rollingBot' | 'securityBot';
+export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'pathfinderBot' | 'rollingBot' | 'securityBot';
 
 export type EnemyStates = 'stunned' | 'dead' | 'gone';
 

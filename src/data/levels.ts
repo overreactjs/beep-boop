@@ -222,6 +222,8 @@ export function createEnemy(type: EnemyType, pos: Position, direction: Direction
       return new FlyingBotState(pos, direction);
     case 'guardBot':
       return new GuardBotState(pos, direction);
+    case 'pathfinderBot':
+      return new PathfinderBotState(pos, direction);
     case 'rollingBot':
       return new RollingBotState(pos, direction);
     case 'securityBot':

@@ -12,4 +12,5 @@ export const ENEMIES: Record<string, EnemyType> = {
   'C': 'bounceBot',
   'D': 'flyingBot',
   'E': 'rollingBot',
+  'F': 'pathfinderBot',
 };

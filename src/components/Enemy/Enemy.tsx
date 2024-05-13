@@ -8,6 +8,8 @@ import { FlyingBot } from "./FlyingBot";
 import { GuardBot } from "./GuardBot";
 import { RollingBot } from "./RollingBot";
 import { SecurityBot } from "./SecurityBot";
+import { PathfinderBot } from "./PathfinderBot";
+import { PathfinderBotState } from "../../state/EnemyState";
 
 export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
   const game = useGame();
@@ -27,6 +29,9 @@ export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
       )}
       {enemy.type === 'guardBot' && (
         <GuardBot enemy={enemy as GuardBotState} collider={collider} />
+      )}
+      {enemy.type === 'pathfinderBot' && (
+        <PathfinderBot enemy={enemy as PathfinderBotState} collider={collider} />
       )}
       {enemy.type === 'rollingBot' && (
         <RollingBot enemy={enemy as RollingBotState} collider={collider} />
