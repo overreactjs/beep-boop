@@ -15,6 +15,9 @@ export const Portal: React.FC<PortalProps> = ({ pos, level }) => {
       <Node offset={[-8, -16]}>
         <CollisionBox size={[32, 8]} tags={['solid']} />
       </Node>
+      <Node offset={[-8, 16]}>
+        <CollisionBox size={[32, 8]} tags={['solid']} />
+      </Node>
     </Node>
   );
 };

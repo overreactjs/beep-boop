@@ -87,7 +87,9 @@ export class GameState {
   }
 
   isSolid(x: number, y: number): boolean {
-    return !!this.levelData.collisions[y * 32 + x];
+    return x >= 0 && x < 32 && y >= 0 && y < 25
+      ? !!this.levelData.collisions[y * 32 + x]
+      : false;
   }
 
   isPlatformAbove(x: number, y: number) : boolean {

@@ -15,7 +15,8 @@ export class PositionedObjectState extends ObjectState {
     this.block = new DynamicProperty(this.pos, ([x, y]): Position => {
       return [
         x >> 3,
-        (y - (Math.floor(y / 200) * 200)) >> 3];
+        (y - (Math.floor(y / 200) * 200)) >> 3
+      ];
     });
   }
 }
