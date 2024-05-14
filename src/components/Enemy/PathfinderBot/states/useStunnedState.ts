@@ -1,7 +1,7 @@
-import { StateFunction } from "@overreact/engine";
+import { StateFunction, StateMachine } from "@overreact/engine";
 import { useCallback } from "react";
 import { useBaseStunnedState } from "../../../../hooks";
-import { PathfinderBotState } from "../../../../state";
+import { BaseEnemyState, PathfinderBotState } from "../../../../state";
 
 export const useStunnedState = (): StateFunction<PathfinderBotState> => {
   const upstream = useBaseStunnedState();
@@ -10,6 +10,6 @@ export const useStunnedState = (): StateFunction<PathfinderBotState> => {
     fsm.entity.velocity.current = [0, 0];
     fsm.entity.animation.current = 'stunned';
 
-    upstream(fsm, delta);
+    upstream(fsm as unknown as StateMachine<BaseEnemyState>, delta);
   }, [upstream]);
 };
