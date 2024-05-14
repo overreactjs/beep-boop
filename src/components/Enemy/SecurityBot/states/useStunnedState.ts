@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateFunction } from "@overreact/engine";
+import { StateFunction, StateMachine } from "@overreact/engine";
 import { useBaseStunnedState } from "../../../../hooks";
-import { SecurityBotState } from "../../../../state";
+import { BaseEnemyState, SecurityBotState } from "../../../../state";
 
 export const useStunnedState = (): StateFunction<SecurityBotState> => {
   const upstream = useBaseStunnedState();
@@ -9,6 +9,6 @@ export const useStunnedState = (): StateFunction<SecurityBotState> => {
   return useCallback((fsm, delta) => {
     fsm.entity.animation.current = 'stunned';
 
-    upstream(fsm, delta);
+    upstream(fsm as unknown as StateMachine<BaseEnemyState>, delta);
   }, [upstream]);
 };

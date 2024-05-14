@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateFunction } from "@overreact/engine";
+import { StateFunction, StateMachine } from "@overreact/engine";
 import { UsePlatformMovementResult, useBaseStunnedState } from "../../../../hooks";
-import { BounceBotState } from "../../../../state";
+import { BaseEnemyState, BounceBotState } from "../../../../state";
 
 export const useStunnedState = (movement: UsePlatformMovementResult): StateFunction<BounceBotState> => {
   const upstream = useBaseStunnedState();
@@ -20,6 +20,6 @@ export const useStunnedState = (movement: UsePlatformMovementResult): StateFunct
       movement.wallToRight.current = false;
     }
 
-    upstream(fsm, delta);
+    upstream(fsm as unknown as StateMachine<BaseEnemyState>, delta);
   }, [movement, upstream]);
 };
