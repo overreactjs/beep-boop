@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
-import { EnemyState } from "../state";
+import { BaseEnemyState } from "../state";
 import { useGame } from "./useGame";
 
-export function useBaseDeadState<T extends EnemyState>(): StateFunction<T> {
+export function useBaseDeadState<T extends BaseEnemyState>(): StateFunction<T> {
   const game = useGame();
   const threshold = game.level.current * 200 + 16;
   

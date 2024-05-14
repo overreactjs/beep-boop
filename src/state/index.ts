@@ -1,4 +1,4 @@
-export { BounceBotState, FlyingBotState, GuardBotState, PathfinderBotState, RollingBotState, SecurityBotState } from "./EnemyState";
+export { BaseEnemyState, BounceBotState, FlyingBotState, GuardBotState, PathfinderBotState, RollingBotState, SecurityBotState } from "./EnemyState";
 export { GameState } from "./GameState";
 export { ItemState } from "./ItemState";
 export { PlayerState } from "./PlayerState";

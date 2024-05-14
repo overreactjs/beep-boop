@@ -4,7 +4,7 @@ import { FlyingStarColor, ItemHandler, ItemType, LevelData, LevelPortalData, Poi
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
-import { EnemyState } from "./EnemyState";
+import { BaseEnemyState, EnemyState } from "./EnemyState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
 import { EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
@@ -182,7 +182,7 @@ export class GameState {
    * Enemies
    */
 
-  killEnemy(enemy: EnemyState) {
+  killEnemy(enemy: BaseEnemyState) {
     const player = this.players[0];
     const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * 1000) as PointsValue;
     enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 1 : -1;
@@ -190,7 +190,7 @@ export class GameState {
     this.awardPoints(player, points);
   }
 
-  destroyEnemy(enemy: EnemyState) {
+  destroyEnemy(enemy: BaseEnemyState) {
     this.enemies = this.enemies.filter(({ id }) => id !== enemy.id);
     this.createRandomItem();
     this.createRandomItem();

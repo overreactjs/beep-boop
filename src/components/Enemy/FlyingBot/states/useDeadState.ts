@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { StateFunction } from "@overreact/engine";
+import { StateFunction, StateMachine } from "@overreact/engine";
 import { UsePlatformMovementResult, UseFlyingMovementResult, useBaseDeadState } from "../../../../hooks";
-import { FlyingBotState } from "../../../../state";
+import { BaseEnemyState, FlyingBotState } from "../../../../state";
 
 export function useDeadState(flying: UseFlyingMovementResult, platform: UsePlatformMovementResult): StateFunction<FlyingBotState> {
   const upstream = useBaseDeadState();
@@ -12,6 +12,6 @@ export function useDeadState(flying: UseFlyingMovementResult, platform: UsePlatf
       platform.enabled.current = true;
     }
 
-    upstream(fsm, delta);
+    upstream(fsm as unknown as StateMachine<BaseEnemyState>, delta);
   }, [flying, platform, upstream]);
 }

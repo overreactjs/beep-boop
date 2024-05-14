@@ -5,7 +5,7 @@ import { EntityObjectState } from "./EntityObjectState";
 /**
  * Basic stuff that all enemies need so that they can be stunned and bounced off the screen.
  */
-class BaseEnemyState extends EntityObjectState {
+export class BaseEnemyState extends EntityObjectState {
   angle: Property<number>;
   scale: Property<number>;
   animation: Property<string>;
