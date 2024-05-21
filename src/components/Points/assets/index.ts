@@ -4,5 +4,5 @@ import pointsUrl from "./points.png";
 
 export const POINTS_IMAGE: BitmapAsset = {
   url: pointsUrl,
-  size: [24, 320],
+  size: [48, 400],
 };

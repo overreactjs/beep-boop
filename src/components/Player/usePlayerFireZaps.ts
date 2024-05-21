@@ -3,7 +3,7 @@ import { useGame } from "../../hooks";
 import { PlayerState } from "../../state";
 
 const FIREBALL_COOLDOWN = 600;
-const ZAP_COOLDOWN = 250;
+const ZAP_COOLDOWN = 400;
 
 export const usePlayerFireZaps = (player: PlayerState) => {
   const game = useGame();

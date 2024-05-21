@@ -2,6 +2,7 @@ import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
 import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
+import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
 export async function buildLevels(): Promise<LevelData[]> {
   const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
@@ -228,5 +229,7 @@ export function createEnemy(type: EnemyType, pos: Position, direction: Direction
       return new RollingBotState(pos, direction);
     case 'securityBot':
       return new SecurityBotState(pos, direction);
+    case 'greenOgre':
+      return new GreenOgreState(pos, direction);
   }
 }

@@ -7,10 +7,13 @@ export const RIGHT  = '>';
 export const PORTAL = '+';
 
 export const ENEMIES: Record<string, EnemyType> = {
+  // Regular enemies
   'A': 'securityBot',
   'B': 'guardBot',
   'C': 'bounceBot',
   'D': 'flyingBot',
   'E': 'rollingBot',
   'F': 'pathfinderBot',
+  // Bosses
+  'Z': 'greenOgre',
 };

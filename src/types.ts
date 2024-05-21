@@ -3,11 +3,31 @@ import { EnemyState, GameState, ItemState } from "./state";
 
 export type Direction = 'left' | 'right';
 
-export type ProjectileType = 'playerZap' | 'enemyZap' | 'playerFireball' | 'flyingStar';
+export type ProjectileType = 
+  | 'enemyFireball'
+  | 'enemyZap'
+  | 'flyingStar'
+  | 'playerFireball'
+  | 'playerZap'
+  ;
 
-export type EnemyType = 'bounceBot' | 'flyingBot' | 'guardBot' | 'pathfinderBot' | 'rollingBot' | 'securityBot';
+export type EnemyType =
+  // Regular enemies
+  | 'bounceBot'
+  | 'flyingBot'
+  | 'guardBot'
+  | 'pathfinderBot'
+  | 'rollingBot'
+  | 'securityBot'
+  // Bosses
+  | 'greenOgre'
+  ;
 
-export type EnemyStates = 'stunned' | 'dead' | 'gone';
+export type EnemyStates = 
+  | 'stunned'
+  | 'dead'
+  | 'gone'
+  ;
 
 export type ItemType =
   | 'apple'
@@ -62,7 +82,8 @@ export type ItemHandler = (game: GameState, item: ItemState) => void;
 
 export type ItemConfig = {
   offset: Position;
-  value: PointsValue;
+  value: number;
+  label: PointsValue;
 };
 
 export type RawLevelData = {
@@ -111,6 +132,7 @@ export type PointsValue =
   | 8000
   | 9000
   | 10000
+  | 'hotsauce'
   ;
 
 export type PowerupType = 'fireballs' | 'speed';

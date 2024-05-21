@@ -12,6 +12,7 @@ const DEFAULT_OPTIONS = {
   maxFallSpeed: 0.2,
   maxJumpCount: 1,
   canTurnMidair: false,
+  canFallThrough: true,
 } as const;
 
 export type PlatformMovementEventType = 'jump';
@@ -25,6 +26,7 @@ export type UsePlatformMovementOptions = {
   maxFallSpeed?: number;
   maxJumpCount?: number;
   canTurnMidair?: boolean;
+  canFallThrough?: boolean;
 };
 
 export type UsePlatformMovementResult = {
@@ -42,7 +44,7 @@ export type UsePlatformMovementResult = {
 
 export const usePlatformMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UsePlatformMovementOptions): UsePlatformMovementResult => {
   const allOptions = { ...DEFAULT_OPTIONS, ...options };
-  const { gravity, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair } = allOptions;
+  const { gravity, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair, canFallThrough } = allOptions;
   const { addEventListener, removeEventListener, fireEvent } = useEventListeners<PlatformMovementEventType>();
   const input = useVirtualInput();
 
@@ -57,11 +59,16 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
   const wallToRight = useProperty(false);
   const jumpCount = useProperty(0);
   const facing = useProperty<'left' | 'right'>('right');
+  const fallingThrough = useProperty(false);
 
   /**
    * Update the players velocity, position, and state flags, based on current inputs.
    */
   useUpdate((delta) => {
+    if (fallingThrough.current) {
+      fallingThrough.current = false;
+    }
+
     if (enabled.current) {
       // Apply keyboard input to the player's velocity.
       const horizontalInput = input.hasAxis('left', 'right');
@@ -78,6 +85,13 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
         isFalling.current = false;
         jumpCount.current++;
         fireEvent('jump', undefined);
+      }
+
+      // Fall through a platform, if allowed.
+      if (canFallThrough && input.isActive('fall') && isOnFloor.current) {
+        isOnFloor.current = false;
+        isFalling.current = false;
+        fallingThrough.current = true;
       }
 
       // Update state flags.
@@ -146,20 +160,22 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
       }
 
       // Platforms: These can be passed through from below or the sides, but not from above.
-      for (const { overlap, tags } of platforms) {
-        if (tags.includes('top') && overlap.y > 0 && dy - overlap.y >= -THRESHOLD && adjustment[1] < overlap.y) {
-          pos.current[1] -= overlap.y;
-          adjustment[1] = overlap.y;
-        }
+      if (!fallingThrough.current) {
+        for (const { overlap, tags } of platforms) {
+          if (tags.includes('top') && overlap.y > 0 && dy - overlap.y >= -THRESHOLD && adjustment[1] < overlap.y) {
+            pos.current[1] -= overlap.y;
+            adjustment[1] = overlap.y;
+          }
 
-        if (tags.includes('left') && overlap.x > 0 && dx - overlap.x >= -THRESHOLD && adjustment[0] < overlap.x) {
-          pos.current[0] -= overlap.x;
-          adjustment[0] = overlap.x;
-        }
+          if (tags.includes('left') && overlap.x > 0 && dx - overlap.x >= -THRESHOLD && adjustment[0] < overlap.x) {
+            pos.current[0] -= overlap.x;
+            adjustment[0] = overlap.x;
+          }
 
-        if (tags.includes('right') && overlap.x < 0 && dx - overlap.x <= THRESHOLD && adjustment[0] > overlap.x) {
-          pos.current[0] -= overlap.x;
-          adjustment[0] = overlap.x;
+          if (tags.includes('right') && overlap.x < 0 && dx - overlap.x <= THRESHOLD && adjustment[0] > overlap.x) {
+            pos.current[0] -= overlap.x;
+            adjustment[0] = overlap.x;
+          }
         }
       }
 

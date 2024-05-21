@@ -130,14 +130,14 @@ export class GameState {
    */
 
   showItemPoints(item: ItemState) {
-    this.showPoints(item.pos.current, ITEMS[item.type].value);
+    this.showPoints(item.pos.current, ITEMS[item.type].label);
   }
 
   showPoints(pos: Position, value: PointsValue) {
     this.points = [...this.points, new PointsState(pos, value)];
   }
 
-  awardPoints(player: PlayerState, points: PointsValue) {
+  awardPoints(player: PlayerState, points: number) {
     player.addPoints(points);
   }
 
@@ -151,6 +151,12 @@ export class GameState {
 
   fireProjectile(projectile: ProjectileState) {
     this.projectiles = [...this.projectiles, projectile];
+  }
+
+  fireEnemyFireball(enemy: EnemyState) {
+    const [x, y] = enemy.pos.current;
+    const direction = enemy.flip.current ? -1 : 1;
+    this.fireProjectile(new EnemyZapState(this, [x + direction * 4, y - 8], direction));
   }
 
   fireEnemyZap(enemy: EnemyState) {
@@ -184,9 +190,9 @@ export class GameState {
 
   killEnemy(enemy: BaseEnemyState) {
     const player = this.players[0];
-    const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * 1000) as PointsValue;
+    const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * 1000);
     enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 1 : -1;
-    this.showPoints([...enemy.pos.current], points);
+    this.showPoints([...enemy.pos.current], points as PointsValue);
     this.awardPoints(player, points);
   }
 

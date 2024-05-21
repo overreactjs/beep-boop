@@ -15,7 +15,7 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
 
   const imagePos = useDynamicProperty(age, (age: number): Position => {
     return [
-      Math.round(pos.current[0] - 12),
+      Math.round(pos.current[0] - 24),
       Math.round(pos.current[1] - 14 - Math.min(16, age)),
     ];
   });
@@ -28,5 +28,5 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
     }
   });
   
-  return <BitmapImage pos={imagePos} image={POINTS_IMAGE} size={[24, 12]} offset={[0, OFFSETS[value]]} />;
+  return <BitmapImage pos={imagePos} image={POINTS_IMAGE} size={[48, 12]} offset={[0, OFFSETS[value]]} />;
 };

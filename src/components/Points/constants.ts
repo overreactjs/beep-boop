@@ -21,4 +21,5 @@ export const OFFSETS: Record<PointsValue, number> = {
   8000: 272,
   9000: 288,
   10000: 304,
+  hotsauce: 320,
 };

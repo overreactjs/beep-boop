@@ -27,6 +27,19 @@ class BaseHorizontalProjectileState extends BaseProjectileState {
   }
 }
 
+class BaseDirectionalProjectileState extends BaseProjectileState {
+  velocity: Property<Velocity>;
+
+  constructor(game: GameState, pos: Position, velocity: Velocity) {
+    super(game, pos);
+    this.velocity = new VariableProperty(velocity);
+  }
+}
+
+export class EnemyFireballState extends BaseDirectionalProjectileState {
+  readonly type: ProjectileType = 'enemyFireball';
+}
+
 export class EnemyZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'enemyZap';
 }
@@ -39,20 +52,18 @@ export class PlayerZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerZap';
 }
 
-export class FlyingStarState extends BaseProjectileState {
+export class FlyingStarState extends BaseDirectionalProjectileState {
   readonly type: ProjectileType = 'flyingStar';
-  velocity: Property<Velocity>;
   color: FlyingStarColor;
 
   constructor(game: GameState, pos: Position, velocity: Velocity, color: FlyingStarColor) {
-    super(game, pos);
-    this.game = game;
-    this.velocity = new VariableProperty(velocity);
+    super(game, pos, velocity);
     this.color = color;
   }
 }
 
 export type ProjectileState = 
+  | EnemyFireballState
   | EnemyZapState
   | PlayerFireballState
   | PlayerZapState
