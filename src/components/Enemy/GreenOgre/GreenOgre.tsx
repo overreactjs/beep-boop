@@ -14,7 +14,7 @@ export const GreenOgre: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider
   useWrapAround(enemy);
 
   // Standard platformer physics, attached to the enemy state object.
-  const movement = usePlatformMovement(collider, pos, velocity, {
+  usePlatformMovement(collider, pos, velocity, {
     gravity: [0, 0.0006],
     speed: 0.03,
     jumpStrength: 0.21,
