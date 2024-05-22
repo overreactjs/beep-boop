@@ -10,7 +10,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
 
   // When the player touches a live enemy, kill the player!
   useTaggedCollision(collider, 'enemy', () => {
-    if (player.alive.current) {
+    if (player.alive.current && player.invulnerable.current <= 0) {
       player.alive.current = false;
     }
   });

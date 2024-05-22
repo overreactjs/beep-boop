@@ -3,6 +3,9 @@ import { EntityObjectState } from "./EntityObjectState";
 import { PowerupType, Powerup, PowerupEnd } from "../types";
 import { GameState } from "./GameState";
 
+const INVULNERABILITY_DURATION = 2500;
+const DEAD_DURATION = 2000;
+
 export class PlayerState extends EntityObjectState {
   game: GameState;
   lives: Property<number>;
@@ -11,6 +14,7 @@ export class PlayerState extends EntityObjectState {
   animation: Property<string>;
   combo: Property<number>;
   alive: Property<boolean>;
+  invulnerable: Property<number>;
   powerups: Powerup[] = [];
   deadDuration: number;
 
@@ -23,7 +27,8 @@ export class PlayerState extends EntityObjectState {
     this.animation = new VariableProperty('idle');
     this.combo = new VariableProperty(-1);
     this.alive = new VariableProperty(true);
-    this.deadDuration = 2000;
+    this.invulnerable = new VariableProperty(0);
+    this.deadDuration = DEAD_DURATION;
   }
 
   update(delta: number) {
@@ -36,11 +41,16 @@ export class PlayerState extends EntityObjectState {
       if (this.deadDuration > 0) {
         this.deadDuration -= delta;
       } else {
-        this.deadDuration = 2000;
         this.lives.current -= 1;
         this.alive.current = true;
+        this.invulnerable.current = INVULNERABILITY_DURATION;
+        this.deadDuration = DEAD_DURATION;
         this.respawn();
       }
+    }
+
+    if (this.invulnerable.current > 0) {
+      this.invulnerable.current -= delta;
     }
   }
 

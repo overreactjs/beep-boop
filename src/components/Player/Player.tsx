@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
 import { DEAD, FALL, IDLE, JUMP, RUN } from "./assets";
@@ -13,9 +13,13 @@ export const Player: React.FC = () => {
   
   const player = game.players[0];
   const { flip, pos, velocity } = player;
-
-  const animation = useMergeProperty(player.animation, player.alive, (animation, alive) => alive ? animation : 'dead');
   const collider = useId();
+
+  // Flash the player's visibility when they are invulnerable.
+  const visible = useMergeProperty(player.invulnerable, useFlash(100), (invulnerable, flash) => invulnerable <= 0 || flash);
+
+  // Override the player's animation when they are not alive.
+  const animation = useMergeProperty(player.animation, player.alive, (animation, alive) => alive ? animation : 'dead');
 
   // When the player leaves the screen, wrap to the other side.
   useWrapAround(player);
@@ -38,7 +42,7 @@ export const Player: React.FC = () => {
   usePlayerFireZaps(player);
 
   // Teleport the player when they step into a portal.
-  useTaggedCollision(collider, 'portal', () =>{
+  useTaggedCollision(collider, 'portal', () => {
     game.teleport(player);
   });
 
@@ -57,7 +61,7 @@ export const Player: React.FC = () => {
   });
   
   // Common props for all sprites in the sprite set.
-  const spriteProps = { size: [16, 16] as Size, flip };
+  const spriteProps = { size: [16, 16] as Size, flip, visible };
 
   return (
     <Node pos={pos}>
