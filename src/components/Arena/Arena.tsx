@@ -58,8 +58,8 @@ export const Arena: React.FC = () => {
           <ItemList />
           <EnemyList />
           <PointsList />
-          <ProjectilesList />
           <Player />
+          <ProjectilesList />
 
           <Node pos={camera}>
             <Camera />

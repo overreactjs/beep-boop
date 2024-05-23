@@ -10,6 +10,8 @@ const DESTROY_AGE = 600;
 
 export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectile }) => {
   const collider = useId();
+  const wallCollider = useId();
+
   const age = useProperty(0);
   const animation = useDynamicProperty(age, (age) => age >= FLASH_AGE ? 'flash' : 'solid');
   const active = useDynamicProperty(age, (age) => age <= COLLISION_AGE);
@@ -23,8 +25,12 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
     }
   });
 
-  useTaggedCollision(collider, 'solid', () => {
-    projectile.destroy();
+  useTaggedCollision(wallCollider, 'platform', (collisions) => {
+    if (projectile.direction === 1 && collisions.some(({ tags }) => tags.includes('left'))) {
+      projectile.destroy();
+    } else if (projectile.direction === -1 && collisions.some(({ tags }) => tags.includes('right'))) {
+      projectile.destroy();
+    }
   });
 
   useTaggedCollision(collider, 'enemy', () => {
@@ -32,12 +38,19 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
   });
 
   return (
-    <Node pos={projectile.pos} offset={[-4, -4]} rounded>
-      <SpriteSet animation={animation}>
-        <BitmapSprite name="solid" size={[8, 8]} sprite={ZAP_SPRITE} />
-        <BitmapSprite name="flash" size={[8, 8]} sprite={ZAP_FLASH_SPRITE} />
-      </SpriteSet>
-      <CollisionBox size={[8, 8]} id={collider} tags={['zap']} active={active}/>
+    <Node pos={projectile.pos}>
+      <Node offset={[-4, -4]} rounded>
+        <SpriteSet animation={animation}>
+          <BitmapSprite name="solid" size={[8, 8]} sprite={ZAP_SPRITE} />
+          <BitmapSprite name="flash" size={[8, 8]} sprite={ZAP_FLASH_SPRITE} />
+        </SpriteSet>
+      </Node>
+      <Node offset={[-4, -4]}>
+        <CollisionBox size={[8, 8]} id={collider} tags={['zap']} active={active}/>
+      </Node>
+      <Node offset={[-2, -2]}>
+        <CollisionBox size={[4, 4]} id={wallCollider} active={active}/>
+      </Node>
     </Node>
   );
 };
