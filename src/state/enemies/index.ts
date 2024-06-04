@@ -1,4 +1,5 @@
 export { BaseEnemyState } from './BaseEnemyState';
+export { BaseBossState } from './BaseBossState';
 export { BounceBotState } from './BounceBotState';
 export { FlyingBotState } from './FlyingBotState';
 export { GreenOgreState } from './GreenOgreState';
