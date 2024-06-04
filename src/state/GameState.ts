@@ -192,7 +192,10 @@ export class GameState {
     const player = this.players[0];
     const value = ENEMY_POINTS[(enemy as EnemyState).type];
     const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * value);
-    enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 1 : -1;
+
+    enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 2 : -2;
+    enemy.velocity.current[1] = 0;
+    
     this.showPoints([...enemy.pos.current], points as PointsValue);
     this.awardPoints(player, points);
   }

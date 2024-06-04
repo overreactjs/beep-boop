@@ -11,14 +11,11 @@ export function useBaseDeadState<T extends BaseEnemyState>(maxFallSpeed: Propert
     if (fsm.age.current === 0) {
       game.killEnemy(fsm.entity);
       maxFallSpeed.current = 1;
-      
-      fsm.entity.velocity.current[0] = 0;
-      fsm.entity.velocity.current[1] = 0;
     }
 
     fsm.entity.velocity.current[0] = Math.sign(fsm.entity.velocity.current[0]) * 0.1;
     fsm.entity.scale.current += 0.002 * delta;
-    fsm.entity.angle.current += 0.1 * delta;
+    fsm.entity.angle.current += Math.sign(fsm.entity.velocity.current[0]) * 0.4 * delta;
 
     if (fsm.age.current >= 750 || fsm.entity.pos.current[1] >= threshold) {
       game.destroyEnemy(fsm.entity);
