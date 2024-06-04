@@ -1,6 +1,6 @@
 import { EnemyType } from "../../types";
-import { BaseEnemyState } from "./BaseEnemyState";
+import { BaseBossState } from "./BaseBossState";
 
-export class GreenOgreState extends BaseEnemyState {
+export class GreenOgreState extends BaseBossState {
   readonly type: EnemyType = 'greenOgre';
 }

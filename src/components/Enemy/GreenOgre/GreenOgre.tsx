@@ -1,14 +1,17 @@
-import { Box, CollisionBox, Node, useStateMachine } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../../hooks";
-import { GuardBotState } from "../../../state";
-// import { IDLE, RUN, STUNNED } from "./assets";
-import { useIdleState } from "./states";
+import { BitmapSprite, CollisionBox, Node, Size, useFlash, useMergeProperty, useProperty, useStateMachine, useUpdate } from "@overreact/engine";
+import { useBossCollisions, usePlatformMovement, useWrapAround } from "../../../hooks";
+import { GreenOgreState } from "../../../state";
+import { useDeadState, useFireState, useIdleState, useMoveState } from "./states";
 import { EnemyProps } from "../types";
+import { IDLE } from "./assets";
 // import { Dizzy } from "../../Dizzy";
 
-export const GreenOgre: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider }) => {
-  // const { angle, animation, flip, pos, scale, velocity } = enemy;
-  const { pos, velocity } = enemy;
+export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collider }) => {
+  const { angle, flip, pos, scale, velocity } = enemy;
+  const maxFallSpeed = useProperty(0.12);
+
+  // Flash the boss's visibility when they are invulnerable.
+  const visible = useMergeProperty(enemy.invulnerable, useFlash(100), (invulnerable, flash) => invulnerable <= 0 || flash);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);
@@ -17,44 +20,49 @@ export const GreenOgre: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider
   usePlatformMovement(collider, pos, velocity, {
     gravity: [0, 0.0006],
     speed: 0.03,
-    jumpStrength: 0.21,
-    maxFallSpeed: 0.08
+    jumpStrength: 0.25,
+    maxFallSpeed,
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
   const fsm = useStateMachine(enemy, 'idle', {
     idle: useIdleState(),
-    
-    // falling: useFallingState(movement),
-    // jumping: useJumpingState(movement),
-    // patrol: usePatrolState(movement),
-    // stunned: useStunnedState(),
-    // thinking: useThinkingState(),
-    // dead: useDeadState(),
+    fire: useFireState(),
+    move: useMoveState(),
+    dead: useDeadState(maxFallSpeed),
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.
-  const [tags, active] = useEnemyCollisions(collider, fsm);
+  const [active] = useBossCollisions(collider, fsm);
+
+  // Update the boss state.
+  useUpdate((delta) => {
+    enemy.update(delta);
+  });
 
   // Common props for all sprites in the sprite set.
-  // const spriteProps = { size: [16, 16] as Size, flip, angle, scale };
+  const spriteProps = { size: [32, 32] as Size, flip, angle, scale, visible };
 
   return (
     <Node pos={pos}>
       <Node offset={[-16, -32]} rounded>
-        <Box size={[32, 32]} color="magenta" />
-        {/* <SpriteSet animation={animation}>
-          <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
-          <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
-          <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
-        </SpriteSet> */}
+        <BitmapSprite {...spriteProps} sprite={IDLE} />
       </Node>
-      <Node offset={[-5, -12]}>
-        <CollisionBox size={[10, 12]} id={collider} tags={tags} active={active} />
+      <Node offset={[-12, -24]}>
+        <CollisionBox size={[24, 24]} id={collider} tags={['enemy']} active={active} />
       </Node>
-      {/* <Node pos={enemy.pos} offset={[-8, -22]} rounded>
-        <Dizzy fsm={fsm} />
-      </Node> */}
     </Node>
   );
 };
+
+
+/*
+<SpriteSet animation={animation}>
+  <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
+  <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
+  <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
+</SpriteSet>
+<Node pos={enemy.pos} offset={[-8, -22]} rounded>
+  <Dizzy fsm={fsm} />
+</Node>
+*/

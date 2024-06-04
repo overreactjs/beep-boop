@@ -10,7 +10,7 @@ export class BaseBossState extends BaseEnemyState {
 
   constructor(pos: Position, direction: Direction) {
     super(pos, direction);
-    this.health = new VariableProperty(2);
+    this.health = new VariableProperty(15);
     this.invulnerable = new VariableProperty(0);
   }
 

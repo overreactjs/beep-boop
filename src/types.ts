@@ -132,6 +132,9 @@ export type PointsValue =
   | 8000
   | 9000
   | 10000
+  | 16000
+  | 32000
+  | 64000
   | 'hotsauce'
   ;
 

@@ -1,7 +1,4 @@
-// export { useBaseDeadState as useDeadState } from "../../../../hooks/useBaseDeadState";
-// export { useFallingState } from "./useFallingState";
+export { useBaseDeadState as useDeadState } from "../../../../hooks/useBaseDeadState";
+export { useFireState } from "./useFireState";
 export { useIdleState } from "./useIdleState";
-// export { useJumpingState } from "./useJumpingState";
-// export { usePatrolState } from "./usePatrolState";
-// export { useStunnedState } from "./useStunnedState";
-// export { useThinkingState } from "./useThinkingState";
+export { useMoveState } from "./useMoveState";

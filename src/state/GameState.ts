@@ -7,8 +7,8 @@ import { PointsState } from "./PointsState";
 import { BaseEnemyState, EnemyState } from "./EnemyState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
-import { EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
-
+import { EnemyFireballState, EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
+import { ENEMY_POINTS } from "../constants";
 
 export class GameState {
 
@@ -153,10 +153,10 @@ export class GameState {
     this.projectiles = [...this.projectiles, projectile];
   }
 
-  fireEnemyFireball(enemy: EnemyState) {
+  fireEnemyFireball(enemy: EnemyState, angle: number) {
     const [x, y] = enemy.pos.current;
     const direction = enemy.flip.current ? -1 : 1;
-    this.fireProjectile(new EnemyZapState(this, [x + direction * 4, y - 8], direction));
+    this.fireProjectile(new EnemyFireballState(this, [x + direction * 12, y - 16], [Math.sin(angle) * 0.75, Math.cos(angle) * 0.75]));
   }
 
   fireEnemyZap(enemy: EnemyState) {
@@ -190,7 +190,8 @@ export class GameState {
 
   killEnemy(enemy: BaseEnemyState) {
     const player = this.players[0];
-    const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * 1000);
+    const value = ENEMY_POINTS[(enemy as EnemyState).type];
+    const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * value);
     enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 1 : -1;
     this.showPoints([...enemy.pos.current], points as PointsValue);
     this.awardPoints(player, points);

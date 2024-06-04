@@ -1,4 +1,5 @@
 import {
+  BaseBossState,
   BaseEnemyState,
   BounceBotState,
   FlyingBotState,
@@ -10,6 +11,7 @@ import {
 } from "./enemies";
 
 export {
+  BaseBossState,
   BaseEnemyState,
   BounceBotState,
   FlyingBotState,

@@ -1,5 +1,6 @@
 export { useBaseDeadState } from "./useBaseDeadState";
 export { useBaseStunnedState } from "./useBaseStunnedState";
+export { useBossCollisions } from "./useBossCollisions";
 export { useCamera } from "./useCamera";
 export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useFlyingMovement } from "./useFlyingMovement";
