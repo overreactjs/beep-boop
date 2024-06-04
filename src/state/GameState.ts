@@ -8,7 +8,7 @@ import { BaseEnemyState, EnemyState } from "./EnemyState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
 import { EnemyFireballState, EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
-import { ENEMY_POINTS } from "../constants";
+import { ENEMY_ITEMS, ENEMY_POINTS } from "../constants";
 
 export class GameState {
 
@@ -202,8 +202,12 @@ export class GameState {
 
   destroyEnemy(enemy: BaseEnemyState) {
     this.enemies = this.enemies.filter(({ id }) => id !== enemy.id);
-    this.createRandomItem();
-    this.createRandomItem();
+
+    const count = ENEMY_ITEMS[(enemy as EnemyState).type];
+
+    for (let i = 0; i < count; i++) {
+      this.createRandomItem();
+    }
   }
 
   /*

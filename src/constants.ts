@@ -9,3 +9,13 @@ export const ENEMY_POINTS: Record<EnemyType, number> = {
   securityBot: 1000,
   greenOgre: 32000,
 };
+
+export const ENEMY_ITEMS: Record<EnemyType, number> = {
+  bounceBot: 2,
+  flyingBot: 2,
+  guardBot: 2,
+  pathfinderBot: 2,
+  rollingBot: 2,
+  securityBot: 2,
+  greenOgre: 16,
+};

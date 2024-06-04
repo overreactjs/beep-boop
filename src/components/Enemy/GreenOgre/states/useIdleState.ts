@@ -13,12 +13,12 @@ export const useIdleState = (): StateFunction<GreenOgreState> => {
     nextTurn.current -= delta;
 
     if (nextTurn.current <= 0) {
-      nextTurn.current = (Math.random() * 300) + 300;
+      nextTurn.current = (Math.random() * 400) + 200;
       fsm.entity.reverse();
     }
 
     if (cooldown.current <= 0) {
-      cooldown.current = (Math.random() * 1000) + 600;
+      cooldown.current = (Math.random() * 1400) + 200;
       fsm.replace('fire');
     }
   }, [cooldown, nextTurn]);

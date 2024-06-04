@@ -9,6 +9,7 @@ export const App = () => {
           <Game>
             <TopBar />
             <Arena />
+            {/* <Overlay /> */}
             <BottomBar />
           </Game>
         </Screen>
@@ -16,3 +17,15 @@ export const App = () => {
     </Engine>
   );
 };
+
+// const Overlay = () => {
+//   const game = useGame();
+//   const text = useDynamicProperty(game.level, (level) => `STAGE ${String(level).padStart(2, '0')}`);
+
+//   return (
+//     <Node>
+//       <ArcadeText pos={[96, 104]} color="white" text={text} />
+//       <ArcadeText pos={[88, 136]} color="white" text="GET READY!" />
+//     </Node>
+//   )
+// }
