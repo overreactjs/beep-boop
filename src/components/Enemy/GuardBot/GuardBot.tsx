@@ -1,4 +1,4 @@
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useStateMachine } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty, useStateMachine } from "@overreact/engine";
 import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../../hooks";
 import { GuardBotState } from "../../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
@@ -8,6 +8,7 @@ import { Dizzy } from "../../Dizzy";
 
 export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
+  const maxFallSpeed = useProperty(0.08);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);
@@ -17,7 +18,7 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
     gravity: [0, 0.0006],
     speed: 0.03,
     jumpStrength: 0.21,
-    maxFallSpeed: 0.08
+    maxFallSpeed,
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
@@ -28,7 +29,7 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
     patrol: usePatrolState(movement),
     stunned: useStunnedState(),
     thinking: useThinkingState(),
-    dead: useDeadState(),
+    dead: useDeadState(maxFallSpeed),
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.

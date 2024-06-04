@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useStateMachine } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty, useStateMachine } from "@overreact/engine";
 import { useWrapAround, useEnemyCollisions, usePlatformMovement } from "../../../hooks";
 import { BounceBotState } from "../../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
@@ -9,6 +9,7 @@ import { Dizzy } from "../../Dizzy";
 
 export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
+  const maxFallSpeed = useProperty(0.2);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);
@@ -18,6 +19,7 @@ export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collide
     gravity: [0, 0.0004],
     acceleration: 0.00,
     jumpStrength: 0.145,
+    maxFallSpeed,
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
@@ -25,7 +27,7 @@ export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collide
     idle: useIdleState(),
     jumping: useJumpingState(movement),
     stunned: useStunnedState(movement),
-    dead: useDeadState(),
+    dead: useDeadState(maxFallSpeed),
   });
 
   // Derive the collision tags from the state machine, and respond to zap collisions.

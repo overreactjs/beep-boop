@@ -23,7 +23,7 @@ export type UsePlatformMovementOptions = {
   speed?: Prop<number>;
   jumpStrength?: number;
   acceleration?: number;
-  maxFallSpeed?: number;
+  maxFallSpeed?: Prop<number>;
   maxJumpCount?: number;
   canTurnMidair?: boolean;
   canFallThrough?: boolean;
@@ -44,12 +44,13 @@ export type UsePlatformMovementResult = {
 
 export const usePlatformMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UsePlatformMovementOptions): UsePlatformMovementResult => {
   const allOptions = { ...DEFAULT_OPTIONS, ...options };
-  const { gravity, jumpStrength, acceleration, maxFallSpeed, maxJumpCount, canTurnMidair, canFallThrough } = allOptions;
+  const { gravity, jumpStrength, acceleration, maxJumpCount, canTurnMidair, canFallThrough } = allOptions;
   const { addEventListener, removeEventListener, fireEvent } = useEventListeners<PlatformMovementEventType>();
   const input = useVirtualInput();
 
   const enabled = useProperty(allOptions.enabled);
   const speed = useProperty(allOptions.speed);
+  const maxFallSpeed = useProperty(allOptions.maxFallSpeed);
 
   const change = useProperty([0, 0]);
   const isOnFloor = useProperty(false);
@@ -103,7 +104,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
 
       // Add gravity to the player's velocity.
       velocity.current[0] = velocity.current[0] + (gravity[0] || 0) * delta;
-      velocity.current[1] = Math.min(maxFallSpeed, velocity.current[1] + (gravity[1] || 0) * delta);
+      velocity.current[1] = Math.min(maxFallSpeed.current, velocity.current[1] + (gravity[1] || 0) * delta);
 
       // Apply the velocity to the player.
       change.current[0] = velocity.current[0] * delta;
