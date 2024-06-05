@@ -1,4 +1,4 @@
-import { Position, VariableProperty, clamp, dist } from "@overreact/engine";
+import { Position, Property, VariableProperty, clamp, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
 import { FlyingStarColor, ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
@@ -9,6 +9,7 @@ import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
 import { EnemyFireballState, EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
 import { ENEMY_ITEMS, ENEMY_POINTS } from "../constants";
+import { getHighScore, setHighScore } from "../services/highscores";
 
 export class GameState {
 
@@ -16,7 +17,7 @@ export class GameState {
 
   initialized = new VariableProperty(false);
 
-  highscore = new VariableProperty(100000);
+  highscore: Property<number>;
   
   level = new VariableProperty(1);
 
@@ -41,6 +42,7 @@ export class GameState {
   }
 
   constructor(levels: LevelData[]) {
+    this.highscore = new VariableProperty(getHighScore());
     this.itemHandlers = itemHandlers;
     this.levels = levels;
     this.players = [
@@ -119,7 +121,7 @@ export class GameState {
   }
 
   awardItemPoints(item: ItemState) {
-    this.players[0].addPoints(ITEMS[item.type].value);
+    this.awardPoints(this.players[0], ITEMS[item.type].value);
     this.showItemPoints(item);
   }
 
@@ -145,12 +147,22 @@ export class GameState {
     this.points = [...this.points, new PointsState(pos, value)];
   }
 
-  awardPoints(player: PlayerState, points: number) {
-    player.addPoints(points);
-  }
-
   hidePoints(id: number) {
     this.points = this.points.filter((entry) => entry.id !== id);
+  }
+
+  awardPoints(player: PlayerState, points: number) {
+    player.addPoints(points);
+    this.updateHighScore();
+  }
+
+  updateHighScore() {
+    const p1 = this.players[0].score;
+
+    if (p1.current > this.highscore.current) {
+      this.highscore.current = p1.current;
+      setHighScore(this.highscore.current);
+    }
   }
 
   /*
