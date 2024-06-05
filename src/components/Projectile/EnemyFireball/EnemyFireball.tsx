@@ -25,7 +25,7 @@ export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ p
   // Kill the player!
   useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
     for (const { b: { entity: player } } of collisions) {
-      if (player?.alive.current) {
+      if (player?.alive.current && player?.invulnerable.current <= 0) {
         player.alive.current = false;
       }
     }
