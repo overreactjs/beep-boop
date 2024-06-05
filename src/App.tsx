@@ -1,5 +1,5 @@
 import { Device, Engine } from "@overreact/engine";
-import { Arena, BottomBar, Game, Screen, TopBar } from "./components";
+import { Arena, BottomBar, Game, LevelOverlay, Screen, TopBar } from "./components";
 
 export const App = () => {
   return (
@@ -9,7 +9,7 @@ export const App = () => {
           <Game>
             <TopBar />
             <Arena />
-            {/* <Overlay /> */}
+            <LevelOverlay />
             <BottomBar />
           </Game>
         </Screen>
@@ -17,15 +17,3 @@ export const App = () => {
     </Engine>
   );
 };
-
-// const Overlay = () => {
-//   const game = useGame();
-//   const text = useDynamicProperty(game.level, (level) => `STAGE ${String(level).padStart(2, '0')}`);
-
-//   return (
-//     <Node>
-//       <ArcadeText pos={[96, 104]} color="white" text={text} />
-//       <ArcadeText pos={[88, 136]} color="white" text="GET READY!" />
-//     </Node>
-//   )
-// }

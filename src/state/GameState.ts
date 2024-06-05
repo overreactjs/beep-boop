@@ -34,6 +34,8 @@ export class GameState {
 
   points: PointsState[] = [];
 
+  countdown = new VariableProperty(0);
+
   get levelData() {
     return this.levels[this.level.current - 1];
   }
@@ -47,8 +49,9 @@ export class GameState {
     ];
   }
 
-  update() {
+  update(delta: number) {
     this.updateCircuits();
+    this.updateCountdown(delta);
   }
 
   updateCircuits() {
@@ -58,6 +61,10 @@ export class GameState {
     }
   }
 
+  updateCountdown(delta: number) {
+    this.countdown.current -= delta;
+  }
+
   /*
    * Levels
    */
@@ -65,6 +72,7 @@ export class GameState {
   initLevel() {
     if (!this.initialized.current) {
       this.initialized.current = true;
+      this.countdown.current = 2000;
       this.players[0].respawn();
       this.enemies = [...this.levelData.enemies];
       this.items = [];

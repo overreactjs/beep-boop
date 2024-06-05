@@ -37,8 +37,8 @@ export const Game: React.FC<GameProps> = ({ children }) => {
   }, []);
 
   // Update the game state.
-  useUpdate(() => {
-    game?.update();
+  useUpdate((delta) => {
+    game?.update(delta);
   });
 
   return game && (
