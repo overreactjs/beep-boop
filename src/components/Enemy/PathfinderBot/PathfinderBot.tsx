@@ -1,5 +1,5 @@
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty, useStateMachine } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useFlyingMovement, useWrapAround } from "../../../hooks";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
+import { usePlatformMovement, useEnemyCollisions, useFlyingMovement, useWrapAround, useEnemyStateMachine } from "../../../hooks";
 import { PathfinderBotState } from "../../../state";
 import { useDeadState, useIdleState, usePatrolState, useStunnedState } from "./states";
 import { IDLE, STUNNED } from "./assets";
@@ -18,7 +18,7 @@ export const PathfinderBot: React.FC<EnemyProps<PathfinderBotState>> = ({ enemy,
   const platform = usePlatformMovement(collider, pos, velocity, { enabled: false, maxFallSpeed });
 
   // Setup the finite state machine, to handle the behaviour of each state.
-  const fsm = useStateMachine(enemy, 'idle', {
+  const fsm = useEnemyStateMachine(enemy, {
     idle: useIdleState(),
     patrol: usePatrolState(flying),
     stunned: useStunnedState(),

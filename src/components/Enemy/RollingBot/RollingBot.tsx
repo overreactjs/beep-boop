@@ -1,5 +1,5 @@
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty, useStateMachine } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../../hooks";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine } from "../../../hooks";
 import { RollingBotState } from "../../../state";
 import { IDLE, ROLLING, JUMPING, STUNNED } from "./assets";
 import { EnemyProps } from "../types";
@@ -22,7 +22,7 @@ export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, colli
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
-  const fsm = useStateMachine(enemy, 'idle', {
+  const fsm = useEnemyStateMachine(enemy, {
     idle: useIdleState(),
     patrol: usePatrolState(movement),
     survey: useSurveyState(),

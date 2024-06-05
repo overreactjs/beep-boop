@@ -1,5 +1,5 @@
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty, useStateMachine } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround } from "../../../hooks";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine } from "../../../hooks";
 import { GuardBotState } from "../../../state";
 import { IDLE, RUN, STUNNED } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
@@ -22,7 +22,7 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
-  const fsm = useStateMachine(enemy, 'idle', {
+  const fsm = useEnemyStateMachine(enemy, {
     idle: useIdleState(),
     falling: useFallingState(movement),
     jumping: useJumpingState(movement),

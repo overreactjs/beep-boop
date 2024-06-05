@@ -1,5 +1,5 @@
-import { BitmapSprite, CollisionBox, Node, Size, useFlash, useMergeProperty, useProperty, useStateMachine, useUpdate } from "@overreact/engine";
-import { useBossCollisions, usePlatformMovement, useWrapAround } from "../../../hooks";
+import { BitmapSprite, CollisionBox, Node, Size, useFlash, useMergeProperty, useProperty, useUpdate } from "@overreact/engine";
+import { useBossCollisions, useEnemyStateMachine, usePlatformMovement, useWrapAround } from "../../../hooks";
 import { GreenOgreState } from "../../../state";
 import { useDeadState, useFireState, useIdleState, useMoveState } from "./states";
 import { EnemyProps } from "../types";
@@ -25,7 +25,7 @@ export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collide
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
-  const fsm = useStateMachine(enemy, 'idle', {
+  const fsm = useEnemyStateMachine(enemy, {
     idle: useIdleState(),
     fire: useFireState(),
     move: useMoveState(),

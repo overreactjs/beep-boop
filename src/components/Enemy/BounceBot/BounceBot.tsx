@@ -1,6 +1,6 @@
 import { useId } from "react";
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty, useStateMachine } from "@overreact/engine";
-import { useWrapAround, useEnemyCollisions, usePlatformMovement } from "../../../hooks";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
+import { useWrapAround, useEnemyCollisions, usePlatformMovement, useEnemyStateMachine } from "../../../hooks";
 import { BounceBotState } from "../../../state";
 import { IDLE, JUMPING, STUNNED } from "./assets";
 import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
@@ -23,7 +23,7 @@ export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collide
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.
-  const fsm = useStateMachine(enemy, 'idle', {
+  const fsm = useEnemyStateMachine(enemy, {
     idle: useIdleState(),
     jumping: useJumpingState(movement),
     stunned: useStunnedState(movement),
