@@ -10,7 +10,7 @@ export const useIdleState = (): StateFunction<BounceBotState> => {
 
     if (fsm.age.current > cooldown.current) {
       fsm.replace('jumping');
-      cooldown.current = 200 + Math.random() * 300;
+      cooldown.current = fsm.entity.angry.current ? 0 : 200 + Math.random() * 300;
     }
   }, [cooldown]);
 };
