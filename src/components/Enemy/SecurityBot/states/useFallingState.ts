@@ -10,7 +10,7 @@ export const useFallingState = (movement: UsePlatformMovementResult): StateFunct
     animation.current = 'idle';
 
     if (movement.isOnFloor.current) {
-      if (Math.random() < 0.15) {
+      if (Math.random() < 0.33) {
         fsm.entity.reverse();
       }
 
