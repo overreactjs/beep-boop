@@ -8,6 +8,7 @@ export class BaseEnemyState extends EntityObjectState {
   animation: Property<string>;
   direction: Property<Direction>;
   flip: Property<boolean>;
+  angry: Property<boolean>;
 
   constructor(pos: Position, direction: Direction) {
     super(pos);
@@ -16,6 +17,7 @@ export class BaseEnemyState extends EntityObjectState {
     this.animation = new VariableProperty('idle');
     this.direction = new VariableProperty(direction);
     this.flip = new DynamicProperty(this.direction, (direction) => direction === 'left');
+    this.angry = new VariableProperty(false);
   }
 
   reverse() {

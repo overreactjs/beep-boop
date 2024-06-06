@@ -6,6 +6,7 @@ export function useBaseStunnedState<T extends BaseEnemyState>(): StateFunction<T
   return useCallback((fsm) => {
     if (fsm.age.current > 10000) {
       fsm.replace('idle');
+      fsm.entity.angry.current = true;
     }
   }, []);
 }
