@@ -1,14 +1,15 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useFlyingMovement, useWrapAround, useEnemyStateMachine } from "../../../hooks";
+import { usePlatformMovement, useEnemyCollisions, useFlyingMovement, useWrapAround, useEnemyStateMachine, useEnemyAnimation } from "../../../hooks";
 import { FlyingBotState } from "../../../state";
 import { useDeadState, useIdleState, usePatrolState, useStunnedState } from "./states";
-import { IDLE, STUNNED } from "./assets";
+import { IDLE, IDLE_ANGRY, STUNNED, STUNNED_ANGRY } from "./assets";
 import { EnemyProps } from "../types";
 import { Dizzy } from "../../Dizzy";
 
 export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collider }) => {
-  const { angle, animation, flip, pos, scale, velocity } = enemy;
+  const { angle, flip, pos, scale, velocity } = enemy;
   const maxFallSpeed = useProperty(0.2);
+  const animation = useEnemyAnimation(enemy);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);
@@ -37,6 +38,8 @@ export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collide
         <SpriteSet animation={animation}>
           <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
           <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
+          <BitmapSprite {...spriteProps} name="idle-angry" sprite={IDLE_ANGRY} />
+          <BitmapSprite {...spriteProps} name="stunned-angry" sprite={STUNNED_ANGRY} repeat={false} />
         </SpriteSet>
       </Node>
       <Node offset={[-6, -14]}>

@@ -3,11 +3,15 @@ import { StateFunction } from "@overreact/engine";
 import { UseFlyingMovementResult } from "../../../../hooks";
 import { FlyingBotState } from "../../../../state";
 
+const REGULAR_VELOCITY = [0.020, 0.012];
+const ANGRY_VELOCITY = [0.035, 0.021];
+
 export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction<FlyingBotState> => {
   return useCallback((fsm) => {
     if (fsm.age.current === 0) {
-      const dx = 0.020 * (fsm.entity.direction.current === 'right' ? 1 : -1);
-      fsm.entity.velocity.current = [dx, 0.012];
+      const v = fsm.entity.angry.current ? ANGRY_VELOCITY : REGULAR_VELOCITY;
+      const dx = v[0] * (fsm.entity.direction.current === 'right' ? 1 : -1);
+      fsm.entity.velocity.current = [dx, v[1]];
     }
 
     if (movement.flags.current.horizontal) {
