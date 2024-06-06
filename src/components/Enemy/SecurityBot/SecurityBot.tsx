@@ -1,14 +1,16 @@
-import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine } from "../../../hooks";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useDynamicProperty, useProperty } from "@overreact/engine";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine, useEnemyAnimation } from "../../../hooks";
 import { SecurityBotState } from "../../../state";
-import { IDLE, RUN, STUNNED } from "./assets";
+import { IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { EnemyProps } from "../types";
 import { Dizzy } from "../../Dizzy";
 
 export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, collider }) => {
-  const { angle, animation, flip, pos, scale, velocity } = enemy;
+  const { angle, flip, pos, scale, velocity, angry } = enemy;
   const maxFallSpeed = useProperty(0.08);
+  const speed = useDynamicProperty(angry, (angry) => angry ? 0.05 : 0.03);
+  const animation = useEnemyAnimation(enemy);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy);
@@ -16,7 +18,7 @@ export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, col
   // Standard platformer physics, attached to the enemy state object.
   const movement = usePlatformMovement(collider, pos, velocity, {
     gravity: [0, 0.0006],
-    speed: 0.03,
+    speed,
     jumpStrength: 0.21,
     maxFallSpeed,
   });
@@ -45,6 +47,9 @@ export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, col
           <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
           <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
           <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
+          <BitmapSprite {...spriteProps} name="idle-angry" sprite={IDLE_ANGRY} />
+          <BitmapSprite {...spriteProps} name="run-angry" sprite={RUN_ANGRY} />
+          <BitmapSprite {...spriteProps} name="stunned-angry" sprite={STUNNED_ANGRY} repeat={false} />
         </SpriteSet>
       </Node>
       <Node offset={[-5, -12]}>
