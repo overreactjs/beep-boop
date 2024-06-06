@@ -3,6 +3,9 @@ import { Position, StateFunction } from "@overreact/engine";
 import { UseFlyingMovementResult, useGame } from "../../../../hooks";
 import { PathfinderBotState } from "../../../../state";
 
+const REGULAR_SPEED = 0.045;
+const ANGRY_SPEED = 0.060; 
+
 export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction<PathfinderBotState> => {
   const game = useGame();
 
@@ -24,7 +27,8 @@ export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction
   
   return useCallback((fsm) => {
     if (fsm.age.current === 0) {
-      const dx = 0.045 * (fsm.entity.direction.current === 'right' ? 1 : -1);
+      const speed = fsm.entity.angry.current ? ANGRY_SPEED : REGULAR_SPEED;
+      const dx = speed * (fsm.entity.direction.current === 'right' ? 1 : -1);
       fsm.entity.velocity.current = [dx, 0];
     }
 
