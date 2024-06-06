@@ -3,7 +3,7 @@ import { StateFunction } from "@overreact/engine";
 import { UseFlyingMovementResult } from "../../../../hooks";
 import { FlyingBotState } from "../../../../state";
 
-const REGULAR_VELOCITY = [0.020, 0.012];
+const REGULAR_VELOCITY = [0.025, 0.015];
 const ANGRY_VELOCITY = [0.035, 0.021];
 
 export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction<FlyingBotState> => {

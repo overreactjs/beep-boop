@@ -24,7 +24,7 @@ export const usePatrolState = (movement: UseFlyingMovementResult): StateFunction
   
   return useCallback((fsm) => {
     if (fsm.age.current === 0) {
-      const dx = 0.030 * (fsm.entity.direction.current === 'right' ? 1 : -1);
+      const dx = 0.045 * (fsm.entity.direction.current === 'right' ? 1 : -1);
       fsm.entity.velocity.current = [dx, 0];
     }
 
