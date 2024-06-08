@@ -1,3 +1,4 @@
+export { useAudio } from "./useAudio";
 export { useBaseDeadState } from "./useBaseDeadState";
 export { useBaseStunnedState } from "./useBaseStunnedState";
 export { useBossCollisions } from "./useBossCollisions";
@@ -7,6 +8,7 @@ export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useEnemyStateMachine } from "./useEnemyStateMachine";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame } from "./useGame";
+export { useMusic } from "./useMusic";
 export { usePlatformMovement } from "./usePlatformMovement";
 export { useWrapAround } from "./useWrapAround";
 

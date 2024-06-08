@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
-import { useCamera, useGame } from "../../hooks";
+import { useCamera, useGame, useMusic } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -8,9 +9,14 @@ import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";
 
+import MainTheme from "../../assets/MainTheme.webm";
+import BossFight from "../../assets/BossFight.webm";
+
 export const Arena: React.FC = () => {
   const game = useGame();
   const camera = useCamera();
+  const music = useMusic();
+  
   const timeout = useProperty(5000);
 
   useKeyPressed('KeyO', () => {
@@ -48,6 +54,11 @@ export const Arena: React.FC = () => {
   for (let i = min; i <= max; i++) {
     levels.push(<Level key={i} level={i} />);
   }
+
+  // Play either the main theme, or the boss fight music.
+  useEffect(() => {
+    music.play(currentLevel % 20 === 0 ? BossFight : MainTheme);
+  }, [currentLevel, music]);
 
   return (
     <Box pos={[0, 24]} size={[256, 200]} color="#000">
