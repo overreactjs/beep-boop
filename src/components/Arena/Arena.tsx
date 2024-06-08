@@ -9,8 +9,8 @@ import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";
 
-import MainTheme from "../../assets/MainTheme.webm";
-import BossFight from "../../assets/BossFight.webm";
+import MainTheme from "../../assets/music/MainTheme.webm";
+import BossFight from "../../assets/music/BossFight.webm";
 
 export const Arena: React.FC = () => {
   const game = useGame();
