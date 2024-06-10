@@ -1,6 +1,10 @@
 import { ItemConfig, ItemType } from "../types";
 
 export const ITEMS: Record<ItemType, ItemConfig> = {
+  
+  /**
+   * ROW 1
+   */
   apple: {
     offset: [0, 0],
     value: 50,
@@ -66,6 +70,10 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     value: 300,
     label: 300,
   },
+  
+  /**
+   * ROW 2
+   */
   cheese: {
     offset: [0, 16],
     value: 500,
@@ -136,6 +144,10 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     value: 500,
     label: 500,
   },
+
+  /**
+   * ROW 3
+   */
   diamond: {
     offset: [0, 32],
     value: 1000,
@@ -201,11 +213,34 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     value: 1000,
     label: 1000,
   },
+
+  /**
+   * ROW 4
+   */
   hot_sauce: {
     offset: [0, 48],
     value: 1000,
     label: 'hotsauce',
   },
+  dynamite: {
+    offset: [64, 48],
+    value: 1000,
+    label: 1000,
+  },
+  chest_gold: {
+    offset: [144, 48],
+    value: 10000,
+    label: 10000,
+  },
+  chest_silver: {
+    offset: [160, 48],
+    value: 5000,
+    label: 5000,
+  },
+  
+  /**
+   * ROW 5
+   */
   circuit_1r: {
     offset: [0, 64],
     value: 1000,

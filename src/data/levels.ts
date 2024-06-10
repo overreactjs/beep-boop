@@ -52,7 +52,7 @@ function parseLevelMetadata(data: string[]): LevelMetadata {
   return metadata;
 }
 
-function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick<LevelData, 'tiles' | 'collisions' | 'portals'> {
+function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick<LevelData, 'foreground' | 'background' | 'collisions' | 'portals'> {
   const tiles: number[] = [];
   const collisions: (string[] | false)[] = [];
   const portals: LevelPortalData[] = [];
@@ -167,7 +167,10 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
     }
   }
 
-  return { tiles, collisions, portals };
+  const foreground = tiles.map((tile) => tile >= 10 ? tile : -1);
+  const background = tiles.map((tile) => tile >= 10 ? -1 : tile);
+
+  return { foreground, background, collisions, portals };
 }
 
 function buildLevelItemTargets(data: string[]): Pick<LevelData, 'targets'> {

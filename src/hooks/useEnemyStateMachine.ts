@@ -1,6 +1,7 @@
 import { StateDefinitions, useStateMachine, useProperty, useUpdate } from "@overreact/engine";
+import { BaseEnemyState } from "../state";
 
-export function useEnemyStateMachine<T>(entity: T, states: StateDefinitions<T>) {
+export function useEnemyStateMachine<T extends BaseEnemyState>(entity: T, states: StateDefinitions<T>) {
   const fsm = useStateMachine(entity, 'init', states);
   const ttl = useProperty(2000);
 
@@ -10,6 +11,10 @@ export function useEnemyStateMachine<T>(entity: T, states: StateDefinitions<T>) 
     if (fsm.current.state.current === 'init' && ttl.current <= 0) {
       fsm.current.replace('idle');
     }
+
+    fsm.current.entity.handleSignal('kill', () => {
+      fsm.current.replace('dead');
+    });
   });
 
   return fsm;

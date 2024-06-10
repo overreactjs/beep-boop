@@ -1,6 +1,6 @@
 import { Position, Property, VariableProperty, clamp, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
-import { FlyingStarColor, ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
+import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
@@ -35,6 +35,8 @@ export class GameState {
 
   points: PointsState[] = [];
 
+  powerups: GamePowerup[] = [];
+
   countdown = new VariableProperty(0);
 
   get levelData() {
@@ -54,6 +56,7 @@ export class GameState {
   update(delta: number) {
     this.updateCircuits();
     this.updateCountdown(delta);
+    this.updatePowerups(delta);
   }
 
   updateCircuits() {
@@ -67,6 +70,22 @@ export class GameState {
     this.countdown.current -= delta;
   }
 
+  updatePowerups(delta: number) {
+    const expired: GamePowerup[] = [];
+
+    for (const powerup of this.powerups) {
+      if (powerup.end.includes('timer')) {
+        powerup.ttl -= delta;
+
+        if (powerup.ttl <= 0) {
+          expired.push(powerup);
+        }
+      }
+    }
+
+    this.powerups = this.powerups.filter((powerup) => !expired.includes(powerup));
+  }
+
   /*
    * Levels
    */
@@ -78,6 +97,7 @@ export class GameState {
       this.players[0].respawn();
       this.enemies = [...this.levelData.enemies];
       this.items = [];
+      this.clearLevelPowerups();
     }
   }
 
@@ -110,9 +130,18 @@ export class GameState {
    * Items
    */
 
-  createRandomItem() {
+  createItem() {
     const types = Object.keys(ITEMS) as ItemType[];
-    const type = types[Math.floor(Math.random() * types.length)];
+    let type = types[Math.floor(Math.random() * types.length)];
+
+    if (this.hasPowerup('goldChest')) {
+      type = 'gold_coin';
+    } else if (this.hasPowerup('silverChest')) {
+      type = 'silver_coin';
+    } else if (this.hasPowerup('diamonds')) {
+      type = 'diamond';
+    }
+
     const targets = this.levelData.targets;
     const [tx, ty] = targets[Math.floor(Math.random() * targets.length)];
     const offset = (this.level.current - 1) * 200;
@@ -208,6 +237,10 @@ export class GameState {
    * Enemies
    */
 
+  killAllEnemies() {
+    this.enemies.forEach((enemy) => enemy.signal('kill'));
+  }
+
   killEnemy(enemy: BaseEnemyState) {
     const player = this.players[0];
     const value = ENEMY_POINTS[(enemy as EnemyState).type];
@@ -226,7 +259,7 @@ export class GameState {
     const count = ENEMY_ITEMS[(enemy as EnemyState).type];
 
     for (let i = 0; i < count; i++) {
-      this.createRandomItem();
+      this.createItem();
     }
   }
 
@@ -256,5 +289,29 @@ export class GameState {
       entity.pos.current[0] += dx + (28 * -Math.sign(dx)); // 28 = width of teleporter + width of player
       entity.pos.current[1] += dy;
     }
+  }
+
+  /**
+   * Powerups
+   */
+
+  powerup(type: GamePowerupType, end: GamePowerupEnd[] = [], ttl: number = 0) {
+    const powerup = { type, end, ttl: ttl * 1000 };
+    const existing = this.powerups.findIndex((powerup) => powerup.type === type);
+
+    if (existing >= 0) {
+      this.powerups[existing] = powerup;
+    } else {
+      this.powerups.push(powerup);
+    }
+  }
+
+  hasPowerup(type: GamePowerupType) {
+    return this.powerups.some((powerup) => powerup.type === type);
+  }
+
+  clearLevelPowerups() {
+    this.powerups = this.powerups.filter((powerup) => !powerup.end.includes('level'));
+    this.players.forEach((player) => player.clearLevelPowerups());
   }
 }

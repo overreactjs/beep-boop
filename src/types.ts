@@ -12,15 +12,19 @@ export type ProjectileType =
   ;
 
 export type EnemyType =
-  // Regular enemies
   | 'bounceBot'
   | 'flyingBot'
   | 'guardBot'
   | 'pathfinderBot'
   | 'rollingBot'
   | 'securityBot'
-  // Bosses
+  // | 'ghostBot'
+  // | 'teleportBot'
   | 'greenOgre'
+  // | 'redOgre'
+  // | 'magentaOgre'
+  // | 'cyanOgre'
+  // | 'yellowOgre'
   ;
 
 export type EnemyStates = 
@@ -30,6 +34,8 @@ export type EnemyStates =
   ;
 
 export type ItemType =
+
+  // row 1
   | 'apple'
   | 'banana'
   | 'beans'
@@ -43,6 +49,8 @@ export type ItemType =
   | 'mushroom_magenta'
   | 'turnip'
   | 'egg'
+
+  // row 2
   | 'cheese'
   | 'croissant'
   | 'hotdog'
@@ -57,6 +65,8 @@ export type ItemType =
   | 'cocktail'
   | 'steak'
   | 'lolly_red'
+
+  // row 3
   | 'diamond'
   | 'ruby'
   | 'sapphire'
@@ -70,7 +80,14 @@ export type ItemType =
   | 'star_red'
   | 'star_magenta'
   | 'star_cyan'
+
+  // row 4
   | 'hot_sauce'
+  | 'chest_gold'
+  | 'chest_silver'
+  | 'dynamite'
+
+  // row 5
   | 'circuit_1r'
   | 'circuit_2o'
   | 'circuit_3b'
@@ -93,7 +110,8 @@ export type RawLevelData = {
 
 export type LevelData = {
   meta: LevelMetadata;
-  tiles: number[];
+  foreground: number[];
+  background: number[];
   collisions: (false | string[])[];
   targets: Position[];
   enemies: EnemyState[];
@@ -138,14 +156,30 @@ export type PointsValue =
   | 'hotsauce'
   ;
 
-export type PowerupType = 'fireballs' | 'speed';
+export type PlayerPowerupType = 
+  | 'fireballs'
+  | 'speed'
+  ;
 
-export type PowerupEnd = 'level' | 'death' | 'timer';
+export type GamePowerupType =
+  | 'diamonds'
+  | 'dynamite'
+  | 'goldChest'
+  | 'silverChest'
+  ;
 
-export type Powerup = {
-  type: PowerupType;
-  end: PowerupEnd[];
+export type PlayerPowerupEnd = 'level' | 'death' | 'timer';
+
+export type GamePowerupEnd = 'level' | 'timer';
+
+export type Powerup<T, E> = {
+  type: T;
+  end: E[];
   ttl: number;
 };
+
+export type PlayerPowerup = Powerup<PlayerPowerupType, PlayerPowerupEnd>;
+
+export type GamePowerup = Powerup<GamePowerupType, GamePowerupEnd>;
 
 export type FlyingStarColor = 'yellow' | 'green' | 'cyan' | 'magenta' | 'red';

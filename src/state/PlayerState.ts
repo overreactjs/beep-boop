@@ -1,6 +1,6 @@
 import { Property, Position, VariableProperty } from "@overreact/engine";
 import { EntityObjectState } from "./EntityObjectState";
-import { PowerupType, Powerup, PowerupEnd } from "../types";
+import { PlayerPowerupType, PlayerPowerup, PlayerPowerupEnd } from "../types";
 import { GameState } from "./GameState";
 
 const INVULNERABILITY_DURATION = 2500;
@@ -15,7 +15,7 @@ export class PlayerState extends EntityObjectState {
   combo: Property<number>;
   alive: Property<boolean>;
   invulnerable: Property<number>;
-  powerups: Powerup[] = [];
+  powerups: PlayerPowerup[] = [];
   deadDuration: number;
 
   constructor(game: GameState, pos: Position) {
@@ -55,7 +55,7 @@ export class PlayerState extends EntityObjectState {
   }
 
   updatePowerups(delta: number) {
-    const expired: Powerup[] = [];
+    const expired: PlayerPowerup[] = [];
 
     for (const powerup of this.powerups) {
       if (powerup.end.includes('timer')) {
@@ -85,7 +85,7 @@ export class PlayerState extends EntityObjectState {
     this.score.current += points;
   }
 
-  powerup(type: PowerupType, end: PowerupEnd[] = [], ttl: number = 0) {
+  powerup(type: PlayerPowerupType, end: PlayerPowerupEnd[] = [], ttl: number = 0) {
     const powerup = { type, end, ttl: ttl * 1000 };
     const existing = this.powerups.findIndex((powerup) => powerup.type === type);
 
@@ -96,11 +96,15 @@ export class PlayerState extends EntityObjectState {
     }
   }
 
-  hasPowerup(type: PowerupType) {
+  hasPowerup(type: PlayerPowerupType) {
     return this.powerups.some((powerup) => powerup.type === type);
   }
 
   clearPowerups() {
     this.powerups = [];
+  }
+
+  clearLevelPowerups() {
+    this.powerups = this.powerups.filter((powerup) => !powerup.end.includes('level'));
   }
 }
