@@ -180,13 +180,13 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
   },
   gold_coin: {
     offset: [96, 32],
-    value: 8000,
-    label: 8000,
+    value: 2000,
+    label: 2000,
   },
   silver_coin: {
     offset: [112, 32],
-    value: 7000,
-    label: 7000,
+    value: 1000,
+    label: 1000,
   },
   star_yellow: {
     offset: [128, 32],
@@ -229,13 +229,13 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
   },
   chest_gold: {
     offset: [144, 48],
-    value: 10000,
-    label: 10000,
+    value: 2000,
+    label: 2000,
   },
   chest_silver: {
     offset: [160, 48],
-    value: 5000,
-    label: 5000,
+    value: 1000,
+    label: 1000,
   },
   
   /**

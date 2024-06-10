@@ -44,7 +44,7 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
     game.awardItemPoints(item);
   },
 
-  // Kill all enemies, and give special items.
+  // Kill all enemies, and give diamonds.
   'dynamite': (game) => {
     game.killAllEnemies();
     game.powerup('dynamite', ['timer'], 1);
