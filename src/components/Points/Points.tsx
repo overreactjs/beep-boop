@@ -9,7 +9,7 @@ type PointsProps = {
 }
 
 export const Points: React.FC<PointsProps> = ({ points }) => {
-  const { pos, value } = points;
+  const { pos, label } = points;
   const game = useGame();
   const age = useProperty(0);
 
@@ -28,5 +28,5 @@ export const Points: React.FC<PointsProps> = ({ points }) => {
     }
   });
   
-  return <BitmapImage pos={imagePos} image={POINTS_IMAGE} size={[48, 12]} offset={[0, OFFSETS[value]]} />;
+  return <BitmapImage pos={imagePos} image={POINTS_IMAGE} size={[48, 12]} offset={[0, OFFSETS[label]]} />;
 };

@@ -1,6 +1,6 @@
 import { Position, Property, VariableProperty, clamp, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
-import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsValue } from "../types";
+import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsLabel, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
 import { PointsState } from "./PointsState";
@@ -169,11 +169,12 @@ export class GameState {
    */
 
   showItemPoints(item: ItemState) {
-    this.showPoints(item.pos.current, ITEMS[item.type].label);
+    const config = ITEMS[item.type];
+    this.showPoints(item.pos.current, config.label || config.value);
   }
 
-  showPoints(pos: Position, value: PointsValue) {
-    this.points = [...this.points, new PointsState(pos, value)];
+  showPoints(pos: Position, label: PointsLabel) {
+    this.points = [...this.points, new PointsState(pos, label)];
   }
 
   hidePoints(id: number) {

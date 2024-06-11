@@ -1,12 +1,12 @@
 import { Position } from "@overreact/engine";
-import { PointsValue } from "../types";
+import { PointsLabel } from "../types";
 import { PositionedObjectState } from "./PositionedObjectState";
 
 export class PointsState extends PositionedObjectState {
-  value: PointsValue;
+  label: PointsLabel;
 
-  constructor(pos: Position, value: PointsValue) {
+  constructor(pos: Position, label: PointsLabel) {
     super(pos);
-    this.value = value;
+    this.label = label;
   }
 }

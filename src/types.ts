@@ -99,8 +99,8 @@ export type ItemHandler = (game: GameState, item: ItemState) => void;
 
 export type ItemConfig = {
   offset: Position;
-  value: number;
-  label: PointsValue;
+  value: PointsValue;
+  label?: PointsLabel;
 };
 
 export type RawLevelData = {
@@ -153,6 +153,9 @@ export type PointsValue =
   | 16000
   | 32000
   | 64000
+  ;
+
+export type PointsLabel = PointsValue
   | 'hotsauce'
   ;
 

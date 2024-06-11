@@ -1,6 +1,6 @@
-import { PointsValue } from "../../types";
+import { PointsLabel } from "../../types";
 
-export const OFFSETS: Record<PointsValue, number> = {
+export const OFFSETS: Record<PointsLabel, number> = {
   50: 0,
   100: 16,
   200: 32,
