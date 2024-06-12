@@ -25,4 +25,5 @@ export const OFFSETS: Record<PointsLabel, number> = {
   32000: 336,
   64000: 352,
   hotsauce: 368,
+  bang: 384,
 };

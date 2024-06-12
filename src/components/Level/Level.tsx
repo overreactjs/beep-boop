@@ -1,10 +1,10 @@
 import { BitmapText, Node, Tilemap, useCachedDynamicProperty, useSync } from "@overreact/engine";
-import { useGame } from "../../hooks";
+import { useCalculatedProperty, useGame } from "../../hooks";
 import { BaseBossState } from "../../state";
 import { Portal } from "../Portal";
 import { HealthBar } from "../HealthBar";
 import { LEVELS_FONT, TILESET } from "./assets";
-import { LevelBackground } from "./LevelBackground";
+import { Explosion } from "./Explosion";
 
 type LevelProps = {
   level: number;
@@ -16,16 +16,19 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
   const number = String(level).padStart(2, '0');
   const offset = (level - 1) * 200;
 
+  // We show multiple levels, but only one is active.
   const active = useCachedDynamicProperty(game.level, (current) => current === level);
-  const explosion = useSync(() => game.hasPowerup('dynamite'));
-  const health = useSync(() => {
-    return level === game.level.current ? (game.enemies[0] as BaseBossState)?.health || undefined : undefined;
-  });
+
+  // Show the explosion effect when the dynamite powerup is active.
+  const explosion = useCalculatedProperty(false, () => game.hasPowerup('dynamite'));
+
+  // Show the health bar for bosses.
+  const health = useSync(() => active.current ? (game.enemies[0] as BaseBossState)?.health || undefined : undefined);
 
   return (
     <Node>
       <Tilemap pos={[0, offset]} tileset={TILESET} tiles={background} />
-      {explosion && <LevelBackground offset={offset} color="#f00"/>}
+      <Explosion offset={offset} visible={explosion} />
       <Tilemap pos={[0, offset]} tileset={TILESET} tiles={foreground} collisions={collisions} active={active} />
       <BitmapText pos={[0, offset]} font={LEVELS_FONT} text={number} />
       {portals.map((portal, index) => <Portal key={portal.target} level={level} id={index + 1} {...portal} />)}

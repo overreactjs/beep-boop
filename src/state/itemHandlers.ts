@@ -45,10 +45,11 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
   },
 
   // Kill all enemies, and give diamonds.
-  'dynamite': (game) => {
+  'dynamite': (game, item) => {
     game.killAllEnemies();
-    game.powerup('dynamite', ['timer'], 1);
+    game.powerup('dynamite', ['timer'], 0.5);
     game.powerup('diamonds', ['level']);
+    game.awardItemPoints(item);
   },
 
   // Give player fireball power up.

@@ -156,6 +156,7 @@ export type PointsValue =
   ;
 
 export type PointsLabel = PointsValue
+  | 'bang'
   | 'hotsauce'
   ;
 

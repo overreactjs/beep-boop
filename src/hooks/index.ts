@@ -2,6 +2,7 @@ export { useAudio } from "./useAudio";
 export { useBaseDeadState } from "./useBaseDeadState";
 export { useBaseStunnedState } from "./useBaseStunnedState";
 export { useBossCollisions } from "./useBossCollisions";
+export { useCalculatedProperty } from "./useCalculatedProperty";
 export { useCamera } from "./useCamera";
 export { useEnemyAnimation } from "./useEnemyAnimation";
 export { useEnemyCollisions } from "./useEnemyCollisions";
