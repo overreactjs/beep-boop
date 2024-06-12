@@ -185,7 +185,7 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
   dynamite: {
     offset: [64, 48],
     value: 1000,
-    label: 'bang',
+    label: 'boom',
   },
   chest_gold: {
     offset: [144, 48],

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GameState } from "../../state";
 import { buildLevels } from "../../data/levels";
-import { useUpdate } from "@overreact/engine";
+import { VariableProperty, useKeyPressed, useUpdate } from "@overreact/engine";
 
 export const GameContext = React.createContext<GameState>(new GameState([]));
 
@@ -39,6 +39,18 @@ export const Game: React.FC<GameProps> = ({ children }) => {
   // Update the game state.
   useUpdate((delta) => {
     game?.update(delta);
+  });
+
+  useKeyPressed('KeyM', () => {
+    game?.collectItem({
+      type: "dynamite",
+      target: new VariableProperty([...game.players[0].pos.current]),
+      state: new VariableProperty('landed'),
+      pos: new VariableProperty([...game.players[0].pos.current]),
+      block: new VariableProperty([16, 16]),
+      offset: 0,
+      id: 0
+    });
   });
 
   return game && (
