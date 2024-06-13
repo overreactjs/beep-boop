@@ -22,7 +22,7 @@ export const Player: React.FC = () => {
   const animation = useMergeProperty(player.animation, player.alive, (animation, alive) => alive ? animation : 'dead');
 
   // When the player leaves the screen, wrap to the other side.
-  useWrapAround(player);
+  useWrapAround(player, { direction: 'downwards' });
 
   // Map from real inputs to virtual input events, but only when the player is still alive.
   const active = useMergeProperty(player.alive, game.initialized, (a, b) => a && b);

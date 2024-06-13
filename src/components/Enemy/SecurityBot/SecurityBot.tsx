@@ -13,7 +13,7 @@ export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, col
   const animation = useEnemyAnimation(enemy);
 
   // When the bot leaves the screen, wrap to the other side.
-  useWrapAround(enemy);
+  useWrapAround(enemy, { direction: 'downwards' });
 
   // Standard platformer physics, attached to the enemy state object.
   const movement = usePlatformMovement(collider, pos, velocity, {
