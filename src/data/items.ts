@@ -220,3 +220,5 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     value: 1000,
   },
 };
+
+export const ALL_ITEM_TYPES = Object.keys(ITEMS) as ItemType[];

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Box, Camera, Node, Viewport, World, useKeyPressed, useProperty, useSync, useUpdate } from "@overreact/engine";
-import { useCamera, useGame, useMusic } from "../../hooks";
+import { Box, Camera, Node, Viewport, World, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { useCamera, useDeveloperMode, useGame, useMusic } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -19,15 +19,8 @@ export const Arena: React.FC = () => {
   
   const timeout = useProperty(5000);
 
-  useKeyPressed('KeyO', () => {
-    game.prevLevel();
-    camera.current[1] -= 200;
-  });
-
-  useKeyPressed('KeyK', () => {
-    game.nextLevel();
-    camera.current[1] += 200;
-  });
+  // Enable a whole bunch of special developer key bindings.
+  useDeveloperMode();
 
   // Once all enemies have fallen, and all of the items have finished falling to the ground, move
   // on to the next level.

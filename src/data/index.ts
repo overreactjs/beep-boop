@@ -1,1 +1,1 @@
-export { ITEMS } from "./items";
+export { ITEMS, ALL_ITEM_TYPES } from "./items";

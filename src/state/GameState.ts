@@ -1,5 +1,5 @@
 import { Position, Property, VariableProperty, clamp, dist } from "@overreact/engine";
-import { ITEMS } from "../data";
+import { ALL_ITEM_TYPES, ITEMS } from "../data";
 import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsLabel, PointsValue } from "../types";
 import { ItemState } from "./ItemState";
 import { PlayerState } from "./PlayerState";
@@ -131,8 +131,7 @@ export class GameState {
    */
 
   createItem() {
-    const types = Object.keys(ITEMS) as ItemType[];
-    let type = types[Math.floor(Math.random() * types.length)];
+    let type: ItemType;
 
     if (this.hasPowerup('goldChest')) {
       type = 'gold_coin';
@@ -140,6 +139,8 @@ export class GameState {
       type = 'silver_coin';
     } else if (this.hasPowerup('diamonds')) {
       type = 'diamond';
+    } else {
+      type = ALL_ITEM_TYPES[Math.floor(Math.random() * ALL_ITEM_TYPES.length)];
     }
 
     const targets = this.levelData.targets;
