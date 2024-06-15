@@ -132,14 +132,16 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
     const hasLeft = x > 0 && isSolid(x - 1, y);
     const hasAboveLeft = y > 0 && x > 0 && isSolid(x - 1, y - 1);
 
+    const bg = meta.scheme === 'autotile' ? 0 : offset + 8;
+
     if (hasAbove && hasLeft) {
-      tiles.push(0);
+      tiles.push(bg);
     } else if (hasAbove) {
-      tiles.push(hasAboveLeft || x === 0 ? 1 : 4);
+      tiles.push(bg + (hasAboveLeft || x === 0 ? 1 : 4));
     } else if (hasLeft) {
-      tiles.push(hasAboveLeft ? 2 : 5);
+      tiles.push(bg + (hasAboveLeft ? 2 : 5));
     } else if (hasAboveLeft) {
-      tiles.push(3);
+      tiles.push(bg + 3);
     } else {
       tiles.push(-1);
     }
