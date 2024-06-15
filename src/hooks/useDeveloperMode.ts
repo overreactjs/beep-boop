@@ -1,11 +1,9 @@
-import { useKeyPressed, VariableProperty } from "@overreact/engine";
+import { Position, Property, useKeyPressed, VariableProperty } from "@overreact/engine";
 import { ItemState } from "../state";
-import { useCamera } from "./useCamera";
 import { useGame } from "./useGame";
 
-export const useDeveloperMode = () => {
+export const useDeveloperMode = (camera: Property<Position>) => {
   const game = useGame();
-  const camera = useCamera();
 
   useKeyPressed('KeyO', () => {
     game.prevLevel();

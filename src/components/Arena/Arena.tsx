@@ -20,7 +20,7 @@ export const Arena: React.FC = () => {
   const timeout = useProperty(5000);
 
   // Enable a whole bunch of special developer key bindings.
-  useDeveloperMode();
+  useDeveloperMode(camera);
 
   // Once all enemies have fallen, and all of the items have finished falling to the ground, move
   // on to the next level.
