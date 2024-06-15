@@ -19,8 +19,8 @@ export const IDLE: BitmapSpriteAsset = {
 
 export const RUN: BitmapSpriteAsset = {
   url: runUrl,
-  size: [48, 16],
-  count: 3,
+  size: [64, 16],
+  count: 4,
   rate: 10,
 };
 
@@ -42,8 +42,8 @@ export const IDLE_ANGRY: BitmapSpriteAsset = {
 
 export const RUN_ANGRY: BitmapSpriteAsset = {
   url: runAngryUrl,
-  size: [48, 16],
-  count: 3,
+  size: [64, 16],
+  count: 4,
   rate: 10,
 };
 
