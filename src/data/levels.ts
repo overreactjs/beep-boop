@@ -53,7 +53,8 @@ function parseLevelMetadata(data: string[]): LevelMetadata {
 }
 
 function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick<LevelData, 'foreground' | 'background' | 'collisions' | 'portals'> {
-  const tiles: number[] = [];
+  const foreground: number[] = [];
+  const background: number[] = [];
   const collisions: (string[] | false)[] = [];
   const portals: LevelPortalData[] = [];
   const offset = meta.tileset * 20;
@@ -101,15 +102,17 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
 
   const buildTile = (x: number, y: number) => {
     if (isSolid(x, y)) {
+      background.push(-1);
+
       if ((x === 0 || x === 30) && y < 24) {
-        tiles.push(offset + (y % 2 === 0 ? 0 : 2));
+        foreground.push(offset + (y % 2 === 0 ? 0 : 2));
       } else if ((x === 1 || x === 31) && y < 24) {
-        tiles.push(offset + (y % 2 === 0 ? 1 : 3));
+        foreground.push(offset + (y % 2 === 0 ? 1 : 3));
       } else {
-        tiles.push(offset + 4);
-        // tiles.push(offset + parseInt(data[y][x], 10));
+        foreground.push(offset + 4 + (Math.round(Math.random())));
       }
     } else {
+      foreground.push(-1);
       buildBackgroundTile(x, y);
     }
   };
@@ -121,8 +124,10 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
       const s = +(y < 24 && isSolid(x, y + 1));
       const w = +(x > 0 && isSolid(x - 1, y));
       const index = n + (e << 1) + (s << 2) + (w << 3);
-      tiles.push(offset + index);
+      foreground.push(offset + index);
+      background.push(-1);
     } else {
+      foreground.push(-1);
       buildBackgroundTile(x, y);
     }
   };
@@ -135,15 +140,15 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
     const bg = meta.scheme === 'autotile' ? 0 : offset + 8;
 
     if (hasAbove && hasLeft) {
-      tiles.push(bg);
+      background.push(bg);
     } else if (hasAbove) {
-      tiles.push(bg + (hasAboveLeft || x === 0 ? 1 : 4));
+      background.push(bg + (hasAboveLeft || x === 0 ? 1 : 4));
     } else if (hasLeft) {
-      tiles.push(bg + (hasAboveLeft ? 2 : 5));
+      background.push(bg + (hasAboveLeft ? 2 : 5));
     } else if (hasAboveLeft) {
-      tiles.push(bg + 3);
+      background.push(bg + 3);
     } else {
-      tiles.push(-1);
+      background.push(-1);
     }
   };
 
@@ -168,9 +173,6 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
       buildPortal(x, y);
     }
   }
-
-  const foreground = tiles.map((tile) => tile >= 10 ? tile : -1);
-  const background = tiles.map((tile) => tile >= 10 ? -1 : tile);
 
   return { foreground, background, collisions, portals };
 }
