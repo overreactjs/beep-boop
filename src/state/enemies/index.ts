@@ -7,3 +7,4 @@ export { GuardBotState } from './GuardBotState';
 export { PathfinderBotState } from './PathfinderBotState';
 export { RollingBotState } from './RollingBotState';
 export { SecurityBotState } from './SecurityBotState';
+export { TeleportBotState } from './TeleportBotState';

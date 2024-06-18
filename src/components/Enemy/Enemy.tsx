@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { VirtualInput, useTaggedCollision } from "@overreact/engine";
 import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from "../../state";
-import { GreenOgreState, PathfinderBotState } from "../../state/EnemyState";
+import { GreenOgreState, PathfinderBotState, TeleportBotState } from "../../state/EnemyState";
 import { useGame } from "../../hooks";
 
 import { BounceBot } from "./BounceBot";
@@ -11,6 +11,7 @@ import { RollingBot } from "./RollingBot";
 import { SecurityBot } from "./SecurityBot";
 import { PathfinderBot } from "./PathfinderBot";
 import { GreenOgre } from "./GreenOgre";
+import { TeleportBot } from "./TeleportBot";
 
 export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
   const game = useGame();
@@ -40,6 +41,9 @@ export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
       )}
       {enemy.type === 'securityBot' && (
         <SecurityBot enemy={enemy as SecurityBotState} collider={collider} />
+      )}
+      {enemy.type === 'teleportBot' && (
+        <TeleportBot enemy={enemy as TeleportBotState} collider={collider} />
       )}
 
       {/* Bosses */}

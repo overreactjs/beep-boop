@@ -19,7 +19,7 @@ export type EnemyType =
   | 'rollingBot'
   | 'securityBot'
   // | 'ghostBot'
-  // | 'teleportBot'
+  | 'teleportBot'
   | 'greenOgre'
   // | 'redOgre'
   // | 'magentaOgre'

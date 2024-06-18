@@ -14,6 +14,7 @@ export const ENEMIES: Record<string, EnemyType> = {
   'D': 'flyingBot',
   'E': 'rollingBot',
   'F': 'pathfinderBot',
+  'G': 'teleportBot',
   // Bosses
   'Z': 'greenOgre',
 };

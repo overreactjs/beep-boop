@@ -7,6 +7,7 @@ export {
   PathfinderBotState,
   RollingBotState,
   SecurityBotState,
+  TeleportBotState,
   GreenOgreState,
 } from "./EnemyState";
 
