@@ -5,11 +5,12 @@ import { IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY } from "./asse
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
 import { EnemyProps } from "../types";
 import { Dizzy } from "../../Dizzy";
+import { FALL_SPEED, GRAVITY, JUMP_STRENGTH, SPEED_ANGRY, SPEED_REGULAR } from "./constants";
 
 export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, collider }) => {
   const { angle, flip, pos, scale, velocity, angry } = enemy;
-  const maxFallSpeed = useProperty(0.08);
-  const speed = useDynamicProperty(angry, (angry) => angry ? 0.05 : 0.03);
+  const maxFallSpeed = useProperty(FALL_SPEED);
+  const speed = useDynamicProperty(angry, (angry) => angry ? SPEED_ANGRY : SPEED_REGULAR);
   const animation = useEnemyAnimation(enemy);
 
   // When the bot leaves the screen, wrap to the other side.
@@ -17,10 +18,10 @@ export const SecurityBot: React.FC<EnemyProps<SecurityBotState>> = ({ enemy, col
 
   // Standard platformer physics, attached to the enemy state object.
   const movement = usePlatformMovement(collider, pos, velocity, {
-    gravity: [0, 0.0006],
-    speed,
-    jumpStrength: 0.21,
+    gravity: [0, GRAVITY],
+    jumpStrength: JUMP_STRENGTH,
     maxFallSpeed,
+    speed,
   });
 
   // Setup the finite state machine, to handle the behaviour of each state.

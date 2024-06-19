@@ -2,8 +2,7 @@ import { useCallback } from "react";
 import { StateFunction, chance, useVirtualInput } from "@overreact/engine";
 import { UsePlatformMovementResult, useGame } from "../../../../hooks";
 import { SecurityBotState } from "../../../../state";
-
-const JUMP_CHANCE = 2.0;
+import { CHANCE_JUMP } from "../constants";
 
 export const usePatrolState = (movement: UsePlatformMovementResult): StateFunction<SecurityBotState> => {
   const game = useGame();
@@ -29,7 +28,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     // Jump if the player is above the enemy, and there's a platform to jump on to.
     const isBelowPlayer = game.players[0].block.current[1] <= by;
     const isBelowPlatform = game.isPlatformAbove(bx, by);
-    if (isBelowPlayer && isBelowPlatform && chance(JUMP_CHANCE * delta)) {
+    if (isBelowPlayer && isBelowPlatform && chance(CHANCE_JUMP * delta)) {
       return fsm.replace('thinking');
     }
 
