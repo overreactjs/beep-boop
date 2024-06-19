@@ -15,6 +15,10 @@ export function useEnemyStateMachine<T extends BaseEnemyState>(entity: T, states
     fsm.current.entity.handleSignal('kill', () => {
       fsm.current.replace('dead');
     });
+
+    fsm.current.entity.handleSignal('anger', () => {
+      fsm.current.entity.angry.current = true;
+    })
   });
 
   return fsm;

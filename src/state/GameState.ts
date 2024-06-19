@@ -41,7 +41,7 @@ export class GameState {
 
   powerups: GamePowerup[] = [];
 
-  countdown = new VariableProperty(0);
+  hurryMode = new VariableProperty(false);
 
   get levelData() {
     return this.levels[this.level.current - 1];
@@ -61,6 +61,10 @@ export class GameState {
     this.updateCircuits();
     this.updateLevelTime(delta);
     this.updatePowerups(delta);
+
+    if (this.levelTime.current >= 30000 && !this.hurryMode.current) {
+      this.hurry();
+    }
   }
 
   updateCircuits() {
@@ -97,7 +101,7 @@ export class GameState {
   initLevel() {
     if (!this.initialized.current) {
       this.initialized.current = true;
-      this.countdown.current = 2000;
+      this.levelTime.current = 0;
       this.players[0].respawn();
       this.enemies = [...this.levelData.enemies];
       this.items = [];
@@ -118,6 +122,13 @@ export class GameState {
     this.level.current = level;
     this.players[0].respawn();
     this.enemies = [];
+  }
+
+  hurry() {
+    this.hurryMode.current = true;
+    this.paused.current = true;
+    this.signalEnemies('anger');
+    setTimeout(() => this.paused.current = false, 500);
   }
 
   isSolid(x: number, y: number): boolean {

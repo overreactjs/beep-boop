@@ -23,6 +23,10 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     } as unknown as ItemState);
   });
 
+  useKeyPressed('KeyH', () => {
+    game.hurry();
+  });
+
   useKeyPressed('KeyP', async () => {
     snapshotGame(game);
   });
