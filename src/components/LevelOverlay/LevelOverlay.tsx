@@ -5,7 +5,7 @@ import { ArcadeText } from "../ArcadeText";
 export const LevelOverlay: React.FC = () => {
   const game = useGame();
   const text = useCachedDynamicProperty(game.level, (level) => `STAGE ${String(level).padStart(2, '0')}`);
-  const visible = useSync(() => game.countdown.current > 0);
+  const visible = useSync(() => game.levelTime.current <= 2000);
 
   return visible && (
     <Node>

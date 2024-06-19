@@ -13,6 +13,8 @@ import { getHighScore, setHighScore } from "../services/highscores";
 
 export class GameState {
 
+  paused = new VariableProperty(false);
+
   itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
 
   initialized = new VariableProperty(false);
@@ -20,6 +22,8 @@ export class GameState {
   highscore: Property<number>;
   
   level = new VariableProperty(1);
+
+  levelTime = new VariableProperty(0);
 
   circuits = new VariableProperty(0);
 
@@ -55,7 +59,7 @@ export class GameState {
 
   update(delta: number) {
     this.updateCircuits();
-    this.updateCountdown(delta);
+    this.updateLevelTime(delta);
     this.updatePowerups(delta);
   }
 
@@ -66,8 +70,8 @@ export class GameState {
     }
   }
 
-  updateCountdown(delta: number) {
-    this.countdown.current -= delta;
+  updateLevelTime(delta: number) {
+    this.levelTime.current += delta;
   }
 
   updatePowerups(delta: number) {
@@ -239,8 +243,8 @@ export class GameState {
    * Enemies
    */
 
-  killAllEnemies() {
-    this.enemies.forEach((enemy) => enemy.signal('kill'));
+  signalEnemies(signal: string) {
+    this.enemies.forEach((enemy) => enemy.signal(signal));
   }
 
   killEnemy(enemy: BaseEnemyState) {

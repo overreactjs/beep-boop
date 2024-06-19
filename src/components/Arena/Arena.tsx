@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Box, Camera, Node, Viewport, World, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { Box, Camera, Node, Viewport, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useMusic } from "../../hooks";
 
 import { Enemy } from "../Enemy";
@@ -18,6 +18,7 @@ export const Arena: React.FC = () => {
   const music = useMusic();
   
   const timeout = useProperty(5000);
+  const timescale = useCachedDynamicProperty(game.paused, (paused) => paused ? 0 : 1);
 
   // Enable a whole bunch of special developer key bindings.
   useDeveloperMode(camera);
@@ -54,23 +55,25 @@ export const Arena: React.FC = () => {
   }, [currentLevel, music]);
 
   return (
-    <Box pos={[0, 24]} size={[256, 200]} color="#000">
-      <Viewport>
-        <World>
-          {levels}
+    <Node timeScale={timescale}>
+      <Box pos={[0, 24]} size={[256, 200]} color="#000">
+        <Viewport>
+          <World>
+            {levels}
 
-          <ItemList />
-          <EnemyList />
-          <PointsList />
-          <Player />
-          <ProjectilesList />
+            <ItemList />
+            <EnemyList />
+            <PointsList />
+            <Player />
+            <ProjectilesList />
 
-          <Node pos={camera}>
-            <Camera />
-          </Node>
-        </World>
-      </Viewport>
-    </Box>
+            <Node pos={camera}>
+              <Camera />
+            </Node>
+          </World>
+        </Viewport>
+      </Box>
+    </Node>
   );
 };
 

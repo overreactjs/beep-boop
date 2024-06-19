@@ -7,6 +7,7 @@ export const ENEMY_POINTS: Record<EnemyType, number> = {
   pathfinderBot: 1000,
   rollingBot: 1000,
   securityBot: 1000,
+  teleportBot: 2000,
   greenOgre: 32000,
 };
 
@@ -17,5 +18,6 @@ export const ENEMY_ITEMS: Record<EnemyType, number> = {
   pathfinderBot: 2,
   rollingBot: 2,
   securityBot: 2,
+  teleportBot: 3,
   greenOgre: 16,
 };

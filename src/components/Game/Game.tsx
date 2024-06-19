@@ -10,14 +10,11 @@ type GameInnerProps = {
   children: React.ReactNode;
 }
 
-const GameInner: React.FC<GameInnerProps> = ({ game, children }) => {
-
-  return (
-    <GameContext.Provider value={game}>
-      {children}
-    </GameContext.Provider>
-  )
-};
+const GameInner: React.FC<GameInnerProps> = ({ game, children }) => (
+  <GameContext.Provider value={game}>
+    {children}
+  </GameContext.Provider>
+);
 
 type GameProps = {
   children: React.ReactNode;
