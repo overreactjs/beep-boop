@@ -50,6 +50,12 @@ export class PlayerFireballState extends BaseHorizontalProjectileState {
 
 export class PlayerZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerZap';
+  ttl: Property<number>;
+
+  constructor(game: GameState, pos: Position, direction: 1 | -1, ttl: number) {
+    super(game, pos, direction);
+    this.ttl = new VariableProperty(ttl);
+  }
 }
 
 export class FlyingStarState extends BaseDirectionalProjectileState {

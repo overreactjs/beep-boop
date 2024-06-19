@@ -83,9 +83,11 @@ export type ItemType =
 
   // row 4
   | 'hot_sauce'
+  | 'dynamite'
+  | 'potion_blue'
+  | 'potion_magenta'
   | 'chest_gold'
   | 'chest_silver'
-  | 'dynamite'
 
   // row 5
   | 'circuit_1r'
@@ -163,6 +165,8 @@ export type PointsLabel = PointsValue
 export type PlayerPowerupType = 
   | 'fireballs'
   | 'speed'
+  | 'zapSpeed'
+  | 'zapDistance'
   ;
 
 export type GamePowerupType =

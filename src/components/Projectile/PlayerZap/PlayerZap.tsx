@@ -1,26 +1,22 @@
-import { useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, useDynamicProperty, BitmapSprite } from "@overreact/engine";
+import { useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, BitmapSprite, useMergeProperty } from "@overreact/engine";
 import { useId } from "react";
 import { PlayerZapState } from "../../../state";
 import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "./assets";
 import { ProjectileProps } from "../types";
-
-const FLASH_AGE = 400;
-const COLLISION_AGE = 500;
-const DESTROY_AGE = 600;
 
 export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectile }) => {
   const collider = useId();
   const wallCollider = useId();
 
   const age = useProperty(0);
-  const animation = useDynamicProperty(age, (age) => age >= FLASH_AGE ? 'flash' : 'solid');
-  const active = useDynamicProperty(age, (age) => age <= COLLISION_AGE);
-
+  const animation = useMergeProperty(age, projectile.ttl, (age, ttl) => age >= ttl - 100 ? 'flash' : 'solid');
+  const active = useMergeProperty(age, projectile.ttl, (age, ttl) => age <= ttl);
+  
   useUpdate((delta) => {
-    projectile.pos.current[0] += delta / 8 * projectile.direction;
+    projectile.pos.current[0] += delta / 8 * projectile.direction * (projectile.ttl.current / 500);
     age.current += delta;
 
-    if (age.current > DESTROY_AGE) {
+    if (age.current > projectile.ttl.current + 100) {
       projectile.destroy();
     }
   });

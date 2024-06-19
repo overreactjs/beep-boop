@@ -58,6 +58,18 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
     game.awardItemPoints(item);
   },
 
+  // Blue potions increase the travel distance of zaps.
+  'potion_blue': (game, item) => {
+    game.players[0].powerup('zapDistance', ['death']);
+    game.awardItemPoints(item);
+  },
+
+  // Magenta potions increase the rate that zaps can be fired at.
+  'potion_magenta': (game, item) => {
+    game.players[0].powerup('zapSpeed', ['death']);
+    game.awardItemPoints(item);
+  },
+
   // Fire cyan stars in all directions.
   'star_cyan': (game, item) => {
     game.fireStars(item, 'cyan');

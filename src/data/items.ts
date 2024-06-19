@@ -187,6 +187,14 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     value: 1000,
     label: 'boom',
   },
+  potion_blue: {
+    offset: [96, 48],
+    value: 1000,
+  },
+  potion_magenta: {
+    offset: [112, 48],
+    value: 1000,
+  },
   chest_gold: {
     offset: [144, 48],
     value: 2000,

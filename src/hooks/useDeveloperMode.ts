@@ -2,9 +2,18 @@ import { Position, Property, useKeyPressed, VariableProperty } from "@overreact/
 import { ItemState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
+import { useCallback } from "react";
+import { ItemType } from "../types";
 
 export const useDeveloperMode = (camera: Property<Position>) => {
   const game = useGame();
+
+  const collectItem = useCallback((type: ItemType) => {
+    game.collectItem({
+      type,
+      pos: new VariableProperty([...game.players[0].pos.current]),
+    } as unknown as ItemState);
+  }, [game])
 
   useKeyPressed('KeyO', () => {
     game.prevLevel();
@@ -17,10 +26,8 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 
   useKeyPressed('KeyM', () => {
-    game.collectItem({
-      type: 'dynamite',
-      pos: new VariableProperty([...game.players[0].pos.current]),
-    } as unknown as ItemState);
+    collectItem('potion_blue');
+    collectItem('potion_magenta');
   });
 
   useKeyPressed('KeyH', () => {

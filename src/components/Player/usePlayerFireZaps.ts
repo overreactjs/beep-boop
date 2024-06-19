@@ -4,6 +4,7 @@ import { PlayerState } from "../../state";
 
 const FIREBALL_COOLDOWN = 600;
 const ZAP_COOLDOWN = 400;
+const ZAP_COOLDOWN_FAST = 200;
 
 export const usePlayerFireZaps = (player: PlayerState) => {
   const game = useGame();
@@ -16,7 +17,7 @@ export const usePlayerFireZaps = (player: PlayerState) => {
         cooldown.current = FIREBALL_COOLDOWN;
       } else {
         game.firePlayerZap(player);
-        cooldown.current = ZAP_COOLDOWN;
+        cooldown.current = player.hasPowerup('zapSpeed') ? ZAP_COOLDOWN_FAST : ZAP_COOLDOWN;
       }
     }
   });

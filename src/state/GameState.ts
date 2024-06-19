@@ -7,8 +7,8 @@ import { PointsState } from "./PointsState";
 import { BaseEnemyState, EnemyState } from "./EnemyState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { itemHandlers } from "./itemHandlers";
-import { EnemyFireballState, EnemyZapState, FlyingStarState, PlayerFireballState, PlayerZapState, ProjectileState } from "./ProjectileState";
-import { ENEMY_ITEMS, ENEMY_POINTS } from "../constants";
+import { EnemyFireballState, EnemyZapState, FlyingStarState, ProjectileState } from "./ProjectileState";
+import { ENEMY_ITEMS, ENEMY_POINTS } from "../data/constants";
 import { getHighScore, setHighScore } from "../services/highscores";
 
 export class GameState {
@@ -232,15 +232,11 @@ export class GameState {
   }
 
   firePlayerFireball(player: PlayerState) {
-    const [x, y] = player.pos.current;
-    const direction = player.flip.current ? -1 : 1;
-    this.fireProjectile(new PlayerFireballState(this, [x + direction * 4, y - 8], direction));
+    this.fireProjectile(player.createFireball(this));
   }
 
   firePlayerZap(player: PlayerState) {
-    const [x, y] = player.pos.current;
-    const direction = player.flip.current ? -1 : 1;
-    this.fireProjectile(new PlayerZapState(this, [x + direction * 4, y - 8], direction));
+    this.fireProjectile(player.createZap(this));
   }
   
   fireStars(item: ItemState, color: FlyingStarColor) {

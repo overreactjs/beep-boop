@@ -2,6 +2,7 @@ import { Property, Position, VariableProperty } from "@overreact/engine";
 import { EntityObjectState } from "./EntityObjectState";
 import { PlayerPowerupType, PlayerPowerup, PlayerPowerupEnd } from "../types";
 import { GameState } from "./GameState";
+import { PlayerFireballState, PlayerZapState } from "./ProjectileState";
 
 const INVULNERABILITY_DURATION = 2500;
 const DEAD_DURATION = 2000;
@@ -106,5 +107,18 @@ export class PlayerState extends EntityObjectState {
 
   clearLevelPowerups() {
     this.powerups = this.powerups.filter((powerup) => !powerup.end.includes('level'));
+  }
+
+  createZap(game: GameState): PlayerZapState {
+    const [x, y] = this.pos.current;
+    const direction = this.flip.current ? -1 : 1;
+    const ttl = this.hasPowerup('zapDistance') ? 600 : 500;
+    return new PlayerZapState(game, [x + direction * 4, y - 8], direction, ttl);
+  }
+
+  createFireball(game: GameState): PlayerFireballState {
+    const [x, y] = this.pos.current;
+    const direction = this.flip.current ? -1 : 1;
+    return new PlayerFireballState(game, [x + direction * 4, y - 8], direction);
   }
 }
