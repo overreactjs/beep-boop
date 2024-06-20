@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Box, Camera, Node, Viewport, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
-import { useCamera, useDeveloperMode, useGame, useMusic } from "../../hooks";
+import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -22,6 +22,9 @@ export const Arena: React.FC = () => {
 
   // Enable a whole bunch of special developer key bindings.
   useDeveloperMode(camera);
+
+  // Play appropriate music for the level.
+  useSoundtrack();
 
   // Once all enemies have fallen, and all of the items have finished falling to the ground, move
   // on to the next level.
@@ -48,11 +51,6 @@ export const Arena: React.FC = () => {
   for (let i = min; i <= max; i++) {
     levels.push(<Level key={i} level={i} />);
   }
-
-  // Play either the main theme, or the boss fight music.
-  useEffect(() => {
-    music.play(currentLevel % 20 === 0 ? BossFight : MainTheme);
-  }, [currentLevel, music]);
 
   return (
     <Node timeScale={timescale}>
