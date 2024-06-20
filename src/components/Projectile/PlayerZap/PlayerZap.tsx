@@ -6,6 +6,8 @@ import { ProjectileProps } from "../types";
 import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "./assets";
 import { ZapParticle } from "./ZapParticle";
 
+const PARTICLE_COUNT = 50;
+
 export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectile }) => {
   const particles = useParticles();
 
@@ -13,12 +15,12 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
   const wallCollider = useId();
 
   const age = useProperty(0);
-  const animation = useMergeProperty(age, projectile.ttl, (age, ttl) => age >= ttl - 100 ? 'flash' : 'solid');
+  const animation = useMergeProperty(age, projectile.ttl, (age, ttl) => age >= ttl - 50 ? 'flash' : 'solid');
   const active = useMergeProperty(age, projectile.ttl, (age, ttl) => age <= ttl);
 
   // Create a batch of particles for a projectile.
   const createParticles = useCallback((bounce: boolean) => {
-    for (let i = 0; i <= 20; i++) {
+    for (let i = 0; i <= PARTICLE_COUNT; i++) {
       particles.attach(ZapParticle.fromZap(projectile, bounce));
     }
   }, [particles, projectile]);
@@ -28,7 +30,7 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
     projectile.pos.current[0] += delta / 8 * projectile.direction * (projectile.ttl.current / 500);
     age.current += delta;
 
-    if (age.current > projectile.ttl.current + 100) {
+    if (age.current > projectile.ttl.current + 50) {
       projectile.destroy();
     }
   });

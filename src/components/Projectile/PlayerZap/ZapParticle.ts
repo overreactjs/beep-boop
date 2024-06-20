@@ -9,12 +9,12 @@ export class ZapParticle extends BaseParticle {
 
   constructor(pos: Position, direction: 1 | -1) {
     super();
-    this.ttl = 200 + Math.random() * 200;
+    this.ttl = 50 + Math.random() * 250;
     this.direction = direction;
     this.pos = new VariableProperty([...pos]);
 
-    const dx = (Math.random() * 0.08 + 0.02) * this.direction;
-    const dy = Math.random() * 0.12 - 0.09;
+    const dx = (Math.random() * 0.10 + 0.02) * this.direction;
+    const dy = Math.random() * 0.06 - 0.04;
     this.velocity = new VariableProperty([dx, dy]);
   }
 
@@ -33,7 +33,7 @@ export class ZapParticle extends BaseParticle {
   update(delta: number) {
     this.pos.current[0] += this.velocity.current[0] * delta;
     this.pos.current[1] += this.velocity.current[1] * delta;
-    this.velocity.current[1] += 0.0005 * delta;
+    this.velocity.current[1] += 0.0003 * delta;
 
     const x = Math.round(this.pos.current[0]);
     const y = Math.round(this.pos.current[1]);
@@ -50,7 +50,7 @@ export class ZapParticle extends BaseParticle {
   static fromZap(zap: PlayerZapState, bounce = false) {
     const direction = zap.direction === 1 ? (bounce ? -1 : 1) : (bounce ? 1 : -1);
     const x = zap.pos.current[0] - 4 * direction;
-    const y = zap.pos.current[1] - 4 + Math.random() * 8
+    const y = zap.pos.current[1] - 3 + Math.random() * 5;
     return new ZapParticle([x, y], direction);
   }
 }
