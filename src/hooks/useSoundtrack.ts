@@ -3,8 +3,8 @@ import { useSync } from "@overreact/engine";
 import { useGame } from "./useGame";
 import { useMusic } from "./useMusic";
 
-import MainTheme from "../../assets/music/MainTheme.webm";
-import BossFight from "../../assets/music/BossFight.webm";
+import MainTheme from "../assets/music/MainTheme.webm";
+import BossFight from "../assets/music/BossFight.webm";
 
 export const useSoundtrack = () => {
   const game = useGame();
