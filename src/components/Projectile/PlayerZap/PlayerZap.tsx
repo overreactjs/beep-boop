@@ -17,9 +17,9 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
   const active = useMergeProperty(age, projectile.ttl, (age, ttl) => age <= ttl);
 
   // Create a batch of particles for a projectile.
-  const createParticles = useCallback(() => {
+  const createParticles = useCallback((bounce: boolean) => {
     for (let i = 0; i <= 20; i++) {
-      particles.attach(ZapParticle.fromZap(projectile));
+      particles.attach(ZapParticle.fromZap(projectile, bounce));
     }
   }, [particles, projectile]);
   
@@ -37,17 +37,18 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
   useTaggedCollision(wallCollider, 'platform', (collisions) => {
     if (projectile.direction === 1 && collisions.some(({ tags }) => tags.includes('left'))) {
       projectile.destroy();
-      createParticles();
+      createParticles(true);
 
     } else if (projectile.direction === -1 && collisions.some(({ tags }) => tags.includes('right'))) {
       projectile.destroy();
-      createParticles();
+      createParticles(true);
     }
   });
 
   // Destroy projectiles when they hit (not stunned) enemies.
   useTaggedCollision(collider, 'enemy', () => {
     projectile.destroy();
+    createParticles(false);
   });
 
   return (
