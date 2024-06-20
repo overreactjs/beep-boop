@@ -1,4 +1,5 @@
-import { DynamicProperty, ObjectState, Position, Property, VariableProperty } from "@overreact/engine";
+import { DynamicProperty, Position, Property, VariableProperty } from "@overreact/engine";
+import { ObjectState } from "./ObjectState";
 
 export class PositionedObjectState extends ObjectState {
 

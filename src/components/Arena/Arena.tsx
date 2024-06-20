@@ -1,21 +1,17 @@
-import { useEffect } from "react";
 import { Box, Camera, Node, Viewport, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
 import { Level } from "../Level";
+import { ParticleEngine, Particles } from "../Particles";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";
 
-import MainTheme from "../../assets/music/MainTheme.webm";
-import BossFight from "../../assets/music/BossFight.webm";
-
 export const Arena: React.FC = () => {
   const game = useGame();
   const camera = useCamera();
-  const music = useMusic();
   
   const timeout = useProperty(5000);
   const timescale = useCachedDynamicProperty(game.paused, (paused) => paused ? 0 : 1);
@@ -53,25 +49,28 @@ export const Arena: React.FC = () => {
   }
 
   return (
-    <Node timeScale={timescale}>
-      <Box pos={[0, 24]} size={[256, 200]} color="#000">
-        <Viewport>
-          <World>
-            {levels}
+    <ParticleEngine>
+      <Node timeScale={timescale}>
+        <Box pos={[0, 24]} size={[256, 200]} color="#000">
+          <Viewport>
+            <World>
+              {levels}
 
-            <ItemList />
-            <EnemyList />
-            <PointsList />
-            <Player />
-            <ProjectilesList />
+              <ItemList />
+              <EnemyList />
+              <PointsList />
+              <Player />
+              <ProjectilesList />
+              <Particles />
 
-            <Node pos={camera}>
-              <Camera />
-            </Node>
-          </World>
-        </Viewport>
-      </Box>
-    </Node>
+              <Node pos={camera}>
+                <Camera />
+              </Node>
+            </World>
+          </Viewport>
+        </Box>
+      </Node>
+    </ParticleEngine>
   );
 };
 

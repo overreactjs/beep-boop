@@ -10,8 +10,9 @@ import { itemHandlers } from "./itemHandlers";
 import { EnemyFireballState, EnemyZapState, FlyingStarState, ProjectileState } from "./ProjectileState";
 import { ENEMY_ITEMS, ENEMY_POINTS } from "../data/constants";
 import { getHighScore, setHighScore } from "../services/highscores";
+import { ObjectState } from "./ObjectState";
 
-export class GameState {
+export class GameState extends ObjectState {
 
   paused = new VariableProperty(false);
 
@@ -48,6 +49,7 @@ export class GameState {
   }
 
   constructor(levels: LevelData[]) {
+    super();
     this.highscore = new VariableProperty(getHighScore());
     this.itemHandlers = itemHandlers;
     this.levels = levels;
