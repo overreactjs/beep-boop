@@ -83,6 +83,7 @@ export class PlayerState extends EntityObjectState {
     const x = this.player === 0 ? 32 : 224;
     this.pos.current = [x, (this.game.level.current - 1) * 200 + 192];
     this.velocity.current = [0, 0];
+    this.flip.current = this.player === 1;
   }
 
   addPoints(points: number) {

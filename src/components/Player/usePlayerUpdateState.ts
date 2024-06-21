@@ -4,7 +4,9 @@ import { PlayerState } from "../../state";
 
 export const usePlayerUpdateState = (player: PlayerState, movement: UsePlatformMovementResult) => {
   usePostCollisions(() => {
-    player.flip.current = movement?.facing.current === 'left';
+    if (movement?.facing.current !== null) {
+      player.flip.current = movement?.facing.current === 'left';
+    }
 
     if (movement.isJumping.current) {
       player.animation.current = 'jump';

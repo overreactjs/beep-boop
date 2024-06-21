@@ -37,7 +37,7 @@ export type UsePlatformMovementResult = {
   wallToLeft: Property<boolean>;
   wallToRight: Property<boolean>;
   jumpCount: Property<number>;
-  facing: Property<'left' | 'right'>;
+  facing: Property<'left' | 'right' | null>;
   addEventListener: (type: PlatformMovementEventType, fn: () => void) => void;
   removeEventListener: (type: PlatformMovementEventType, fn: () => void) => void;
 };
@@ -59,7 +59,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
   const wallToLeft = useProperty(false);
   const wallToRight = useProperty(false);
   const jumpCount = useProperty(0);
-  const facing = useProperty<'left' | 'right'>('right');
+  const facing = useProperty<'left' | 'right' | null>(null);
   const fallingThrough = useProperty(false);
 
   /**
@@ -118,7 +118,11 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
           facing.current = 'left';
         } else if (horizontalInput > 0) {
           facing.current = 'right';
+        } else {
+          facing.current = null;
         }
+      } else {
+        facing.current = null;
       }
     }
   });
