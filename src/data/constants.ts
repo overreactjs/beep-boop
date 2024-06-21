@@ -1,4 +1,9 @@
-import { EnemyType } from "../types";
+import { EnemyType, PlayerColor, PlayerIndex } from "../types";
+
+export const PLAYER_COLORS: Record<PlayerIndex, PlayerColor> = {
+  0: '#0f0',
+  1: '#0ff',
+};
 
 export const SOLID  = '0';
 export const EMPTY  = ' ';

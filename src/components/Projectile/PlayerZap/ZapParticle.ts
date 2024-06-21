@@ -1,16 +1,26 @@
 import { Property, Position, Velocity, VariableProperty } from "@overreact/engine";
 import { PlayerZapState } from "../../../state";
 import { BaseParticle } from "../../Particles/BaseParticle";
+import { PLAYER_COLORS } from "../../../data/constants";
+import { PlayerColor } from "../../../types";
+
+type Direction = 1 | -1;
 
 export class ZapParticle extends BaseParticle {
-  direction: 1 | -1;
-  pos: Property<Position>;
-  velocity: Property<Velocity>;
+  direction: Direction;
 
-  constructor(pos: Position, direction: 1 | -1) {
+  color: PlayerColor;
+
+  pos: Property<Position>;
+
+  velocity: Property<Velocity>;
+  
+
+  constructor(pos: Position, direction: Direction, color: PlayerColor) {
     super();
     this.ttl = 50 + Math.random() * 250;
     this.direction = direction;
+    this.color = color;
     this.pos = new VariableProperty([...pos]);
 
     const dx = (Math.random() * 0.10 + 0.02) * this.direction;
@@ -22,7 +32,7 @@ export class ZapParticle extends BaseParticle {
     this.node.style.position = 'absolute';
     this.node.style.width = '1px';
     this.node.style.height = '1px';
-    this.node.style.backgroundColor = '#0f0';
+    this.node.style.backgroundColor = this.color;
 
     const x = Math.round(this.pos.current[0]);
     const y = Math.round(this.pos.current[1]);
@@ -39,7 +49,7 @@ export class ZapParticle extends BaseParticle {
     const y = Math.round(this.pos.current[1]);
     this.node.style.transform = `translate(${x}px, ${y}px)`;
 
-    const color = this.ttl < 100 ? '#0000ff' : '#00ff00';
+    const color = this.ttl < 100 ? '#00f' : this.color;
     this.node.style.backgroundColor = color;
   }
 
@@ -49,8 +59,9 @@ export class ZapParticle extends BaseParticle {
 
   static fromZap(zap: PlayerZapState, bounce = false) {
     const direction = zap.direction === 1 ? (bounce ? -1 : 1) : (bounce ? 1 : -1);
+    const color = PLAYER_COLORS[zap.player];
     const x = zap.pos.current[0] - 4 * direction;
     const y = zap.pos.current[1] - 3 + Math.random() * 5;
-    return new ZapParticle([x, y], direction);
+    return new ZapParticle([x, y], direction, color);
   }
 }

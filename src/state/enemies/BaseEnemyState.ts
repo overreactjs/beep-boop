@@ -1,6 +1,7 @@
 import { Property, Position, VariableProperty, DynamicProperty } from "@overreact/engine";
 import { Direction } from "../../types";
 import { EntityObjectState } from "../EntityObjectState";
+import { PlayerState } from "../PlayerState";
 
 export class BaseEnemyState extends EntityObjectState {
   angle: Property<number>;
@@ -9,6 +10,7 @@ export class BaseEnemyState extends EntityObjectState {
   direction: Property<Direction>;
   flip: Property<boolean>;
   angry: Property<boolean>;
+  killedBy: PlayerState | null = null;
 
   constructor(pos: Position, direction: Direction) {
     super(pos);

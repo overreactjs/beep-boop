@@ -1,10 +1,11 @@
 import { Property, StateMachine, useCachedDynamicProperty, useTaggedCollision } from "@overreact/engine";
+import { BaseEnemyState, PlayerState } from "../state";
 
 type FSM<T> = Property<StateMachine<T>>;
 
 type Result = [Property<string[]>, Property<boolean>];
 
-export function useEnemyCollisions<T>(collider: string, fsm: FSM<T>): Result {
+export function useEnemyCollisions<T extends BaseEnemyState>(collider: string, fsm: FSM<T>): Result {
   const tags = useCachedDynamicProperty(fsm.current.state, (state): string[] => state === 'stunned' ? ['stunned'] : ['enemy']);
   const active = useCachedDynamicProperty(fsm.current.state, (state) => state !== 'dead');
 
@@ -18,8 +19,9 @@ export function useEnemyCollisions<T>(collider: string, fsm: FSM<T>): Result {
     fsm.current.replace('dead');
   });
 
-  useTaggedCollision(collider, 'player', () => {
+  useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
     if (fsm.current.state.current === 'stunned') {
+      fsm.current.entity.killedBy = collisions[0].b.entity || null;
       fsm.current.replace('dead');
     }
   });

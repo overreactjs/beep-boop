@@ -2,16 +2,21 @@ import { useId } from "react";
 import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
-import { DEAD, FALL, IDLE, JUMP, RUN } from "./assets";
-import { MOVEMENT_PROPS } from "./constants";
+import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2 } from "./assets";
+import { GAMEPAD_MAP, KEYBOARD_MAPS, MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
 import { usePlayerFireZaps } from "./usePlayerFireZaps";
 import { usePlayerUpdateState } from "./usePlayerUpdateState";
+import { PlayerIndex } from "../../types";
 
-export const Player: React.FC = () => {
+type PlayerProps = {
+  index: PlayerIndex;
+}
+
+export const Player: React.FC<PlayerProps> = ({ index }) => {
   const game = useGame();
   
-  const player = game.players[0];
+  const player = game.players[index];
   const { flip, pos, velocity } = player;
   const collider = useId();
 
@@ -26,8 +31,8 @@ export const Player: React.FC = () => {
 
   // Map from real inputs to virtual input events, but only when the player is still alive.
   const active = useMergeProperty(player.alive, game.initialized, (a, b) => a && b);
-  useKeyboardMap({ KeyA: 'left', KeyD: 'right', KeyW: 'jump', Space: 'fire' }, active);
-  useGamepadMap(0, { Left: 'left', Right: 'right', A: 'jump', X: 'fire' }, active);
+  useKeyboardMap(KEYBOARD_MAPS[index], active);
+  useGamepadMap(index, GAMEPAD_MAP, active);
 
   // Setup standard platform movement.
   const movement = usePlatformMovement(collider, pos, velocity, MOVEMENT_PROPS);
@@ -50,7 +55,7 @@ export const Player: React.FC = () => {
   useTaggedCollision<ItemState>(collider, 'item', (collisions) => {
     collisions.forEach(({ b }) => {
       if (b.entity) {
-        game.collectItem(b.entity);
+        game.collectItem(player, b.entity);
       }
     });
   });
@@ -67,11 +72,11 @@ export const Player: React.FC = () => {
     <Node pos={pos}>
       <Node offset={[-8, -16]} rounded>
         <SpriteSet animation={animation}>
-          <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
-          <BitmapSprite {...spriteProps} name="jump" sprite={JUMP} />
-          <BitmapSprite {...spriteProps} name="fall" sprite={FALL} />
-          <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
-          <BitmapSprite {...spriteProps} name="dead" sprite={DEAD} repeat={false} />
+          <BitmapSprite {...spriteProps} name="idle" sprite={index === 0 ? IDLE_P1 : IDLE_P2} />
+          <BitmapSprite {...spriteProps} name="jump" sprite={index === 0 ? JUMP_P1 : JUMP_P2} />
+          <BitmapSprite {...spriteProps} name="fall" sprite={index === 0 ? FALL_P1 : FALL_P2} />
+          <BitmapSprite {...spriteProps} name="run"  sprite={index === 0 ? RUN_P1  : RUN_P2} />
+          <BitmapSprite {...spriteProps} name="dead" sprite={index === 0 ? DEAD_P1 : DEAD_P2} repeat={false} />
         </SpriteSet>
       </Node>
       <Node offset={[-6, -10]}>

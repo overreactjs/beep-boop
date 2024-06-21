@@ -1,6 +1,6 @@
 import { Position, Property, Velocity } from "@overreact/engine";
 import { PositionedObjectState } from "./PositionedObjectState";
-import { FlyingStarColor, ProjectileType } from "../types";
+import { FlyingStarColor, PlayerIndex, ProjectileType } from "../types";
 import { GameState } from "./GameState";
 import { VariableProperty } from "@overreact/engine";
 
@@ -50,20 +50,24 @@ export class PlayerFireballState extends BaseHorizontalProjectileState {
 
 export class PlayerZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerZap';
+  player: PlayerIndex;
   ttl: Property<number>;
 
-  constructor(game: GameState, pos: Position, direction: 1 | -1, ttl: number) {
+  constructor(game: GameState, pos: Position, direction: 1 | -1, player: PlayerIndex, ttl: number) {
     super(game, pos, direction);
+    this.player = player;
     this.ttl = new VariableProperty(ttl);
   }
 }
 
 export class FlyingStarState extends BaseDirectionalProjectileState {
   readonly type: ProjectileType = 'flyingStar';
+  player: PlayerIndex;
   color: FlyingStarColor;
 
-  constructor(game: GameState, pos: Position, velocity: Velocity, color: FlyingStarColor) {
+  constructor(game: GameState, pos: Position, velocity: Velocity, player: PlayerIndex, color: FlyingStarColor) {
     super(game, pos, velocity);
+    this.player = player;
     this.color = color;
   }
 }

@@ -1,7 +1,11 @@
 import { Position } from "@overreact/engine";
-import { EnemyState, GameState, ItemState } from "./state";
+import { EnemyState, GameState, ItemState, PlayerState } from "./state";
 
 export type Direction = 'left' | 'right';
+
+export type PlayerIndex = 0 | 1;
+
+export type PlayerColor = '#0f0' | '#0ff';
 
 export type ProjectileType = 
   | 'enemyFireball'
@@ -97,7 +101,7 @@ export type ItemType =
   | 'circuit_5t'
   ;
 
-export type ItemHandler = (game: GameState, item: ItemState) => void;
+export type ItemHandler = (game: GameState, player: PlayerState, item: ItemState) => void;
 
 export type ItemConfig = {
   offset: Position;

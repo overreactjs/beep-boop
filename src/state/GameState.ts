@@ -54,8 +54,8 @@ export class GameState extends ObjectState {
     this.itemHandlers = itemHandlers;
     this.levels = levels;
     this.players = [
-      new PlayerState(this, [32, 192]),
-      new PlayerState(this, [224, 192]),
+      new PlayerState(this, 0, [32, 192]),
+      new PlayerState(this, 1, [224, 192]),
     ];
   }
 
@@ -72,7 +72,7 @@ export class GameState extends ObjectState {
   updateCircuits() {
     if (this.circuits.current === 31) {
       this.circuits.current = 0;
-      this.players[0].lives.current += 1;
+      this.players.forEach((player) => player.lives.current += 1);
     }
   }
 
@@ -97,6 +97,17 @@ export class GameState extends ObjectState {
   }
 
   /*
+   * Players
+   */
+
+  nearestPlayer(enemy: BaseEnemyState): PlayerState {
+    const a = dist(enemy.pos.current, this.players[0].pos.current);
+    const b = dist(enemy.pos.current, this.players[1].pos.current);
+    
+    return a <= b ? this.players[0] : this.players[1];
+  }
+
+  /*
    * Levels
    */
 
@@ -104,7 +115,7 @@ export class GameState extends ObjectState {
     if (!this.initialized.current) {
       this.initialized.current = true;
       this.levelTime.current = 0;
-      this.players[0].respawn();
+      this.players.forEach((player) => player.respawn());
       this.enemies = [...this.levelData.enemies];
       this.items = [];
       this.clearLevelPowerups();
@@ -122,7 +133,7 @@ export class GameState extends ObjectState {
   setLevel(level: number) {
     this.initialized.current = false;
     this.level.current = level;
-    this.players[0].respawn();
+    this.players.forEach((player) => player.respawn());
     this.enemies = [];
   }
 
@@ -167,18 +178,18 @@ export class GameState extends ObjectState {
     this.items = [...this.items, item];
   }
 
-  awardItemPoints(item: ItemState) {
-    this.awardPoints(this.players[0], ITEMS[item.type].value);
-    this.showItemPoints(item);
+  awardItemPoints(player: PlayerState, item: ItemState) {
+    this.awardPoints(player, ITEMS[item.type].value);
+    this.showItemPoints(player, item);
   }
 
-  collectItem(item: ItemState) {
+  collectItem(player: PlayerState, item: ItemState) {
     this.items = this.items.filter(({ id }) => id !== item.id);
 
     if (item.type in this.itemHandlers) {
-      this.itemHandlers[item.type]?.(this, item);
+      this.itemHandlers[item.type]?.(this, player, item);
     } else {
-      this.awardItemPoints(item);
+      this.awardItemPoints(player, item);
     }
   }
 
@@ -186,13 +197,13 @@ export class GameState extends ObjectState {
    * Points
    */
 
-  showItemPoints(item: ItemState) {
+  showItemPoints(player: PlayerState, item: ItemState) {
     const config = ITEMS[item.type];
-    this.showPoints(item.pos.current, config.label || config.value);
+    this.showPoints(item.pos.current, config.label || config.value, player);
   }
 
-  showPoints(pos: Position, label: PointsLabel) {
-    this.points = [...this.points, new PointsState(pos, label)];
+  showPoints(pos: Position, label: PointsLabel, player: PlayerState) {
+    this.points = [...this.points, new PointsState(pos, label, player.player)];
   }
 
   hidePoints(id: number) {
@@ -205,10 +216,10 @@ export class GameState extends ObjectState {
   }
 
   updateHighScore() {
-    const p1 = this.players[0].score;
+    const max = Math.max(this.players[0].score.current, this.players[1].score.current);
 
-    if (p1.current > this.highscore.current) {
-      this.highscore.current = p1.current;
+    if (max > this.highscore.current) {
+      this.highscore.current = max;
       setHighScore(this.highscore.current);
     }
   }
@@ -241,10 +252,10 @@ export class GameState extends ObjectState {
     this.fireProjectile(player.createZap(this));
   }
   
-  fireStars(item: ItemState, color: FlyingStarColor) {
+  fireStars(player: PlayerState, item: ItemState, color: FlyingStarColor) {
     const [x, y] = item.pos.current;
     for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 8) {
-      this.fireProjectile(new FlyingStarState(this, [x, y - 8], [Math.sin(angle) * 3, Math.cos(angle) * 3], color));
+      this.fireProjectile(new FlyingStarState(this, [x, y - 8], [Math.sin(angle) * 3, Math.cos(angle) * 3], player.player, color));
     }
   }
 
@@ -257,15 +268,18 @@ export class GameState extends ObjectState {
   }
 
   killEnemy(enemy: BaseEnemyState) {
-    const player = this.players[0];
-    const value = ENEMY_POINTS[(enemy as EnemyState).type];
-    const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * value);
+    const player = enemy.killedBy;
+    const px = player?.pos.current[0] || Math.random() * 256;
 
-    enemy.velocity.current[0] = player.pos.current[0] <= enemy.pos.current[0] ? 2 : -2;
+    enemy.velocity.current[0] = px <= enemy.pos.current[0] ? 2 : -2;
     enemy.velocity.current[1] = 0;
     
-    this.showPoints([...enemy.pos.current], points as PointsValue);
-    this.awardPoints(player, points);
+    if (player) {
+      const value = ENEMY_POINTS[(enemy as EnemyState).type];
+      const points = (Math.pow(2, clamp(player.combo.current, 0, 3)) * value);
+      this.showPoints([...enemy.pos.current], points as PointsValue, player);
+      this.awardPoints(player, points);
+    }
   }
 
   destroyEnemy(enemy: BaseEnemyState) {

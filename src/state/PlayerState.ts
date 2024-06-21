@@ -1,6 +1,6 @@
 import { Property, Position, VariableProperty } from "@overreact/engine";
 import { EntityObjectState } from "./EntityObjectState";
-import { PlayerPowerupType, PlayerPowerup, PlayerPowerupEnd } from "../types";
+import { PlayerPowerupType, PlayerPowerup, PlayerPowerupEnd, PlayerIndex } from "../types";
 import { GameState } from "./GameState";
 import { PlayerFireballState, PlayerZapState } from "./ProjectileState";
 
@@ -9,6 +9,7 @@ const DEAD_DURATION = 2000;
 
 export class PlayerState extends EntityObjectState {
   game: GameState;
+  player: PlayerIndex;
   lives: Property<number>;
   score: Property<number>;
   flip: Property<boolean>;
@@ -19,9 +20,10 @@ export class PlayerState extends EntityObjectState {
   powerups: PlayerPowerup[] = [];
   deadDuration: number;
 
-  constructor(game: GameState, pos: Position) {
+  constructor(game: GameState, player: PlayerIndex, pos: Position) {
     super(pos);
     this.game = game;
+    this.player = player;
     this.lives = new VariableProperty(3);
     this.score = new VariableProperty(0);
     this.flip = new VariableProperty(false);
@@ -78,7 +80,8 @@ export class PlayerState extends EntityObjectState {
   }
 
   respawn() {
-    this.pos.current = [32, (this.game.level.current - 1) * 200 + 192];
+    const x = this.player === 0 ? 32 : 224;
+    this.pos.current = [x, (this.game.level.current - 1) * 200 + 192];
     this.velocity.current = [0, 0];
   }
 
@@ -113,7 +116,7 @@ export class PlayerState extends EntityObjectState {
     const [x, y] = this.pos.current;
     const direction = this.flip.current ? -1 : 1;
     const ttl = this.hasPowerup('zapDistance') ? 600 : 500;
-    return new PlayerZapState(game, [x + direction * 4, y - 8], direction, ttl);
+    return new PlayerZapState(game, [x + direction * 4, y - 8], direction, this.player, ttl);
   }
 
   createFireball(game: GameState): PlayerFireballState {

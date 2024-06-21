@@ -3,7 +3,7 @@ import { useCallback, useId } from "react";
 import { PlayerZapState } from "../../../state";
 import { useParticles } from "../../Particles";
 import { ProjectileProps } from "../types";
-import { ZAP_FLASH_SPRITE, ZAP_SPRITE } from "./assets";
+import { ZAP_FLASH_P1_SPRITE, ZAP_FLASH_P2_SPRITE, ZAP_P1_SPRITE, ZAP_P2_SPRITE } from "./assets";
 import { ZapParticle } from "./ZapParticle";
 
 const PARTICLE_COUNT = 50;
@@ -57,8 +57,8 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
     <Node pos={projectile.pos}>
       <Node offset={[-4, -4]} rounded>
         <SpriteSet animation={animation}>
-          <BitmapSprite name="solid" size={[8, 8]} sprite={ZAP_SPRITE} />
-          <BitmapSprite name="flash" size={[8, 8]} sprite={ZAP_FLASH_SPRITE} />
+          <BitmapSprite name="solid" size={[8, 8]} sprite={[ZAP_P1_SPRITE, ZAP_P2_SPRITE][projectile.player]} />
+          <BitmapSprite name="flash" size={[8, 8]} sprite={[ZAP_FLASH_P1_SPRITE, ZAP_FLASH_P2_SPRITE][projectile.player]} />
         </SpriteSet>
       </Node>
       <Node offset={[-4, -4]}>

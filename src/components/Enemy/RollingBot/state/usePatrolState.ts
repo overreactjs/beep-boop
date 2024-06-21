@@ -10,7 +10,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
   return useCallback((fsm) => {
     const { direction } = fsm.entity;
     const [bx, by] = fsm.entity.block.current;
-    const [px, py] = game.players[0].block.current;
+    const [px, py] = game.nearestPlayer(fsm.entity).block.current;
 
     fsm.entity.patrol();
 

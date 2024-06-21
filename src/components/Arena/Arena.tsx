@@ -1,4 +1,4 @@
-import { Box, Camera, Node, Viewport, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { Box, Camera, Node, Viewport, VirtualInput, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
@@ -59,7 +59,14 @@ export const Arena: React.FC = () => {
               <ItemList />
               <EnemyList />
               <PointsList />
-              <Player />
+              
+              <VirtualInput>
+                <Player index={0} />
+              </VirtualInput>
+              <VirtualInput>
+                <Player index={1} />
+              </VirtualInput>
+              
               <ProjectilesList />
               <Particles />
 

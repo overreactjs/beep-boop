@@ -3,38 +3,40 @@ import { ItemState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
 import { useCallback } from "react";
-import { ItemType } from "../types";
+import { ItemType, PlayerIndex } from "../types";
 
 export const useDeveloperMode = (camera: Property<Position>) => {
   const game = useGame();
 
-  const collectItem = useCallback((type: ItemType) => {
+  const collectItem = useCallback((index: PlayerIndex, type: ItemType) => {
     game.collectItem({
       type,
-      pos: new VariableProperty([...game.players[0].pos.current]),
+      pos: new VariableProperty([...game.players[index].pos.current]),
     } as unknown as ItemState);
   }, [game])
 
-  useKeyPressed('KeyO', () => {
+  useKeyPressed('Digit1', () => {
     game.prevLevel();
     camera.current[1] -= 200;
   });
 
-  useKeyPressed('KeyK', () => {
+  useKeyPressed('Digit2', () => {
     game.nextLevel();
     camera.current[1] += 200;
   });
 
-  useKeyPressed('KeyM', () => {
-    collectItem('potion_blue');
-    collectItem('potion_magenta');
+  useKeyPressed('Digit3', () => {
+    collectItem(0, 'potion_blue');
+    collectItem(0, 'potion_magenta');
+    collectItem(1, 'potion_blue');
+    collectItem(1, 'potion_magenta');
   });
 
-  useKeyPressed('KeyH', () => {
+  useKeyPressed('Digit4', () => {
     game.hurry();
   });
 
-  useKeyPressed('KeyP', async () => {
+  useKeyPressed('Digit5', async () => {
     snapshotGame(game);
   });
 };

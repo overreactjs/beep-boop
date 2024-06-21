@@ -13,7 +13,7 @@ export const TopBar: React.FC = () => {
       <ArcadeText pos={[216, 0]} color="blue" text="2UP" />
       <Scoreboard pos={[0, 8]} score={game.players[0].score} />
       <Scoreboard pos={[104, 8]} score={game.highscore} />
-      <Scoreboard pos={[200, 8]} score={0} />
+      <Scoreboard pos={[200, 8]} score={game.players[1].score} />
     </Node>
   );
 };
