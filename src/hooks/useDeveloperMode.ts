@@ -1,17 +1,17 @@
 import { Position, Property, useKeyPressed, VariableProperty } from "@overreact/engine";
-import { ItemState } from "../state";
+import { ItemState, PlayerState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
 import { useCallback } from "react";
-import { ItemType, PlayerIndex } from "../types";
+import { ItemType } from "../types";
 
 export const useDeveloperMode = (camera: Property<Position>) => {
   const game = useGame();
 
-  const collectItem = useCallback((index: PlayerIndex, type: ItemType) => {
-    game.collectItem({
+  const collectItem = useCallback((player: PlayerState, type: ItemType) => {
+    game.collectItem(player, {
       type,
-      pos: new VariableProperty([...game.players[index].pos.current]),
+      pos: new VariableProperty([...player.pos.current]),
     } as unknown as ItemState);
   }, [game])
 
@@ -26,10 +26,10 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 
   useKeyPressed('Digit3', () => {
-    collectItem(0, 'potion_blue');
-    collectItem(0, 'potion_magenta');
-    collectItem(1, 'potion_blue');
-    collectItem(1, 'potion_magenta');
+    collectItem(game.players[0], 'potion_blue');
+    collectItem(game.players[0], 'potion_magenta');
+    collectItem(game.players[1], 'potion_blue');
+    collectItem(game.players[1], 'potion_magenta');
   });
 
   useKeyPressed('Digit4', () => {
