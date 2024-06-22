@@ -15,28 +15,28 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     } as unknown as ItemState);
   }, [game])
 
-  useKeyPressed('Digit1', () => {
+  useKeyPressed('KeyZ', () => {
     game.prevLevel();
     camera.current[1] -= 200;
   });
 
-  useKeyPressed('Digit2', () => {
+  useKeyPressed('KeyX', () => {
     game.nextLevel();
     camera.current[1] += 200;
   });
 
-  useKeyPressed('Digit3', () => {
+  useKeyPressed('KeyC', () => {
     collectItem(game.players[0], 'potion_blue');
     collectItem(game.players[0], 'potion_magenta');
     collectItem(game.players[1], 'potion_blue');
     collectItem(game.players[1], 'potion_magenta');
   });
 
-  useKeyPressed('Digit4', () => {
+  useKeyPressed('KeyV', () => {
     game.hurry();
   });
 
-  useKeyPressed('Digit5', async () => {
+  useKeyPressed('KeyB', async () => {
     snapshotGame(game);
   });
 };
