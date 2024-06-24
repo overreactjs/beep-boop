@@ -4,9 +4,7 @@ import { UsePlatformMovementResult, useGame } from "../../../../hooks";
 import { TeleportBotState } from "../../../../state";
 
 const JUMP_CHANCE = 3.0;
-const FIRE_CHANCE = 5.0;
-const TURN_CHANCE = 3.0;
-const COOLDOWN_DURATION = 2000;
+const COOLDOWN_DURATION = 1200;
 
 export const usePatrolState = (movement: UsePlatformMovementResult): StateFunction<TeleportBotState> => {
   const game = useGame();
@@ -23,7 +21,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     const isBelowPlayer = py <= by;
     const isBelowPlatform = game.isPlatformAbove(bx, by);
     const isFacingLeft = direction.current === 'left';
-    const canSeePlayer = (px < bx && isFacingLeft) || (px > py && !isFacingLeft);
+    const canSeePlayer = (px < bx && isFacingLeft) || (px > bx && !isFacingLeft);
     const canFire = cooldown.current === 0;
 
     // Change direction if the enemy reached the end of a platform or a wall.
@@ -38,14 +36,15 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     }
 
     // Fire if the player is in front of the enemy.
-    if (isLevelWithPlayer && canSeePlayer && canFire && chance(FIRE_CHANCE * delta)) {
+    if (isLevelWithPlayer && canSeePlayer && canFire) {
       game.fireEnemyZap(fsm.entity);
       cooldown.current = COOLDOWN_DURATION;
     }
-    
-    // Turn around, if the player is level with, but behind the enemy.
-    if (isLevelWithPlayer && !canSeePlayer && chance(TURN_CHANCE * delta)) {
-      fsm.entity.reverse();
+
+    // If the robot can see the player, teleport immediately!
+    if (isLevelWithPlayer && canSeePlayer) {
+      console.log('teleport!');
+      return fsm.replace('teleport');
     }
 
     // Jump if the player is above the enemy, and there's a platform to jump on to.

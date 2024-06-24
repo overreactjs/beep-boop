@@ -13,6 +13,7 @@ export { useGame } from "./useGame";
 export { useMusic } from "./useMusic";
 export { usePlatformMovement } from "./usePlatformMovement";
 export { useSoundtrack } from "./useSoundtrack";
+export { useTeleportBotCollisions } from "./useTeleportBotCollisions";
 export { useWrapAround } from "./useWrapAround";
 
 export type { UsePlatformMovementOptions, UsePlatformMovementResult } from "./usePlatformMovement";

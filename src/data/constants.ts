@@ -44,7 +44,7 @@ export const ENEMY_ITEMS: Record<EnemyType, number> = {
   pathfinderBot: 2,
   rollingBot: 2,
   securityBot: 2,
-  teleportBot: 4,
+  teleportBot: 2,
   greenOgre: 16,
   redOgre: 16,
 };

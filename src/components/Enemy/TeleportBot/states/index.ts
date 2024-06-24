@@ -5,3 +5,4 @@ export { useJumpingState } from "./useJumpingState";
 export { usePatrolState } from "./usePatrolState";
 export { useStunnedState } from "./useStunnedState";
 export { useThinkingState } from "./useThinkingState";
+export { useTeleportState } from "./useTeleportState";
