@@ -5,6 +5,7 @@ export { FlyingBotState } from './FlyingBotState';
 export { GreenOgreState } from './GreenOgreState';
 export { GuardBotState } from './GuardBotState';
 export { PathfinderBotState } from './PathfinderBotState';
+export { RedOgreState } from './RedOgreState';
 export { RollingBotState } from './RollingBotState';
 export { SecurityBotState } from './SecurityBotState';
 export { TeleportBotState } from './TeleportBotState';

@@ -1,13 +1,12 @@
-import { BitmapSprite, CollisionBox, Node, Size, useFlash, useMergeProperty, useProperty, useUpdate } from "@overreact/engine";
+import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useFlash, useMergeProperty, useProperty, useUpdate } from "@overreact/engine";
 import { useBossCollisions, useEnemyStateMachine, usePlatformMovement, useWrapAround } from "../../../hooks";
-import { GreenOgreState } from "../../../state";
-import { useDeadState, useFireState, useIdleState, useMoveState } from "./states";
+import { RedOgreState } from "../../../state";
+import { useAppearState, useDeadState, useDisappearState, useFireState, useIdleState } from "./states";
 import { EnemyProps } from "../types";
-import { IDLE } from "./assets";
-// import { Dizzy } from "../../Dizzy";
+import { IDLE, TELEPORT } from "./assets";
 
-export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collider }) => {
-  const { angle, flip, pos, scale, velocity } = enemy;
+export const RedOgre: React.FC<EnemyProps<RedOgreState>> = ({ enemy, collider }) => {
+  const { angle, flip, pos, scale, velocity, animation } = enemy;
   const maxFallSpeed = useProperty(0.12);
 
   // Flash the boss's visibility when they are invulnerable.
@@ -19,8 +18,6 @@ export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collide
   // Standard platformer physics, attached to the enemy state object.
   usePlatformMovement(collider, pos, velocity, {
     gravity: [0, 0.0006],
-    speed: 0.03,
-    jumpStrength: 0.25,
     maxFallSpeed,
   });
 
@@ -28,7 +25,8 @@ export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collide
   const fsm = useEnemyStateMachine(enemy, {
     idle: useIdleState(),
     fire: useFireState(),
-    move: useMoveState(),
+    disappear: useDisappearState(),
+    appear: useAppearState(),
     dead: useDeadState(maxFallSpeed),
   });
 
@@ -46,7 +44,10 @@ export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collide
   return (
     <Node pos={pos}>
       <Node offset={[-16, -32]} rounded>
-        <BitmapSprite {...spriteProps} sprite={IDLE} />
+        <SpriteSet animation={animation}>
+          <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
+          <BitmapSprite {...spriteProps} name="teleport" sprite={TELEPORT} />
+        </SpriteSet>
       </Node>
       <Node offset={[-12, -24]}>
         <CollisionBox size={[24, 24]} id={collider} tags={tags} active={active} />
@@ -54,15 +55,3 @@ export const GreenOgre: React.FC<EnemyProps<GreenOgreState>> = ({ enemy, collide
     </Node>
   );
 };
-
-
-/*
-<SpriteSet animation={animation}>
-  <BitmapSprite {...spriteProps} name="idle" sprite={IDLE} />
-  <BitmapSprite {...spriteProps} name="run" sprite={RUN} />
-  <BitmapSprite {...spriteProps} name="stunned" sprite={STUNNED} repeat={false} />
-</SpriteSet>
-<Node pos={enemy.pos} offset={[-8, -22]} rounded>
-  <Dizzy fsm={fsm} />
-</Node>
-*/

@@ -9,6 +9,7 @@ export {
   SecurityBotState,
   TeleportBotState,
   GreenOgreState,
+  RedOgreState,
 } from "./EnemyState";
 
 export { GameState } from "./GameState";

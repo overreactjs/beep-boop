@@ -25,7 +25,7 @@ export type EnemyType =
   // | 'ghostBot'
   | 'teleportBot'
   | 'greenOgre'
-  // | 'redOgre'
+  | 'redOgre'
   // | 'magentaOgre'
   // | 'cyanOgre'
   // | 'yellowOgre'

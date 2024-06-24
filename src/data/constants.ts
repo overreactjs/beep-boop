@@ -22,6 +22,7 @@ export const ENEMIES: Record<string, EnemyType> = {
   'G': 'teleportBot',
   // Bosses
   'Z': 'greenOgre',
+  'Y': 'redOgre',
 };
 
 export const ENEMY_POINTS: Record<EnemyType, number> = {
@@ -33,6 +34,7 @@ export const ENEMY_POINTS: Record<EnemyType, number> = {
   securityBot: 1000,
   teleportBot: 2000,
   greenOgre: 32000,
+  redOgre: 32000,
 };
 
 export const ENEMY_ITEMS: Record<EnemyType, number> = {
@@ -42,6 +44,7 @@ export const ENEMY_ITEMS: Record<EnemyType, number> = {
   pathfinderBot: 2,
   rollingBot: 2,
   securityBot: 2,
-  teleportBot: 3,
+  teleportBot: 4,
   greenOgre: 16,
+  redOgre: 16,
 };

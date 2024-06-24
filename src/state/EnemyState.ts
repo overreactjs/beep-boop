@@ -9,6 +9,7 @@ import {
   SecurityBotState,
   TeleportBotState,
   GreenOgreState,
+  RedOgreState,
 } from "./enemies";
 
 export {
@@ -22,6 +23,7 @@ export {
   SecurityBotState,
   TeleportBotState,
   GreenOgreState,
+  RedOgreState,
 };
 
 export type EnemyState =
@@ -33,4 +35,5 @@ export type EnemyState =
   | SecurityBotState
   | TeleportBotState
   | GreenOgreState
+  | RedOgreState
   ;
