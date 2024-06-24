@@ -36,8 +36,8 @@ export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ p
       <Node offset={[-8, -8]} rounded>
         <BitmapSprite size={[16, 16]} sprite={FIREBALL_SPRITE} />
       </Node>
-      <Node offset={[-5, -5]}>
-        <CollisionBox size={[10, 10]} id={collider} tags={['enemyFireball']} />
+      <Node offset={[-4, -4]}>
+        <CollisionBox size={[8, 8]} id={collider} tags={['enemyFireball']} />
       </Node>
     </Node>
   );
