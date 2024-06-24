@@ -1,7 +1,10 @@
-import { Box, Node } from "@overreact/engine";
+import { Box, Node, Position } from "@overreact/engine";
 import { Circuits } from "../Circuits";
 import { Lives } from "../Lives";
 import { useGame } from "../../hooks";
+
+const P1_POS: Position = [0, 4];
+const P2_POS: Position = [216, 4];
 
 export const BottomBar: React.FC = () => {
   const game = useGame();
@@ -9,9 +12,9 @@ export const BottomBar: React.FC = () => {
   return (
     <Node>
       <Box pos={[0, 224]} size={[256, 16]} color="black">
-        <Lives pos={[0, 4]} lives={game.players[0].lives} />
+        <Lives index={0} pos={P1_POS} player={game.players[0]} />
         <Circuits pos={[88, 0]} />
-        <Lives pos={[216, 4]} lives={game.players[1].lives} />
+        <Lives index={1} pos={P2_POS} player={game.players[1]} />
       </Box>
     </Node>
   );
