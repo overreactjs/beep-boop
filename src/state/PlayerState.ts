@@ -45,10 +45,17 @@ export class PlayerState extends EntityObjectState {
     if (!this.alive.current) {
       if (this.deadDuration > 0) {
         this.deadDuration -= delta;
-      } else {
+      } else if (this.lives.current > 0) {
         this.lives.current -= 1;
         this.alive.current = true;
         this.invulnerable.current = INVULNERABILITY_DURATION;
+        this.deadDuration = DEAD_DURATION;
+        this.respawn();
+      } else {
+        this.lives.current = 3;
+        this.alive.current = true;
+        this.score.current = 0;
+        this.active.current = false;
         this.deadDuration = DEAD_DURATION;
         this.respawn();
       }

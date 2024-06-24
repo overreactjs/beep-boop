@@ -11,7 +11,7 @@ export const usePlayerFireZaps = (player: PlayerState) => {
   const cooldown = useProperty(0);
   
   useVirtualAction('fire', () => {
-    if (cooldown.current === 0) {
+    if (cooldown.current === 0 && player.active.current) {
       if (player.hasPowerup('fireballs')) {
         game.firePlayerFireball(player);
         cooldown.current = FIREBALL_COOLDOWN;

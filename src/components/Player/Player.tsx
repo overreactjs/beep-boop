@@ -1,13 +1,17 @@
 import { useId } from "react";
-import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
+
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
-import { ItemState } from "../../state";
-import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2 } from "./assets";
+import { PlayerIndex } from "../../types";
+
+import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2, INACTIVE_P1 } from "./assets";
 import { GAMEPAD_MAP, KEYBOARD_MAPS, MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
 import { usePlayerFireZaps } from "./usePlayerFireZaps";
 import { usePlayerUpdateState } from "./usePlayerUpdateState";
-import { PlayerIndex } from "../../types";
+import { usePlayerActivateOnFire } from "./usePlayerActivateOnFire";
+import { usePlayerTeleport } from "./usePlayerTeleport";
+import { usePlayerCollectItems } from "./usePlayerCollectItems";
 
 type PlayerProps = {
   index: PlayerIndex;
@@ -36,7 +40,7 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   useGamepadMap(index, GAMEPAD_MAP, active);
 
   // Setup standard platform movement.
-  const movement = usePlatformMovement(collider, pos, velocity, MOVEMENT_PROPS);
+  const movement = usePlatformMovement(collider, pos, velocity, { ...MOVEMENT_PROPS, enabled: player.active });
 
   // Handle collisions between the player and enemies, either alive or stunned.
   usePlayerEnemyCollisions(collider, player);
@@ -48,18 +52,13 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   usePlayerFireZaps(player);
 
   // Teleport the player when they step into a portal.
-  useTaggedCollision(collider, 'portal', () => {
-    game.teleport(player);
-  });
+  usePlayerTeleport(collider, player);
 
   // Collect items.
-  useTaggedCollision<ItemState>(collider, 'item', (collisions) => {
-    collisions.forEach(({ b }) => {
-      if (b.entity) {
-        game.collectItem(player, b.entity);
-      }
-    });
-  });
+  usePlayerCollectItems(collider, player);
+
+  // Activate the player if they are inactive and the fire button is pressed.
+  usePlayerActivateOnFire(player);
 
   // Update the player state.
   useUpdate((delta) => {
@@ -78,8 +77,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
           <BitmapSprite {...spriteProps} name="fall" sprite={index === 0 ? FALL_P1 : FALL_P2} />
           <BitmapSprite {...spriteProps} name="run"  sprite={index === 0 ? RUN_P1  : RUN_P2} />
           <BitmapSprite {...spriteProps} name="dead" sprite={index === 0 ? DEAD_P1 : DEAD_P2} repeat={false} />
-          <Node offset={[0, -8]}>
-            <BitmapSprite size={[40, 24]} name="inactive" sprite={index === 0 ? INACTIVE_P2 : INACTIVE_P2} />
+          <Node offset={index === 0 ? [-24, -8] : [0, -8]}>
+            <BitmapSprite size={[40, 24]} name="inactive" sprite={index === 0 ? INACTIVE_P1 : INACTIVE_P2} />
           </Node>
         </SpriteSet>
       </Node>
