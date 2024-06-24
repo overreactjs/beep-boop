@@ -43,7 +43,6 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
 
     // If the robot can see the player, teleport immediately!
     if (isLevelWithPlayer && canSeePlayer) {
-      console.log('teleport!');
       return fsm.replace('teleport');
     }
 
