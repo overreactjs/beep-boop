@@ -57,7 +57,7 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
     <Node pos={projectile.pos}>
       <Node offset={[-4, -4]} rounded>
         <SpriteSet animation={animation}>
-          <BitmapSprite name="solid" size={[8, 8]} sprite={[ZAP_P1_SPRITE, ZAP_P2_SPRITE][projectile.player]} />
+          <BitmapSprite name="solid" size={[8, 8]} sprite={[ZAP_P1_SPRITE, ZAP_P2_SPRITE][projectile.player]} repeat={false} />
           <BitmapSprite name="flash" size={[8, 8]} sprite={[ZAP_FLASH_P1_SPRITE, ZAP_FLASH_P2_SPRITE][projectile.player]} />
         </SpriteSet>
       </Node>

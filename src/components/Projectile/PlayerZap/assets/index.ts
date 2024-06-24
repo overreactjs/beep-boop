@@ -8,8 +8,8 @@ import zapPlayer2FlashUrl from "./zap-flash-p2.png";
 
 export const ZAP_P1_SPRITE: BitmapSpriteAsset = {
   url: zapPlayer1Url,
-  size: [8, 8],
-  count: 1,
+  size: [24, 8],
+  count: 3,
   rate: 10,
 };
 
@@ -22,8 +22,8 @@ export const ZAP_FLASH_P1_SPRITE: BitmapSpriteAsset = {
 
 export const ZAP_P2_SPRITE: BitmapSpriteAsset = {
   url: zapPlayer2Url,
-  size: [8, 8],
-  count: 1,
+  size: [24, 8],
+  count: 3,
   rate: 10,
 };
 
