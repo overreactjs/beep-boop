@@ -54,8 +54,8 @@ export class GameState extends ObjectState {
     this.itemHandlers = itemHandlers;
     this.levels = levels;
     this.players = [
-      new PlayerState(this, 0, [32, 192]),
-      new PlayerState(this, 1, [224, 192]),
+      new PlayerState(this, 0, [32, 192], true),
+      new PlayerState(this, 1, [224, 192], false),
     ];
   }
 

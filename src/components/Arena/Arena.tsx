@@ -57,16 +57,16 @@ export const Arena: React.FC = () => {
               {levels}
 
               <ItemList />
-              <EnemyList />
               <PointsList />
               
               <VirtualInput>
-                <Player index={0} />
-              </VirtualInput>
-              <VirtualInput>
                 <Player index={1} />
               </VirtualInput>
+              <VirtualInput>
+                <Player index={0} />
+              </VirtualInput>
               
+              <EnemyList />
               <ProjectilesList />
               <Particles />
 

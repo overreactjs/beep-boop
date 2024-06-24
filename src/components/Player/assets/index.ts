@@ -11,6 +11,7 @@ import jumpPlayer2Url from "./jump-p2.png";
 import fallPlayer2Url from "./fall-p2.png";
 import runPlayer2Url from "./run-p2.png";
 import deadPlayer2Url from "./dead-p2.png";
+import inactivePlayer2Url from "./inactive-p2.png";
 
 // PLAYER 1
 
@@ -84,4 +85,11 @@ export const DEAD_P2: BitmapSpriteAsset = {
   size: [144, 16],
   count: 9,
   rate: 10,
+};
+
+export const INACTIVE_P2: BitmapSpriteAsset = {
+  url: inactivePlayer2Url,
+  size: [80, 24],
+  count: 2,
+  rate: 1,
 };

@@ -2,7 +2,7 @@ import { useId } from "react";
 import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useTaggedCollision, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
 import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
 import { ItemState } from "../../state";
-import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2 } from "./assets";
+import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2 } from "./assets";
 import { GAMEPAD_MAP, KEYBOARD_MAPS, MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
 import { usePlayerFireZaps } from "./usePlayerFireZaps";
@@ -24,7 +24,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   const visible = useMergeProperty(player.invulnerable, useFlash(100), (invulnerable, flash) => invulnerable <= 0 || flash);
 
   // Override the player's animation when they are not alive.
-  const animation = useMergeProperty(player.animation, player.alive, (animation, alive) => alive ? animation : 'dead');
+  const override = useMergeProperty(player.active, player.alive, (active, alive) => !active ? 'inactive' : !alive ? 'dead' : null);
+  const animation = useMergeProperty(player.animation, override, (animation, override) => override ? override : animation);
 
   // When the player leaves the screen, wrap to the other side.
   useWrapAround(player, { direction: 'downwards' });
@@ -77,6 +78,9 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
           <BitmapSprite {...spriteProps} name="fall" sprite={index === 0 ? FALL_P1 : FALL_P2} />
           <BitmapSprite {...spriteProps} name="run"  sprite={index === 0 ? RUN_P1  : RUN_P2} />
           <BitmapSprite {...spriteProps} name="dead" sprite={index === 0 ? DEAD_P1 : DEAD_P2} repeat={false} />
+          <Node offset={[0, -8]}>
+            <BitmapSprite size={[40, 24]} name="inactive" sprite={index === 0 ? INACTIVE_P2 : INACTIVE_P2} />
+          </Node>
         </SpriteSet>
       </Node>
       <Node offset={[-6, -10]}>

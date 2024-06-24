@@ -10,6 +10,7 @@ const DEAD_DURATION = 2000;
 export class PlayerState extends EntityObjectState {
   game: GameState;
   player: PlayerIndex;
+  active: Property<boolean>;
   lives: Property<number>;
   score: Property<number>;
   flip: Property<boolean>;
@@ -20,10 +21,11 @@ export class PlayerState extends EntityObjectState {
   powerups: PlayerPowerup[] = [];
   deadDuration: number;
 
-  constructor(game: GameState, player: PlayerIndex, pos: Position) {
+  constructor(game: GameState, player: PlayerIndex, pos: Position, active: boolean) {
     super(pos);
     this.game = game;
     this.player = player;
+    this.active = new VariableProperty(active);
     this.lives = new VariableProperty(3);
     this.score = new VariableProperty(0);
     this.flip = new VariableProperty(false);
