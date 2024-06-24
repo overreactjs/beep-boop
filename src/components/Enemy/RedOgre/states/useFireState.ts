@@ -4,7 +4,7 @@ import { EnemyFireballState, RedOgreState } from "../../../../state";
 import { useGame } from "../../../../hooks";
 
 const GAP = 90;
-const COUNT = 20;
+const COUNT = 16;
 const SPREAD = Math.PI * 2;
 const OFFSET = Math.PI / 2;
 
