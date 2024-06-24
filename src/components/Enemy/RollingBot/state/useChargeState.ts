@@ -16,7 +16,7 @@ export const useChargeState = (movement: UsePlatformMovementResult): StateFuncti
 
     const isFacingLeft = direction.current === 'left';
     const isLevelWithPlayer = by >= py - 1 && by <= py + 1;
-    const canSeePlayer = (px < bx && isFacingLeft) || (px > py && !isFacingLeft);
+    const canSeePlayer = (px < bx && isFacingLeft) || (px > bx && !isFacingLeft);
     const offset = !isFacingLeft ? 1 : -1;
 
     // Change direction if the enemy reached a wall.

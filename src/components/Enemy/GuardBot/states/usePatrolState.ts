@@ -23,7 +23,7 @@ export const usePatrolState = (movement: UsePlatformMovementResult): StateFuncti
     const isBelowPlayer = py <= by;
     const isBelowPlatform = game.isPlatformAbove(bx, by);
     const isFacingLeft = direction.current === 'left';
-    const canSeePlayer = (px < bx && isFacingLeft) || (px > py && !isFacingLeft);
+    const canSeePlayer = (px < bx && isFacingLeft) || (px > bx && !isFacingLeft);
     const canFire = cooldown.current === 0;
 
     // Change direction if the enemy reached the end of a platform or a wall.
