@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Device, useGamepad, useUpdate } from "@overreact/engine";
-import { Arena, BottomBar, Game, LevelOverlay, Screen, TopBar } from "./components";
-import { ArcadeText } from "./components/ArcadeText";
+import { ArcadeText, Arena, BottomBar, Game, LevelOverlay, Screen, TopBar } from "./components";
 
 export const App = () => {
   const gamepad = useGamepad();
