@@ -10,6 +10,7 @@ import { IDLE as ROLLING_BOT } from "../components/Enemy/RollingBot/assets";
 import { IDLE as SECURITY_BOT } from "../components/Enemy/SecurityBot/assets";
 import { IDLE as TELEPORT_BOT } from "../components/Enemy/TeleportBot/assets";
 import { IDLE as GREEN_OGRE } from "../components/Enemy/GreenOgre/assets";
+import { IDLE as RED_OGRE } from "../components/Enemy/RedOgre/assets";
 
 const LEVELS = 40;
 const COLUMNS = 5;
@@ -76,11 +77,12 @@ const snapshotLevel = (game: GameState, level: number): Promise<HTMLCanvasElemen
     loadImage(SECURITY_BOT.url),
     loadImage(TELEPORT_BOT.url),
     loadImage(GREEN_OGRE.url),
+    loadImage(RED_OGRE.url),
   ];
 
   return Promise.all(images).then((images) => {
-    const [tileset, bounceBot, flyingBot, guardBot, pathfinderBot, rollingBot, securityBot, teleportBot, greenOgre] = images;
-    const ENEMIES: Record<EnemyType, HTMLImageElement> = { bounceBot, flyingBot, guardBot, pathfinderBot, rollingBot, securityBot, teleportBot, greenOgre };
+    const [tileset, bounceBot, flyingBot, guardBot, pathfinderBot, rollingBot, securityBot, teleportBot, greenOgre, redOgre] = images;
+    const ENEMIES: Record<EnemyType, HTMLImageElement> = { bounceBot, flyingBot, guardBot, pathfinderBot, rollingBot, securityBot, teleportBot, greenOgre, redOgre };
 
     if (ctx) {
       ctx.fillStyle = 'black';
