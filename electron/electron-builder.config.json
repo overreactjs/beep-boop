@@ -1,5 +1,6 @@
 {
-  "appId": "com.yourdoamnin.yourapp",
+  "appId": "com.overreact.beepboop",
+  "productName": "Beep Boop",
   "directories": {
     "buildResources": "resources"
   },
