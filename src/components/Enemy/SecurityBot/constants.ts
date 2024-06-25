@@ -1,5 +1,5 @@
-export const SPEED_REGULAR = 0.04;
-export const SPEED_ANGRY = 0.06;
+export const SPEED_REGULAR = 0.03;
+export const SPEED_ANGRY = 0.05;
 export const FALL_SPEED = 0.08;
 export const JUMP_STRENGTH = 0.21;
 export const GRAVITY = 0.0006;
