@@ -5,3 +5,4 @@ export { Game } from "./Game";
 export { LevelOverlay } from "./LevelOverlay";
 export { Screen } from "./Screen";
 export { TopBar } from "./TopBar";
+export { VirtualController } from "./VirtualController";

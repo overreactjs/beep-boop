@@ -6,3 +6,7 @@
   font-family: "Arcade";
   src: url("/arcade.ttf");
 }
+
+* {
+  user-select: none;
+}
