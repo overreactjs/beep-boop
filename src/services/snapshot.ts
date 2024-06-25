@@ -13,7 +13,7 @@ import { IDLE as GREEN_OGRE } from "../components/Enemy/GreenOgre/assets";
 import { IDLE as RED_OGRE } from "../components/Enemy/RedOgre/assets";
 
 const LEVELS = 40;
-const COLUMNS = 5;
+const COLUMNS = 10;
 
 export const snapshotGame = async (game: GameState) => {
   const canvas = document.createElement('canvas');

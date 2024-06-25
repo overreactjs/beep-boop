@@ -164,22 +164,46 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
         }
       }
 
+      console.log([pos.current[0].toFixed(3), pos.current[1].toFixed(3)], [dx.toFixed(3), dy.toFixed(3)], [...platforms.map(({ overlap }) => `[${overlap.x.toFixed(3)}, ${overlap.y.toFixed(3)}]`)]);
+
       // Platforms: These can be passed through from below or the sides, but not from above.
       if (!fallingThrough.current) {
         for (const { overlap, tags } of platforms) {
-          if (tags.includes('top') && overlap.y > 0 && dy - overlap.y >= -THRESHOLD && adjustment[1] < overlap.y) {
+
+          // top (platforms, when falling)
+          if (tags.includes('top')
+            && overlap.y > 0
+            && dy > 0
+            && dy - overlap.y >= -1
+            && adjustment[1] < overlap.y
+          ) {
             pos.current[1] -= overlap.y;
             adjustment[1] = overlap.y;
+            console.log('nudge up...', pos.current[1].toFixed(3), adjustment[1].toFixed(3));
           }
 
-          if (tags.includes('left') && overlap.x > 0 && dx - overlap.x >= -THRESHOLD && adjustment[0] < overlap.x) {
+          // left (when moving right)
+          if (tags.includes('left')
+            && overlap.x > 0
+            && dx > 0
+            && dx - overlap.x >= -1
+            && adjustment[0] < overlap.x
+          ) {
             pos.current[0] -= overlap.x;
             adjustment[0] = overlap.x;
+            console.log('nudge left...', pos.current[0].toFixed(3), adjustment[0].toFixed(3));
           }
 
-          if (tags.includes('right') && overlap.x < 0 && dx - overlap.x <= THRESHOLD && adjustment[0] > overlap.x) {
+          // right (when moving left)
+          if (tags.includes('right')
+            && overlap.x < 0
+            && dx < 0
+            && dx - overlap.x <= 1
+            && adjustment[0] > overlap.x
+          ) {
             pos.current[0] -= overlap.x;
             adjustment[0] = overlap.x;
+            console.log('nudge right...', pos.current[0].toFixed(3), adjustment[0].toFixed(3));
           }
         }
       }
@@ -192,7 +216,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
       // Update state flags.
       wallToLeft.current = adjustment[0] > 0;
       wallToRight.current = adjustment[0] < 0;
-      if (adjustment[1] > 0) {
+      if (adjustment[1] > 0 && dy > 0) {
         isOnFloor.current = true;
         isFalling.current = false;
         jumpCount.current = 0;

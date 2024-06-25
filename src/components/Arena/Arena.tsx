@@ -1,5 +1,5 @@
 import { Box, Camera, Node, Viewport, VirtualInput, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
-import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
+import { useCamera, useGame, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -17,7 +17,7 @@ export const Arena: React.FC = () => {
   const timescale = useCachedDynamicProperty(game.paused, (paused) => paused ? 0 : 1);
 
   // Enable a whole bunch of special developer key bindings.
-  useDeveloperMode(camera);
+  // useDeveloperMode(camera);
 
   // Play appropriate music for the level.
   useSoundtrack();

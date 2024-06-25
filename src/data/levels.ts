@@ -86,6 +86,12 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         if (!isSolid(x + 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
           tags.push('right');
         }
+        if (isSolid(x - 1, y) && isSolid(x, y + 1) && isSolid(x, y - 1)) {
+          tags.push('left');
+        }
+        if (isSolid(x + 1, y) && isSolid(x, y + 1) && isSolid(x, y - 1)) {
+          tags.push('right');
+        }
         if (x <= 1 && isSolid(x, y + 1)) {
           tags.push('right');
         }
@@ -173,6 +179,8 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
       buildPortal(x, y);
     }
   }
+
+  // console.log(collisions);
 
   return { foreground, background, collisions, portals };
 }
