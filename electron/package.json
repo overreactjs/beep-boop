@@ -8,15 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/overreactjs/beep-boop"
   },
   "license": "MIT",
   "main": "build/src/index.js",
   "scripts": {
-    "build": "electron-rebuild",
+    "postinstall": "electron-builder install-app-deps",
+    "build": "tsc && electron-rebuild",
     "electron:start-live": "node ./live-runner.js",
     "electron:start": "npm run build && electron --inspect=5858 ./",
     "electron:pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
+    "electron:pack:macos": "npm run electron:pack -- --macos dmg",
+    "electron:pack:windows": "npm run electron:pack -- --windows nsis",
     "electron:make": "npm run build && electron-builder build -c ./electron-builder.config.json -p always"
   },
   "dependencies": {

@@ -10,9 +10,6 @@
     "capacitor.config.*",
     "app/**/*"
   ],
-  "publish": {
-    "provider": "github"
-  },
   "nsis": {
     "allowElevation": true,
     "oneClick": false,
@@ -23,7 +20,26 @@
     "icon": "assets/appIcon.ico"
   },
   "mac": {
-    "category": "your.app.category.type",
-    "target": "dmg"
-  }
+    "category": "public.app-category.games"
+  },
+  "dmg": {
+      "icon": "assets/appIcon.ico",
+      "iconSize": 75,
+      "window": {
+        "width": 544,
+        "height": 408
+      },
+      "contents": [
+        {
+          "x": 450,
+          "y": 280
+        },
+        {
+          "x": 450,
+          "y": 170,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
 }
