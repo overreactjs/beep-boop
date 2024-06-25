@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { StatusBar } from '@capacitor/status-bar';
+import { useState } from "react";
 import { Device, useGamepad, useUpdate } from "@overreact/engine";
 import { ArcadeText, Arena, BottomBar, Game, LevelOverlay, Screen, TopBar, VirtualController } from "./components";
+import { useHideStatusBar } from "./hooks";
 
 export const App = () => {
   const gamepad = useGamepad();
-
   const [active, setActive] = useState(false);
+
+  // Hide the status bar on mobile devices.
+  useHideStatusBar();
 
   // Activate the app if "A" is pressed on a gamepad.
   useUpdate(() => {
@@ -14,11 +16,6 @@ export const App = () => {
       setActive(true);
     }
   });
-
-  // Hide the status bar on mobile devices.
-  useEffect(() => {
-    StatusBar.hide();
-  }, []);
 
   return (
     <Device mode="desktop" bg="black" showFPS hideClose>
@@ -31,12 +28,16 @@ export const App = () => {
             <BottomBar />
           </Game>
         ) : (
-          <div className="w-full h-full bg-black grid place-items-center [&>*]:static" onClick={() => setActive(true)}>
-            <ArcadeText pos={[0, 0]} color="white" text="TAP TO BEGIN" />
-          </div>
+          <StartScreen onClick={() => setActive(true)} />
         )}
       </Screen>
       <VirtualController />
     </Device>
   );
 };
+
+const StartScreen: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  <div className="w-full h-full bg-black grid place-items-center [&>*]:static" onClick={onClick}>
+    <ArcadeText pos={[0, 0]} color="white" text="TAP TO BEGIN" />
+  </div>
+);

@@ -10,6 +10,7 @@ export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useEnemyStateMachine } from "./useEnemyStateMachine";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame } from "./useGame";
+export { useHideStatusBar } from "./useHideStatusBar";
 export { useMusic } from "./useMusic";
 export { usePlatformMovement } from "./usePlatformMovement";
 export { useSoundtrack } from "./useSoundtrack";
