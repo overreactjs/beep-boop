@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { StatusBar } from '@capacitor/status-bar';
 import { Device, useGamepad, useUpdate } from "@overreact/engine";
 import { ArcadeText, Arena, BottomBar, Game, LevelOverlay, Screen, TopBar, VirtualController } from "./components";
 
@@ -13,6 +14,11 @@ export const App = () => {
       setActive(true);
     }
   });
+
+  // Hide the status bar on mobile devices.
+  useEffect(() => {
+    StatusBar.hide();
+  }, []);
 
   return (
     <Device mode="desktop" bg="black" showFPS hideClose>
