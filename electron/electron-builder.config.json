@@ -20,10 +20,11 @@
     "icon": "assets/appIcon.ico"
   },
   "mac": {
-    "category": "public.app-category.games"
+    "category": "public.app-category.games",
+    "icon": "assets/appIcon.png"
   },
   "dmg": {
-      "icon": "assets/appIcon.ico",
+      "icon": "assets/appIcon.png",
       "iconSize": 75,
       "window": {
         "width": 544,

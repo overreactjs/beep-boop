@@ -1,6 +1,6 @@
 {
   "name": "com.overreact.beepboop",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Beep Boop",
   "author": {
     "name": "Craig Smith",
@@ -14,7 +14,7 @@
   "main": "build/src/index.js",
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
-    "build": "tsc && electron-rebuild",
+    "build": "tsc",
     "electron:start-live": "node ./live-runner.js",
     "electron:start": "npm run build && electron --inspect=5858 ./",
     "electron:pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
@@ -34,7 +34,6 @@
   "devDependencies": {
     "electron": "^26.2.2",
     "electron-builder": "~23.6.0",
-    "electron-rebuild": "^3.2.9",
     "typescript": "^5.0.4"
   },
   "keywords": [
