@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 import { Position, Prop, Property, Velocity, lerp, useEventListeners, useOverlap, useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
 
-const THRESHOLD = 0.0001;
-
 const DEFAULT_OPTIONS = {
   enabled: true,
   gravity: [0, 0.002],
@@ -93,6 +91,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
         isOnFloor.current = false;
         isFalling.current = false;
         fallingThrough.current = true;
+        pos.current[1] += 1;
       }
 
       // Update state flags.
