@@ -82,8 +82,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
           </Node>
         </SpriteSet>
       </Node>
-      <Node offset={[-4, -8]}>
-        <CollisionBox size={[8, 8]} id={collider} tags={['player']} entity={player} />
+      <Node offset={[-5, -8]}>
+        <CollisionBox size={[10, 8]} id={collider} tags={['player']} entity={player} />
       </Node>
     </Node>
   );
