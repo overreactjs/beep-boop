@@ -164,8 +164,6 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
         }
       }
 
-      console.log([pos.current[0].toFixed(3), pos.current[1].toFixed(3)], [dx.toFixed(3), dy.toFixed(3)], [...platforms.map(({ overlap }) => `[${overlap.x.toFixed(3)}, ${overlap.y.toFixed(3)}]`)]);
-
       // Platforms: These can be passed through from below or the sides, but not from above.
       if (!fallingThrough.current) {
         for (const { overlap, tags } of platforms) {
@@ -179,7 +177,6 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
           ) {
             pos.current[1] -= overlap.y;
             adjustment[1] = overlap.y;
-            console.log('nudge up...', pos.current[1].toFixed(3), adjustment[1].toFixed(3));
           }
 
           // left (when moving right)
@@ -191,7 +188,6 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
           ) {
             pos.current[0] -= overlap.x;
             adjustment[0] = overlap.x;
-            console.log('nudge left...', pos.current[0].toFixed(3), adjustment[0].toFixed(3));
           }
 
           // right (when moving left)
@@ -203,7 +199,6 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
           ) {
             pos.current[0] -= overlap.x;
             adjustment[0] = overlap.x;
-            console.log('nudge right...', pos.current[0].toFixed(3), adjustment[0].toFixed(3));
           }
         }
       }

@@ -75,31 +75,55 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         }
 
       } else {
-        const tags = ['platform'];
+        const tags = new Set<string>();
+        tags.add('platform');
 
+        // Nothing above? It's a platform.
         if (!isSolid(x, y - 1)) {
-          tags.push('top');
-        }
-        if (!isSolid(x - 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
-          tags.push('left');
-        }
-        if (!isSolid(x + 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
-          tags.push('right');
-        }
-        if (isSolid(x - 1, y) && isSolid(x, y + 1) && isSolid(x, y - 1)) {
-          tags.push('left');
-        }
-        if (isSolid(x + 1, y) && isSolid(x, y + 1) && isSolid(x, y - 1)) {
-          tags.push('right');
-        }
-        if (x <= 1 && isSolid(x, y + 1)) {
-          tags.push('right');
-        }
-        if (x >= 30 && isSolid(x, y + 1)) {
-          tags.push('left');
+          tags.add('top');
         }
 
-        collisions.push(tags);
+        // Nothing to the left, and there's something either above or below.
+        if (!isSolid(x - 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
+          tags.add('left');
+        }
+
+        // Nothing to the right, and there's something either above or below.
+        if (!isSolid(x + 1, y) && (isSolid(x, y + 1) || isSolid(x, y - 1))) {
+          tags.add('right');
+        }
+
+        // Solid to the left, but above and below are both solid.
+        if (isSolid(x - 1, y) && isSolid(x, y + 1) && isSolid(x, y - 1) && (!isSolid(x - 1, y - 1) || !isSolid(x - 1, y + 1))) {
+          tags.add('left');
+        }
+
+        // Solid to the right, but above and below are also both solid.
+        if (isSolid(x + 1, y) && isSolid(x, y + 1) && isSolid(x, y - 1) && (!isSolid(x + 1, y - 1) || !isSolid(x + 1, y + 1))) {
+          tags.add('right');
+        }
+
+        // Nothing to the left, but steps either above or below.
+        if (!isSolid(x - 1, y) && (isSolid(x - 1, y - 1) || isSolid(x - 1, y + 1))) {
+          tags.add('left');
+        }
+
+        // Nothing to the right, but steps either above or below.
+        if (!isSolid(x + 1, y) && (isSolid(x + 1, y - 1) || isSolid(x + 1, y + 1))) {
+          tags.add('right');
+        }
+
+        // Left edge of the level is always solid, apart from directly above a portal.
+        if (x <= 1 && isSolid(x, y + 1)) {
+          tags.add('right');
+        }
+
+        // Right edge of the level is always solid, apart from directly above a portal.
+        if (x >= 30 && isSolid(x, y + 1)) {
+          tags.add('left');
+        }
+
+        collisions.push([...tags]);
       }
     } else {
       collisions.push(false);
