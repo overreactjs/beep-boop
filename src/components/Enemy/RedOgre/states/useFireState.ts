@@ -3,10 +3,13 @@ import { StateFunction, useProperty } from "@overreact/engine";
 import { EnemyFireballState, RedOgreState } from "../../../../state";
 import { useGame } from "../../../../hooks";
 
-const GAP = 90;
+const PERIOD = 90;
 const COUNT = 16;
 const SPREAD = Math.PI * 2;
-const OFFSET = Math.PI / 2;
+const GAP = SPREAD / (COUNT + 0.5);
+const OFFSET = Math.PI / 2 - 0.1;
+const REGULAR_SPEED = 0.85;
+const ANGRY_SPEED = 1.00;
 
 export const useFireState = (): StateFunction<RedOgreState> => {
   const game = useGame();
@@ -18,7 +21,7 @@ export const useFireState = (): StateFunction<RedOgreState> => {
       fired.current = 0;
     }
 
-    const count = Math.floor(fsm.age.current / GAP);
+    const count = Math.floor(fsm.age.current / PERIOD);
 
     if (count > fired.current) {
       const { pos, direction } = fsm.entity;
@@ -30,16 +33,17 @@ export const useFireState = (): StateFunction<RedOgreState> => {
       const y = pos.current[1] - 16;
 
       // Clockwise if facing right, anti-clockwise if facing left.
-      const angle = (fired.current * (SPREAD / COUNT) * (isLeft ? 1 : -1)) + (isLeft ? -OFFSET : OFFSET);
-      const dx = Math.sin(angle) * 0.85;
-      const dy = Math.cos(angle) * 0.85;
+      const angle = (fired.current * GAP * (isLeft ? 1 : -1)) + (isLeft ? -OFFSET : OFFSET);
+      const speed = fsm.entity.health.current > 5 ? REGULAR_SPEED : ANGRY_SPEED;
+      const dx = Math.sin(angle) * speed;
+      const dy = Math.cos(angle) * speed;
       
       game.fireProjectile(new EnemyFireballState(game, [x, y], [dx, dy]));
 
       fired.current = count;
     }
 
-    if (fsm.age.current >= COUNT * GAP * 2) {
+    if (fsm.age.current >= COUNT * PERIOD * 2) {
       fsm.replace('disappear');
     }
   }, [fired, game]);
