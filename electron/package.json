@@ -20,6 +20,7 @@
     "electron:pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
     "electron:pack:macos": "npm run electron:pack -- --macos dmg",
     "electron:pack:windows": "npm run electron:pack -- --windows nsis",
+    "electron:pack:linux": "npm run electron:pack -- --linux deb",
     "electron:make": "npm run build && electron-builder build -c ./electron-builder.config.json -p always"
   },
   "dependencies": {
