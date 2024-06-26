@@ -129,7 +129,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
       const e = +(x < 31 && isSolid(x + 1, y));
       const s = +(y < 24 && isSolid(x, y + 1));
       const w = +(x > 0 && isSolid(x - 1, y));
-      const index = n + (e << 1) + (s << 2) + (w << 3);
+      const index = n + (e << 1) + (s << 2) + (w * 20);
       foreground.push(offset + index);
       background.push(-1);
     } else {
@@ -143,7 +143,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
     const hasLeft = x > 0 && isSolid(x - 1, y);
     const hasAboveLeft = y > 0 && x > 0 && isSolid(x - 1, y - 1);
 
-    const bg = meta.scheme === 'autotile' ? 0 : offset + 8;
+    const bg = offset + 8;
 
     if (hasAbove && hasLeft) {
       background.push(bg);

@@ -23,5 +23,5 @@
 00                            00
 00                            00
 00000000000000000000000000000000
-tileset:61
+tileset:75
 scheme:autotile
