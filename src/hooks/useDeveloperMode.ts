@@ -16,13 +16,15 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   }, [game])
 
   useKeyPressed('KeyZ', () => {
-    game.prevLevel();
-    camera.current[1] -= 200;
+    game.nextLevel();
+    camera.current[1] += 200;
   });
 
   useKeyPressed('KeyX', () => {
-    game.nextLevel();
-    camera.current[1] += 200;
+    for (let i = 0; i < 10; i++) {
+      game.nextLevel();
+    }
+    camera.current[1] += 2000;
   });
 
   useKeyPressed('KeyC', () => {
