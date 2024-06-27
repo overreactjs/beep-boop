@@ -42,8 +42,8 @@ export const FlyingBot: React.FC<EnemyProps<FlyingBotState>> = ({ enemy, collide
           <BitmapSprite {...spriteProps} name="stunned-angry" sprite={STUNNED_ANGRY} repeat={false} />
         </SpriteSet>
       </Node>
-      <Node offset={[-6, -14]}>
-        <CollisionBox size={[12, 12]} id={collider} tags={tags} active={active} />
+      <Node offset={[-5, -13]}>
+        <CollisionBox size={[10, 10]} id={collider} tags={tags} active={active} />
       </Node>
       <Node pos={enemy.pos} offset={[-8, -22]} rounded>
         <Dizzy fsm={fsm} />
