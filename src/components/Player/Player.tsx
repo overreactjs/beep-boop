@@ -22,7 +22,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   
   const player = game.players[index];
   const { flip, pos, velocity } = player;
-  const collider = useId();
+  const platformCollider = useId();
+  const interactionCollider = useId();
 
   // Flash the player's visibility when they are invulnerable.
   const visible = useMergeProperty(player.invulnerable, useFlash(100), (invulnerable, flash) => invulnerable <= 0 || flash);
@@ -40,10 +41,10 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   useGamepadMap(index, GAMEPAD_MAP, active);
 
   // Setup standard platform movement.
-  const movement = usePlatformMovement(collider, pos, velocity, { ...MOVEMENT_PROPS, enabled: player.active });
+  const movement = usePlatformMovement(platformCollider, pos, velocity, { ...MOVEMENT_PROPS, enabled: player.active });
 
   // Handle collisions between the player and enemies, either alive or stunned.
-  usePlayerEnemyCollisions(collider, player);
+  usePlayerEnemyCollisions(interactionCollider, player);
 
   // Update animations, flip direction, and combo state.
   usePlayerUpdateState(player, movement);
@@ -52,10 +53,10 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   usePlayerFireZaps(player);
 
   // Teleport the player when they step into a portal.
-  usePlayerTeleport(collider, player);
+  usePlayerTeleport(interactionCollider, player);
 
   // Collect items.
-  usePlayerCollectItems(collider, player);
+  usePlayerCollectItems(interactionCollider, player);
 
   // Activate the player if they are inactive and the fire button is pressed.
   usePlayerActivateOnFire(player);
@@ -83,7 +84,10 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
         </SpriteSet>
       </Node>
       <Node offset={[-5, -8]}>
-        <CollisionBox size={[10, 8]} id={collider} tags={['player']} entity={player} />
+        <CollisionBox size={[10, 8]} id={platformCollider} />
+      </Node>
+      <Node offset={[-6, -12]}>
+        <CollisionBox size={[12, 12]} id={interactionCollider} tags={['player']} entity={player} />
       </Node>
     </Node>
   );
