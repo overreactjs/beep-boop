@@ -16,4 +16,9 @@ export const useSoundtrack = () => {
   useEffect(() => {
     music.play(currentLevel % 20 === 0 ? BossFight : MainTheme);
   }, [currentLevel, music]);
+
+  // Stop the music when the game isn't playing.
+  useEffect(() => () => {
+    music.stop();
+  }, [music]);
 };

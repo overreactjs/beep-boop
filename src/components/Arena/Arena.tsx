@@ -12,7 +12,7 @@ import { Projectile } from "../Projectile";
 export const Arena: React.FC = () => {
   const game = useGame();
   const camera = useCamera();
-  
+
   const timeout = useProperty(5000);
   const timescale = useCachedDynamicProperty(game.paused, (paused) => paused ? 0 : 1);
 

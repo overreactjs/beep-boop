@@ -59,10 +59,11 @@ export class GameState extends ObjectState {
     ];
   }
 
-  update(delta: number) {
+  update(delta: number, onGameOver: () => void) {
     this.updateCircuits();
     this.updateLevelTime(delta);
     this.updatePowerups(delta);
+    this.updateGameOver(onGameOver);
   }
 
   updateCircuits() {
@@ -94,6 +95,12 @@ export class GameState extends ObjectState {
     }
 
     this.powerups = this.powerups.filter((powerup) => !expired.includes(powerup));
+  }
+
+  updateGameOver(onGameOver: () => void) {
+    if (this.players.every((player) => !player.active.current || player.lives.current === 0)) {
+      onGameOver();
+    }
   }
 
   /*

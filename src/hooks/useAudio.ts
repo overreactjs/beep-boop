@@ -21,7 +21,7 @@ type UseAudioOptions = {
 
 type UseAudioResult = {
   play: (url: string, options?: PlayAudioOptions) => Promise<void>;
-  pause: (key?: string) => void;
+  stop: (key?: string) => void;
   getAudioTrack: (key?: string) => AudioTrackRef | null;
 };
 
@@ -67,9 +67,9 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
   }, [rootOptions]);
 
   /**
-   * Pause the track with the given key, if it is playing.
+   * Stop the track with the given key, if it is playing.
    */
-  const pause = useCallback((key?: string) => {
+  const stop = useCallback((key?: string) => {
     const k = key || rootOptions?.key;
 
     if (k) {
@@ -96,5 +96,5 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
     }
   }, [rootOptions?.key]);
 
-  return useMemo(() => ({ context, play, pause, getAudioTrack }), [play, pause, getAudioTrack]);
+  return useMemo(() => ({ context, play, stop, getAudioTrack }), [play, stop, getAudioTrack]);
 };

@@ -1,8 +1,3 @@
-export { ArcadeText } from "./ArcadeText";
-export { Arena } from "./Arena";
-export { BottomBar } from "./BottomBar";
-export { Game } from "./Game";
-export { LevelOverlay } from "./LevelOverlay";
+export { BeepBoop } from "./BeepBoop";
 export { Screen } from "./Screen";
-export { TopBar } from "./TopBar";
 export { VirtualController } from "./VirtualController";

@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { GameState } from "../../state";
 import { buildLevels } from "../../data/levels";
 import { useUpdate } from "@overreact/engine";
+import { TopBar } from "../TopBar";
+import { Arena } from "../Arena";
+import { LevelOverlay } from "../LevelOverlay";
+import { BottomBar } from "../BottomBar";
 
 export const GameContext = React.createContext<GameState>(new GameState([]));
 
@@ -17,13 +21,14 @@ const GameInner: React.FC<GameInnerProps> = ({ game, children }) => (
 );
 
 type GameProps = {
-  children: React.ReactNode;
+  onGameOver: () => void;
 }
 
-export const Game: React.FC<GameProps> = ({ children }) => {
+export const Game: React.FC<GameProps> = ({ onGameOver }) => {
   const loading = useRef(false);
   const [game, setGame] = useState<GameState>();
 
+  // When the game first renders, load all levels, then start.
   useEffect(() => {
     if (!loading.current) {
       loading.current = true;
@@ -35,12 +40,15 @@ export const Game: React.FC<GameProps> = ({ children }) => {
 
   // Update the game state.
   useUpdate((delta) => {
-    game?.update(delta);
+    game?.update(delta, onGameOver);
   });
 
   return game && (
     <GameInner game={game}>
-      {children}
+      <TopBar />
+      <Arena />
+      <LevelOverlay />
+      <BottomBar />
     </GameInner>
   );
 };
