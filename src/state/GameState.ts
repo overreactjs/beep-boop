@@ -108,10 +108,17 @@ export class GameState extends ObjectState {
    */
 
   nearestPlayer(enemy: BaseEnemyState): PlayerState {
-    const a = dist(enemy.pos.current, this.players[0].pos.current);
-    const b = dist(enemy.pos.current, this.players[1].pos.current);
-    
-    return a <= b ? this.players[0] : this.players[1];
+    const [p1, p2] = this.players;
+
+    if (!p1.active.current) {
+      return p2;
+    } else if (!p2.active.current) {
+      return p1;
+    } else {
+      const a = dist(enemy.pos.current, p1.pos.current);
+      const b = dist(enemy.pos.current, p2.pos.current);
+      return a <= b ? p1 : p2;
+    }
   }
 
   /*
