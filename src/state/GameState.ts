@@ -63,10 +63,6 @@ export class GameState extends ObjectState {
     this.updateCircuits();
     this.updateLevelTime(delta);
     this.updatePowerups(delta);
-
-    if (this.levelTime.current >= 30000 && !this.hurryMode.current) {
-      this.hurry();
-    }
   }
 
   updateCircuits() {
@@ -78,6 +74,10 @@ export class GameState extends ObjectState {
 
   updateLevelTime(delta: number) {
     this.levelTime.current += delta;
+
+    if (this.levelTime.current >= 30000 && !this.hurryMode.current && this.enemies.length > 0  && this.level.current % 20 !== 0) {
+      this.hurry();
+    }
   }
 
   updatePowerups(delta: number) {
@@ -115,6 +115,7 @@ export class GameState extends ObjectState {
     if (!this.initialized.current) {
       this.initialized.current = true;
       this.levelTime.current = 0;
+      this.hurryMode.current = false;
       this.players.forEach((player) => player.respawn());
       this.enemies = [...this.levelData.enemies];
       this.items = [];
