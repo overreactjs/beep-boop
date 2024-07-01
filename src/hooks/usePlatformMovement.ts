@@ -11,6 +11,7 @@ const DEFAULT_OPTIONS = {
   maxJumpCount: 1,
   canTurnMidair: false,
   canFallThrough: true,
+  activeTags: ['top', 'left', 'right'] as string[],
 } as const;
 
 export type PlatformMovementEventType = 'jump';
@@ -25,6 +26,7 @@ export type UsePlatformMovementOptions = {
   maxJumpCount?: number;
   canTurnMidair?: boolean;
   canFallThrough?: boolean;
+  activeTags?: string[];
 };
 
 export type UsePlatformMovementResult = {
@@ -42,7 +44,7 @@ export type UsePlatformMovementResult = {
 
 export const usePlatformMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UsePlatformMovementOptions): UsePlatformMovementResult => {
   const allOptions = { ...DEFAULT_OPTIONS, ...options };
-  const { gravity, jumpStrength, acceleration, maxJumpCount, canTurnMidair, canFallThrough } = allOptions;
+  const { gravity, jumpStrength, acceleration, maxJumpCount, canTurnMidair, canFallThrough, activeTags } = allOptions;
   const { addEventListener, removeEventListener, fireEvent } = useEventListeners<PlatformMovementEventType>();
   const input = useVirtualInput();
 
@@ -59,6 +61,8 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
   const jumpCount = useProperty(0);
   const facing = useProperty<'left' | 'right' | null>(null);
   const fallingThrough = useProperty(false);
+
+  const gravitySign = Math.sign(gravity[1]);
 
   /**
    * Update the players velocity, position, and state flags, based on current inputs.
@@ -78,7 +82,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
       // 1. The entity is stood on the ground.
       // 2. The entity is falling, and has not yet jumped the maximum number of times.
       if (input.isActive('jump') && (isOnFloor.current || (isFalling.current && jumpCount.current > 0 && jumpCount.current < maxJumpCount))) {
-        velocity.current[1] = -jumpStrength;
+        velocity.current[1] = jumpStrength * -gravitySign;
         isOnFloor.current = false;
         isJumping.current = true;
         isFalling.current = false;
@@ -95,7 +99,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
       }
 
       // Update state flags.
-      if (velocity.current[1] > 0) {
+      if (velocity.current[1] * gravitySign > 0) {
         isOnFloor.current = false;
         isJumping.current = false;
         isFalling.current = true;
@@ -103,7 +107,10 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
 
       // Add gravity to the player's velocity.
       velocity.current[0] = velocity.current[0] + (gravity[0] || 0) * delta;
-      velocity.current[1] = Math.min(maxFallSpeed.current, velocity.current[1] + (gravity[1] || 0) * delta);
+      velocity.current[1] = velocity.current[1] + (gravity[1] || 0) * delta;
+
+      // Clamp the velocity to the maximum fall speed
+      velocity.current[1] = Math.min(maxFallSpeed.current, velocity.current[1] * gravitySign) * gravitySign;
 
       // Apply the velocity to the player.
       change.current[0] = velocity.current[0] * delta;
@@ -169,6 +176,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
 
           // top (platforms, when falling)
           if (tags.includes('top')
+            && activeTags.includes('top')
             && overlap.y > 0
             && dy > 0
             && dy - overlap.y >= -1
@@ -178,8 +186,21 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
             adjustment[1] = overlap.y;
           }
 
+          // bottom (platforms, when falling with negative gravity)
+          if (tags.includes('bottom')
+            && activeTags.includes('bottom')
+            && overlap.y < 0
+            && dy < 0
+            && dy - overlap.y <= 1
+            && adjustment[1] > overlap.y
+          ) {
+            pos.current[1] -= overlap.y;
+            adjustment[1] = overlap.y;
+          }
+
           // left (when moving right)
           if (tags.includes('left')
+            && activeTags.includes('left')
             && overlap.x > 0
             && dx > 0
             && dx - overlap.x >= -1
@@ -191,6 +212,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
 
           // right (when moving left)
           if (tags.includes('right')
+            && activeTags.includes('right')
             && overlap.x < 0
             && dx < 0
             && dx - overlap.x <= 1
@@ -210,7 +232,7 @@ export const usePlatformMovement = (collider: string, pos: Property<Position>, v
       // Update state flags.
       wallToLeft.current = adjustment[0] > 0;
       wallToRight.current = adjustment[0] < 0;
-      if (adjustment[1] > 0 && dy > 0) {
+      if ((adjustment[1] * gravitySign) > 0 && (dy * gravitySign) > 0) {
         isOnFloor.current = true;
         isFalling.current = false;
         jumpCount.current = 0;
