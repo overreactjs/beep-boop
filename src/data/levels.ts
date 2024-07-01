@@ -1,6 +1,6 @@
 import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
-import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState } from '../state';
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState, InvertedBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
 import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
@@ -71,7 +71,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         if (isSolid(x, y + 1)) {
           collisions.push(['platform', 'left', 'right']);
         } else {
-          collisions.push(['platform']);
+          collisions.push(['platform', 'bottom']);
         }
 
       } else {
@@ -81,6 +81,11 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         // Nothing above? It's a platform.
         if (!isSolid(x, y - 1)) {
           tags.add('top');
+        }
+
+        // Nothing below? It's a ceiling.
+        if (!isSolid(x, y - 1)) {
+          tags.add('bottom');
         }
 
         // Nothing to the left, and there's something either above or below.
@@ -113,14 +118,14 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
           tags.add('right');
         }
 
-        // Left edge of the level is always solid, apart from directly above a portal.
-        if (x <= 1 && isSolid(x, y + 1)) {
-          tags.add('right');
-        }
-
         // Right edge of the level is always solid, apart from directly above a portal.
         if (x >= 30 && isSolid(x, y + 1)) {
           tags.add('left');
+        }
+
+        // Left edge of the level is always solid, apart from directly above a portal.
+        if (x <= 1 && isSolid(x, y + 1)) {
+          tags.add('right');
         }
 
         collisions.push([...tags]);
@@ -260,19 +265,21 @@ export function createEnemy(type: EnemyType, pos: Position, direction: Direction
       return new BounceBotState(pos, direction);
     case 'flyingBot':
       return new FlyingBotState(pos, direction);
+    case 'greenOgre':
+      return new GreenOgreState(pos, direction);
     case 'guardBot':
       return new GuardBotState(pos, direction);
+    case 'invertedBot':
+      return new InvertedBotState(pos, direction);
     case 'pathfinderBot':
       return new PathfinderBotState(pos, direction);
+    case 'redOgre':
+      return new RedOgreState(pos, direction);
     case 'rollingBot':
       return new RollingBotState(pos, direction);
     case 'securityBot':
       return new SecurityBotState(pos, direction);
     case 'teleportBot':
       return new TeleportBotState(pos, direction);
-    case 'greenOgre':
-      return new GreenOgreState(pos, direction);
-    case 'redOgre':
-      return new RedOgreState(pos, direction);
   }
 }

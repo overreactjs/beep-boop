@@ -20,6 +20,7 @@ export const ENEMIES: Record<string, EnemyType> = {
   'E': 'rollingBot',
   'F': 'pathfinderBot',
   'G': 'teleportBot',
+  'H': 'invertedBot',
   // Bosses
   'Z': 'greenOgre',
   'Y': 'redOgre',
@@ -29,10 +30,11 @@ export const ENEMY_POINTS: Record<EnemyType, number> = {
   bounceBot: 1000,
   flyingBot: 1000,
   guardBot: 1000,
+  invertedBot: 1000,
   pathfinderBot: 1000,
   rollingBot: 1000,
   securityBot: 1000,
-  teleportBot: 2000,
+  teleportBot: 1000,
   greenOgre: 32000,
   redOgre: 32000,
 };
@@ -41,6 +43,7 @@ export const ENEMY_ITEMS: Record<EnemyType, number> = {
   bounceBot: 2,
   flyingBot: 2,
   guardBot: 2,
+  invertedBot: 2,
   pathfinderBot: 2,
   rollingBot: 2,
   securityBot: 2,

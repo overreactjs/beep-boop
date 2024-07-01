@@ -18,17 +18,14 @@ export type ProjectileType =
 export type EnemyType =
   | 'bounceBot'
   | 'flyingBot'
+  | 'greenOgre'
   | 'guardBot'
+  | 'invertedBot'
   | 'pathfinderBot'
+  | 'redOgre'
   | 'rollingBot'
   | 'securityBot'
-  // | 'ghostBot'
   | 'teleportBot'
-  | 'greenOgre'
-  | 'redOgre'
-  // | 'magentaOgre'
-  // | 'cyanOgre'
-  // | 'yellowOgre'
   ;
 
 export type EnemyStates = 

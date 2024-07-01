@@ -151,8 +151,12 @@ export class GameState extends ObjectState {
       : false;
   }
 
-  isPlatformAbove(x: number, y: number) : boolean {
+  isPlatformAbove(x: number, y: number): boolean {
     return (this.isSolid(x, y - 4) && !this.isSolid(x, y - 5)) || (this.isSolid(x, y - 3) && !this.isSolid(x, y - 4));
+  }
+
+  isPlatformBelow(x: number, y: number): boolean {
+    return (this.isSolid(x, y + 1) && !this.isSolid(x, y + 2)) || (this.isSolid(x, y + 2) && !this.isSolid(x, y + 3));
   }
 
   /*

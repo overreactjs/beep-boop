@@ -4,6 +4,7 @@ export {
   BounceBotState,
   FlyingBotState,
   GuardBotState,
+  InvertedBotState,
   PathfinderBotState,
   RollingBotState,
   SecurityBotState,
