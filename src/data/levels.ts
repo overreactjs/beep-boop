@@ -74,6 +74,13 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
           collisions.push(['platform', 'bottom']);
         }
 
+      } else if (y === 24) {
+        if (isSolid(x, y - 1)) {
+          collisions.push(['platform', 'left', 'right']);
+        } else {
+          collisions.push(['platform', 'top']);
+        }
+      
       } else {
         const tags = new Set<string>();
         tags.add('platform');
@@ -84,7 +91,7 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
         }
 
         // Nothing below? It's a ceiling.
-        if (!isSolid(x, y - 1)) {
+        if (!isSolid(x, y + 1)) {
           tags.add('bottom');
         }
 
