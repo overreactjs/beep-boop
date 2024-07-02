@@ -18,11 +18,14 @@ export const useWrapAround = (entity: EntityObjectState, options?: UseWrapAround
   const level = useGame().level;
 
   useUpdate(() => {
-    const threshold = level.current * 200 + 16;
+    const max = level.current * 200 + 16;
+    const min = max - 216;
 
-    if (downwards && entity.pos.current[1] >= threshold) {
+    console.log(entity.pos.current[1], min, max);
+
+    if (downwards && entity.pos.current[1] >= max) {
       entity.pos.current[1] -= 216;
-    } else if (upwards && entity.pos.current[1] <= threshold - 200) {
+    } else if (upwards && entity.pos.current[1] <= min) {
       entity.pos.current[1] += 216;
     }
   });
