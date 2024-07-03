@@ -6,7 +6,7 @@ _Beep Boop_ is a video game that lifts heavily from the original Bubble Bobble a
 
 ## Run in browser
 
-First, install dependencies:
+First, install all dependencies:
 
 ```
 npm i
