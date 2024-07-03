@@ -26,6 +26,8 @@ export class GameState extends ObjectState {
 
   levelTime = new VariableProperty(0);
 
+  lastEnemyTime = new VariableProperty(0);
+
   circuits = new VariableProperty(0);
 
   levels: LevelData[] = [];
@@ -75,9 +77,15 @@ export class GameState extends ObjectState {
 
   updateLevelTime(delta: number) {
     this.levelTime.current += delta;
+    this.lastEnemyTime.current += delta;
 
-    if (this.levelTime.current >= 30000 && !this.hurryMode.current && this.enemies.length > 0  && this.level.current % 20 !== 0) {
-      this.hurry();
+    // Hurry mode isn't applicable to boss fights.
+    if (!this.hurryMode.current && this.level.current % 20 !== 0) {
+      if (this.levelTime.current >= 30000 && this.enemies.length > 0) {
+        this.hurry();
+      } else if (this.lastEnemyTime.current >= 8000 && this.enemies.length === 1) {
+        this.hurry();
+      }
     }
   }
 
@@ -129,6 +137,7 @@ export class GameState extends ObjectState {
     if (!this.initialized.current) {
       this.initialized.current = true;
       this.levelTime.current = 0;
+      this.lastEnemyTime.current = 0;
       this.hurryMode.current = false;
       this.players.forEach((player) => player.respawn());
       this.enemies = [...this.levelData.enemies];
@@ -287,6 +296,8 @@ export class GameState extends ObjectState {
   }
 
   killEnemy(enemy: BaseEnemyState) {
+    this.lastEnemyTime.current = 0;
+
     const player = enemy.killedBy;
     const px = player?.pos.current[0] || Math.random() * 256;
 
