@@ -17,14 +17,14 @@ export const useDeveloperMode = (camera: Property<Position>) => {
 
   useKeyPressed('KeyZ', () => {
     game.nextLevel();
-    camera.current[1] += 200;
+    camera.current[1] = (game.level.current - 1) * 200 + 100;
   });
 
   useKeyPressed('KeyX', () => {
     for (let i = 0; i < 10; i++) {
       game.nextLevel();
     }
-    camera.current[1] += 2000;
+    camera.current[1] = (game.level.current - 1) * 200 + 100;
   });
 
   useKeyPressed('KeyC', () => {

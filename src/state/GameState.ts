@@ -156,7 +156,7 @@ export class GameState extends ObjectState {
 
   setLevel(level: number) {
     this.initialized.current = false;
-    this.level.current = level;
+    this.level.current = clamp(level, 1, this.levels.length);
     this.players.forEach((player) => player.respawn());
     this.enemies = [];
   }
@@ -165,7 +165,10 @@ export class GameState extends ObjectState {
     this.hurryMode.current = true;
     this.paused.current = true;
     this.signalEnemies('anger');
-    setTimeout(() => this.paused.current = false, 500);
+    
+    setTimeout(() => {
+      this.paused.current = false;
+    }, 500);
   }
 
   isSolid(x: number, y: number): boolean {
