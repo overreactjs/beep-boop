@@ -8,6 +8,7 @@ export const useMenuItemFlash = (selected: Property<boolean>) => {
   useUpdate((delta) => {
     if (!selected.current) {
       color.current = null;
+      cooldown.current = null;
       return; 
     }
 
