@@ -6,6 +6,8 @@ import { TopBar } from "../TopBar";
 import { Arena } from "../Arena";
 import { LevelOverlay } from "../LevelOverlay";
 import { BottomBar } from "../BottomBar";
+import { VirtualController } from "../VirtualController";
+import { Screen } from "../Screen";
 
 export const GameContext = React.createContext<GameState>(new GameState([]));
 
@@ -45,10 +47,13 @@ export const Game: React.FC<GameProps> = ({ onGameOver }) => {
 
   return game && (
     <GameInner game={game}>
-      <TopBar />
-      <Arena />
-      <LevelOverlay />
-      <BottomBar />
+      <Screen size={[256, 240]} scale="auto">
+        <TopBar />
+        <Arena />
+        <LevelOverlay />
+        <BottomBar />
+      </Screen>
+      <VirtualController />
     </GameInner>
   );
 };

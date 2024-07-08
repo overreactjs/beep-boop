@@ -1,5 +1,5 @@
 import { Device } from "@overreact/engine";
-import { Screen, VirtualController, BeepBoop } from "./components";
+import { BeepBoop } from "./components";
 import { useHideStatusBar } from "./hooks";
 
 export const App = () => {
@@ -8,10 +8,7 @@ export const App = () => {
 
   return (
     <Device mode="desktop" bg="black" showFPS hideClose>
-      <Screen size={[256, 240]} scale="auto">
-        <BeepBoop />
-      </Screen>
-      <VirtualController />
+      <BeepBoop />
     </Device>
   );
 };
