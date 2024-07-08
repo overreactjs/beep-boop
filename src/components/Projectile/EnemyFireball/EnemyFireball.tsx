@@ -1,14 +1,16 @@
-import { useUpdate, CollisionBox, Node, BitmapSprite, useProperty, useTaggedCollision } from "@overreact/engine";
 import { useId } from "react";
+import { useUpdate, CollisionBox, Node, BitmapSprite, useProperty, useTaggedCollision } from "@overreact/engine";
+import { PlayerState } from "../../../state";
+import { useSoundEffects } from "../../../hooks";
 import { EnemyFireballState } from "../../../state/ProjectileState";
 import { ProjectileProps } from "../types";
 import { FIREBALL_SPRITE } from "./assets";
-import { PlayerState } from "../../../state";
 
 const DESTROY_AGE = 5000;
 
 export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ projectile }) => {
   const { pos, velocity } = projectile;
+  const sfx = useSoundEffects();
   const collider = useId();
   const age = useProperty(0);
 
@@ -27,6 +29,7 @@ export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ p
     for (const { b: { entity: player } } of collisions) {
       if (player?.alive.current && player?.invulnerable.current <= 0) {
         player.alive.current = false;
+        sfx.play('PlayerDeath');
       }
     }
   });

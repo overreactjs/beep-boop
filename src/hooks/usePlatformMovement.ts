@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Position, Prop, Property, Velocity, lerp, useEventListeners, useOverlap, useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
+import { UseEventTarget } from "../types";
 
 const DEFAULT_OPTIONS = {
   enabled: true,
@@ -29,7 +30,9 @@ export type UsePlatformMovementOptions = {
   activeTags?: string[];
 };
 
-export type UsePlatformMovementResult = {
+export type UsePlatformMovementEvents = UseEventTarget<PlatformMovementEventType, void>;
+
+export type UsePlatformMovementResult = UsePlatformMovementEvents & {
   enabled: Property<boolean>;
   isOnFloor: Property<boolean>;
   isJumping: Property<boolean>;
@@ -38,8 +41,6 @@ export type UsePlatformMovementResult = {
   wallToRight: Property<boolean>;
   jumpCount: Property<number>;
   facing: Property<'left' | 'right' | null>;
-  addEventListener: (type: PlatformMovementEventType, fn: () => void) => void;
-  removeEventListener: (type: PlatformMovementEventType, fn: () => void) => void;
 };
 
 export const usePlatformMovement = (collider: string, pos: Property<Position>, velocity: Property<Velocity>, options?: UsePlatformMovementOptions): UsePlatformMovementResult => {

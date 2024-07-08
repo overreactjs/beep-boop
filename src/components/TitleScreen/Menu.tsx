@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useKeyboardMap, useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
 import { MenuContext } from "./MenuContext";
 import { SELECTION_COOLDOWN } from "./constants";
+import { useSoundEffects } from "../../hooks";
 
 const KEYBOARD_MAP = {
   ArrowUp: 'menu_up',
@@ -18,6 +19,7 @@ type MenuProps = {
 }
 
 export const Menu: React.FC<MenuProps> = ({ children, onSelect }) => {
+  const sfx = useSoundEffects();
   const index = useProperty(0);
   const selected = useProperty<number | null>(null);
   const cooldown = useProperty(0);
@@ -27,18 +29,21 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect }) => {
   useMenuAction('menu_down', () => {
     if (selected.current === null) {
       index.current = (index.current + 1) % 3;
+      sfx.play('MenuNavigate');
     }
   });
 
   useMenuAction('menu_up', () => {
     if (selected.current === null) {
       index.current = (index.current + 2) % 3;
+      sfx.play('MenuNavigate');
     }
   });
 
   useMenuAction('menu_select', () => {
     selected.current = index.current;
     cooldown.current = SELECTION_COOLDOWN;
+    sfx.play('MenuSelect');
   });
 
   useUpdate((delta) => {

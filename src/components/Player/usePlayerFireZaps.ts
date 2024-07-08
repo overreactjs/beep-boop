@@ -1,5 +1,5 @@
 import { useProperty, useUpdate, useVirtualAction } from "@overreact/engine";
-import { useGame } from "../../hooks";
+import { useGame, useSoundEffects } from "../../hooks";
 import { PlayerState } from "../../state";
 
 const FIREBALL_COOLDOWN = 600;
@@ -8,6 +8,8 @@ const ZAP_COOLDOWN_FAST = 200;
 
 export const usePlayerFireZaps = (player: PlayerState) => {
   const game = useGame();
+  const sfx = useSoundEffects();
+
   const cooldown = useProperty(0);
   
   useVirtualAction('fire', () => {
@@ -17,6 +19,7 @@ export const usePlayerFireZaps = (player: PlayerState) => {
         cooldown.current = FIREBALL_COOLDOWN;
       } else {
         game.firePlayerZap(player);
+        sfx.play('PlayerFire');
         cooldown.current = player.hasPowerup('zapSpeed') ? ZAP_COOLDOWN_FAST : ZAP_COOLDOWN;
       }
     }

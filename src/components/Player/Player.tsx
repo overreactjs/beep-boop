@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
 
-import { usePlatformMovement, useGame, useWrapAround } from "../../hooks";
+import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useEventHandler } from "../../hooks";
 import { PlayerIndex } from "../../types";
 
 import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2, INACTIVE_P1 } from "./assets";
@@ -19,6 +19,7 @@ type PlayerProps = {
 
 export const Player: React.FC<PlayerProps> = ({ index }) => {
   const game = useGame();
+  const sfx = useSoundEffects();
   
   const player = game.players[index];
   const { flip, pos, velocity } = player;
@@ -62,9 +63,10 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   usePlayerActivateOnFire(player);
 
   // Update the player state.
-  useUpdate((delta) => {
-    player.update(delta);
-  });
+  useUpdate((delta) => player.update(delta));
+
+  // Play a sound when the player jumps.
+  useEventHandler(movement, 'jump', () => sfx.play('PlayerJump'));
   
   // Common props for all sprites in the sprite set.
   const spriteProps = { size: [16, 16] as Size, flip, visible };

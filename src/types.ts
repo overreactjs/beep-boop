@@ -192,3 +192,17 @@ export type PlayerPowerup = Powerup<PlayerPowerupType, PlayerPowerupEnd>;
 export type GamePowerup = Powerup<GamePowerupType, GamePowerupEnd>;
 
 export type FlyingStarColor = 'yellow' | 'green' | 'cyan' | 'magenta' | 'red';
+
+// TODO: Update these types in the engine.
+
+export type EventHandler<T> = (event: T) => void;
+
+export type UseEventTarget<E, T> = {
+  addEventListener: (type: E, fn: EventHandler<T>) => void;
+  removeEventListener: (type: E, fn: EventHandler<T>) => void;
+};
+
+
+export type UseEventListenersResult<E, T> = UseEventTarget<E, T> & {
+  fireEvent: (type: E, payload: T) => void;
+};
