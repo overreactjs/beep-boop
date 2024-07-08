@@ -16,7 +16,7 @@ export const useMusic = (): UseMusicResult => {
 
     if (track?.url !== url) {
       audio.stop();
-      audio.play(url, { volume: 0.1, loop: true });
+      audio.play(url, { volume: 0.2, loop: true });
     }
   }, [audio]);
 

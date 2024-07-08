@@ -8,13 +8,36 @@ import PlayerDeath from "../assets/sounds/PlayerDeath.wav";
 import PlayerFire from "../assets/sounds/PlayerFire.wav";
 import PlayerJump from "../assets/sounds/PlayerJump.wav";
 
-const SOUNDS: Record<SoundEffect, string> = {
-  MenuNavigate,
-  MenuSelect,
-  PlayerCollect,
-  PlayerDeath,
-  PlayerFire,
-  PlayerJump,
+type SoundEffectConfig = {
+  url: string;
+  volume: number;
+}
+
+const SOUNDS: Record<SoundEffect, SoundEffectConfig> = {
+  MenuNavigate: {
+    url: MenuNavigate,
+    volume: 0.1,
+  },
+  MenuSelect: {
+    url: MenuSelect,
+    volume: 0.1,
+  },
+  PlayerCollect: {
+    url: PlayerCollect,
+    volume: 0.2,
+  },
+  PlayerDeath: {
+    url: PlayerDeath,
+    volume: 0.2,
+  },
+  PlayerFire: {
+    url: PlayerFire,
+    volume: 0.1,
+  },
+  PlayerJump: {
+    url: PlayerJump,
+    volume: 0.1,
+  },
 }
 
 type SoundEffect =
@@ -34,7 +57,8 @@ export const useSoundEffects = (): UseSoundEffectsResult => {
   const audio = useAudio();
   
   const play = useCallback((name: SoundEffect) => {
-    audio.play(SOUNDS[name], { volume: 0.1 });
+    const { url, volume } = SOUNDS[name];
+    audio.play(url, { volume });
   }, [audio]);
 
   return useMemo(() => ({ play }), [play]);
