@@ -21,8 +21,6 @@ export const useWrapAround = (entity: EntityObjectState, options?: UseWrapAround
     const max = level.current * 200 + 16;
     const min = max - 216;
 
-    console.log(entity.pos.current[1], min, max);
-
     if (downwards && entity.pos.current[1] >= max) {
       entity.pos.current[1] -= 216;
     } else if (upwards && entity.pos.current[1] <= min) {
