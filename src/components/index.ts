@@ -1,2 +1,3 @@
 export { AudioEngine } from "./AudioEngine";
-export { BeepBoop } from "./BeepBoop";
+export { Game } from "./Game";
+export { TitleScreen } from "./TitleScreen";

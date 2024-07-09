@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useAudio } from "./useAudio";
 
 import Explosion from "../assets/sounds/Explosion.wav";
@@ -10,6 +10,7 @@ import PlayerFire from "../assets/sounds/PlayerFire.wav";
 import PlayerJump from "../assets/sounds/PlayerJump.wav";
 import PlayerKill from "../assets/sounds/PlayerKill.wav";
 import Powerup from "../assets/sounds/Powerup.wav";
+import { useAudioEngine } from "./useAudioEngine";
 
 type SoundEffectConfig = {
   url: string;
@@ -80,4 +81,17 @@ export const useSoundEffects = (): UseSoundEffectsResult => {
   }, [audio]);
 
   return useMemo(() => ({ play }), [play]);
+};
+
+/**
+ * Preload all of the sound effects.
+ */
+export const useSoundEffectsPreload = (): void => {
+  const { getBuffer } = useAudioEngine();
+  
+  useEffect(() => {
+    for (const { url } of Object.values(SOUNDS)) {
+      getBuffer(url);
+    }
+  }, [getBuffer]);
 };
