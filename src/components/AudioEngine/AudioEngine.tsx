@@ -17,7 +17,7 @@ type AudioEngineProps = {
 };
 
 export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
-  const [context] = useState(new AudioContext());
+  const [context] = useState(new AudioContext({ latencyHint: 'interactive' }));
   const [destination] = useState(new GainNode(context));
 
   const buffers = useRef<Map<string, AudioBuffer>>(new Map());
