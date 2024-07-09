@@ -10,6 +10,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
     if (player.active.current && player.alive.current) {
       player.velocity.current[1] = Math.min(-0.125, player.velocity.current[1]);
       player.combo.current++;
+      sfx.play('PlayerKill');
     }
   });
 
