@@ -47,9 +47,6 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
   const play = useCallback(async (url: string, options?: PlayAudioOptions): Promise<void> => {
     const { key, volume, loop } = { ...DEFAULT_PLAY_OPTIONS, ...rootOptions, ...options };
 
-    // Get an audio buffer for the given url.
-    const buffer = await getBuffer(url);
-
     // Connect the gain node to the destination.
     const gain = new GainNode(context);
     gain.gain.value = volume;
@@ -57,7 +54,6 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
 
     // Connect the source node to the gain node.
     const source = new AudioBufferSourceNode(context);
-    source.buffer = buffer;
     source.loop = loop;
     source.connect(gain);
     source.start(0);
@@ -66,11 +62,16 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
     if (key) {
       tracks.current.set(key, { source, url });
     }
+
+    // Get an audio buffer for the given url.
+    const buffer = await getBuffer(url);
+    source.buffer = buffer;
     
     // Return a promise which resolves when the track has ended.
+    // Note: Only clear the track if another one hasn't already replaced it.
     return new Promise((resolve): void => {
       source.addEventListener('ended', () => {
-        if (key) {
+        if (key && tracks.current.get(key)?.url === url) {
           tracks.current.delete(key);
         }
 
