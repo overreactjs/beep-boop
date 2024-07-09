@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useAudio } from "./useAudio";
+import { useAudioEngine } from "./useAudioEngine";
 
 import Explosion from "../assets/sounds/Explosion.wav";
+import Fireball from "../assets/sounds/Fireball.wav";
 import MenuNavigate from "../assets/sounds/MenuNavigate.wav";
 import MenuSelect from "../assets/sounds/MenuSelect.wav";
 import PlayerCollect from "../assets/sounds/PlayerCollect.wav";
@@ -10,7 +12,6 @@ import PlayerFire from "../assets/sounds/PlayerFire.wav";
 import PlayerJump from "../assets/sounds/PlayerJump.wav";
 import PlayerKill from "../assets/sounds/PlayerKill.wav";
 import Powerup from "../assets/sounds/Powerup.wav";
-import { useAudioEngine } from "./useAudioEngine";
 
 type SoundEffectConfig = {
   url: string;
@@ -21,6 +22,10 @@ const SOUNDS: Record<SoundEffect, SoundEffectConfig> = {
   Explosion: {
     url: Explosion,
     volume: 0.3,
+  },
+  Fireball: {
+    url: Fireball,
+    volume: 0.2,
   },
   MenuNavigate: {
     url: MenuNavigate,
@@ -58,6 +63,7 @@ const SOUNDS: Record<SoundEffect, SoundEffectConfig> = {
 
 type SoundEffect =
   | 'Explosion'
+  | 'Fireball'
   | 'MenuNavigate'
   | 'MenuSelect'
   | 'PlayerCollect'

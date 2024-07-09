@@ -1,13 +1,14 @@
 import { useCallback } from "react";
 import { StateFunction } from "@overreact/engine";
 import { GreenOgreState } from "../../../../state";
-import { useGame } from "../../../../hooks";
+import { useGame, useSoundEffects } from "../../../../hooks";
 
 const COUNT = 7;
 const SPREAD = Math.PI / 1.4;
 
 export const useFireState = (): StateFunction<GreenOgreState> => {
   const game = useGame();
+  const sfx = useSoundEffects();
 
   return useCallback((fsm) => {
     if (fsm.age.current === 0) {
@@ -17,10 +18,12 @@ export const useFireState = (): StateFunction<GreenOgreState> => {
       for (let i = 0; i < COUNT; i++) {
         game.fireEnemyFireball(fsm.entity, angle + (i * gap));
       }
+
+      sfx.play('Fireball');
     }
 
     if (fsm.age.current >= 1000) {
       fsm.replace('move');
     }
-  }, [game]);
+  }, [game, sfx]);
 };

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { StateFunction, useProperty } from "@overreact/engine";
 import { EnemyFireballState, RedOgreState } from "../../../../state";
-import { useGame } from "../../../../hooks";
+import { useGame, useSoundEffects } from "../../../../hooks";
 
 const PERIOD = 90;
 const COUNT = 16;
@@ -13,6 +13,7 @@ const ANGRY_SPEED = 1.00;
 
 export const useFireState = (): StateFunction<RedOgreState> => {
   const game = useGame();
+  const sfx = useSoundEffects();
 
   const fired = useProperty(0);
 
@@ -39,6 +40,7 @@ export const useFireState = (): StateFunction<RedOgreState> => {
       const dy = Math.cos(angle) * speed;
       
       game.fireProjectile(new EnemyFireballState(game, [x, y], [dx, dy]));
+      sfx.play('Fireball');
 
       fired.current = count;
     }
@@ -46,5 +48,5 @@ export const useFireState = (): StateFunction<RedOgreState> => {
     if (fsm.age.current >= COUNT * PERIOD * 2) {
       fsm.replace('disappear');
     }
-  }, [fired, game]);
+  }, [fired, game, sfx]);
 };

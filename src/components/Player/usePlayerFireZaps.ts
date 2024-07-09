@@ -16,6 +16,7 @@ export const usePlayerFireZaps = (player: PlayerState) => {
     if (cooldown.current === 0 && player.active.current) {
       if (player.hasPowerup('fireballs')) {
         game.firePlayerFireball(player);
+        sfx.play('Fireball');
         cooldown.current = FIREBALL_COOLDOWN;
       } else {
         game.firePlayerZap(player);
