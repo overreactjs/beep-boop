@@ -79,7 +79,7 @@ type UseSoundEffectsResult = {
 };
 
 export const useSoundEffects = (): UseSoundEffectsResult => {
-  const audio = useAudio();
+  const audio = useAudio({ channel: 'sounds' });
   
   const play = useCallback((name: SoundEffect) => {
     const { url, volume } = SOUNDS[name];

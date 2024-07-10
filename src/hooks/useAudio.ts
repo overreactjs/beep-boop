@@ -18,6 +18,7 @@ type PlayAudioOptions = {
 
 type UseAudioOptions = {
   key?: string;
+  channel?: string;
 };
 
 type UseAudioResult = {
@@ -38,22 +39,25 @@ type AudioTrackRef = {
  * 
  */
 export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
-  const { context, destination, getBuffer } = useAudioEngine();
+  const { key: rootKey, channel } = rootOptions || {};
+  
+  const engine = useAudioEngine();
   const tracks = useRef<Map<string, AudioTrackRef>>(new Map());
 
   /**
    * Play an audio track, and return a promise that resolves when the track completes.
    */
   const play = useCallback(async (url: string, options?: PlayAudioOptions): Promise<void> => {
-    const { key, volume, loop } = { ...DEFAULT_PLAY_OPTIONS, ...rootOptions, ...options };
+    const key = options?.key || rootKey;
+    const { volume, loop } = { ...DEFAULT_PLAY_OPTIONS, ...options };
 
     // Connect the gain node to the destination.
-    const gain = new GainNode(context);
+    const gain = new GainNode(engine.context);
     gain.gain.value = volume;
-    gain.connect(destination);
+    gain.connect(engine.getDestination(channel));
 
     // Connect the source node to the gain node.
-    const source = new AudioBufferSourceNode(context);
+    const source = new AudioBufferSourceNode(engine.context);
     source.loop = loop;
     source.connect(gain);
     source.start(0);
@@ -64,7 +68,7 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
     }
 
     // Get an audio buffer for the given url.
-    const buffer = await getBuffer(url);
+    const buffer = await engine.getBuffer(url);
     source.buffer = buffer;
     
     // Return a promise which resolves when the track has ended.
@@ -78,13 +82,13 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
         resolve();
       });
     });
-  }, [context, destination, getBuffer, rootOptions]);
+  }, [channel, engine, rootKey]);
 
   /**
    * Stop the track with the given key, if it is playing.
    */
   const stop = useCallback((key?: string) => {
-    const k = key || rootOptions?.key;
+    const k = key || rootKey;
 
     if (k) {
       const track = tracks.current.get(k);
@@ -94,21 +98,21 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
         tracks.current.delete(k);
       }
     }
-  }, [rootOptions?.key]);
+  }, [rootKey]);
 
   /**
    * Lookup an audio track by its unique key. If an audio track wasn't assigned a key, it cannot
    * be looked up.
    */
   const getAudioTrack = useCallback((key?: string): AudioTrackRef | null => {
-    const k = key || rootOptions?.key;
+    const k = key || rootKey;
     
     if (k) {
       return tracks.current.get(k) || null;
     } else {
       return null;
     }
-  }, [rootOptions?.key]);
+  }, [rootKey]);
 
-  return useMemo(() => ({ context, play, stop, getAudioTrack }), [context, play, stop, getAudioTrack]);
+  return useMemo(() => ({ play, stop, getAudioTrack }), [play, stop, getAudioTrack]);
 };

@@ -1,14 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 
 type AudioEngineContextProps = {
   context: AudioContext,
-  destination: AudioNode,
+  mute: (channel?: string) => void;
+  unmute: (channel?: string) => void;
+  toggle: (channel?: string) => void;
+  getDestination: (channel?: string) => AudioNode,
   getBuffer: (url: string) => Promise<AudioBuffer | null>,
 }
 
 export const AudioEngineContext = React.createContext<AudioEngineContextProps>({
   context: new AudioContext(),
-  destination: null as unknown as AudioNode,
+  mute: () => {},
+  unmute: () => {},
+  toggle: () => {},
+  getDestination: () => null as unknown as AudioNode,
   getBuffer: async () => null as unknown as AudioBuffer,
 });
 
@@ -18,9 +24,42 @@ type AudioEngineProps = {
 
 export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
   const [context] = useState(new AudioContext({ latencyHint: 'interactive' }));
-  const [destination] = useState(new GainNode(context));
-
+  
+  const channels = useRef<Map<string, GainNode>>(new Map());
   const buffers = useRef<Map<string, AudioBuffer>>(new Map());
+
+  /**
+   * Mute the given audio channel. Defaults to primary, muting everything.
+   */
+  const mute = useCallback((channel: string = 'primary') => {
+    const node = channels.current.get(channel);
+
+    if (node) {
+      node.gain.value = 0.0;
+    }
+  }, []);
+
+  /**
+   * Unmute the given audio channel. Defaults to primary, unmuting everything.
+   */
+  const unmute = useCallback((channel: string = 'primary') => {
+    const node = channels.current.get(channel);
+
+    if (node) {
+      node.gain.value = 1.0;
+    }
+  }, []);
+
+  /**
+   * Toggle the given audio channel. If it was muted, it'll be unmuted, and vice-versa.
+   */
+  const toggle = useCallback((channel: string = 'primary') => {
+    const node = channels.current.get(channel);
+
+    if (node) {
+      node.gain.value = 1.0 - node.gain.value;
+    }
+  }, []);
 
   /**
    * Get an audio buffer for a given URL, cached locally to avoid repeatedly initialising the same
@@ -38,18 +77,49 @@ export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
   }, [context]);
 
   /**
-   * Connect the destination (master gain) node to the audio context destination.
+   * Get the destination node for the given channel, creating one if necessary.
+   * The 'primary' channel will be hooked up to the context destination, but all others will be
+   * connected to the 'primary' channel. This make it easy to control the primary audio volume,
+   * but also control music and sound effects independently.
    */
-  useEffect(() => {
-    destination.gain.value = 0.5;
-    destination.connect(context.destination);
-  }, [context.destination, destination]);
+  const getDestination = useCallback((channel: string = 'primary') => {
+    const existing = channels.current.get(channel);
 
-  const value = useMemo(() => ({ context, destination, getBuffer }), [context, destination, getBuffer]);
+    if (existing) {
+      return existing;
+    } else {
+      const destination = channel === 'primary' ? context.destination : getDestination('primary');
+      const node = createDestination(context, destination, 1.0);
+      channels.current.set(channel, node);
+      return node;
+    }
+  }, [context]);
+
+  /**
+   * Setup the react context.
+   */
+  const value = useMemo(() => ({
+    context,
+    mute,
+    unmute,
+    toggle,
+    getDestination,
+    getBuffer,
+  }), [context, mute, unmute, toggle, getDestination, getBuffer]);
 
   return (
     <AudioEngineContext.Provider value={value}>
       {children}
     </AudioEngineContext.Provider>
   );
+};
+
+/**
+ * Create a new destination node, itself connected up to the given destination.
+ */
+const createDestination = (context: AudioContext, destination: AudioNode, volume: number): GainNode => {
+  const result = new GainNode(context);
+  result.gain.value = volume;
+  result.connect(destination);
+  return result;
 };

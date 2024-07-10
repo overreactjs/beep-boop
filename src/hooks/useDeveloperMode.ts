@@ -4,9 +4,11 @@ import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
 import { useCallback } from "react";
 import { ItemType } from "../types";
+import { useAudioEngine } from "./useAudioEngine";
 
 export const useDeveloperMode = (camera: Property<Position>) => {
   const game = useGame();
+  const audioEngine = useAudioEngine();
 
   const collectItem = useCallback((player: PlayerState, type: ItemType) => {
     game.collectItem(player, {
@@ -35,7 +37,7 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 
   useKeyPressed('KeyV', () => {
-    game.hurry();
+    audioEngine.toggle();
   });
 
   useKeyPressed('KeyB', async () => {
