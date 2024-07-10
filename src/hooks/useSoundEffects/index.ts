@@ -1,0 +1,1 @@
+export { useSoundEffects } from "./useSoundEffects";

@@ -65,13 +65,13 @@ export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
    * connected to the 'primary' channel. This make it easy to control the primary audio volume,
    * but also control music and sound effects independently.
    */
-  const getDestination = useCallback((channel: string = 'primary') => {
+  const getChannel = useCallback((channel: string = 'primary') => {
     const existing = channels.current.get(channel);
 
     if (existing) {
       return existing;
     } else {
-      const destination = channel === 'primary' ? context.destination : getDestination('primary');
+      const destination = channel === 'primary' ? context.destination : getChannel('primary');
       const node = createDestination(context, destination, 1.0);
       channels.current.set(channel, node);
       return node;
@@ -86,9 +86,9 @@ export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
     mute,
     unmute,
     toggle,
-    getDestination,
+    getChannel,
     getBuffer,
-  }), [context, mute, unmute, toggle, getDestination, getBuffer]);
+  }), [context, mute, unmute, toggle, getChannel, getBuffer]);
 
   return (
     <AudioEngineContext.Provider value={value}>
