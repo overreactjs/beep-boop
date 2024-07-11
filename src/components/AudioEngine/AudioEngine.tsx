@@ -12,39 +12,6 @@ export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
   const buffers = useRef<Map<string, AudioBuffer>>(new Map());
 
   /**
-   * Mute the given audio channel. Defaults to primary, muting everything.
-   */
-  const mute = useCallback((channel: string = 'primary') => {
-    const node = channels.current.get(channel);
-
-    if (node) {
-      node.gain.value = 0.0;
-    }
-  }, []);
-
-  /**
-   * Unmute the given audio channel. Defaults to primary, unmuting everything.
-   */
-  const unmute = useCallback((channel: string = 'primary') => {
-    const node = channels.current.get(channel);
-
-    if (node) {
-      node.gain.value = 1.0;
-    }
-  }, []);
-
-  /**
-   * Toggle the given audio channel. If it was muted, it'll be unmuted, and vice-versa.
-   */
-  const toggle = useCallback((channel: string = 'primary') => {
-    const node = channels.current.get(channel);
-
-    if (node) {
-      node.gain.value = 1.0 - node.gain.value;
-    }
-  }, []);
-
-  /**
    * Get an audio buffer for a given URL, cached locally to avoid repeatedly initialising the same
    * buffers over and buffer, which is costly.
    */
@@ -77,6 +44,39 @@ export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
       return node;
     }
   }, [context]);
+
+  /**
+   * Mute the given audio channel. Defaults to primary, muting everything.
+   */
+  const mute = useCallback((channel: string = 'primary') => {
+    const node = getChannel(channel);
+
+    if (node) {
+      node.gain.value = 0.0;
+    }
+  }, [getChannel]);
+
+  /**
+   * Unmute the given audio channel. Defaults to primary, unmuting everything.
+   */
+  const unmute = useCallback((channel: string = 'primary') => {
+    const node = getChannel(channel);
+
+    if (node) {
+      node.gain.value = 1.0;
+    }
+  }, [getChannel]);
+
+  /**
+   * Toggle the given audio channel. If it was muted, it'll be unmuted, and vice-versa.
+   */
+  const toggle = useCallback((channel: string = 'primary') => {
+    const node = getChannel(channel);
+
+    if (node) {
+      node.gain.value = 1.0 - node.gain.value;
+    }
+  }, [getChannel]);
 
   /**
    * Setup the react context.
