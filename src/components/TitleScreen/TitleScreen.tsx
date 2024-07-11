@@ -1,21 +1,21 @@
 import { useCallback } from "react";
 import { Box } from "@overreact/engine";
 import { ArcadeText } from "../ArcadeText";
+import { Menu, MenuItem } from "../Menu";
 import { Screen } from "../Screen";
-import { Menu } from "./Menu";
-import { MenuItem } from "./MenuItem";
 
 type TitleScreenProps = {
   onStart: () => void;
+  onOptions: () => void;
+  onCredits: () => void;
 };
 
-export const TitleScreen: React.FC<TitleScreenProps> = ({ onStart }) => {
+export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
+  const { onStart, onOptions, onCredits } = props;
 
   const handleSelect = useCallback((index: number) => {
-    if (index === 0) {
-      onStart();
-    }
-  }, [onStart]);
+    [onStart, onOptions, onCredits][index]?.();
+  }, [onCredits, onOptions, onStart]);
 
   return (
     <Screen size={[256, 240]} scale="auto">
