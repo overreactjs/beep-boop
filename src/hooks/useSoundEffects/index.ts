@@ -1,1 +1,1 @@
-export { useSoundEffects } from "./useSoundEffects";
+export { useSoundEffects, useSoundEffectsPreload } from "./useSoundEffects";
