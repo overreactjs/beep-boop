@@ -1,4 +1,4 @@
-import { Box, Camera, Node, Viewport, VirtualInput, World, useCachedDynamicProperty, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { Box, Camera, Node, Viewport, VirtualInput, World, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
@@ -12,9 +12,7 @@ import { Projectile } from "../Projectile";
 export const Arena: React.FC = () => {
   const game = useGame();
   const camera = useCamera();
-
   const timeout = useProperty(5000);
-  const timescale = useCachedDynamicProperty(game.paused, (paused) => paused ? 0 : 1);
 
   // Enable a whole bunch of special developer key bindings.
   useDeveloperMode(camera);
@@ -50,7 +48,7 @@ export const Arena: React.FC = () => {
 
   return (
     <ParticleEngine>
-      <Node timeScale={timescale}>
+      <Node timeScale={game.timescale}>
         <Box pos={[0, 24]} size={[256, 200]} color="#000">
           <Viewport>
             <World>

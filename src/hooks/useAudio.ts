@@ -74,13 +74,7 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
     // Return a promise which resolves when the track has ended.
     // Note: Only clear the track if another one hasn't already replaced it.
     return new Promise((resolve): void => {
-      source.addEventListener('ended', () => {
-        if (key && tracks.current.get(key)?.url === url) {
-          tracks.current.delete(key);
-        }
-
-        resolve();
-      });
+      source.addEventListener('ended', () => resolve());
     });
   }, [channel, engine, rootKey]);
 
@@ -92,6 +86,7 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
 
     if (k) {
       const track = tracks.current.get(k);
+      console.log('audio/stop...', k, track);
 
       if (track) {
         track.source.stop();

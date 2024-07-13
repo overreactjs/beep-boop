@@ -1,32 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GameState } from "../../state";
-import { buildLevels } from "../../data/levels";
 import { useUpdate } from "@overreact/engine";
-import { TopBar } from "../TopBar";
+
+import { buildLevels } from "../../data/levels";
+import { GameState } from "../../state";
+
 import { Arena } from "../Arena";
-import { LevelOverlay } from "../LevelOverlay";
 import { BottomBar } from "../BottomBar";
-import { VirtualController } from "../VirtualController";
+import { LevelOverlay } from "../LevelOverlay";
+import { PauseMenu } from "../PauseMenu";
 import { Screen } from "../Screen";
+import { TopBar } from "../TopBar";
+import { VirtualController } from "../VirtualController";
 
 export const GameContext = React.createContext<GameState>(new GameState([]));
 
-type GameInnerProps = {
-  game: GameState;
-  children: React.ReactNode;
-}
-
-const GameInner: React.FC<GameInnerProps> = ({ game, children }) => (
-  <GameContext.Provider value={game}>
-    {children}
-  </GameContext.Provider>
-);
-
 type GameProps = {
-  onGameOver: () => void;
+  onQuit: () => void;
 }
 
-export const Game: React.FC<GameProps> = ({ onGameOver }) => {
+export const Game: React.FC<GameProps> = ({ onQuit }) => {
   const loading = useRef(false);
   const [game, setGame] = useState<GameState>();
 
@@ -42,19 +34,19 @@ export const Game: React.FC<GameProps> = ({ onGameOver }) => {
 
   // Update the game state.
   useUpdate((delta) => {
-    game?.update(delta, onGameOver);
+    game?.update(delta, onQuit);
   });
 
   return game && (
-    <GameInner game={game}>
+    <GameContext.Provider value={game}>
       <Screen size={[256, 240]} scale="auto">
         <TopBar />
         <Arena />
         <LevelOverlay />
         <BottomBar />
+        <PauseMenu onQuit={onQuit} />
       </Screen>
       <VirtualController />
-    </GameInner>
+    </GameContext.Provider>
   );
 };
-

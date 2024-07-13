@@ -16,6 +16,8 @@ export class GameState extends ObjectState {
 
   paused = new VariableProperty(false);
 
+  timescale = new VariableProperty(1);
+
   itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
 
   initialized = new VariableProperty(false);
@@ -60,6 +62,20 @@ export class GameState extends ObjectState {
       new PlayerState(this, 1, [224, 192], false),
     ];
   }
+
+  pause() {
+    this.paused.current = true;
+    this.timescale.current = 0;
+  }
+
+  unpause() {
+    this.paused.current = false;
+    this.timescale.current = 1;
+  }
+
+  /**
+   * State update functions
+   */
 
   update(delta: number, onGameOver: () => void) {
     this.updateCircuits();
@@ -163,12 +179,12 @@ export class GameState extends ObjectState {
 
   hurry() {
     this.hurryMode.current = true;
-    this.paused.current = true;
+    this.timescale.current = 0;
     this.signalEnemies('anger');
     
     setTimeout(() => {
-      this.paused.current = false;
-    }, 500);
+      this.timescale.current = 1;
+    }, 1000);
   }
 
   isSolid(x: number, y: number): boolean {

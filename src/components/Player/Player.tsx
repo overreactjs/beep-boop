@@ -37,7 +37,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   useWrapAround(player, { direction: 'downwards' });
 
   // Map from real inputs to virtual input events, but only when the player is still alive.
-  const active = useMergeProperty(player.alive, game.initialized, (a, b) => a && b);
+  const gameActive = useMergeProperty(game.initialized, game.paused, (a, b) => a && !b);
+  const active = useMergeProperty(player.alive, gameActive, (a, b) => a && b);
   useKeyboardMap(KEYBOARD_MAPS[index], active);
   useGamepadMap(index, GAMEPAD_MAP, active);
 

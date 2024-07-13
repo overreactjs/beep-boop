@@ -30,10 +30,11 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 
   useKeyPressed('KeyC', () => {
-    collectItem(game.players[0], 'potion_blue');
-    collectItem(game.players[0], 'potion_magenta');
-    collectItem(game.players[1], 'potion_blue');
-    collectItem(game.players[1], 'potion_magenta');
+    const items: ItemType[] = ['potion_blue', 'potion_magenta'];
+    items.forEach((item) => {
+      collectItem(game.players[0], item as ItemType);
+      collectItem(game.players[0], item as ItemType);
+    });
   });
 
   useKeyPressed('KeyV', () => {
@@ -42,5 +43,13 @@ export const useDeveloperMode = (camera: Property<Position>) => {
 
   useKeyPressed('KeyB', async () => {
     snapshotGame(game);
+  });
+
+  useKeyPressed('KeyP', async () => {
+    if (game.paused.current) {
+      game.unpause();
+    } else {
+      game.pause();
+    }
   });
 };

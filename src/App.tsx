@@ -13,7 +13,7 @@ export const App = () => {
   return (
     <Device mode="desktop" bg="black" showFPS hideClose>
       {state === 'playing' && (
-        <Game onGameOver={go('titleScreen')} />
+        <Game onQuit={go('titleScreen')} />
       )}
       {state === 'titleScreen' && (
         <TitleScreen onStart={go('playing')} onOptions={go('options')} onCredits={go('credits')} />
