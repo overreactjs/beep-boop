@@ -14,5 +14,6 @@ export type SoundEffect =
   | 'PlayerJump'
   | 'PlayerKill'
   | 'Powerup'
+  | 'Stars'
   ;
 

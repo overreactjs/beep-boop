@@ -15,6 +15,14 @@ const POWERUPS: ItemType[] = [
   'circuit_5t',
 ];
 
+const STARS: ItemType[] = [
+  'star_cyan',
+  'star_green',
+  'star_magenta',
+  'star_red',
+  'star_yellow',
+];
+
 export const usePlayerCollectItems = (collider: string, player: PlayerState) => {
   const game = useGame();
   const sfx = useSoundEffects();
@@ -24,6 +32,8 @@ export const usePlayerCollectItems = (collider: string, player: PlayerState) => 
       sfx.play('Explosion');
     } else if (POWERUPS.includes(type)) {
       sfx.play('Powerup');
+    } else if (STARS.includes(type)) {
+      sfx.play('Stars');
     } else {
       sfx.play('PlayerCollect');
     }
