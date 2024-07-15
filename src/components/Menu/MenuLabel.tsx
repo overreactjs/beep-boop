@@ -23,3 +23,18 @@ export const MenuLabel: React.FC<MenuLabelProps> = ({ index, pos, text }) => {
     </Node>
   );
 };
+
+type MenuStaticProps = {
+  pos: Position;
+  text: string;
+  color: string;
+}
+
+export const MenuStatic: React.FC<MenuStaticProps> = ({ pos, text, color }) => {
+  return (
+    <Node pos={pos}>
+      <ArcadeText color="white" text={text} />
+      <Box size={[text.length * 8, 8]} color={color} className="mix-blend-multiply" />
+    </Node>
+  );
+}

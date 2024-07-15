@@ -1,5 +1,7 @@
+import { useSync } from "@overreact/engine";
 import { useAudioEngine } from "../../hooks/useAudioEngine";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
+import { MenuStatic } from "../Menu/MenuLabel";
 
 type OptionsProps = {
   onBack: () => void;
@@ -9,6 +11,9 @@ type OptionsProps = {
 export const Options: React.FC<OptionsProps> = (props) => {
   const { onBack, onAccessibility } = props;
   const audio = useAudioEngine();
+
+  const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : ' NO');
+  const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : ' NO');
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -22,22 +27,21 @@ export const Options: React.FC<OptionsProps> = (props) => {
   const handleChange = (index: number) => {
     switch (index) {
       case 1:
-        audio.toggle('sounds');
-        return;
+        return audio.toggle('sounds');
       case 2:
-        audio.toggle('music');
-        return;
+        return audio.toggle('music');
     }
   };
 
   return (
     <Menu onSelect={handleSelect} onChange={handleChange}>
-      <MenuItem index={0} pos={[16, 48]} text="Back" />
-      <MenuLabel index={1} pos={[16, 80]} text="Sounds" />
-      <MenuItem index={1} pos={[224, 80]} text="On" hasOptions />
-      <MenuLabel index={2} pos={[16, 96]} text="Music" />
-      <MenuItem index={2} pos={[224, 96]} text="On" hasOptions />
-      <MenuItem index={3} pos={[16, 128]} text="Accessibility" />
+      <MenuStatic pos={[16, 32]} text="OPTIONS" color="#f0f" />
+      <MenuItem index={0} pos={[32, 48]} text="BACK" />
+      <MenuLabel index={1} pos={[32, 64]} text="SOUNDS" />
+      <MenuItem index={1} pos={[216, 64]} text={soundsText} hasOptions />
+      <MenuLabel index={2} pos={[32, 80]} text="MUSIC" />
+      <MenuItem index={2} pos={[216, 80]} text={musicText} hasOptions />
+      <MenuItem index={3} pos={[32, 96]} text="ACCESSIBILITY" />
     </Menu>
   );
 };
