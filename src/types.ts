@@ -1,4 +1,4 @@
-import { Position } from "@overreact/engine";
+import { Position, VariableProperty } from "@overreact/engine";
 import { EnemyState, GameState, ItemState, PlayerState } from "./state";
 
 export type Direction = 'left' | 'right';
@@ -206,3 +206,9 @@ export type UseEventTarget<E, T> = {
 export type UseEventListenersResult<E, T> = UseEventTarget<E, T> & {
   fireEvent: (type: E, payload: T) => void;
 };
+
+export class BooleanProperty extends VariableProperty<boolean> {
+  toggle() {
+    this.current = !this.current;
+  }
+}
