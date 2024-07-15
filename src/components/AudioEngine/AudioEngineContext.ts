@@ -5,7 +5,7 @@ type AudioEngineContextProps = {
   mute: (channel?: string) => void;
   unmute: (channel?: string) => void;
   toggle: (channel?: string) => void;
-  getChannel: (channel?: string) => AudioNode,
+  getChannel: (channel?: string) => GainNode,
   getBuffer: (url: string) => Promise<AudioBuffer | null>,
 }
 
@@ -14,6 +14,6 @@ export const AudioEngineContext = React.createContext<AudioEngineContextProps>({
   mute: () => {},
   unmute: () => {},
   toggle: () => {},
-  getChannel: () => null as unknown as AudioNode,
+  getChannel: () => null as unknown as GainNode,
   getBuffer: async () => null as unknown as AudioBuffer,
 });
