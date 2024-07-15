@@ -1,5 +1,5 @@
 import { BitmapText, Node, Tilemap, useCachedDynamicProperty, useSync } from "@overreact/engine";
-import { useCalculatedProperty, useGame } from "../../hooks";
+import { useCalculatedProperty, useGame, useSettings } from "../../hooks";
 import { BaseBossState } from "../../state";
 import { Portal } from "../Portal";
 import { HealthBar } from "../HealthBar";
@@ -12,6 +12,8 @@ type LevelProps = {
 
 export const Level: React.FC<LevelProps> = ({ level }) => {
   const game = useGame();
+  const { showExplosionFlashes } = useSettings();
+
   const { foreground, background, collisions, portals } = game.levels[level - 1];
   const number = String(level).padStart(2, '0');
   const offset = (level - 1) * 200;
@@ -20,7 +22,7 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
   const active = useCachedDynamicProperty(game.level, (current) => current === level);
 
   // Show the explosion effect when the dynamite powerup is active.
-  const explosion = useCalculatedProperty(false, () => game.hasPowerup('dynamite'));
+  const explosion = useCalculatedProperty(false, () => showExplosionFlashes.current && game.hasPowerup('dynamite'));
 
   // Show the health bar for bosses.
   const health = useSync(() => active.current ? (game.enemies[0] as BaseBossState)?.health || undefined : undefined);
