@@ -1,16 +1,19 @@
-import { Position, Property, VariableProperty, clamp, dist } from "@overreact/engine";
+import { Position, VariableProperty, clamp, dist } from "@overreact/engine";
 import { ALL_ITEM_TYPES, ITEMS } from "../data";
-import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsLabel, PointsValue } from "../types";
-import { ItemState } from "./ItemState";
-import { PlayerState } from "./PlayerState";
-import { PointsState } from "./PointsState";
-import { BaseEnemyState, EnemyState } from "./EnemyState";
-import { PositionedObjectState } from "./PositionedObjectState";
-import { itemHandlers } from "./itemHandlers";
-import { EnemyFireballState, EnemyZapState, FlyingStarState, ProjectileState } from "./ProjectileState";
 import { ENEMY_ITEMS, ENEMY_POINTS } from "../data/constants";
 import { getHighScore, setHighScore } from "../services/highscores";
+import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsLabel, PointsValue } from "../types";
+
+import { itemHandlers } from "./itemHandlers";
+
+import { BaseEnemyState, EnemyState } from "./EnemyState";
+import { ItemState } from "./ItemState";
 import { ObjectState } from "./ObjectState";
+import { PlayerState } from "./PlayerState";
+import { PointsState } from "./PointsState";
+import { PositionedObjectState } from "./PositionedObjectState";
+import { EnemyFireballState, EnemyZapState, FlyingStarState, ProjectileState } from "./ProjectileState";
+import { SettingsState } from "./SettingsState";
 
 export class GameState extends ObjectState {
 
@@ -18,11 +21,9 @@ export class GameState extends ObjectState {
 
   timescale = new VariableProperty(1);
 
-  itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
-
   initialized = new VariableProperty(false);
 
-  highscore: Property<number>;
+  highscore = new VariableProperty(getHighScore());
   
   level = new VariableProperty(1);
 
@@ -30,7 +31,11 @@ export class GameState extends ObjectState {
 
   lastEnemyTime = new VariableProperty(0);
 
+  hurryMode = new VariableProperty(false);
+
   circuits = new VariableProperty(0);
+
+  itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
 
   levels: LevelData[] = [];
 
@@ -46,7 +51,7 @@ export class GameState extends ObjectState {
 
   powerups: GamePowerup[] = [];
 
-  hurryMode = new VariableProperty(false);
+  settings: SettingsState = new SettingsState();
 
   get levelData() {
     return this.levels[this.level.current - 1];
@@ -54,7 +59,6 @@ export class GameState extends ObjectState {
 
   constructor(levels: LevelData[]) {
     super();
-    this.highscore = new VariableProperty(getHighScore());
     this.itemHandlers = itemHandlers;
     this.levels = levels;
     this.players = [

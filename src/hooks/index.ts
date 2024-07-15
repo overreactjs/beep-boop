@@ -16,6 +16,7 @@ export { useGame } from "./useGame";
 export { useHideStatusBar } from "./useHideStatusBar";
 export { useMusic } from "./useMusic";
 export { usePlatformMovement } from "./usePlatformMovement";
+export { useSettings } from "./useSettings";
 export { useSoundEffects, useSoundEffectsPreload } from "./useSoundEffects";
 export { useSoundtrack } from "./useSoundtrack";
 export { useTeleportBotCollisions } from "./useTeleportBotCollisions";
