@@ -1,3 +1,4 @@
+import { useDynamicProperty } from "@overreact/engine";
 import { useSettings } from "../../hooks";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
@@ -12,6 +13,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   
   const settings = useSettings();
   const showExplosionFlashes = useBooleanOption(settings.showExplosionFlashes);
+  const gameSpeed = useDynamicProperty(settings.gameSpeed, (value) => value.toFixed(1));
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -20,10 +22,12 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
     }
   };
 
-  const handleChange = (index: number) => {
+  const handleChange = (index: number, direction: -1 | 1) => {
     switch (index) {
       case 1:
         return settings.showExplosionFlashes.toggle();
+      case 2:
+        return settings.gameSpeed.next(direction);
     }
   };
 
@@ -33,6 +37,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
       <MenuLabel index={1} pos={[32, 64]} text="EXPLOSION FLASHES" />
       <MenuItem index={1} pos={[216, 64]} text={showExplosionFlashes} hasOptions />
+      <MenuLabel index={2} pos={[32, 80]} text="GAME SPEED" />
+      <MenuItem index={2} pos={[216, 80]} text={gameSpeed} hasOptions />
     </Menu>
   );
 };

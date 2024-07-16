@@ -2,6 +2,7 @@ import { useSync } from "@overreact/engine";
 import { useAudioEngine } from "../../hooks/useAudioEngine";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
+import { useSettings } from "../../hooks";
 
 type OptionsProps = {
   onBack: () => void;
@@ -12,12 +13,14 @@ export const Options: React.FC<OptionsProps> = (props) => {
   const { onBack, onAccessibility } = props;
   const audio = useAudioEngine();
 
+  const settings = useSettings();
   const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : ' NO');
   const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : ' NO');
 
   const handleSelect = (index: number) => {
     switch (index) {
       case 0:
+        settings.save();
         return onBack();
       case 3:
         return onAccessibility();

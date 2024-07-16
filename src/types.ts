@@ -207,8 +207,26 @@ export type UseEventListenersResult<E, T> = UseEventTarget<E, T> & {
   fireEvent: (type: E, payload: T) => void;
 };
 
+// Specialised property types.
+
 export class BooleanProperty extends VariableProperty<boolean> {
   toggle() {
     this.current = !this.current;
+  }
+}
+
+export class CannedProperty<T> extends VariableProperty<T> {
+  options: T[];
+
+  constructor(initial: T, options: T[]) {
+    super(initial);
+    this.options = options;
+  }
+
+  next(direction: -1 | 1 = 1) {
+    const index = this.options.indexOf(this.current);
+    this.current = direction === 1
+      ? this.options[(index + 1) % this.options.length]
+      : this.options[(index + this.options.length - 1) % this.options.length];
   }
 }

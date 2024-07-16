@@ -47,8 +47,8 @@ export const Arena: React.FC = () => {
   }
 
   return (
-    <ParticleEngine>
-      <Node timeScale={game.timescale}>
+    <Node timeScale={game.timescale}>
+      <ParticleEngine>
         <Box pos={[0, 24]} size={[256, 200]} color="#000">
           <Viewport>
             <World>
@@ -74,8 +74,8 @@ export const Arena: React.FC = () => {
             </World>
           </Viewport>
         </Box>
-      </Node>
-    </ParticleEngine>
+      </ParticleEngine>
+    </Node>
   );
 };
 
