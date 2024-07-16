@@ -46,37 +46,41 @@ export const AudioEngine: React.FC<AudioEngineProps> = ({ children }) => {
   }, [context]);
 
   /**
+   * Get the volume of an individual audio channel.
+   */
+  const getVolume = useCallback((channel: string = 'primary'): number => {
+    const node = getChannel(channel);
+    return node.gain.value;
+  }, [getChannel]);
+
+  /**
+   * Set the volume of an individual audio channel.
+   */
+  const setVolume = useCallback((channel: string = 'primary', volume: number) => {
+    const node = getChannel(channel);
+    node.gain.value = volume;
+  }, [getChannel]);
+
+  /**
    * Mute the given audio channel. Defaults to primary, muting everything.
    */
   const mute = useCallback((channel: string = 'primary') => {
-    const node = getChannel(channel);
-
-    if (node) {
-      node.gain.value = 0.0;
-    }
-  }, [getChannel]);
+    setVolume(channel, 0.0);
+  }, [setVolume]);
 
   /**
    * Unmute the given audio channel. Defaults to primary, unmuting everything.
    */
   const unmute = useCallback((channel: string = 'primary') => {
-    const node = getChannel(channel);
-
-    if (node) {
-      node.gain.value = 1.0;
-    }
-  }, [getChannel]);
+    setVolume(channel, 1.0);
+  }, [setVolume]);
 
   /**
    * Toggle the given audio channel. If it was muted, it'll be unmuted, and vice-versa.
    */
   const toggle = useCallback((channel: string = 'primary') => {
-    const node = getChannel(channel);
-
-    if (node) {
-      node.gain.value = 1.0 - node.gain.value;
-    }
-  }, [getChannel]);
+    setVolume(channel, 1.0 - getVolume(channel));
+  }, [getVolume, setVolume]);
 
   /**
    * Setup the react context.

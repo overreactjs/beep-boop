@@ -86,7 +86,6 @@ export const useAudio = (rootOptions?: UseAudioOptions): UseAudioResult => {
 
     if (k) {
       const track = tracks.current.get(k);
-      console.log('audio/stop...', k, track);
 
       if (track) {
         track.source.stop();
