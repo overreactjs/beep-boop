@@ -26,7 +26,7 @@
     "@capacitor/core": "^5.7.2",
     "@capacitor/ios": "^5.7.2",
     "@capacitor/status-bar": "^5.0.8",
-    "@overreact/engine": "^0.18.0",
+    "@overreact/engine": "^0.19.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
