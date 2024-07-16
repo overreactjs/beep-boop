@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useAudio } from "../useAudio";
-import { useAudioEngine } from "../useAudioEngine";
+import { useAudio, useAudioEngine } from "@overreact/engine";
 import { SOUNDS } from "./constants";
 import { SoundEffect } from "./types";
 

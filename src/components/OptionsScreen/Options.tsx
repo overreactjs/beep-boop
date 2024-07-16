@@ -1,5 +1,4 @@
-import { useSync } from "@overreact/engine";
-import { useAudioEngine } from "../../hooks/useAudioEngine";
+import { useAudioEngine, useSync } from "@overreact/engine";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
 import { useSettings } from "../../hooks";
