@@ -19,7 +19,7 @@ export class GameState extends ObjectState {
 
   paused = new VariableProperty(false);
 
-  timescale = new VariableProperty(1);
+  timescale = new VariableProperty(0);
 
   initialized = new VariableProperty(false);
 
@@ -51,14 +51,15 @@ export class GameState extends ObjectState {
 
   powerups: GamePowerup[] = [];
 
-  settings: SettingsState = new SettingsState();
+  settings: SettingsState;
 
   get levelData() {
     return this.levels[this.level.current - 1];
   }
 
-  constructor(levels: LevelData[]) {
+  constructor(levels: LevelData[], settings: SettingsState) {
     super();
+    this.settings = settings;
     this.itemHandlers = itemHandlers;
     this.levels = levels;
     this.players = [
@@ -74,7 +75,7 @@ export class GameState extends ObjectState {
 
   unpause() {
     this.paused.current = false;
-    this.timescale.current = 1;
+    this.timescale.current = this.settings.gameSpeed.current;
   }
 
   /**
@@ -159,6 +160,7 @@ export class GameState extends ObjectState {
       this.levelTime.current = 0;
       this.lastEnemyTime.current = 0;
       this.hurryMode.current = false;
+      this.timescale.current = this.settings.gameSpeed.current;
       this.players.forEach((player) => player.respawn());
       this.enemies = [...this.levelData.enemies];
       this.items = [];
@@ -187,7 +189,7 @@ export class GameState extends ObjectState {
     this.signalEnemies('anger');
     
     setTimeout(() => {
-      this.timescale.current = 1;
+      this.timescale.current = this.settings.gameSpeed.current;
     }, 1000);
   }
 

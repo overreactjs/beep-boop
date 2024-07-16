@@ -1,5 +1,6 @@
-import { useGame } from "./useGame"
+import { useContext } from "react";
+import { SettingsContext } from "../App";
 
 export const useSettings = () => {
-  return useGame().settings;
+  return useContext(SettingsContext);
 };

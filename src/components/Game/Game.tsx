@@ -11,14 +11,17 @@ import { PauseMenu } from "../PauseMenu";
 import { Screen } from "../Screen";
 import { TopBar } from "../TopBar";
 import { VirtualController } from "../VirtualController";
+import { useSettings } from "../../hooks";
+import { SettingsState } from "../../state/SettingsState";
 
-export const GameContext = React.createContext<GameState>(new GameState([]));
+export const GameContext = React.createContext<GameState>(new GameState([], new SettingsState()));
 
 type GameProps = {
   onQuit: () => void;
 }
 
 export const Game: React.FC<GameProps> = ({ onQuit }) => {
+  const settings = useSettings();
   const loading = useRef(false);
   const [game, setGame] = useState<GameState>();
 
@@ -27,10 +30,10 @@ export const Game: React.FC<GameProps> = ({ onQuit }) => {
     if (!loading.current) {
       loading.current = true;
       buildLevels().then((levels) => {
-        setGame(new GameState(levels));
+        setGame(new GameState(levels, settings));
       });
     }
-  }, []);
+  }, [settings]);
 
   // Update the game state.
   useUpdate((delta) => {
