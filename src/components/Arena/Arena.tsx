@@ -1,10 +1,9 @@
-import { Box, Camera, Node, Viewport, VirtualInput, World, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useProperty, useSync, useUpdate } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
 import { Level } from "../Level";
-import { ParticleEngine, Particles } from "../Particles";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";

@@ -1,7 +1,6 @@
-import { useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, BitmapSprite, useMergeProperty } from "@overreact/engine";
+import { useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, BitmapSprite, useMergeProperty, useParticles } from "@overreact/engine";
 import { useCallback, useId } from "react";
 import { PlayerZapState } from "../../../state";
-import { useParticles } from "../../Particles";
 import { ProjectileProps } from "../types";
 import { ZAP_FLASH_P1_SPRITE, ZAP_FLASH_P2_SPRITE, ZAP_P1_SPRITE, ZAP_P2_SPRITE } from "./assets";
 import { ZapParticle } from "./ZapParticle";

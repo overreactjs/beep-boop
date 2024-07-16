@@ -1,12 +1,12 @@
-import { Property, Position, Velocity, VariableProperty } from "@overreact/engine";
+import { Property, Position, Velocity, VariableProperty, BaseParticle } from "@overreact/engine";
 import { PlayerZapState } from "../../../state";
-import { BaseParticle } from "../../Particles/BaseParticle";
 import { PLAYER_COLORS } from "../../../data/constants";
 import { PlayerColor } from "../../../types";
 
 type Direction = 1 | -1;
 
 export class ZapParticle extends BaseParticle {
+  
   direction: Direction;
 
   color: PlayerColor;
@@ -14,7 +14,6 @@ export class ZapParticle extends BaseParticle {
   pos: Property<Position>;
 
   velocity: Property<Velocity>;
-  
 
   constructor(pos: Position, direction: Direction, color: PlayerColor) {
     super();
