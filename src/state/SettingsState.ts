@@ -1,34 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BooleanProperty, CannedProperty } from "../types";
+import { PersistableState } from "./PersistableState";
 
-export class SettingsState {
+export class SettingsState extends PersistableState {
 
   showExplosionFlashes = new BooleanProperty(true);
   gameSpeed = new CannedProperty(1.0, [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]);
   enemySpeed = new CannedProperty(1.0, [0.7, 1.0]);
+  invincibility = new CannedProperty(0, [0, 1, 2, 3]);
 
   static load() {
-    const settings = new SettingsState();
-    const keys = Object.getOwnPropertyNames(settings);
-
-    keys.forEach((key) => {
-      const value = localStorage.getItem('setting_' + key);
-      console.log(key, value);
-      if (value !== null) {
-        (settings as any)[key].current = JSON.parse(value);
-      }
-    });
-
-    console.log(settings);
-
-    return settings;
+    return super.load(new SettingsState());
   }
 
   save() {
-    const keys = Object.getOwnPropertyNames(this);
-
-    keys.forEach((key) => {
-      localStorage.setItem('setting_' + key, JSON.stringify((this as any)[key].current))
-    });
+    SettingsState.save(this);
   }
 }
