@@ -5,8 +5,8 @@ import { ArcadeText } from "../ArcadeText";
 export const VirtualController: React.FC = () => {
   return (
     <div className="flex absolute left-2 right-2 bottom-20">
-      <Control code="KeyA" text="←" />
-      <Control code="KeyD" text="→" />
+      <Control code="KeyA" text="<" />
+      <Control code="KeyD" text=">" />
       <div className="grow" />
       <Control code="KeyW" text="↑" />
       <Control code="Space" text="~" />

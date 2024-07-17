@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Arcade";
-  src: url("/arcade.ttf");
+  font-family: "OpenDyslexicMono";
+  src: url("/OpenDyslexicMono.otf");
 }
 
 * {

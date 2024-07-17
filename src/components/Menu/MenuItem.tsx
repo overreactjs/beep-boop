@@ -15,13 +15,13 @@ export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, hasOptions = fal
   const menu = useContext(MenuContext);
 
   const text = useProperty(props.text);
-  const size = useCachedDynamicProperty(text, (text): Size => [text.length * 8 + 32, 8]);
+  const size = useCachedDynamicProperty(text, (text): Size => [text.length * 8 + 32, 12]);
   
   const isSelected = useCachedDynamicProperty(menu.selected, (selected) => selected === index);
   const flash = useMenuItemFlash(isSelected);
 
   const label = useMergeProperty(menu.index, text, (active, text) => {
-    return active === index ? `${hasOptions ? '←' : '→'} ${text} ${hasOptions ? '→' : '←'}` : `  ${text}  `;
+    return active === index ? `${hasOptions ? '<' : '>'} ${text} ${hasOptions ? '>' : '<'}` : `  ${text}  `;
   });
 
   const color = useMergeProperty(menu.index, flash, (active, flash) => {
@@ -33,7 +33,9 @@ export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, hasOptions = fal
   return (
     <Node pos={pos} offset={[-16, 0]}>
       <ArcadeText color="white" text={label} />
-      <Box size={size} color={color} className="mix-blend-multiply" />
+      <Node offset={[0, -2]}>
+        <Box size={size} color={color} className="mix-blend-multiply" />
+      </Node>
     </Node>
   );
 };

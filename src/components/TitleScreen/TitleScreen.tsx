@@ -31,8 +31,8 @@ export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
           <MenuItem index={1} pos={[96, 160]} text="OPTIONS" />
           {/* <MenuItem index={2} pos={[96, 176]} text="CREDITS" /> */}
         </Menu>
-        <ArcadeText pos={[0, 232]} text="v1.0" />
-        <ArcadeText pos={[176, 232]} text="Credits: 0" />
+        <ArcadeText pos={[0, 232]} text="V1.0" />
+        <ArcadeText pos={[176, 232]} text="CREDITS: 0" />
       </Box>
     </Screen>
   );

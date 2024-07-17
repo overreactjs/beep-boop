@@ -10,6 +10,7 @@ export class SettingsState extends PersistableState {
   invincibility = new CannedProperty(0, [0, 1, 2, 3]);
   infiniteLives = new CannedProperty(0, [0, 1, 2, 3]);
   highContrast = new BooleanProperty(false);
+  dyslexiaFont = new BooleanProperty(false);
 
   static load() {
     return super.load(new SettingsState()) as SettingsState;

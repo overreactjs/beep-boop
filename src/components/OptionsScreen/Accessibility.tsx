@@ -18,6 +18,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   const invincibility = useMappedOption(settings.invincibility, { '0': '  NO', '1': '  P1', '2': '  P2', '3': 'BOTH'});
   const infiniteLives = useMappedOption(settings.infiniteLives, { '0': '  NO', '1': '  P1', '2': '  P2', '3': 'BOTH'});
   const highContrast = useBooleanOption(settings.highContrast);
+  const dyslexiaFont = useBooleanOption(settings.dyslexiaFont);
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -40,6 +41,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
         return settings.infiniteLives.next(direction);
       case 6:
         return settings.highContrast.toggle();
+      case 7:
+        return settings.dyslexiaFont.toggle();
     }
   };
 
@@ -66,11 +69,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
       <MenuLabel index={6} pos={[32, 144]} text="HIGH CONTRAST" />
       <MenuItem index={6} pos={[216, 144]} text={highContrast} hasOptions />
 
-      {/*
-      <MenuLabel index={6} pos={[32, 128]} text="SHOOT MODE" />
-      <MenuLabel index={7} pos={[32, 144]} text="ENEMY ANGER" />
-      <MenuLabel index={8} pos={[32, 160]} text="LOW SATURATION" />
-      <MenuLabel index={9} pos={[32, 176]} text="LOW CONTRAST" /> */}
+      <MenuLabel index={7} pos={[32, 160]} text="DYSLEXIA FONT" />
+      <MenuItem index={7} pos={[216, 160]} text={dyslexiaFont} hasOptions />
     </Menu>
   );
 };
