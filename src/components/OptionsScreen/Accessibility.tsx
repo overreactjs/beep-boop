@@ -1,4 +1,4 @@
-import { useDynamicProperty } from "@overreact/engine";
+import { Property, useDynamicProperty } from "@overreact/engine";
 import { useSettings } from "../../hooks";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
@@ -14,6 +14,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   const settings = useSettings();
   const showExplosionFlashes = useBooleanOption(settings.showExplosionFlashes);
   const gameSpeed = useDynamicProperty(settings.gameSpeed, (value) => value.toFixed(1));
+  const enemySpeed = useMappedOption(settings.enemySpeed, { '0.7': '  SLOW', '1': 'NORMAL' });
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -28,6 +29,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
         return settings.showExplosionFlashes.toggle();
       case 2:
         return settings.gameSpeed.next(direction);
+      case 3:
+        return settings.enemySpeed.next(direction);
     }
   };
 
@@ -39,6 +42,18 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
       <MenuItem index={1} pos={[216, 64]} text={showExplosionFlashes} hasOptions />
       <MenuLabel index={2} pos={[32, 80]} text="GAME SPEED" />
       <MenuItem index={2} pos={[216, 80]} text={gameSpeed} hasOptions />
+      <MenuLabel index={3} pos={[32, 96]} text="ENEMY SPEED" />
+      <MenuItem index={3} pos={[192, 96]} text={enemySpeed} hasOptions />
+      {/* <MenuLabel index={4} pos={[32, 112]} text="INVINCIBILITY" />
+      <MenuLabel index={5} pos={[32, 128]} text="INFINITE LIVES" />
+      <MenuLabel index={6} pos={[32, 128]} text="SHOOT MODE" />
+      <MenuLabel index={7} pos={[32, 144]} text="ENEMY ANGER" />
+      <MenuLabel index={8} pos={[32, 160]} text="LOW SATURATION" />
+      <MenuLabel index={9} pos={[32, 176]} text="LOW CONTRAST" /> */}
     </Menu>
   );
 };
+
+function useMappedOption<T>(value: Property<T>, map: Record<string, string>) {
+  return useDynamicProperty(value, (value: T) => map[String(value)]);
+}

@@ -1,5 +1,5 @@
 import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useProperty, useSync, useUpdate } from "@overreact/engine";
-import { useCamera, useDeveloperMode, useGame, useSoundtrack } from "../../hooks";
+import { useCamera, useDeveloperMode, useGame, useSettings, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -10,6 +10,7 @@ import { Projectile } from "../Projectile";
 
 export const Arena: React.FC = () => {
   const game = useGame();
+  const settings = useSettings();
   const camera = useCamera();
   const timeout = useProperty(5000);
 
@@ -63,7 +64,10 @@ export const Arena: React.FC = () => {
                 <Player index={0} />
               </VirtualInput>
               
-              <EnemyList />
+              <Node timeScale={settings.enemySpeed}>
+                <EnemyList />
+              </Node>
+              
               <ProjectilesList />
               <Particles />
 
