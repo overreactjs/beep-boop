@@ -19,6 +19,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   const infiniteLives = useMappedOption(settings.infiniteLives, { '0': '  NO', '1': '  P1', '2': '  P2', '3': 'BOTH'});
   const highContrast = useBooleanOption(settings.highContrast);
   const dyslexiaFont = useBooleanOption(settings.dyslexiaFont);
+  const firingMode = useDynamicProperty(settings.firingMode, (mode) => mode.toUpperCase().padStart(10, ' '));
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -43,6 +44,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
         return settings.highContrast.toggle();
       case 7:
         return settings.dyslexiaFont.toggle();
+      case 8:
+        return settings.firingMode.next(direction);
     }
   };
 
@@ -71,6 +74,9 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
 
       <MenuLabel index={7} pos={[32, 160]} text="DYSLEXIA FONT" />
       <MenuItem index={7} pos={[216, 160]} text={dyslexiaFont} hasOptions />
+
+      <MenuLabel index={8} pos={[32, 176]} text="FIRING MODE" />
+      <MenuItem index={8} pos={[160, 176]} text={firingMode} hasOptions />
     </Menu>
   );
 };

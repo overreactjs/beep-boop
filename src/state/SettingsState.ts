@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BooleanProperty, CannedProperty } from "../types";
+import { BooleanProperty, CannedProperty, PlayerFiringMode } from "../types";
 import { PersistableState } from "./PersistableState";
 
 export class SettingsState extends PersistableState {
@@ -11,6 +11,7 @@ export class SettingsState extends PersistableState {
   infiniteLives = new CannedProperty(0, [0, 1, 2, 3]);
   highContrast = new BooleanProperty(false);
   dyslexiaFont = new BooleanProperty(false);
+  firingMode = new CannedProperty<PlayerFiringMode>('manual', ['manual', 'continuous', 'automatic']);
 
   static load() {
     return super.load(new SettingsState()) as SettingsState;
