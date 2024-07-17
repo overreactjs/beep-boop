@@ -1,8 +1,9 @@
-import { Property, useDynamicProperty } from "@overreact/engine";
+import { useDynamicProperty } from "@overreact/engine";
 import { useSettings } from "../../hooks";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
 import { useBooleanOption } from "./useBooleanOption";
+import { useMappedOption } from "./useMappedOption";
 
 type AccessibilityProps = {
   onBack: () => void;
@@ -20,6 +21,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   const highContrast = useBooleanOption(settings.highContrast);
   const dyslexiaFont = useBooleanOption(settings.dyslexiaFont);
   const firingMode = useDynamicProperty(settings.firingMode, (mode) => mode.toUpperCase().padStart(10, ' '));
+  const showPlayerIndicators = useBooleanOption(settings.showPlayerIndicators);
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -46,6 +48,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
         return settings.dyslexiaFont.toggle();
       case 8:
         return settings.firingMode.next(direction);
+      case 9:
+        return settings.showPlayerIndicators.toggle();
     }
   };
 
@@ -77,10 +81,11 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
 
       <MenuLabel index={8} pos={[32, 176]} text="FIRING MODE" />
       <MenuItem index={8} pos={[160, 176]} text={firingMode} hasOptions />
+
+      <MenuLabel index={9} pos={[32, 192]} text="PLAYER INDICATORS" />
+      <MenuItem index={9} pos={[216, 192]} text={showPlayerIndicators} hasOptions />
     </Menu>
   );
 };
 
-function useMappedOption<T>(value: Property<T>, map: Record<string, string>) {
-  return useDynamicProperty(value, (value: T) => map[String(value)]);
-}
+
