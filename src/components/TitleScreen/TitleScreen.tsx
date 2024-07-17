@@ -1,7 +1,11 @@
 import { Box } from "@overreact/engine";
-import { ArcadeText } from "../ArcadeText";
-import { Menu, MenuItem } from "../Menu";
+import { useAppState } from "../../hooks";
 import { Screen } from "../Screen";
+import { TitleMenu } from "./TitleMenu";
+import { NewGame } from "./NewGame";
+import { ArcadeText } from "../ArcadeText";
+
+type TitleScreenState = 'titleMenu' | 'newGame';
 
 type TitleScreenProps = {
   onStart: () => void;
@@ -11,29 +15,20 @@ type TitleScreenProps = {
 
 export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
   const { onStart, onOptions, onCredits } = props;
-
-  const handleSelect = (index: number) => {
-    switch (index) {
-      case 0:
-        return onStart();
-      case 1:
-        return onOptions();
-      case 2:
-        return onCredits();
-    }
-  };
+  const { state, go } = useAppState<TitleScreenState>('titleMenu');
 
   return (
     <Screen size={[256, 240]} scale="auto">
       <Box pos={[0, 0]} size={[256, 240]} color="black">
-        <Menu onSelect={handleSelect}>
-          <MenuItem index={0} pos={[80, 144]} text="INSERT COIN" />
-          <MenuItem index={1} pos={[96, 160]} text="OPTIONS" />
-          {/* <MenuItem index={2} pos={[96, 176]} text="CREDITS" /> */}
-        </Menu>
-        <ArcadeText pos={[0, 232]} text="V1.0" />
-        <ArcadeText pos={[176, 232]} text="CREDITS: 0" />
+        {state === 'titleMenu' && (
+          <TitleMenu onNewGame={go('newGame')} onOptions={onOptions} onCredits={onCredits} />
+        )}
+        {state === 'newGame' && (
+          <NewGame onBack={go('titleMenu')} onStart={onStart} />
+        )}
       </Box>
+      <ArcadeText pos={[0, 232]} text="V1.0" />
+      <ArcadeText pos={[96, 232]} text="LITTLE MARTIAN GAMES" />
     </Screen>
   );
 };

@@ -1,4 +1,4 @@
-import { useAudioEngine, useSync } from "@overreact/engine";
+import { useAudioEngine, useKeyPressed, useSync } from "@overreact/engine";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
 import { useSettings } from "../../hooks";
@@ -15,6 +15,8 @@ export const Options: React.FC<OptionsProps> = (props) => {
   const settings = useSettings();
   const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : ' NO');
   const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : ' NO');
+
+  useKeyPressed('Escape', onBack);
 
   const handleSelect = (index: number) => {
     switch (index) {
