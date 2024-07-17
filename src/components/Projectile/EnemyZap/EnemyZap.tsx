@@ -1,12 +1,11 @@
 import { useId } from "react";
 import { useUpdate, useTaggedCollision, CollisionBox, Node, BitmapSprite } from "@overreact/engine";
-import { useSettings, useSoundEffects } from "../../../hooks";
+import { useSoundEffects } from "../../../hooks";
 import { EnemyZapState, PlayerState } from "../../../state";
 import { ProjectileProps } from "../types";
 import { ZAP_SPRITE } from "./assets";
 
 export const EnemyZap: React.FC<ProjectileProps<EnemyZapState>> = ({ projectile }) => {
-  const settings = useSettings();
   const sfx = useSoundEffects();
   const collider = useId();
 
@@ -21,7 +20,7 @@ export const EnemyZap: React.FC<ProjectileProps<EnemyZapState>> = ({ projectile 
   // Kill the player and destroy the zap!
   useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
     for (const { b: { entity: player } } of collisions) {
-      if (player?.canBeKilled(settings)) {
+      if (player?.canBeKilled()) {
         player.alive.current = false;
         sfx.play('PlayerDeath');
         projectile.destroy();

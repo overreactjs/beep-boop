@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { useUpdate, CollisionBox, Node, BitmapSprite, useProperty, useTaggedCollision } from "@overreact/engine";
 import { PlayerState } from "../../../state";
-import { useSettings, useSoundEffects } from "../../../hooks";
+import { useSoundEffects } from "../../../hooks";
 import { EnemyFireballState } from "../../../state/ProjectileState";
 import { ProjectileProps } from "../types";
 import { FIREBALL_SPRITE } from "./assets";
@@ -11,7 +11,6 @@ const DESTROY_AGE = 5000;
 export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ projectile }) => {
   const { pos, velocity } = projectile;
 
-  const settings = useSettings();
   const sfx = useSoundEffects();
   const collider = useId();
   const age = useProperty(0);
@@ -29,7 +28,7 @@ export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ p
   // Kill the player!
   useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
     for (const { b: { entity: player } } of collisions) {
-      if (player?.canBeKilled(settings)) {
+      if (player?.canBeKilled()) {
         player.alive.current = false;
         sfx.play('PlayerDeath');
       }

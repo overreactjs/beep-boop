@@ -27,11 +27,18 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
   // Show the health bar for bosses.
   const health = useSync(() => active.current ? (game.enemies[0] as BaseBossState)?.health || undefined : undefined);
 
+  // High-contrast filter to apply to the level geometry.
+  const filter = useSync(() => game.settings.highContrast.current ? 'grayscale' : '')
+
   return (
     <Node>
-      <Tilemap pos={[0, offset]} tileset={TILESET} tiles={background} />
+      <div className={filter}>
+        <Tilemap pos={[0, offset]} tileset={TILESET} tiles={background} />
+      </div>
       <Explosion offset={offset} visible={explosion} />
-      <Tilemap pos={[0, offset]} tileset={TILESET} tiles={foreground} collisions={collisions} active={active} />
+      <div className={filter}>
+        <Tilemap pos={[0, offset]} tileset={TILESET} tiles={foreground} collisions={collisions} active={active} />
+      </div>
       <BitmapText pos={[0, offset]} font={LEVELS_FONT} text={number} />
       {portals.map((portal, index) => <Portal key={portal.target} level={level} id={index + 1} {...portal} />)}
       {health && <HealthBar pos={[128, offset]} health={health} />}

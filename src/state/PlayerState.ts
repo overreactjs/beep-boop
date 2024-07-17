@@ -3,7 +3,6 @@ import { EntityObjectState } from "./EntityObjectState";
 import { PlayerPowerupType, PlayerPowerup, PlayerPowerupEnd, PlayerIndex } from "../types";
 import { GameState } from "./GameState";
 import { PlayerFireballState, PlayerZapState } from "./ProjectileState";
-import { SettingsState } from "./SettingsState";
 
 const INVULNERABILITY_DURATION = 2500;
 const DEAD_DURATION = 2000;
@@ -47,7 +46,10 @@ export class PlayerState extends EntityObjectState {
       if (this.deadDuration > 0) {
         this.deadDuration -= delta;
       } else if (this.lives.current > 0) {
-        this.lives.current -= 1;
+        const { settings } = this.game;
+        const hasInfiniteLives = (settings.infiniteLives.current & (this.player + 1)) > 0
+
+        this.lives.current -= hasInfiniteLives ? 0 : 1;
         this.alive.current = true;
         this.invulnerable.current = INVULNERABILITY_DURATION;
         this.deadDuration = DEAD_DURATION;
@@ -136,7 +138,8 @@ export class PlayerState extends EntityObjectState {
     return new PlayerFireballState(game, [x + direction * 4, y - 8], direction);
   }
 
-  canBeKilled(settings: SettingsState): boolean {
+  canBeKilled(): boolean {
+    const { settings } = this.game;
     const isAlive = this.active.current && this.alive.current;
     const isInvulnerable = this.invulnerable.current > 0;
     const isInvincible = (settings.invincibility.current & (this.player + 1)) > 0;

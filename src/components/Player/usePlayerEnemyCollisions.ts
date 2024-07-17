@@ -1,9 +1,8 @@
 import { useTaggedCollision } from "@overreact/engine";
 import { PlayerState } from "../../state";
-import { useSettings, useSoundEffects } from "../../hooks";
+import { useSoundEffects } from "../../hooks";
 
 export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) => {
-  const settings = useSettings();
   const sfx = useSoundEffects();
 
   // When the player touches a stunned enemy, do a little jump.
@@ -17,7 +16,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
 
   // When the player touches a live enemy, kill the player!
   useTaggedCollision(collider, 'enemy', () => {
-    if (player.canBeKilled(settings)) {
+    if (player.canBeKilled()) {
       player.alive.current = false;
       sfx.play('PlayerDeath');
     }
