@@ -31,6 +31,8 @@ export class GameState extends ObjectState {
 
   lastEnemyTime = new VariableProperty(0);
 
+  nextLevelTime = new VariableProperty(0);
+
   hurryMode = new VariableProperty(false);
 
   circuits = new VariableProperty(0);
@@ -108,6 +110,19 @@ export class GameState extends ObjectState {
         this.hurry();
       }
     }
+
+    // Keep track of how long it's been since the last item landed in a level, and when it's been
+    // six seconds, move on to the next level.
+    if (this.enemies.length === 0 && !this.items.some((item) => item.state.current === 'falling')) {
+      this.nextLevelTime.current += delta;
+
+      if (this.nextLevelTime.current >= 6000) {
+        this.nextLevelTime.current = 0;
+        this.nextLevel();
+      }
+    } else {
+      this.nextLevelTime.current = 0;
+    }
   }
 
   updatePowerups(delta: number) {
@@ -159,6 +174,7 @@ export class GameState extends ObjectState {
       this.initialized.current = true;
       this.levelTime.current = 0;
       this.lastEnemyTime.current = 0;
+      this.nextLevelTime.current = 0;
       this.hurryMode.current = false;
       this.timescale.current = this.settings.gameSpeed.current;
       this.players.forEach((player) => player.respawn());

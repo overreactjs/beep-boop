@@ -1,4 +1,4 @@
-import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useProperty, useSync, useUpdate } from "@overreact/engine";
+import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useSync } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useSettings, useSoundtrack } from "../../hooks";
 
 import { Enemy } from "../Enemy";
@@ -12,30 +12,12 @@ export const Arena: React.FC = () => {
   const game = useGame();
   const settings = useSettings();
   const camera = useCamera();
-  const timeout = useProperty(5000);
 
   // Enable a whole bunch of special developer key bindings.
   useDeveloperMode(camera);
 
   // Play appropriate music for the level.
   useSoundtrack();
-
-  // Once all enemies have fallen, and all of the items have finished falling to the ground, move
-  // on to the next level.
-  useUpdate((delta) => {
-    if (game.enemies.length === 0) {
-      if (game.items.some((item) => item.state.current === 'falling')) {
-        return;
-      }
-
-      if (timeout.current > 0) {
-        timeout.current -= delta;
-      } else {
-        game.nextLevel();
-        timeout.current = 5000;
-      }
-    }
-  });
 
   // Only show the previous level, the current level, and the next level.
   const currentLevel = useSync(() => game.level.current);
