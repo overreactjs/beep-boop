@@ -97,7 +97,7 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
       <Node offset={[-6, -12]}>
         <CollisionBox size={[12, 12]} id={interactionCollider} tags={['player']} entity={player} />
       </Node>
-      <Node offset={[-8, -24]} visible={showIndicators}>
+      <Node offset={[-8, -24]} rounded visible={showIndicators}>
         <ArcadeText text={player.player === 0 ? 'P1' : 'P2'} color={player.player === 0 ? 'green' : 'blue'} />
       </Node>
     </Node>
