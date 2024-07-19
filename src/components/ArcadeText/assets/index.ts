@@ -7,7 +7,7 @@ import arcadeFontRedUrl from "./arcade-font-red.png";
 
 const BASE_ARCADE_FONT: Pick<BitmapFontFace, 'glyphSize' | 'glyphs'> = {
   glyphSize: [8, 8],
-  glyphs: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -.,:;/\\<>↑↓!~',
+  glyphs: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 -.,:;/\\<>↑↓!~©',
 };
 
 export const ARCADE_FONT: BitmapFontFace = {

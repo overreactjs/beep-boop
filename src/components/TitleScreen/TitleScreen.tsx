@@ -27,8 +27,7 @@ export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
           <NewGame onBack={go('titleMenu')} onStart={onStart} />
         )}
       </Box>
-      <ArcadeText pos={[0, 232]} text="V1.0" />
-      <ArcadeText pos={[96, 232]} text="LITTLE MARTIAN GAMES" />
+      <ArcadeText pos={[48, 232]} text="© LITTLE MARTIAN 2024" />
     </Screen>
   );
 };
