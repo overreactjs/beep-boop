@@ -1,6 +1,6 @@
 import { Device } from "@overreact/engine";
 import { Game, OptionsScreen, TitleScreen } from "./components";
-import { useAppState, useHideStatusBar, useSoundEffectsPreload } from "./hooks";
+import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useSoundEffectsPreload } from "./hooks";
 import React, { useMemo } from "react";
 import { SettingsState } from "./state/SettingsState";
 
@@ -9,12 +9,13 @@ export const SettingsContext = React.createContext<SettingsState>(SettingsState.
 type GameState = 'titleScreen' | 'playing' | 'options' | 'credits';
 
 export const App = () => {
-  useHideStatusBar();
-  useSoundEffectsPreload();
+  const settings = useMemo(() => SettingsState.load(), []);
 
   const { state, go } = useAppState<GameState>('titleScreen');
 
-  const settings = useMemo(() => SettingsState.load(), []);
+  useHideStatusBar();
+  useSoundEffectsPreload();  
+  useAudioSettingsStartupSync(settings);
 
   return (
     <SettingsContext.Provider value={settings}>

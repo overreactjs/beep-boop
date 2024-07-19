@@ -1,4 +1,5 @@
 export { useAppState } from "./useAppState";
+export { useAudioSettingsStartupSync } from "./useAudioSettingsStartupSync";
 export { useBaseDeadState } from "./useBaseDeadState";
 export { useBaseStunnedState } from "./useBaseStunnedState";
 export { useBossCollisions } from "./useBossCollisions";

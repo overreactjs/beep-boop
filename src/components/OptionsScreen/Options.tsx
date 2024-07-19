@@ -11,8 +11,8 @@ type OptionsProps = {
 export const Options: React.FC<OptionsProps> = (props) => {
   const { onBack, onAccessibility } = props;
   const audio = useAudioEngine();
-
   const settings = useSettings();
+
   const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : ' NO');
   const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : ' NO');
 
@@ -31,9 +31,13 @@ export const Options: React.FC<OptionsProps> = (props) => {
   const handleChange = (index: number) => {
     switch (index) {
       case 1:
-        return audio.toggle('sounds');
+        settings.muteSounds.toggle();
+        audio.toggle('sounds');
+        return;
       case 2:
-        return audio.toggle('music');
+        settings.muteMusic.toggle();
+        audio.toggle('music');
+        return;
     }
   };
 
