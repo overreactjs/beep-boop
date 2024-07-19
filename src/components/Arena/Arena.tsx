@@ -7,6 +7,7 @@ import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";
+import { ProjectileType } from "../../types";
 
 export const Arena: React.FC = () => {
   const game = useGame();
@@ -48,9 +49,10 @@ export const Arena: React.FC = () => {
               
               <Node timeScale={settings.enemySpeed}>
                 <EnemyList />
+                <EnemyProjectilesList />
               </Node>
               
-              <ProjectilesList />
+              <PlayerProjectilesList />
               <Particles />
 
               <Node pos={camera}>
@@ -82,8 +84,16 @@ const PointsList: React.FC = () => {
   return <>{points.map((entry) => <Points key={entry.id} points={entry} />)}</>;
 };
 
-const ProjectilesList: React.FC = () => {
+const ENEMY_PROJECTILES: ProjectileType[] = ['enemyFireball', 'enemyZap'];
+
+const EnemyProjectilesList: React.FC = () => {
   const game = useGame();
-  const projectiles = useSync(() => game.projectiles);
+  const projectiles = useSync(() => game.projectiles.filter(({ type }) => ENEMY_PROJECTILES.includes(type)));
+  return <>{projectiles.map((entry) => <Projectile key={entry.id} projectile={entry} />)}</>;
+};
+
+const PlayerProjectilesList: React.FC = () => {
+  const game = useGame();
+  const projectiles = useSync(() => game.projectiles.filter(({ type }) => !ENEMY_PROJECTILES.includes(type)));
   return <>{projectiles.map((entry) => <Projectile key={entry.id} projectile={entry} />)}</>;
 };
