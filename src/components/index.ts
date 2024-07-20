@@ -1,3 +1,3 @@
 export { Game } from "./Game";
-export { OptionsScreen } from "./OptionsScreen";
+export { SettingsScreen } from "./SettingsScreen";
 export { TitleScreen } from "./TitleScreen";

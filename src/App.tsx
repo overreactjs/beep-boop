@@ -1,12 +1,13 @@
 import { Device } from "@overreact/engine";
-import { Game, OptionsScreen, TitleScreen } from "./components";
+import { Game, TitleScreen } from "./components";
 import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useSoundEffectsPreload } from "./hooks";
 import React, { useMemo } from "react";
 import { SettingsState } from "./state/SettingsState";
+import { SettingsScreen } from "./components/SettingsScreen/SettingsScreen";
 
 export const SettingsContext = React.createContext<SettingsState>(SettingsState.load());
 
-type GameState = 'titleScreen' | 'playing' | 'options' | 'credits';
+type GameState = 'titleScreen' | 'playing' | 'settings' | 'credits';
 
 export const App = () => {
   const settings = useMemo(() => SettingsState.load(), []);
@@ -24,10 +25,10 @@ export const App = () => {
           <Game onQuit={go('titleScreen')} />
         )}
         {state === 'titleScreen' && (
-          <TitleScreen onStart={go('playing')} onOptions={go('options')} onCredits={go('credits')} />
+          <TitleScreen onStart={go('playing')} onSettings={go('settings')} onCredits={go('credits')} />
         )}
-        {state === 'options' && (
-          <OptionsScreen onBack={go('titleScreen')} />
+        {state === 'settings' && (
+          <SettingsScreen onBack={go('titleScreen')} />
         )}
       </Device>
     </SettingsContext.Provider>

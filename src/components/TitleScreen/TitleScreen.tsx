@@ -9,19 +9,19 @@ type TitleScreenState = 'titleMenu' | 'newGame';
 
 type TitleScreenProps = {
   onStart: () => void;
-  onOptions: () => void;
+  onSettings: () => void;
   onCredits: () => void;
 };
 
 export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
-  const { onStart, onOptions, onCredits } = props;
+  const { onStart, onSettings, onCredits } = props;
   const { state, go } = useAppState<TitleScreenState>('titleMenu');
 
   return (
     <Screen size={[256, 240]} scale="auto">
       <Box pos={[0, 0]} size={[256, 240]} color="black">
         {state === 'titleMenu' && (
-          <TitleMenu onNewGame={go('newGame')} onOptions={onOptions} onCredits={onCredits} />
+          <TitleMenu onNewGame={go('newGame')} onSettings={onSettings} onCredits={onCredits} />
         )}
         {state === 'newGame' && (
           <NewGame onBack={go('titleMenu')} onStart={onStart} />
