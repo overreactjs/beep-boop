@@ -1,4 +1,6 @@
-import { useElement, useDevice, useRender, Size, useProperty, Prop } from "@overreact/engine";
+import { useElement, useDevice, useRender, Size, useProperty, Prop, useSync } from "@overreact/engine";
+import crtUrl from "./crt.png";
+import { useSettings } from "../../hooks";
 
 type ScreenProps = {
   children: React.ReactNode;
@@ -7,14 +9,15 @@ type ScreenProps = {
 }
 
 export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => {
+  const settings = useSettings();
   const element = useElement();
   const device = useDevice();
   const size = useProperty(props.size);
 
+  const crtFilter = useSync(() => settings.crtFilter.current);
+
   useRender(() => {
     if (size.invalidated) {
-      // element.setStyle('width', CSS.px(size.current[0]));
-      // element.setStyle('height', CSS.px(size.current[1]));
       element.setStyle('width', `${size.current[0]}px`);
       element.setStyle('height', `${size.current[1]}px`);
 
@@ -28,10 +31,8 @@ export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => 
         const heightScale = Math.floor(height / size.current[1]);
         const autoScale = Math.min(widthScale, heightScale);
 
-        // element.setStyle('scale', CSS.number(autoScale));
         element.setLegacyStyle('scale', autoScale);
       } else {
-        // element.setStyle('scale', CSS.number(scale));
         element.setLegacyStyle('scale', scale);
       }
 
@@ -41,8 +42,11 @@ export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => 
 
   return (
     <div className="w-full h-full grid place-items-center">
-      <div ref={element.ref}>
+      <div ref={element.ref} style={crtFilter ? { filter: 'blur(0.3px) brightness(1.8) contrast(1.3)' } : {}}>
         {children}
+        {crtFilter && (
+          <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: `url(${crtUrl})`, backgroundSize: '1px', imageRendering: 'pixelated' }} />
+        )}
       </div>
     </div>
   );

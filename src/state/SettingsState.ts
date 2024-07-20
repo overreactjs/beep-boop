@@ -4,8 +4,14 @@ import { PersistableState } from "./PersistableState";
 
 export class SettingsState extends PersistableState {
 
+  // Audio
   muteSounds = new BooleanProperty(false);
   muteMusic = new BooleanProperty(false);
+
+  // Video
+  crtFilter = new BooleanProperty(false);
+
+  // Accessibility
   showPlayerIndicators = new BooleanProperty(false);
   showExplosionFlashes = new BooleanProperty(true);
   gameSpeed = new CannedProperty(1.0, [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]);
