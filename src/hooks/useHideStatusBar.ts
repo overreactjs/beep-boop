@@ -3,6 +3,6 @@ import { StatusBar } from "@capacitor/status-bar";
 
 export const useHideStatusBar = () => {
   useEffect(() => {
-    StatusBar.hide();
+    StatusBar.hide().catch(() => {});
   }, []);
 };
