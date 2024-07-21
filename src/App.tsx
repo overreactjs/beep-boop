@@ -1,9 +1,8 @@
-import { Device } from "@overreact/engine";
-import { Game, TitleScreen } from "./components";
-import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useSoundEffectsPreload } from "./hooks";
 import React, { useMemo } from "react";
-import { SettingsState } from "./state/SettingsState";
-import { SettingsScreen } from "./components/SettingsScreen/SettingsScreen";
+import { Device } from "@overreact/engine";
+import { Game, SettingsScreen, TitleScreen } from "./components";
+import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useSoundEffectsPreload, useVideoSettingsStartupSync } from "./hooks";
+import { SettingsState } from "./state";
 
 export const SettingsContext = React.createContext<SettingsState>(SettingsState.load());
 
@@ -15,8 +14,11 @@ export const App = () => {
   const { state, go } = useAppState<GameState>('titleScreen');
 
   useHideStatusBar();
-  useSoundEffectsPreload();  
+  useSoundEffectsPreload();
   useAudioSettingsStartupSync(settings);
+  useVideoSettingsStartupSync(settings);
+
+  const onQuit = () => window.engine?.quit();
 
   return (
     <SettingsContext.Provider value={settings}>
@@ -25,7 +27,7 @@ export const App = () => {
           <Game onQuit={go('titleScreen')} />
         )}
         {state === 'titleScreen' && (
-          <TitleScreen onStart={go('playing')} onSettings={go('settings')} onCredits={go('credits')} />
+          <TitleScreen onStart={go('playing')} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
         )}
         {state === 'settings' && (
           <SettingsScreen onBack={go('titleScreen')} />

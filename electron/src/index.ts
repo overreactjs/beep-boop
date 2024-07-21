@@ -1,7 +1,7 @@
 import type { CapacitorElectronConfig } from '@capacitor-community/electron';
 import { getCapacitorElectronConfig, setupElectronDeepLinking } from '@capacitor-community/electron';
 import type { MenuItemConstructorOptions } from 'electron';
-import { app, MenuItem } from 'electron';
+import { app, ipcMain, MenuItem } from 'electron';
 import electronIsDev from 'electron-is-dev';
 import unhandled from 'electron-unhandled';
 // import { autoUpdater } from 'electron-updater';
@@ -41,12 +41,30 @@ if (electronIsDev) {
 (async () => {
   // Wait for electron app to be ready.
   await app.whenReady();
+
   // Security - Set Content-Security-Policy based on whether or not we are in dev mode.
   setupContentSecurityPolicy(myCapacitorApp.getCustomURLScheme());
+
   // Initialize our app, build windows, and load content.
   await myCapacitorApp.init();
+
   // Check for updates if we are in a packaged app.
   // autoUpdater.checkForUpdatesAndNotify();
+
+  // Quit the app.
+  ipcMain.handle('quit', () => {
+    app.quit();
+  });
+
+  // Returns the current window mode.
+  ipcMain.handle('getWindowMode', () => {
+    return myCapacitorApp.getMainWindow().isFullScreen() ? 'fullscreen' : 'windowed';
+  });
+
+  // Toggle between windowed and full-screen mode.
+  ipcMain.handle('setWindowMode', (event, mode: string) => {
+    myCapacitorApp.getMainWindow().setFullScreen(mode === 'fullscreen');
+  });
 })();
 
 // Handle when all of our windows are close (platforms have their own expectations).

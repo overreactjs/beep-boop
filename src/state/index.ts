@@ -14,6 +14,7 @@ export {
 } from "./EnemyState";
 
 export { GameState } from "./GameState";
+export { SettingsState } from "./SettingsState";
 export { ItemState } from "./ItemState";
 export { PlayerState } from "./PlayerState";
 export { PointsState } from "./PointsState";

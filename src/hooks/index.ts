@@ -19,6 +19,7 @@ export { useSettings } from "./useSettings";
 export { useSoundEffects, useSoundEffectsPreload } from "./useSoundEffects";
 export { useSoundtrack } from "./useSoundtrack";
 export { useTeleportBotCollisions } from "./useTeleportBotCollisions";
+export { useVideoSettingsStartupSync } from "./useVideoSettingsStartupSync";
 export { useWrapAround } from "./useWrapAround";
 
 export type { UsePlatformMovementOptions, UsePlatformMovementResult } from "./usePlatformMovement";

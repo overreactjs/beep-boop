@@ -232,3 +232,19 @@ export class CannedProperty<T> extends VariableProperty<T> {
       : this.options[(index + this.options.length - 1) % this.options.length];
   }
 }
+
+// Let the typescript compiler know about the electron-specific globals.
+
+export type WindowMode = 'fullscreen' | 'windowed';
+
+type Engine = {
+  quit: () => Promise<void>;
+  getWindowMode: () => Promise<WindowMode>;
+  setWindowMode: (mode: WindowMode) => Promise<void>;
+};
+
+declare global {
+  interface Window {
+    engine?: Engine;
+  }
+}

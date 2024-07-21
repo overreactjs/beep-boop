@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BooleanProperty, CannedProperty, PlayerFiringMode } from "../types";
+import { BooleanProperty, CannedProperty, PlayerFiringMode, WindowMode } from "../types";
 import { PersistableState } from "./PersistableState";
 
 export class SettingsState extends PersistableState {
@@ -9,6 +9,7 @@ export class SettingsState extends PersistableState {
   muteMusic = new BooleanProperty(false);
 
   // Video
+  windowMode = new CannedProperty<WindowMode>('windowed', ['windowed', 'fullscreen']);
   crtFilter = new BooleanProperty(false);
 
   // Accessibility
