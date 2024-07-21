@@ -13,8 +13,10 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
 
   const settings = useSettings();
   const keyboard = useKeyboard();
+
   const crtFilter = useBooleanOption(settings.crtFilter);
   const windowMode = useDynamicProperty(settings.windowMode, (mode) => mode.toUpperCase().padStart(10, ' '));
+  const showFrameRate = useBooleanOption(settings.showFrameRate);
 
   useKeyPressed('Escape', onBack);
   
@@ -37,6 +39,8 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
         return;
       case 2:
         return settings.crtFilter.toggle();
+      case 3:
+        return settings.showFrameRate.toggle();
     }
   };
 
@@ -50,6 +54,9 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
       
       <MenuLabel index={2} pos={[32, 80]} text="CRT FILTER" />
       <MenuItem index={2} pos={[216, 80]} text={crtFilter} hasOptions />
+      
+      <MenuLabel index={3} pos={[32, 96]} text="SHOW FRATE RATE" />
+      <MenuItem index={3} pos={[216, 96]} text={showFrameRate} hasOptions />
     </Menu>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Device } from "@overreact/engine";
+import { Device, useSync } from "@overreact/engine";
 import { Game, SettingsScreen, TitleScreen } from "./components";
 import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useSoundEffectsPreload, useVideoSettingsStartupSync } from "./hooks";
 import { SettingsState } from "./state";
@@ -10,6 +10,7 @@ type GameState = 'titleScreen' | 'playing' | 'settings' | 'credits';
 
 export const App = () => {
   const settings = useMemo(() => SettingsState.load(), []);
+  const showFrameRate = useSync(() => settings.showFrameRate.current);
 
   const { state, go } = useAppState<GameState>('titleScreen');
 
@@ -22,7 +23,7 @@ export const App = () => {
 
   return (
     <SettingsContext.Provider value={settings}>
-      <Device mode="desktop" bg="black" showFPS hideClose>
+      <Device mode="desktop" bg="black" showFPS={showFrameRate} hideClose>
         {state === 'playing' && (
           <Game onQuit={go('titleScreen')} />
         )}

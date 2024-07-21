@@ -11,6 +11,7 @@ export class SettingsState extends PersistableState {
   // Video
   windowMode = new CannedProperty<WindowMode>('windowed', ['windowed', 'fullscreen']);
   crtFilter = new BooleanProperty(false);
+  showFrameRate = new BooleanProperty(false);
 
   // Accessibility
   showPlayerIndicators = new BooleanProperty(false);
