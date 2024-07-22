@@ -6,6 +6,8 @@ import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
 export async function buildLevels(): Promise<LevelData[]> {
   const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
+  await Promise.all(Object.values(modules));
+
   const keys = Object.keys(modules).filter(name => !name.includes('template')).sort();
   const levels: LevelData[] = [];
 
