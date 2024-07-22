@@ -1,3 +1,4 @@
+import { GamepadButtonName } from "@overreact/engine";
 import { UsePlatformMovementOptions } from "../../hooks/usePlatformMovement";
 
 export const MOVEMENT_PROPS: UsePlatformMovementOptions = {
@@ -13,4 +14,4 @@ export const KEYBOARD_MAPS: [Record<string, string>, Record<string, string>] = [
   { KeyJ: 'left', KeyL: 'right', KeyI: 'jump', Enter: 'fire' },
 ];
 
-export const GAMEPAD_MAP = { Left: 'left', Right: 'right', A: 'jump', X: 'fire' };
+export const GAMEPAD_MAP: Partial<Record<GamepadButtonName, string>> = { Left: 'left', Right: 'right', A: 'jump', X: 'fire' };

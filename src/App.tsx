@@ -13,13 +13,18 @@ export const App = () => {
   const settings = useMemo(() => SettingsState.load(), []);
   const showFrameRate = useSync(() => settings.showFrameRate.current);
   
-  const game = useInitGameState(settings);
+  const { game, reset } = useInitGameState(settings);
   const { state, go } = useAppState<AppState>('titleScreen');
 
   useHideStatusBar();
   useSoundEffectsPreload();
   useAudioSettingsStartupSync(settings);
   useVideoSettingsStartupSync(settings);
+
+  const onEndGame = () => {
+    go('titleScreen')();
+    reset();
+  };
 
   const onQuit = () => window.engine?.quit();
 
@@ -28,7 +33,7 @@ export const App = () => {
       <GameContext.Provider value={game!}>
         <Device mode="desktop" bg="black" showFPS={showFrameRate} hideClose>
           {state === 'playing' && (
-            <Game onQuit={go('titleScreen')} />
+            <Game onQuit={onEndGame} />
           )}
           {state === 'titleScreen' && (
             <TitleScreen onStart={go('playing')} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
