@@ -85,10 +85,12 @@ export class GameState extends ObjectState {
    */
 
   update(delta: number, onGameOver: () => void) {
-    this.updateCircuits();
-    this.updateLevelTime(delta);
-    this.updatePowerups(delta);
-    this.updateGameOver(onGameOver);
+    if (!this.paused.current) {
+      this.updateCircuits();
+      this.updateLevelTime(delta);
+      this.updatePowerups(delta);
+      this.updateGameOver(onGameOver);
+    }
   }
 
   updateCircuits() {
