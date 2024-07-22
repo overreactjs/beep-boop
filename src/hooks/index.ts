@@ -13,6 +13,7 @@ export { useEventHandler } from "./useEventHandler";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame } from "./useGame";
 export { useHideStatusBar } from "./useHideStatusBar";
+export { useInitGameState } from "./useInitGameState";
 export { useMusic } from "./useMusic";
 export { usePlatformMovement } from "./usePlatformMovement";
 export { useSettings } from "./useSettings";
