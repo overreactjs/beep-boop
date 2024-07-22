@@ -1,8 +1,9 @@
 import { Box, useSync } from "@overreact/engine";
 import { useAppState, useGame } from "../../hooks";
 import { Menu, MenuItem } from "../Menu";
-import { Accessibility } from "../SettingsScreen/Accessibility";
-import { SettingsMenu } from "../SettingsScreen/SettingsMenu";
+import { Accessibility, AudioSettings, Controls, SettingsMenu, VideoSettings } from "../SettingsScreen";
+
+type State = 'pause' | 'settings' | 'audioSettings' | 'videoSettings' | 'accessibility' | 'controls';
 
 type PauseMenuProps = {
   onQuit: () => void;
@@ -12,7 +13,7 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onQuit }) => {
   const game = useGame();
   const isPaused = useSync(() => game?.paused.current);
   
-  const { state, go } = useAppState<'pause' | 'settings' | 'accessibility'>('pause');
+  const { state, go } = useAppState<State>('pause');
   const onSettings = go('settings');
   
   const handleSelect = (index: number) => {
@@ -35,21 +36,30 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onQuit }) => {
       {state === 'pause' && (
         <Menu onSelect={handleSelect}>
           <MenuItem index={0} pos={[72, 100]} text="CONTINUE GAME" />
-          <MenuItem index={1} pos={[96, 116]} text="SETTINGS" />
-          <MenuItem index={2} pos={[104, 132]} text="QUIT!" />
+          <MenuItem index={1} pos={[88, 116]} text="SETTINGS" />
+          <MenuItem index={2} pos={[104, 132]} text="QUIT" />
         </Menu>
       )}
       {state === 'settings' && (
         <SettingsMenu
           onBack={go('pause')}
-          onAudioSettings={() => {}}
-          onVideoSettings={() => {}}
+          onAudioSettings={go('audioSettings')}
+          onVideoSettings={go('videoSettings')}
           onAccessibility={go('accessibility')}
-          onControls={() => {}}
+          onControls={go('controls')}
         />
+      )}
+      {state === 'audioSettings' && (
+        <AudioSettings onBack={go('settings')} />
+      )}
+      {state === 'videoSettings' && (
+        <VideoSettings onBack={go('settings')} />
       )}
       {state === 'accessibility' && (
         <Accessibility onBack={go('settings')} />
+      )}
+      {state === 'controls' && (
+        <Controls onBack={go('settings')} />
       )}
     </Box>
   );
