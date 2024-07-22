@@ -195,6 +195,25 @@ export type FlyingStarColor = 'yellow' | 'green' | 'cyan' | 'magenta' | 'red';
 
 export type PlayerFiringMode = 'manual' | 'continuous' | 'automatic';
 
+export type SoundEffectConfig = {
+  url: string;
+  volume: number;
+};
+
+export type SoundEffect =
+  | 'Explosion'
+  | 'Fireball'
+  | 'MenuNavigate'
+  | 'MenuSelect'
+  | 'PlayerCollect'
+  | 'PlayerDeath'
+  | 'PlayerFire'
+  | 'PlayerJump'
+  | 'PlayerKill'
+  | 'Powerup'
+  | 'Stars'
+  ;
+
 // TODO: Update these types in the engine.
 
 export type EventHandler<T> = (event: T) => void;

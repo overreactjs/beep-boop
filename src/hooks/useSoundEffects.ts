@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useAudio, useAudioEngine } from "@overreact/engine";
-import { SOUNDS } from "./constants";
-import { SoundEffect } from "./types";
+import { SOUNDS } from "../assets/sounds";
+import { SoundEffect } from "../types";
 
 type UseSoundEffectsResult = {
   play: (name: SoundEffect) => void;

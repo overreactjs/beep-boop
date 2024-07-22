@@ -1,5 +1,3 @@
-import { SoundEffect, SoundEffectConfig } from "./types";
-
 import Explosion from "../../assets/sounds/Explosion.wav";
 import Fireball from "../../assets/sounds/Fireball.wav";
 import MenuNavigate from "../../assets/sounds/MenuNavigate.wav";
@@ -11,6 +9,7 @@ import PlayerJump from "../../assets/sounds/PlayerJump.wav";
 import PlayerKill from "../../assets/sounds/PlayerKill.wav";
 import Powerup from "../../assets/sounds/Powerup.wav";
 import Stars from "../../assets/sounds/Stars.wav";
+import { SoundEffect, SoundEffectConfig } from "../../types";
 
 export const SOUNDS: Record<SoundEffect, SoundEffectConfig> = {
   Explosion: {
