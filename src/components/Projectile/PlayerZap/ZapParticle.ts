@@ -46,7 +46,7 @@ export class ZapParticle extends BaseParticle {
 
     const x = Math.round(this.pos.current[0]);
     const y = Math.round(this.pos.current[1]);
-    this.node.style.transform = `translate(${x}px, ${y}px)`;
+    this.node.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
 
     const color = this.ttl < 100 ? '#00f' : this.color;
     this.node.style.backgroundColor = color;
