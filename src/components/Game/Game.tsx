@@ -10,7 +10,6 @@ import { LevelOverlay } from "../LevelOverlay";
 import { PauseMenu } from "../PauseMenu";
 import { Screen } from "../Screen";
 import { TopBar } from "../TopBar";
-import { VirtualController } from "../VirtualController";
 
 export const GameContext = React.createContext<GameState>(new GameState([], new SettingsState()));
 
@@ -35,7 +34,7 @@ export const Game: React.FC<GameProps> = ({ onQuit }) => {
         <BottomBar />
         <PauseMenu onQuit={onQuit} />
       </Screen>
-      <VirtualController />
+      {/* <VirtualController /> */}
     </>
   );
 };

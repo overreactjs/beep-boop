@@ -1,18 +1,18 @@
 import { useId } from "react";
-import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useGamepadMap, useFlash } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useFlash, useGamepadButtonMap, useGamepadAxisMap } from "@overreact/engine";
 
 import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useEventHandler, useSettings } from "../../hooks";
 import { PlayerIndex } from "../../types";
+import { ArcadeText } from "../ArcadeText";
 
 import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2, INACTIVE_P1 } from "./assets";
-import { GAMEPAD_MAP, KEYBOARD_MAPS, MOVEMENT_PROPS } from "./constants";
+import { GAMEPAD_AXIS_MAP, GAMEPAD_BUTTON_MAP, KEYBOARD_MAPS, MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
 import { usePlayerFireZaps } from "./usePlayerFireZaps";
 import { usePlayerUpdateState } from "./usePlayerUpdateState";
 import { usePlayerActivateOnFire } from "./usePlayerActivateOnFire";
 import { usePlayerTeleport } from "./usePlayerTeleport";
 import { usePlayerCollectItems } from "./usePlayerCollectItems";
-import { ArcadeText } from "../ArcadeText";
 
 type PlayerProps = {
   index: PlayerIndex;
@@ -45,7 +45,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   const gameActive = useMergeProperty(game.initialized, game.paused, (a, b) => a && !b);
   const active = useMergeProperty(player.alive, gameActive, (a, b) => a && b);
   useKeyboardMap(KEYBOARD_MAPS[index], active);
-  useGamepadMap(index, GAMEPAD_MAP, active);
+  useGamepadButtonMap(index, GAMEPAD_BUTTON_MAP, active);
+  useGamepadAxisMap(index, GAMEPAD_AXIS_MAP, active);
 
   // Setup standard platform movement.
   const movement = usePlatformMovement(platformCollider, pos, velocity, { ...MOVEMENT_PROPS, enabled: player.active });

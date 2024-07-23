@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
-import { useGamepadMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
+import { useGamepadAxisMap, useGamepadButtonMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
 import { useSoundEffects } from "../../hooks";
-import { GAMEPAD_MAP, KEYBOARD_MAP, SELECTION_COOLDOWN } from "./constants";
+import { GAMEPAD_AXIS_MAP, GAMEPAD_BUTTON_MAP, KEYBOARD_MAP, SELECTION_COOLDOWN } from "./constants";
 import { MenuItem } from "./types";
 import { MenuContext } from "./MenuContext";
 import { useMenuAction } from "./useMenuAction";
@@ -26,8 +26,10 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack
   }, [items]);
 
   useKeyboardMap(KEYBOARD_MAP);
-  useGamepadMap(0, GAMEPAD_MAP);
-  useGamepadMap(1, GAMEPAD_MAP);
+  useGamepadButtonMap(0, GAMEPAD_BUTTON_MAP);
+  useGamepadButtonMap(1, GAMEPAD_BUTTON_MAP);
+  useGamepadAxisMap(0, GAMEPAD_AXIS_MAP);
+  useGamepadAxisMap(1, GAMEPAD_AXIS_MAP);
 
   useMenuAction('menu_back', () => {
     onBack?.();
