@@ -9,20 +9,12 @@ export const MOVEMENT_PROPS: UsePlatformMovementOptions = {
   canTurnMidair: true,
 };
 
-export const KEYBOARD_MAPS: [KeyboardMap, KeyboardMap] = [
-  {
-    KeyA: 'left',
-    KeyD: 'right',
-    KeyW: 'jump',
-    Space: 'fire',
-  },
-  {
-    KeyJ: 'left',
-    KeyL: 'right',
-    KeyI: 'jump',
-    Enter: 'fire',
-  },
-];
+export const KEYBOARD_MAP: KeyboardMap = {
+  KeyA: 'left',
+  KeyD: 'right',
+  KeyW: 'jump',
+  Space: 'fire',
+};
 
 export const GAMEPAD_BUTTON_MAP: GamepadButtonMap = {
   Left: 'left',

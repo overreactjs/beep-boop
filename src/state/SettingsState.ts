@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { VariableProperty } from "@overreact/engine";
 import { BooleanProperty, CannedProperty, PlayerFiringMode, WindowMode } from "../types";
 import { PersistableState } from "./PersistableState";
+
+type GamepadAssignment = 0 | 1 | 2 | 3 | null;
 
 export class SettingsState extends PersistableState {
 
@@ -23,6 +26,10 @@ export class SettingsState extends PersistableState {
   highContrast = new BooleanProperty(false);
   dyslexiaFont = new BooleanProperty(false);
   firingMode = new CannedProperty<PlayerFiringMode>('manual', ['manual', 'continuous', 'automatic']);
+
+  // Controls
+  keyboardAssign = new VariableProperty<[boolean, boolean]>([true, false]);
+  gamepadAssign = new VariableProperty<[GamepadAssignment, GamepadAssignment]>([null, null]);
 
   static load() {
     return super.load(new SettingsState()) as SettingsState;
