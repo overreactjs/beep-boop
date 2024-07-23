@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
-import { useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
+import { useGamepadMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
 import { useSoundEffects } from "../../hooks";
-import { KEYBOARD_MAP, SELECTION_COOLDOWN } from "./constants";
+import { GAMEPAD_MAP, KEYBOARD_MAP, SELECTION_COOLDOWN } from "./constants";
 import { MenuItem } from "./types";
 import { MenuContext } from "./MenuContext";
 import { useMenuAction } from "./useMenuAction";
@@ -10,9 +10,10 @@ type MenuProps = {
   children: React.ReactNode;
   onSelect: (index: number) => void;
   onChange?: (index: number, direction: -1 | 1) => void;
+  onBack?: () => void;
 }
 
-export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange }) => {
+export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack }) => {
   const sfx = useSoundEffects();
   const index = useProperty(0);
   const selected = useProperty<number | null>(null);
@@ -25,6 +26,12 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange }) => {
   }, [items]);
 
   useKeyboardMap(KEYBOARD_MAP);
+  useGamepadMap(0, GAMEPAD_MAP);
+  useGamepadMap(1, GAMEPAD_MAP);
+
+  useMenuAction('menu_back', () => {
+    onBack?.();
+  });
 
   useMenuAction('menu_down', () => {
     if (selected.current === null) {

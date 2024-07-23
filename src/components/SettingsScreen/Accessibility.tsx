@@ -1,4 +1,4 @@
-import { useDynamicProperty, useKeyPressed } from "@overreact/engine";
+import { useDynamicProperty } from "@overreact/engine";
 import { useSettings } from "../../hooks";
 import { Menu, MenuItem, MenuLabel } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
@@ -22,8 +22,6 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   const dyslexiaFont = useBooleanOption(settings.dyslexiaFont);
   const firingMode = useDynamicProperty(settings.firingMode, (mode) => mode.toUpperCase().padStart(10, ' '));
   const showPlayerIndicators = useBooleanOption(settings.showPlayerIndicators);
-
-  useKeyPressed('Escape', onBack);
   
   const handleSelect = (index: number) => {
     switch (index) {
@@ -56,7 +54,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   };
 
   return (
-    <Menu onSelect={handleSelect} onChange={handleChange}>
+    <Menu onSelect={handleSelect} onChange={handleChange} onBack={onBack}>
       <MenuStatic pos={[16, 32]} text="ACCESSIBILITY" color="#f0f" />
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
       

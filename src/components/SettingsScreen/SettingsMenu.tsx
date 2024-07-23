@@ -1,4 +1,3 @@
-import { useKeyPressed } from "@overreact/engine";
 import { Menu, MenuItem } from "../Menu";
 import { MenuStatic } from "../Menu/MenuLabel";
 import { useSettings } from "../../hooks";
@@ -13,8 +12,6 @@ type SettingsMenuProps = {
 
 export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
   const settings = useSettings();
-
-  useKeyPressed('Escape', props.onBack);
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -33,7 +30,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
   };
 
   return (
-    <Menu onSelect={handleSelect}>
+    <Menu onSelect={handleSelect} onBack={props.onBack}>
       <MenuStatic pos={[16, 32]} text="SETTINGS" color="#f0f" />
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
       <MenuItem index={1} pos={[32, 64]} text="AUDIO SETTINGS" />

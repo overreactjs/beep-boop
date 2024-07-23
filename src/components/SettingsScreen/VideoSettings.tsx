@@ -1,4 +1,4 @@
-import { useDynamicProperty, useKeyboard, useKeyPressed } from "@overreact/engine";
+import { useDynamicProperty, useKeyboard } from "@overreact/engine";
 import { Menu, MenuItem } from "../Menu";
 import { MenuLabel, MenuStatic } from "../Menu/MenuLabel";
 import { useSettings } from "../../hooks";
@@ -17,8 +17,6 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
   const crtFilter = useBooleanOption(settings.crtFilter);
   const windowMode = useDynamicProperty(settings.windowMode, (mode) => mode.toUpperCase().padStart(10, ' '));
   const showFrameRate = useBooleanOption(settings.showFrameRate);
-
-  useKeyPressed('Escape', onBack);
   
   const handleSelect = (index: number) => {
     switch (index) {
@@ -45,7 +43,7 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
   };
 
   return (
-    <Menu onSelect={handleSelect} onChange={handleChange}>
+    <Menu onSelect={handleSelect} onChange={handleChange} onBack={onBack}>
       <MenuStatic pos={[16, 32]} text="VIDEO SETTINGS" color="#f0f" />
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
 
