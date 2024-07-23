@@ -1,4 +1,4 @@
-import { Position, Property, useAudioEngine, useKeyPressed, VariableProperty } from "@overreact/engine";
+import { Position, Property, useKeyPressed, VariableProperty } from "@overreact/engine";
 import { ItemState, PlayerState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
@@ -7,7 +7,6 @@ import { ItemType } from "../types";
 
 export const useDeveloperMode = (camera: Property<Position>) => {
   const game = useGame();
-  const audioEngine = useAudioEngine();
 
   const collectItem = useCallback((player: PlayerState, type: ItemType) => {
     game.collectItem(player, {
@@ -36,19 +35,7 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     });
   });
 
-  useKeyPressed('KeyV', () => {
-    audioEngine.toggle();
-  });
-
   useKeyPressed('KeyB', async () => {
     snapshotGame(game);
-  });
-
-  useKeyPressed('KeyP', async () => {
-    if (game.paused.current) {
-      game.unpause();
-    } else {
-      game.pause();
-    }
   });
 };

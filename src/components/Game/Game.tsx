@@ -10,6 +10,7 @@ import { LevelOverlay } from "../LevelOverlay";
 import { PauseMenu } from "../PauseMenu";
 import { Screen } from "../Screen";
 import { TopBar } from "../TopBar";
+import { useGamePause } from "./useGamePause";
 
 export const GameContext = React.createContext<GameState>(new GameState([], new SettingsState()));
 
@@ -19,6 +20,9 @@ type GameProps = {
 
 export const Game: React.FC<GameProps> = ({ onQuit }) => {
   const game = useGame();
+
+  // Pause and unpause.
+  useGamePause();
 
   // Update the game state.
   useUpdate((delta) => {
