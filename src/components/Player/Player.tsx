@@ -86,7 +86,7 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   const spriteProps = { size: [16, 16] as Size, flip, visible };
 
   return (
-    <Node pos={pos}>
+    <Node pos={pos} visible={player.active}>
       <Node offset={[-8, -16]} rounded>
         <SpriteSet animation={animation}>
           <BitmapSprite {...spriteProps} name="idle" sprite={index === 0 ? IDLE_P1 : IDLE_P2} />

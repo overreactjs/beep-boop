@@ -2,11 +2,12 @@ import { BitmapImage, Box } from "@overreact/engine";
 import { useAppState } from "../../hooks";
 import { Screen } from "../Screen";
 import { TitleMenu } from "./TitleMenu";
-import { NewGame } from "./NewGame";
 import { ArcadeText } from "../ArcadeText";
+import { PlayersSelect } from "./PlayersSelect";
+import { ControlsSelect } from "./ControlsSelect";
 import { LOGO } from "./assets";
 
-type TitleScreenState = 'titleMenu' | 'newGame';
+type TitleScreenState = 'titleMenu' | 'playersSelect' | 'contolsSelect';
 
 type TitleScreenProps = {
   onStart: () => void;
@@ -24,10 +25,13 @@ export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
       <Box pos={[0, 0]} size={[256, 240]} color="black">
         <BitmapImage image={LOGO} pos={[64, 8]} size={[128, 128]} offset={[0, 0]} />
         {state === 'titleMenu' && (
-          <TitleMenu onNewGame={go('newGame')} onSettings={onSettings} onCredits={onCredits} onQuit={onQuit} />
+          <TitleMenu onNewGame={go('playersSelect')} onSettings={onSettings} onCredits={onCredits} onQuit={onQuit} />
         )}
-        {state === 'newGame' && (
-          <NewGame onBack={go('titleMenu')} onStart={onStart} />
+        {state === 'playersSelect' && (
+          <PlayersSelect onBack={go('titleMenu')} onSelect={go('contolsSelect')} />
+        )}
+        {state === 'contolsSelect' && (
+          <ControlsSelect onBack={go('playersSelect')} onStart={onStart} />
         )}
       </Box>
       <ArcadeText pos={[48, 232]} text="© LITTLE MARTIAN 2024" />

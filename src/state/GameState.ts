@@ -59,15 +59,21 @@ export class GameState extends ObjectState {
     return this.levels[this.level.current - 1];
   }
 
+  get playerCount() {
+    return this.players[1].active.current ? 2 : 1;
+  }
+
   constructor(levels: LevelData[], settings: SettingsState) {
     super();
     this.settings = settings;
     this.itemHandlers = itemHandlers;
     this.levels = levels;
-    this.players = [
-      new PlayerState(this, 0, [32, 192], true),
-      new PlayerState(this, 1, [224, 192], false),
-    ];
+  }
+
+  initPlayers(count: 1 | 2) {
+    const p1 = new PlayerState(this, 0, [32, 192], true);
+    const p2 = new PlayerState(this, 1, [224, 192], count === 2);
+    this.players = [p1, p2];
   }
 
   pause() {
