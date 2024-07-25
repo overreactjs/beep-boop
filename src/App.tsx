@@ -33,7 +33,7 @@ export const App = () => {
       <GameContext.Provider value={game!}>
         <Device mode="desktop" bg="black" showFPS={showFrameRate} hideClose>
           {state === 'playing' && (
-            <Game onQuit={onEndGame} />
+            <Game onEndGame={onEndGame} />
           )}
           {state === 'titleScreen' && (
             <TitleScreen onStart={go('playing')} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />

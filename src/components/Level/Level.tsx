@@ -22,7 +22,7 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
   const active = useCachedDynamicProperty(game.level, (current) => current === level);
 
   // Show the explosion effect when the dynamite powerup is active.
-  const explosion = useCalculatedProperty(false, () => showExplosionFlashes.current && game.hasPowerup('dynamite'));
+  const explosion = useCalculatedProperty(() => showExplosionFlashes.current && game.hasPowerup('dynamite'));
 
   // Show the health bar for bosses.
   const health = useSync(() => active.current ? (game.enemies[0] as BaseBossState)?.health || undefined : undefined);

@@ -6,10 +6,10 @@ import { Accessibility, AudioSettings, Controls, SettingsMenu, VideoSettings } f
 type State = 'pause' | 'settings' | 'audioSettings' | 'videoSettings' | 'accessibility' | 'controls';
 
 type PauseMenuProps = {
-  onQuit: () => void;
+  onEndGame: () => void;
 }
 
-export const PauseMenu: React.FC<PauseMenuProps> = ({ onQuit }) => {
+export const PauseMenu: React.FC<PauseMenuProps> = ({ onEndGame }) => {
   const game = useGame();
   const isPaused = useSync(() => game?.paused.current);
   
@@ -23,7 +23,7 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onQuit }) => {
       case 1:
         return onSettings();
       case 2:
-        return onQuit();
+        return onEndGame();
     }
   };
 

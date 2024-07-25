@@ -1,11 +1,34 @@
-import { Property, useProperty, useUpdate } from "@overreact/engine";
+import { ObjectState, Property } from "@overreact/engine";
+import { useMemo, useRef } from "react";
 
-export function useCalculatedProperty<OUT>(initial: OUT, fn: () => OUT): Property<OUT> {
-  const prop = useProperty<OUT>(initial);
+export function useCalculatedProperty<OUT>(fn: () => OUT): Property<OUT> {
+  const ref = useRef(fn);
 
-  useUpdate(() => {
-    prop.current = fn();
-  });
+  return useMemo(() => new CalculatedProperty(ref.current), [ref]);
+}
 
-  return prop;
+class CalculatedProperty<T> extends ObjectState {
+
+  private fn: () => T;
+
+  constructor(fn: () => T) {
+    super();
+    this.fn = fn;
+  }
+
+  get current() {
+    return this.fn();
+  }
+
+  set current(_: T) {
+    // do nothing
+  }
+
+  get invalidated() {
+    return true;
+  }
+
+  set invalidated(_: boolean) {
+    // do nothing
+  }
 }

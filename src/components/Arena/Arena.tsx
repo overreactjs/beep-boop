@@ -1,5 +1,6 @@
 import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useSync } from "@overreact/engine";
 import { useCamera, useDeveloperMode, useGame, useSettings, useSoundtrack } from "../../hooks";
+import { ProjectileType } from "../../types";
 
 import { Enemy } from "../Enemy";
 import { Item } from "../Item";
@@ -7,9 +8,13 @@ import { Level } from "../Level";
 import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";
-import { ProjectileType } from "../../types";
+import { Ending } from "../Ending";
 
-export const Arena: React.FC = () => {
+type ArenaProps = {
+  onEndGame: () => void;
+}
+
+export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
   const game = useGame();
   const settings = useSettings();
   const camera = useCamera();
@@ -36,6 +41,7 @@ export const Arena: React.FC = () => {
           <Viewport>
             <World>
               {levels}
+              <Ending onEndGame={onEndGame} />
 
               <ItemList />
               <PointsList />

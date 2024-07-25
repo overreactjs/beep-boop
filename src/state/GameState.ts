@@ -91,7 +91,7 @@ export class GameState extends ObjectState {
    */
 
   update(delta: number, onGameOver: () => void) {
-    if (!this.paused.current) {
+    if (!this.paused.current && this.level.current <= this.levels.length) {
       this.updateCircuits();
       this.updateLevelTime(delta);
       this.updatePowerups(delta);
@@ -202,7 +202,7 @@ export class GameState extends ObjectState {
 
   setLevel(level: number) {
     this.initialized.current = false;
-    this.level.current = clamp(level, 1, this.levels.length);
+    this.level.current = clamp(level, 1, this.levels.length + 1);
     this.players.forEach((player) => player.respawn());
     this.enemies = [];
   }

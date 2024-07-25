@@ -15,10 +15,10 @@ import { useGamePause } from "./useGamePause";
 export const GameContext = React.createContext<GameState>(new GameState([], new SettingsState()));
 
 type GameProps = {
-  onQuit: () => void;
+  onEndGame: () => void;
 }
 
-export const Game: React.FC<GameProps> = ({ onQuit }) => {
+export const Game: React.FC<GameProps> = ({ onEndGame }) => {
   const game = useGame();
 
   // Pause and unpause.
@@ -26,17 +26,17 @@ export const Game: React.FC<GameProps> = ({ onQuit }) => {
 
   // Update the game state.
   useUpdate((delta) => {
-    game?.update(delta, onQuit);
+    game?.update(delta, onEndGame);
   });
 
   return game && (
     <>
       <Screen size={[256, 240]} scale="auto">
         <TopBar />
-        <Arena />
+        <Arena onEndGame={onEndGame} />
         <LevelOverlay />
         <BottomBar />
-        <PauseMenu onQuit={onQuit} />
+        <PauseMenu onEndGame={onEndGame} />
       </Screen>
       {/* <VirtualController /> */}
     </>
