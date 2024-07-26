@@ -21,6 +21,8 @@ export class GameState extends ObjectState {
 
   timescale = new VariableProperty(0);
 
+  started = new VariableProperty(false);
+
   initialized = new VariableProperty(false);
 
   highscore = new VariableProperty(getHighScore());
@@ -74,6 +76,10 @@ export class GameState extends ObjectState {
     const p1 = new PlayerState(this, 0, [32, 192], true);
     const p2 = new PlayerState(this, 1, [224, 192], count === 2);
     this.players = [p1, p2];
+  }
+
+  start() {
+    this.started.current = true;
   }
 
   pause() {

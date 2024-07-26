@@ -1,5 +1,5 @@
 import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useSync } from "@overreact/engine";
-import { useCamera, useDeveloperMode, useGame, useSettings, useSoundtrack } from "../../hooks";
+import { useCamera, useDeveloperMode, useGame, useSettings } from "../../hooks";
 import { ProjectileType } from "../../types";
 
 import { Enemy } from "../Enemy";
@@ -21,9 +21,6 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
 
   // Enable a whole bunch of special developer key bindings.
   useDeveloperMode(camera);
-
-  // Play appropriate music for the level.
-  useSoundtrack();
 
   // Only show the previous level, the current level, and the next level.
   const currentLevel = useSync(() => game.level.current);

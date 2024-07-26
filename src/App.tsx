@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Device, useSync } from "@overreact/engine";
 import { Game, SettingsScreen, TitleScreen } from "./components";
-import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useInitGameState, useSoundEffectsPreload, useVideoSettingsStartupSync } from "./hooks";
+import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useInitGameState, useSoundEffectsPreload, useSoundtrack, useVideoSettingsStartupSync } from "./hooks";
 import { SettingsState } from "./state";
 import { GameContext } from "./components/Game/Game";
 
@@ -20,10 +20,16 @@ export const App = () => {
   useSoundEffectsPreload();
   useAudioSettingsStartupSync(settings);
   useVideoSettingsStartupSync(settings);
+  useSoundtrack(game);
 
   const onEndGame = () => {
     go('titleScreen')();
     reset();
+  };
+
+  const onStartGame = () => {
+    go('playing')();
+    game?.start();
   };
 
   const onQuit = () => window.engine?.quit();
@@ -36,7 +42,7 @@ export const App = () => {
             <Game onEndGame={onEndGame} />
           )}
           {state === 'titleScreen' && (
-            <TitleScreen onStart={go('playing')} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
+            <TitleScreen onStart={onStartGame} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
           )}
           {state === 'settings' && (
             <SettingsScreen onBack={go('titleScreen')} />
