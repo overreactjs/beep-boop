@@ -4,6 +4,7 @@ import { Game, SettingsScreen, TitleScreen } from "./components";
 import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useInitGameState, useSoundEffectsPreload, useSoundtrack, useVideoSettingsStartupSync } from "./hooks";
 import { SettingsState } from "./state";
 import { GameContext } from "./components/Game/Game";
+import { CreditsScreen } from "./components/CreditsScreen";
 
 export const SettingsContext = React.createContext<SettingsState>(SettingsState.load());
 
@@ -46,6 +47,9 @@ export const App = () => {
           )}
           {state === 'settings' && (
             <SettingsScreen onBack={go('titleScreen')} />
+          )}
+          {state === 'credits' && (
+            <CreditsScreen onBack={go('titleScreen')} />
           )}
         </Device>
       </GameContext.Provider>
