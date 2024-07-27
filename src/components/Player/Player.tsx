@@ -1,7 +1,7 @@
 import { useId } from "react";
-import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useFlash, useGamepadButtonMap, useGamepadAxisMap, useDynamicProperty } from "@overreact/engine";
+import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useFlash, useGamepadButtonMap, useGamepadAxisMap, useDynamicProperty, useEventHandler } from "@overreact/engine";
 
-import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useEventHandler, useSettings } from "../../hooks";
+import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useSettings } from "../../hooks";
 import { PlayerIndex } from "../../types";
 import { ArcadeText } from "../ArcadeText";
 

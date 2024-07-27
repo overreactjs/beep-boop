@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { Position, Prop, Property, Velocity, lerp, useEventListeners, useOverlap, useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
-import { UseEventTarget } from "../types";
+import { Position, Prop, Property, UseEventTarget, Velocity, lerp, useEventListeners, useOverlap, useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
 
 const DEFAULT_OPTIONS = {
   enabled: true,

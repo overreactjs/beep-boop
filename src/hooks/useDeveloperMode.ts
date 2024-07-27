@@ -1,4 +1,4 @@
-import { Position, Property, useKeyPressed, VariableProperty } from "@overreact/engine";
+import { KeyboardKeyName, Position, Property, useKeyPressed, VariableProperty } from "@overreact/engine";
 import { ItemState, PlayerState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
@@ -40,7 +40,7 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 };
 
-const useKeyPressedInDevMode = (key: string, fn: () => void) => {
+const useKeyPressedInDevMode = (key: KeyboardKeyName, fn: () => void) => {
   useKeyPressed(key, () => {
     if (import.meta.env.DEV) {
       fn();

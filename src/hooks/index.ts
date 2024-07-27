@@ -9,7 +9,6 @@ export { useDeveloperMode } from "./useDeveloperMode";
 export { useEnemyAnimation } from "./useEnemyAnimation";
 export { useEnemyCollisions } from "./useEnemyCollisions";
 export { useEnemyStateMachine } from "./useEnemyStateMachine";
-export { useEventHandler } from "./useEventHandler";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame } from "./useGame";
 export { useHideStatusBar } from "./useHideStatusBar";

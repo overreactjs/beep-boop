@@ -1,4 +1,4 @@
-import { useElement, usePointer, useKeyboard, useUpdate } from "@overreact/engine";
+import { useElement, usePointer, useKeyboard, useUpdate, KeyboardKeyName } from "@overreact/engine";
 import { RefObject, useRef } from "react";
 import { ArcadeText } from "../ArcadeText";
 
@@ -15,7 +15,7 @@ export const VirtualController: React.FC = () => {
 };
 
 type ControlProps = {
-  code: string;
+  code: KeyboardKeyName;
   text: string;
 };
 
@@ -32,7 +32,7 @@ const Control: React.FC<ControlProps> = ({ code, text }) => {
   );
 };
 
-const useSimulateButton = (code: string, ref: RefObject<Element | null>) => {
+const useSimulateButton = (code: KeyboardKeyName, ref: RefObject<Element | null>) => {
   const isDown = useRef(false);
   const pointer = usePointer();
   const keyboard = useKeyboard();

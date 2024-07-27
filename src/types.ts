@@ -214,20 +214,6 @@ export type SoundEffect =
   | 'Stars'
   ;
 
-// TODO: Update these types in the engine.
-
-export type EventHandler<T> = (event: T) => void;
-
-export type UseEventTarget<E, T> = {
-  addEventListener: (type: E, fn: EventHandler<T>) => void;
-  removeEventListener: (type: E, fn: EventHandler<T>) => void;
-};
-
-
-export type UseEventListenersResult<E, T> = UseEventTarget<E, T> & {
-  fireEvent: (type: E, payload: T) => void;
-};
-
 // Specialised property types.
 
 export class BooleanProperty extends VariableProperty<boolean> {
