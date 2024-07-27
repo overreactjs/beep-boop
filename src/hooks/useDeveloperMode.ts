@@ -13,21 +13,21 @@ export const useDeveloperMode = (camera: Property<Position>) => {
       type,
       pos: new VariableProperty([...player.pos.current]),
     } as unknown as ItemState);
-  }, [game])
+  }, [game]);
 
-  useKeyPressed('KeyZ', () => {
+  useKeyPressedInDevMode('KeyZ', () => {
     game.nextLevel();
     camera.current[1] = (game.level.current - 1) * 200 + 100;
   });
 
-  useKeyPressed('KeyX', () => {
+  useKeyPressedInDevMode('KeyX', () => {
     for (let i = 0; i < 10; i++) {
       game.nextLevel();
     }
     camera.current[1] = (game.level.current - 1) * 200 + 100;
   });
 
-  useKeyPressed('KeyC', () => {
+  useKeyPressedInDevMode('KeyC', () => {
     const items: ItemType[] = ['potion_blue', 'potion_magenta'];
     items.forEach((item) => {
       collectItem(game.players[0], item as ItemType);
@@ -35,7 +35,15 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     });
   });
 
-  useKeyPressed('KeyB', async () => {
+  useKeyPressedInDevMode('KeyB', async () => {
     snapshotGame(game);
+  });
+};
+
+const useKeyPressedInDevMode = (key: string, fn: () => void) => {
+  useKeyPressed(key, () => {
+    if (import.meta.env.DEV) {
+      fn();
+    }
   });
 };
