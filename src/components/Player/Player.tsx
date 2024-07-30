@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useFlash, useGamepadButtonMap, useGamepadAxisMap, useDynamicProperty, useEventHandler } from "@overreact/engine";
 
-import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useSettings } from "../../hooks";
+import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useSettings, useCalculatedProperty } from "../../hooks";
 import { PlayerIndex } from "../../types";
 import { ArcadeText } from "../ArcadeText";
 
@@ -56,7 +56,8 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   useGamepadAxisMap(gamepadIndex, GAMEPAD_AXIS_MAP, gamepadActive);
 
   // Setup standard platform movement.
-  const movement = usePlatformMovement(platformCollider, pos, velocity, { ...MOVEMENT_PROPS, enabled: player.active });
+  const speed = useCalculatedProperty(() => player.hasPowerup('speed') ? 0.064: 0.054);
+  const movement = usePlatformMovement(platformCollider, pos, velocity, { ...MOVEMENT_PROPS, speed, enabled: player.active });
 
   // Handle collisions between the player and enemies, either alive or stunned.
   usePlayerEnemyCollisions(interactionCollider, player);

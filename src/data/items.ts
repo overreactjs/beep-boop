@@ -182,6 +182,10 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     value: 1000,
     label: 'hotsauce',
   },
+  joystick: {
+    offset: [32, 48],
+    value: 1000,
+  },
   dynamite: {
     offset: [64, 48],
     value: 1000,

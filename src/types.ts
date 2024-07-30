@@ -84,6 +84,7 @@ export type ItemType =
 
   // row 4
   | 'hot_sauce'
+  | 'joystick'
   | 'dynamite'
   | 'potion_blue'
   | 'potion_magenta'
