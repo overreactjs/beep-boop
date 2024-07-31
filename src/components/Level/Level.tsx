@@ -1,4 +1,4 @@
-import { BitmapText, Node, Tilemap, useCachedDynamicProperty, useSync } from "@overreact/engine";
+import { BitmapText, CollisionBox, Node, Tilemap, useCachedDynamicProperty, useSync } from "@overreact/engine";
 import { useCalculatedProperty, useGame, useSettings } from "../../hooks";
 import { BaseBossState } from "../../state";
 import { Portal } from "../Portal";
@@ -39,6 +39,11 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
       <div className={filter}>
         <Tilemap pos={[0, offset]} tileset={TILESET} tiles={foreground} collisions={collisions} active={active} />
       </div>
+
+      {/* Additional collision boxes to prevent the player jumping out of the arena. */}
+      <CollisionBox pos={[0, offset - 16]} size={[16, 16]} tags={['platform', 'right']} />
+      <CollisionBox pos={[240, offset - 16]} size={[16, 16]} tags={['platform', 'left']} />
+      
       <BitmapText pos={[0, offset]} font={LEVELS_FONT} text={number} />
       {portals.map((portal, index) => <Portal key={portal.target} level={level} id={index + 1} {...portal} />)}
       {health && <HealthBar pos={[128, offset]} health={health} />}
