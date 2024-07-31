@@ -100,4 +100,10 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
   'star_yellow': (game, player, item) => {
     game.fireStars(player, item, 'yellow');
   },
+
+  // Skip either 3, 5, or 7 levels.
+  'teleporter': (game, player, item) => {
+    game.skipLevels(Math.floor(Math.random() * 3) * 2 + 3);
+    game.awardItemPoints(player, item);
+  },
 };

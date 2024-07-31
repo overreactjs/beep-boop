@@ -28,10 +28,10 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 
   useKeyPressedInDevMode('KeyC', () => {
-    const items: ItemType[] = ['joystick'];
+    const items: ItemType[] = ['teleporter'];
     items.forEach((item) => {
       collectItem(game.players[0], item as ItemType);
-      collectItem(game.players[0], item as ItemType);
+      // collectItem(game.players[1], item as ItemType);
     });
   });
 

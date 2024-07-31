@@ -35,6 +35,8 @@ export class GameState extends ObjectState {
 
   nextLevelTime = new VariableProperty(0);
 
+  skipLevelCount = new VariableProperty(0);
+
   hurryMode = new VariableProperty(false);
 
   circuits = new VariableProperty(0);
@@ -184,7 +186,10 @@ export class GameState extends ObjectState {
    */
 
   initLevel() {
-    if (!this.initialized.current) {
+    if (this.skipLevelCount.current > 0) {
+      this.nextLevel();
+
+    } else if (!this.initialized.current) {
       this.initialized.current = true;
       this.levelTime.current = 0;
       this.lastEnemyTime.current = 0;
@@ -203,7 +208,13 @@ export class GameState extends ObjectState {
   }
 
   nextLevel() {
+    this.skipLevelCount.current -= 1;
     this.setLevel(this.level.current + 1);
+  }
+
+  skipLevels(count: number) {
+    this.skipLevelCount.current = count;
+    this.nextLevel();
   }
 
   setLevel(level: number) {

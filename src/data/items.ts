@@ -207,6 +207,10 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     offset: [160, 48],
     value: 1000,
   },
+  teleporter: {
+    offset: [208, 48],
+    value: 10000,
+  },
   
   /**
    * ROW 5

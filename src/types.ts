@@ -90,6 +90,7 @@ export type ItemType =
   | 'potion_magenta'
   | 'chest_gold'
   | 'chest_silver'
+  | 'teleporter'
 
   // row 5
   | 'circuit_1r'
