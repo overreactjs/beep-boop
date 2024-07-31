@@ -40,6 +40,7 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
               {levels}
               <Ending onEndGame={onEndGame} />
 
+              <Particles />
               <ItemList />
               <PointsList />
               
@@ -56,7 +57,6 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
               </Node>
               
               <PlayerProjectilesList />
-              <Particles />
 
               <Node pos={camera}>
                 <Camera />

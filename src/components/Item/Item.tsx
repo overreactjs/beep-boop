@@ -1,8 +1,9 @@
 import { useId } from "react";
-import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useRender, useUpdate } from "@overreact/engine";
+import { BitmapImage, BitmapSprite, Box, CollisionBox, Node, Size, useCachedDynamicProperty, useElement, useFixedUpdate, useParticles, useRender, useUpdate } from "@overreact/engine";
 import { ITEMS } from "../../data";
 import { ItemState } from "../../state";
 import { ITEM_IMAGE, MYSTERY_SPRITE } from "./assets";
+import { ItemParticle } from "./ItemParticle";
 
 const SIZE: Size = [16, 16];
 
@@ -11,6 +12,7 @@ export type ItemProps = {
 };
 
 export const Item: React.FC<ItemProps> = ({ item }) => {
+  const particles = useParticles();
   const active = useCachedDynamicProperty(item.state, (state) => state === 'landed');
   const collider = useId();
 
@@ -25,6 +27,13 @@ export const Item: React.FC<ItemProps> = ({ item }) => {
     if (item.pos.current[1] >= item.target.current[1]) {
       item.pos.current[1] = item.target.current[1];
       item.state.current = 'landed';
+    }
+  });
+
+  // Create particles for certain item types.
+  useFixedUpdate(60, () => {
+    if (item.state.current === 'landed' && item.type === 'teleporter') {
+      particles.attach(ItemParticle.fromItem(item));
     }
   });
 
