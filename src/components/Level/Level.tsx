@@ -1,10 +1,11 @@
-import { BitmapText, CollisionBox, Node, Tilemap, useCachedDynamicProperty, useSync } from "@overreact/engine";
-import { useCalculatedProperty, useGame, useSettings } from "../../hooks";
+import { BitmapText, CollisionBox, Node, Tilemap, useCachedDynamicProperty } from "@overreact/engine";
+import { useCalculatedProperty, useGame } from "../../hooks";
 import { BaseBossState } from "../../state";
 import { Portal } from "../Portal";
 import { HealthBar } from "../HealthBar";
 import { LEVELS_FONT, TILESET } from "./assets";
-import { Explosion } from "./Explosion";
+import { LevelFilter } from "./LevelFilter";
+import { LevelExplosion } from "./LevelExplosion";
 
 type LevelProps = {
   level: number;
@@ -12,41 +13,76 @@ type LevelProps = {
 
 export const Level: React.FC<LevelProps> = ({ level }) => {
   const game = useGame();
-  const { showExplosionFlashes } = useSettings();
 
-  const { foreground, background, collisions, portals } = game.levels[level - 1];
+  const data = game.levels[level - 1];
   const number = String(level).padStart(2, '0');
   const offset = (level - 1) * 200;
 
   // We show multiple levels, but only one is active.
   const active = useCachedDynamicProperty(game.level, (current) => current === level);
 
-  // Show the explosion effect when the dynamite powerup is active.
-  const explosion = useCalculatedProperty(() => showExplosionFlashes.current && game.hasPowerup('dynamite'));
+  return (
+    <Node pos={[0, offset]}>
+      {/* Background tiles, which appear behind any effects. */}
+      <LevelFilter>
+        <Tilemap tileset={TILESET} tiles={data.background} />
+      </LevelFilter>
 
-  // Show the health bar for bosses.
-  const health = useSync(() => active.current ? (game.enemies[0] as BaseBossState)?.health || undefined : undefined);
+      {/* Explosions, which cover the background tiles. */}
+      <LevelExplosion />
+     
+      {/* Foreground tiles, the ones that the player actually interacts with. */}
+      <LevelFilter>
+        <Tilemap tileset={TILESET} tiles={data.foreground} collisions={data.collisions} active={active} />
+      </LevelFilter>
 
-  // High-contrast filter to apply to the level geometry.
-  const filter = useSync(() => game.settings.highContrast.current ? 'grayscale' : '')
+      {/* Additional collision boxes to prevent the player jumping out of the arena. */}
+      <Node offset={[0, -16]}>
+        <CollisionBox size={[16, 16]} tags={['platform', 'right']} />
+      </Node>
+      <Node offset={[240, -16]}>
+        <CollisionBox size={[16, 16]} tags={['platform', 'left']} />
+      </Node>
+      
+      {/* Level number */}
+      <BitmapText font={LEVELS_FONT} text={number} />
+
+      {/* Horizontal level wrap portals. */}
+      <LevelPortals level={level} />
+      
+      {/* Health bar for boss fights. */}
+      <LevelHealthBar />
+    </Node>
+  );
+};
+
+type LevelPortalsProps = {
+  level: number;
+};
+
+const LevelPortals: React.FC<LevelPortalsProps> = ({ level }) => {
+  const game = useGame();
+  const { portals } = game.levels[level - 1];
 
   return (
     <Node>
-      <div className={filter}>
-        <Tilemap pos={[0, offset]} tileset={TILESET} tiles={background} />
-      </div>
-      <Explosion offset={offset} visible={explosion} />
-      <div className={filter}>
-        <Tilemap pos={[0, offset]} tileset={TILESET} tiles={foreground} collisions={collisions} active={active} />
-      </div>
+      {portals.map((portal, index) => (
+        <Portal key={portal.target} level={level} id={index + 1} {...portal} />
+      ))}
+    </Node>
+  );
+};
 
-      {/* Additional collision boxes to prevent the player jumping out of the arena. */}
-      <CollisionBox pos={[0, offset - 16]} size={[16, 16]} tags={['platform', 'right']} />
-      <CollisionBox pos={[240, offset - 16]} size={[16, 16]} tags={['platform', 'left']} />
-      
-      <BitmapText pos={[0, offset]} font={LEVELS_FONT} text={number} />
-      {portals.map((portal, index) => <Portal key={portal.target} level={level} id={index + 1} {...portal} />)}
-      {health && <HealthBar pos={[128, offset]} health={health} />}
+const LevelHealthBar: React.FC = () => {
+  const game = useGame();
+
+  const health = useCalculatedProperty(() => {
+    return (game.enemies[0] as BaseBossState)?.health.current || 15;
+  });
+
+  return (
+    <Node offset={[128, 0]}>
+      <HealthBar health={health} />
     </Node>
   );
 };

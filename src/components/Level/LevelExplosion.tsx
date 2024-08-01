@@ -1,4 +1,5 @@
-import { Box, Prop, useProperty, useUpdate } from "@overreact/engine";
+import { Box, Position, Prop, usePosition, useProperty, useUpdate } from "@overreact/engine";
+import { useCalculatedProperty, useGame, useSettings } from "../../hooks";
 
 /**
  * This uses the ZX Spectrum color brightness ramp, which gives an interesting retro explosion
@@ -33,15 +34,19 @@ const COLORS = [
   '#000',
 ];
 
-type ExplosionProps = {
-  offset: number;
-  visible: Prop<boolean>;
+type LevelExplosionProps = {
+  pos?: Prop<Position>;
 }
 
-export const Explosion: React.FC<ExplosionProps> = ({ offset, ...props }) => {
+export const LevelExplosion: React.FC<LevelExplosionProps> = (props) => {
+  const game = useGame();
+  const settings = useSettings();
+
   const timer = useProperty(0);
   const color = useProperty('#000');
-  const visible = useProperty(props.visible);
+  const pos = usePosition(props.pos);
+
+  const visible = useCalculatedProperty(() => settings.showExplosionFlashes.current && game.hasPowerup('dynamite'));
   
   useUpdate((delta) => {
     if (visible.current) {
@@ -54,5 +59,5 @@ export const Explosion: React.FC<ExplosionProps> = ({ offset, ...props }) => {
     }
   });
 
-  return <Box pos={[0, offset]} size={[256, 200]} color={color} visible={visible} className="mix-blend-screen" />
+  return <Box pos={pos} size={[256, 200]} color={color} visible={visible} className="mix-blend-screen" />
 };

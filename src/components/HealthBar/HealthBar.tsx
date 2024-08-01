@@ -3,12 +3,12 @@ import { BACKGROUND_IMAGE, LIGHTS_IMAGE } from "./assets";
 
 type HealthBarProps = {
   pos?: Prop<Position>;
-  health?: Prop<number>;
+  health: Prop<number>;
 };
 
 export const HealthBar: React.FC<HealthBarProps> = (props) => {
   const pos = usePosition(props.pos);
-  const health = useProperty(props.health || 15);
+  const health = useProperty(props.health);
 
   const size = useDynamicProperty(health, (health): Size => {
     return [health * 5, 12];
