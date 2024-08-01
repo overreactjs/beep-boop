@@ -19,5 +19,5 @@ export const TILESET: Tileset = {
   },
   cellSize: [8, 8],
   tileSize: [8, 8],
-  gridSize: [32, 25],
+  gridSize: [32, 27],
 };

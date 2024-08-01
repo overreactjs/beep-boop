@@ -236,7 +236,7 @@ export class GameState extends ObjectState {
 
   isSolid(x: number, y: number): boolean {
     return x >= 0 && x < 32 && y >= 0 && y < 25
-      ? !!this.levelData.collisions[y * 32 + x]
+      ? !!this.levelData.collisions[(y + 1) * 32 + x]
       : false;
   }
 

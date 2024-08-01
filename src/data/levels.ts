@@ -69,21 +69,20 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
     if (isSolid(x, y)) {
       if (y === 0) {
         if (isSolid(x, y + 1)) {
-          collisions.push(['platform', 'left', 'right']);
+          collisions.push(['block', 'platform', 'left', 'right']);
         } else {
-          collisions.push(['platform', 'bottom']);
+          collisions.push(['block', 'platform', 'bottom']);
         }
 
       } else if (y === 24) {
         if (isSolid(x, y - 1)) {
-          collisions.push(['platform', 'left', 'right']);
+          collisions.push(['block', 'platform', 'left', 'right']);
         } else {
-          collisions.push(['platform', 'top']);
+          collisions.push(['block', 'platform', 'top']);
         }
       
       } else {
-        const tags = new Set<string>();
-        tags.add('platform');
+        const tags = new Set(['block', 'platform']);
 
         // Nothing above? It's a platform.
         if (!isSolid(x, y - 1)) {
@@ -143,6 +142,14 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
   };
 
   const buildTile = (x: number, y: number) => {
+    if (meta.scheme === 'autotile') {
+      buildAutotile(x, y);
+    } else {
+      buildRegularTile(x, y);
+    }
+  };
+
+  const buildRegularTile = (x: number, y: number) => {
     if (isSolid(x, y)) {
       background.push(-1);
 
@@ -208,15 +215,30 @@ function buildLevelTilesAndCollisions(data: string[], meta: LevelMetadata): Pick
     }
   };
 
+  const buildFlyingBotCollisions = (x: number) => {
+    background.push(-1);
+    foreground.push(-1);
+    collisions.push(isSolid(x, 0) ? ['block'] : false);
+  }
+
+  // Add an extra row of tiles above, for vertical portal collisions of flying bots.
+  for (let x = 0; x < 32; x++) {
+    buildFlyingBotCollisions(x);
+  }
+
+  // Primary level arena tiles and collisions.
   for (let y = 0; y < 25; y++) {
     for (let x = 0; x < 32; x++) {
       buildCollisions(x, y);
-      meta.scheme === 'autotile' ? buildAutotile(x, y) : buildTile(x, y);
+      buildTile(x, y);
       buildPortal(x, y);
     }
   }
 
-  // console.log(collisions);
+  // Add an extra row of tiles below, for vertical portal collisions of flying bots.
+  for (let x = 0; x < 32; x++) {
+    buildFlyingBotCollisions(x);
+  }
 
   return { foreground, background, collisions, portals };
 }

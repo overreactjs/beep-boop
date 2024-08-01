@@ -39,12 +39,10 @@ export const useFlyingMovement = (collider: string, pos: Property<Position>, vel
   useOverlap(collider, (collisions) => {
     if (enabled.current) {
       const adjustment: Position = [0, 0];
-      const surfaces = optimize(collisions.filter((event) => {
-        return event.tags.includes('solid') || event.tags.includes('platform');
-      }));
+      const blocks = optimize(collisions.filter(({ tags }) => tags.includes('block')));
 
       // Solids: These can't be passed through. Ever!
-      for (const { overlap } of surfaces) {
+      for (const { overlap } of blocks) {
         if (overlap.y > 0 && overlap.y > adjustment[1]) {
           pos.current[1] -= overlap.y;
           adjustment[1] = overlap.y;

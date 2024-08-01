@@ -24,17 +24,21 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
   return (
     <Node pos={[0, offset]}>
       {/* Background tiles, which appear behind any effects. */}
-      <LevelFilter>
-        <Tilemap tileset={TILESET} tiles={data.background} />
-      </LevelFilter>
+      <Node offset={[0, -8]}>
+        <LevelFilter>
+          <Tilemap tileset={TILESET} tiles={data.background} />
+        </LevelFilter>
+      </Node>
 
       {/* Explosions, which cover the background tiles. */}
       <LevelExplosion />
      
       {/* Foreground tiles, the ones that the player actually interacts with. */}
-      <LevelFilter>
-        <Tilemap tileset={TILESET} tiles={data.foreground} collisions={data.collisions} active={active} />
-      </LevelFilter>
+      <Node offset={[0, -8]}>
+        <LevelFilter>
+          <Tilemap tileset={TILESET} tiles={data.foreground} collisions={data.collisions} active={active} />
+        </LevelFilter>
+      </Node>
 
       {/* Additional collision boxes to prevent the player jumping out of the arena. */}
       <Node offset={[0, -16]}>
