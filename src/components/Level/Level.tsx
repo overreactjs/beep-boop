@@ -1,11 +1,11 @@
 import { BitmapText, CollisionBox, Node, Tilemap, useCachedDynamicProperty } from "@overreact/engine";
-import { useCalculatedProperty, useGame } from "../../hooks";
-import { BaseBossState } from "../../state";
-import { Portal } from "../Portal";
-import { HealthBar } from "../HealthBar";
+import { useGame } from "../../hooks";
 import { LEVELS_FONT, TILESET } from "./assets";
+
 import { LevelFilter } from "./LevelFilter";
 import { LevelExplosion } from "./LevelExplosion";
+import { LevelHealthBar } from "./LevelHealthBar";
+import { LevelPortals } from "./LevelPortals";
 
 type LevelProps = {
   level: number;
@@ -51,38 +51,11 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
       <LevelPortals level={level} />
       
       {/* Health bar for boss fights. */}
-      <LevelHealthBar />
+      <LevelHealthBar level={level} />
     </Node>
   );
 };
 
-type LevelPortalsProps = {
-  level: number;
-};
 
-const LevelPortals: React.FC<LevelPortalsProps> = ({ level }) => {
-  const game = useGame();
-  const { portals } = game.levels[level - 1];
 
-  return (
-    <Node>
-      {portals.map((portal, index) => (
-        <Portal key={portal.target} level={level} id={index + 1} {...portal} />
-      ))}
-    </Node>
-  );
-};
 
-const LevelHealthBar: React.FC = () => {
-  const game = useGame();
-
-  const health = useCalculatedProperty(() => {
-    return (game.enemies[0] as BaseBossState)?.health.current || 15;
-  });
-
-  return (
-    <Node offset={[128, 0]}>
-      <HealthBar health={health} />
-    </Node>
-  );
-};
