@@ -1,5 +1,6 @@
 import { Property, Position, Velocity, VariableProperty, BaseParticle } from "@overreact/engine";
 import { ItemState } from "../../state";
+import { ITEMS } from "../../data";
 
 export class ItemParticle extends BaseParticle {
   
@@ -49,9 +50,10 @@ export class ItemParticle extends BaseParticle {
   }
 
   static fromItem(item: ItemState) {
-    const color = '#ff00ff';
+    const color = ITEMS[item.type].particles || '#fff';
     const x = item.pos.current[0];
     const y = item.pos.current[1] - 8;
+    console.log(color);
     return new ItemParticle([x, y], color);
   }
 }

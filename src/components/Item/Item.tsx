@@ -32,7 +32,7 @@ export const Item: React.FC<ItemProps> = ({ item }) => {
 
   // Create particles for certain item types.
   useFixedUpdate(60, () => {
-    if (item.state.current === 'landed' && item.type === 'teleporter') {
+    if (item.state.current === 'landed' && ITEMS[item.type].particles) {
       particles.attach(ItemParticle.fromItem(item));
     }
   });

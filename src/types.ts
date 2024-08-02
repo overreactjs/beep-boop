@@ -106,6 +106,7 @@ export type ItemConfig = {
   offset: Position;
   value: PointsValue;
   label?: PointsLabel;
+  particles?: string;
 };
 
 export type RawLevelData = {

@@ -210,6 +210,7 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
   teleporter: {
     offset: [208, 48],
     value: 10000,
+    particles: '#f0f',
   },
   
   /**
