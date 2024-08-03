@@ -57,6 +57,14 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     offset: [192, 0],
     value: 300,
   },
+  apple_red: {
+    offset: [208, 0],
+    value: 50,
+  },
+  orange: {
+    offset: [224, 0],
+    value: 100,
+  },
   
   /**
    * ROW 2
@@ -211,6 +219,10 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
     offset: [208, 48],
     value: 10000,
     particles: '#f0f',
+  },
+  rainbow: {
+    offset: [224, 48],
+    value: 1000,
   },
   
   /**

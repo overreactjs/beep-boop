@@ -76,6 +76,12 @@ export const itemHandlers: Partial<Record<ItemType, ItemHandler>> = {
     game.awardItemPoints(player, item);
   },
 
+  // Fire special rainbow zaps that penetrate multiple enemies.
+  'rainbow': (game, player, item) => {
+    player.powerup('rainbows', ['death', 'level']);
+    game.awardItemPoints(player, item);
+  },
+
   // Fire cyan stars in all directions.
   'star_cyan': (game, player, item) => {
     game.fireStars(player, item, 'cyan');

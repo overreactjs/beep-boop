@@ -1,10 +1,13 @@
 import { VirtualInput } from "@overreact/engine";
-import { ProjectileState, PlayerZapState, EnemyZapState, PlayerFireballState, FlyingStarState, EnemyFireballState } from "../../state";
+
+import { ProjectileState, PlayerZapState, EnemyZapState, PlayerFireballState, FlyingStarState, EnemyFireballState, PlayerRainbowState } from "../../state";
+
+import { EnemyFireball } from "./EnemyFireball";
 import { EnemyZap } from "./EnemyZap";
 import { FlyingStar } from "./FlyingStar";
 import { PlayerFireball } from "./PlayerFireball";
+import { PlayerRainbow } from "./PlayerRainbow";
 import { PlayerZap } from "./PlayerZap";
-import { EnemyFireball } from "./EnemyFireball";
 
 export const Projectile: React.FC<{ projectile: ProjectileState }> = ({ projectile }) => {
   return (
@@ -20,6 +23,9 @@ export const Projectile: React.FC<{ projectile: ProjectileState }> = ({ projecti
       )}
       {projectile.type === 'playerFireball' && (
         <PlayerFireball projectile={projectile as PlayerFireballState} />
+      )}
+      {projectile.type === 'playerRainbow' && (
+        <PlayerRainbow projectile={projectile as PlayerRainbowState} />
       )}
       {projectile.type === 'playerZap' && (
         <PlayerZap projectile={projectile as PlayerZapState} />

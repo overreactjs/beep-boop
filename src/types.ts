@@ -12,6 +12,7 @@ export type ProjectileType =
   | 'enemyZap'
   | 'flyingStar'
   | 'playerFireball'
+  | 'playerRainbow'
   | 'playerZap'
   ;
 
@@ -50,6 +51,8 @@ export type ItemType =
   | 'mushroom_magenta'
   | 'turnip'
   | 'egg'
+  | 'apple_red'
+  | 'orange'
 
   // row 2
   | 'cheese'
@@ -91,6 +94,7 @@ export type ItemType =
   | 'chest_gold'
   | 'chest_silver'
   | 'teleporter'
+  | 'rainbow'
 
   // row 5
   | 'circuit_1r'
@@ -168,6 +172,7 @@ export type PointsLabel = PointsValue
 
 export type PlayerPowerupType = 
   | 'fireballs'
+  | 'rainbows'
   | 'speed'
   | 'zapSpeed'
   | 'zapDistance'

@@ -48,6 +48,10 @@ export class PlayerFireballState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerFireball';
 }
 
+export class PlayerRainbowState extends BaseHorizontalProjectileState {
+  readonly type: ProjectileType = 'playerRainbow';
+}
+
 export class PlayerZapState extends BaseHorizontalProjectileState {
   readonly type: ProjectileType = 'playerZap';
   player: PlayerIndex;
@@ -76,6 +80,7 @@ export type ProjectileState =
   | EnemyFireballState
   | EnemyZapState
   | PlayerFireballState
+  | PlayerRainbowState
   | PlayerZapState
   | FlyingStarState
   ;

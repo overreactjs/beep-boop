@@ -9,7 +9,7 @@ export function useEnemyCollisions<T extends BaseEnemyState>(collider: string, f
   const tags = useCachedDynamicProperty(fsm.current.state, (state): string[] => state === 'stunned' ? ['stunned'] : ['enemy']);
   const active = useCachedDynamicProperty(fsm.current.state, (state) => state !== 'dead');
 
-  useTaggedCollision(collider, 'zap', () => {
+  useTaggedCollision(collider, ['zap', 'playerRainbow'], () => {
     if (tags.current.includes('enemy')) {
       fsm.current.replace('stunned');
     }

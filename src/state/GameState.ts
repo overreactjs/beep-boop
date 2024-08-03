@@ -342,6 +342,10 @@ export class GameState extends ObjectState {
     this.fireProjectile(player.createFireball(this));
   }
 
+  firePlayerRainbow(player: PlayerState) {
+    this.fireProjectile(player.createRainbow(this));
+  }
+
   firePlayerZap(player: PlayerState) {
     this.fireProjectile(player.createZap(this));
   }
