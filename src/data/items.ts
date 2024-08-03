@@ -251,3 +251,74 @@ export const ITEMS: Record<ItemType, ItemConfig> = {
 };
 
 export const ALL_ITEM_TYPES = Object.keys(ITEMS) as ItemType[];
+
+export const REGULAR_ITEMS: ItemType[] = [
+  'apple',
+  'banana',
+  'beans',
+  'cherries',
+  'chilli',
+  'corn',
+  'grapes_red',
+  'grapes_green',
+  'strawberry',
+  'mushroom_yellow',
+  'mushroom_magenta',
+  'turnip',
+  'egg',
+  'apple_red',
+  'orange',
+
+  // row 2
+  'cheese',
+  'croissant',
+  'hotdog',
+  'ice_cream',
+  'lolly',
+  'sorbet',
+  'pizza',
+  'burger',
+  'popcorn_red',
+  'popcorn_blue',
+  'noodles',
+  'cocktail',
+  'steak',
+  'lolly_red',
+
+  // row 3
+  'diamond',
+  'ruby',
+  'sapphire',
+  'emerald',
+  'amethyst',
+  'topaz',
+  'gold_coin',
+  'silver_coin',
+
+  // row 5
+  'circuit_1r',
+  'circuit_2o',
+  'circuit_3b',
+  'circuit_4o',
+  'circuit_5t',
+];
+
+export const SPECIAL_ITEMS: ItemType[] = [
+  // row 3
+  'star_yellow',
+  'star_green',
+  'star_red',
+  'star_magenta',
+  'star_cyan',
+
+  // row 4
+  'hot_sauce',
+  'joystick',
+  'dynamite',
+  'potion_blue',
+  'potion_magenta',
+  'chest_gold',
+  'chest_silver',
+  'teleporter',
+  'rainbow',
+];

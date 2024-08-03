@@ -5,11 +5,12 @@ export const PLAYER_COLORS: Record<PlayerIndex, PlayerColor> = {
   1: '#0ff',
 };
 
-export const SOLID  = '0';
-export const EMPTY  = ' ';
-export const LEFT   = '<';
-export const RIGHT  = '>';
-export const PORTAL = '+';
+export const SOLID   = '0';
+export const EMPTY   = ' ';
+export const LEFT    = '<';
+export const RIGHT   = '>';
+export const PORTAL  = '+';
+export const SPECIAL = '.';
 
 export const ENEMIES: Record<string, EnemyType> = {
   // Regular enemies

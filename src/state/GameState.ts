@@ -1,5 +1,6 @@
 import { Position, VariableProperty, clamp, dist } from "@overreact/engine";
-import { ALL_ITEM_TYPES, ITEMS } from "../data";
+import { ITEMS } from "../data";
+import { REGULAR_ITEMS, SPECIAL_ITEMS } from "../data/items";
 import { ENEMY_ITEMS, ENEMY_POINTS } from "../data/constants";
 import { getHighScore, setHighScore } from "../services/highscores";
 import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsLabel, PointsValue } from "../types";
@@ -34,6 +35,8 @@ export class GameState extends ObjectState {
   lastEnemyTime = new VariableProperty(0);
 
   nextLevelTime = new VariableProperty(0);
+
+  nextRandomItemTime = new VariableProperty(5000);
 
   skipLevelCount = new VariableProperty(0);
 
@@ -104,6 +107,7 @@ export class GameState extends ObjectState {
       this.updateLevelTime(delta);
       this.updatePowerups(delta);
       this.updateGameOver(onGameOver);
+      this.updateRandomItems(delta);
     }
   }
 
@@ -160,6 +164,17 @@ export class GameState extends ObjectState {
   updateGameOver(onGameOver: () => void) {
     if (this.players.every((player) => !player.active.current || player.lives.current === 0)) {
       onGameOver();
+    }
+  }
+
+  updateRandomItems(delta: number) {
+    if (this.initialized.current && this.enemies.length > 0) {
+      this.nextRandomItemTime.current -= delta;
+
+      if (this.nextRandomItemTime.current <= 0) {
+        this.nextRandomItemTime.current = 10000 + Math.round(Math.random() * 15000);
+        this.createRandomItem();
+      }
     }
   }
 
@@ -252,7 +267,16 @@ export class GameState extends ObjectState {
    * Items
    */
 
-  createItem() {
+  createRandomItem() {
+    const type = SPECIAL_ITEMS[Math.floor(Math.random() * SPECIAL_ITEMS.length)];
+    const targets = this.levelData.targets;
+    const [tx, ty] = targets[Math.floor(Math.random() * targets.length)];
+    const offset = (this.level.current - 1) * 200;
+    const item = new ItemState([tx, offset + ty], [tx, offset + ty], type, 'landed');
+    this.items = [...this.items, item];
+  }
+
+  createFallingItem() {
     let type: ItemType;
 
     if (this.hasPowerup('goldChest')) {
@@ -262,7 +286,7 @@ export class GameState extends ObjectState {
     } else if (this.hasPowerup('diamonds')) {
       type = 'diamond';
     } else {
-      type = ALL_ITEM_TYPES[Math.floor(Math.random() * ALL_ITEM_TYPES.length)];
+      type = REGULAR_ITEMS[Math.floor(Math.random() * REGULAR_ITEMS.length)];
     }
 
     const targets = this.levelData.targets;
@@ -388,7 +412,7 @@ export class GameState extends ObjectState {
     const count = ENEMY_ITEMS[(enemy as EnemyState).type];
 
     for (let i = 0; i < count; i++) {
-      this.createItem();
+      this.createFallingItem();
     }
   }
 

@@ -124,6 +124,7 @@ export type LevelData = {
   background: number[];
   collisions: (false | string[])[];
   targets: Position[];
+  specials: Position[];
   enemies: EnemyState[];
   portals: LevelPortalData[];
 };

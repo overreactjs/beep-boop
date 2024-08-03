@@ -1,7 +1,7 @@
 import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
 import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState, InvertedBotState } from '../state';
-import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID } from './constants';
+import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID, SPECIAL } from './constants';
 import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
 export async function buildLevels(): Promise<LevelData[]> {
@@ -25,6 +25,7 @@ function buildLevel(level: number, data: string): LevelData {
     meta,
     ...buildLevelTilesAndCollisions(lines, meta),
     ...buildLevelItemTargets(lines),
+    ...buildLevelItemSpecials(lines),
     ...buildLevelEnemies(level, lines),
   };
 }
@@ -259,6 +260,20 @@ function buildLevelItemTargets(data: string[]): Pick<LevelData, 'targets'> {
   }
 
   return { targets };
+}
+
+function buildLevelItemSpecials(data: string[]): Pick<LevelData, 'specials'> {
+  const specials: Position[] = [];
+
+  for (let y = 2; y < 25; y++) {
+    for (let x = 3; x < 30; x++) {
+      if (data[y][x] === SPECIAL && data[y][x+1] === SPECIAL) {
+        specials.push([(x + 1) * 8, (y + 1) * 8]);
+      }
+    }
+  }
+
+  return { specials };
 }
 
 function buildLevelEnemies(level: number, data: string[]): Pick<LevelData, 'enemies'> {
