@@ -12,13 +12,16 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "assets": "npx @capacitor/assets generate",
-    "android": "npm run build-capacitor && npx cap sync android && npx cap run android",
-    "ios": "npm run build-capacitor && npx cap sync ios && npx cap run ios",
-    "electron": "npm run build-capacitor && npx cap sync @capacitor-community/electron && npx cap open @capacitor-community/electron",
+    "android": "npm run sync-android && npx cap run android",
+    "ios": "npm run sync-ios && npx cap run ios",
+    "electron": "npm run sync-electron && npx cap open @capacitor-community/electron",
+    "sync-android": "npm run build-capacitor && npx cap sync android",
+    "sync-ios": "npm run build-capacitor && npx cap sync ios",
+    "sync-electron": "npm run build-capacitor && npx cap sync @capacitor-community/electron",
     "create-android": "npm run build-capacitor && npx cap add android",
     "create-ios": "npm run build-capacitor && npx cap add ios",
-    "open-android": "npm run build-capacitor && npx cap sync android && npx cap open android",
-    "open-ios": "npm run build-capacitor && npx cap sync ios && npx cap open ios"
+    "open-android": "npm run sync-android && npx cap open android",
+    "open-ios": "npm run sync-ios && npx cap open ios"
   },
   "dependencies": {
     "@capacitor-community/electron": "^5.0.1",
