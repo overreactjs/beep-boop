@@ -7,9 +7,10 @@ import { GreenOgreState } from '../state/enemies/GreenOgreState';
 export async function buildLevels(): Promise<LevelData[]> {
   const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
   const keys = Object.keys(modules).filter(name => !name.includes('template')).sort();
+  const count = import.meta.env.DEV ? keys.length : Math.min(keys.length, 40);
   const levels: LevelData[] = [];
 
-  for (let i = 0; i < keys.length; i++) {
+  for (let i = 0; i < count; i++) {
     const data = (await modules[keys[i]]() as { default: string }).default;
     levels.push(buildLevel(i + 1, data));
   }
@@ -250,8 +251,6 @@ function buildLevelItemTargets(data: string[]): Pick<LevelData, 'targets'> {
   for (let y = 2; y < 25; y++) {
     for (let x = 3; x < 30; x++) {
       if ((data[y][x-1] === SOLID || data[y][x] === SOLID)
-        && data[y-2][x-1] === EMPTY
-        && data[y-2][x] === EMPTY
         && data[y-1][x-1] === EMPTY
         && data[y-1][x] === EMPTY) {
         targets.push([x * 8, y * 8]);

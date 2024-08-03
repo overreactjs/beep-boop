@@ -28,7 +28,7 @@ export const useDeveloperMode = (camera: Property<Position>) => {
   });
 
   useKeyPressedInDevMode('KeyC', () => {
-    const items: ItemType[] = ['rainbow'];
+    const items: ItemType[] = ['rainbow', 'potion_magenta'];
     items.forEach((item) => {
       collectItem(game.players[0], item as ItemType);
       // collectItem(game.players[1], item as ItemType);
