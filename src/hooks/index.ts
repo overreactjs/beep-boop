@@ -5,6 +5,7 @@ export { useBaseStunnedState } from "./useBaseStunnedState";
 export { useBossCollisions } from "./useBossCollisions";
 export { useCalculatedProperty } from "./useCalculatedProperty";
 export { useCamera } from "./useCamera";
+export { useCheatCodes } from "./useCheatCodes";
 export { useDeveloperMode } from "./useDeveloperMode";
 export { useEnemyAnimation } from "./useEnemyAnimation";
 export { useEnemyCollisions } from "./useEnemyCollisions";
