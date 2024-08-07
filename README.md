@@ -25,3 +25,13 @@ Open `http://localhost:5173` in a browser.
 ```
 npm run build
 ```
+
+## Electron build
+
+```
+# full game
+npm run electron:sync
+
+# demo
+npm run electron:sync:demo
+```

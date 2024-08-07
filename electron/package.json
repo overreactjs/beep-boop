@@ -21,6 +21,7 @@
     "electron:pack:macos": "npm run electron:pack -- --macos dmg",
     "electron:pack:windows": "npm run electron:pack -- --windows nsis --ia32",
     "electron:pack:linux": "npm run electron:pack -- --linux deb --ia32",
+    "electron:pack:all": "npm run electron:pack:macos && npm run electron:pack:windows",
     "electron:make": "npm run build && electron-builder build -c ./electron-builder.config.json -p always"
   },
   "dependencies": {
