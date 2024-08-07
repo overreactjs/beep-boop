@@ -1,8 +1,8 @@
-import { KeyboardKeyName, Position, Property, useKeyPressed, VariableProperty } from "@overreact/engine";
+import { useCallback } from "react";
+import { Position, Property, useKeySequence, VariableProperty } from "@overreact/engine";
 import { ItemState, PlayerState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
-import { useCallback } from "react";
 import { ItemType } from "../types";
 
 export const useDeveloperMode = (camera: Property<Position>) => {
@@ -15,33 +15,33 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     } as unknown as ItemState);
   }, [game]);
 
-  useKeyPressedInDevMode('KeyZ', () => {
+  useKeySequenceInDevMode('ZZ', () => {
     game.nextLevel();
     camera.current[1] = (game.level.current - 1) * 200 + 100;
   });
 
-  useKeyPressedInDevMode('KeyX', () => {
+  useKeySequenceInDevMode('ZX', () => {
     for (let i = 0; i < 10; i++) {
       game.nextLevel();
     }
     camera.current[1] = (game.level.current - 1) * 200 + 100;
   });
 
-  useKeyPressedInDevMode('KeyC', () => {
-    const items: ItemType[] = ['rainbow', 'potion_magenta'];
-    items.forEach((item) => {
-      collectItem(game.players[0], item as ItemType);
-      // collectItem(game.players[1], item as ItemType);
+  useKeySequenceInDevMode('ZC', () => {
+    ['rainbow', 'potion_magenta'].forEach((item) => {
+      game.players.forEach((player) => {
+        collectItem(player, item as ItemType);
+      });
     });
   });
 
-  useKeyPressedInDevMode('KeyB', async () => {
+  useKeySequenceInDevMode('ZB', async () => {
     snapshotGame(game);
   });
 };
 
-const useKeyPressedInDevMode = (key: KeyboardKeyName, fn: () => void) => {
-  useKeyPressed(key, () => {
+const useKeySequenceInDevMode = (code: string, fn: () => void) => {
+  useKeySequence(code, () => {
     if (import.meta.env.DEV) {
       fn();
     }
