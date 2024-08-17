@@ -16,7 +16,7 @@ Next, run the vite server and process tailwind styles:
 
 ```
 # full game
-npm run dev
+npm run dev:full
 
 # demo
 npm run dev:demo
@@ -30,7 +30,7 @@ To build the game ready for an Electron (macOS and Windows) build, run one of th
 
 ```
 # full game
-npm run electron:sync
+npm run electron:sync:full
 
 # demo
 npm run electron:sync:demo
@@ -39,7 +39,7 @@ npm run electron:sync:demo
 Next, inside of the `electron` directory:
 
 ```
-npm run electron:pack:all
+npm run pack:all
 ```
 
 This will package up the current build (either the demo or the full game) as macOS and Windows binaries.

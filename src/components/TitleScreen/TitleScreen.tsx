@@ -20,10 +20,8 @@ export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
   const { onStart, onSettings, onCredits, onQuit } = props;
   const { state, go } = useAppState<TitleScreenState>('titleMenu');
 
-  const isDemo = import.meta.env.VITE_BUILD === 'demo';
+  const isDemo = process.env.NODE_ENV === 'demo';
   const flash = useFlash(500);
-
-  console.log(import.meta.env.VITE_BUILD);
 
   return (
     <Screen size={[256, 240]} scale="auto">
@@ -46,7 +44,7 @@ export const TitleScreen: React.FC<TitleScreenProps> = (props) => {
           <ControlsSelect onBack={go('playersSelect')} onStart={onStart} />
         )}
       </Box>
-      <ArcadeText pos={[48, 232]} text="© LITTLE MARTIAN 2024" />
+      <ArcadeText pos={[64, 232]} text="© OVERREACT 2024" />
     </Screen>
   );
 };

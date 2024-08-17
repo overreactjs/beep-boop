@@ -7,7 +7,7 @@ import { GreenOgreState } from '../state/enemies/GreenOgreState';
 const DEMO_LEVEL_COUNT = 40;
 
 export async function buildLevels(): Promise<LevelData[]> {
-  const build = import.meta.env.VITE_BUILD || 'full';
+  const build = process.env.NODE_ENV || 'full';
   const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
   const keys = Object.keys(modules).filter(name => !name.includes('template')).sort();
   const count = build === 'full' ? keys.length : Math.min(keys.length, DEMO_LEVEL_COUNT);
