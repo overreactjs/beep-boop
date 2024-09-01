@@ -4,15 +4,15 @@ _Beep Boop_ is a video game that lifts heavily from the original Bubble Bobble a
 
 ![Screenshot](screenshot.png)
 
-## Run in browser
-
-First, install all dependencies:
+## Install dependencies
 
 ```
 npm i
 ```
 
-Next, run the vite server and process tailwind styles:
+## Run in browser
+
+Run the vite dev server and process tailwind styles concurrently:
 
 ```
 # full game
@@ -24,23 +24,26 @@ npm run dev:demo
 
 Open `http://localhost:5173` in a browser.
 
-## Build (Electron)
+## Run in electron
 
-To build the game ready for an Electron (macOS and Windows) build, run one of the following commands:
+Build and run the game in the electron dev environment.
 
 ```
 # full game
-npm run electron:sync:full
+npm run electron:dev:full
 
 # demo
-npm run electron:sync:demo
+npm run electron:dev:demo
 ```
 
-Next, inside of the `electron` directory:
+## Production build and package
+
+To build and package the game as native macOS and Windows apps:
 
 ```
-npm run pack:all
+# full game
+npm run electron:pack:full
+
+# demo
+npm run electron:pack:demo
 ```
-
-This will package up the current build (either the demo or the full game) as macOS and Windows binaries.
-
