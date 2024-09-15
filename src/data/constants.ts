@@ -52,3 +52,10 @@ export const ENEMY_ITEMS: Record<EnemyType, number> = {
   greenOgre: 16,
   redOgre: 16,
 };
+
+export const FLASH_COLORS: string[] = [
+  '#003c7f',
+  '#7f007f',
+  '#003c7f',
+  '#3c007f',
+];

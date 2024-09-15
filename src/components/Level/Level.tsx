@@ -35,7 +35,7 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
       <LevelExplosion />
 
       {/* Flash, when an enemy is killed. */}
-      <LevelFlash />
+      <LevelFlash level={level} />
      
       {/* Foreground tiles, the ones that the player actually interacts with. */}
       <Node offset={[0, -8]}>
