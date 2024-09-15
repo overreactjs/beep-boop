@@ -58,7 +58,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
       <MenuStatic pos={[16, 32]} text="ACCESSIBILITY" color="#f0f" />
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
       
-      <MenuLabel index={1} pos={[32, 64]} text="EXPLOSION FLASHES" />
+      <MenuLabel index={1} pos={[32, 64]} text="BACKGROUND FLASHES" />
       <MenuItem index={1} pos={[216, 64]} text={showExplosionFlashes} hasOptions />
       
       <MenuLabel index={2} pos={[32, 80]} text="GAME SPEED" />
