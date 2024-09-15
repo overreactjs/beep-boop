@@ -207,7 +207,7 @@ export class GameState extends ObjectState {
     } else if (!this.initialized.current) {
       this.initialized.current = true;
       this.levelTime.current = 0;
-      this.lastEnemyTime.current = 0;
+      this.lastEnemyTime.current = 5000;
       this.nextLevelTime.current = 0;
       this.hurryMode.current = false;
       this.timescale.current = this.settings.gameSpeed.current;

@@ -6,6 +6,7 @@ import { LevelFilter } from "./LevelFilter";
 import { LevelExplosion } from "./LevelExplosion";
 import { LevelHealthBar } from "./LevelHealthBar";
 import { LevelPortals } from "./LevelPortals";
+import { LevelFlash } from "./LevelFlash";
 
 type LevelProps = {
   level: number;
@@ -32,6 +33,9 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
 
       {/* Explosions, which cover the background tiles. */}
       <LevelExplosion />
+
+      {/* Flash, when an enemy is killed. */}
+      <LevelFlash />
      
       {/* Foreground tiles, the ones that the player actually interacts with. */}
       <Node offset={[0, -8]}>
