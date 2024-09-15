@@ -26,8 +26,8 @@
     "electron:dev:demo": "npm run electron:sync:demo && npx cap open @capacitor-community/electron",
     "electron:sync:full": "npm run build:capacitor:full && NODE_ENV=full npx cap sync @capacitor-community/electron",
     "electron:sync:demo": "npm run build:capacitor:demo && NODE_ENV=demo npx cap sync @capacitor-community/electron",
-    "electron:pack:full": "npm run electron:sync:full && cd electron && npm run pack:all",
-    "electron:pack:demo": "npm run electron:sync:demo && cd electron && npm run pack:all"
+    "electron:pack:full": "npm run electron:sync:full && cd electron && NODE_ENV=full npm run pack:all",
+    "electron:pack:demo": "npm run electron:sync:demo && cd electron && NODE_ENV=demo npm run pack:all"
   },
   "dependencies": {
     "@capacitor-community/electron": "^5.0.1",

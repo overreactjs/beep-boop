@@ -15,14 +15,14 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "build": "tsc",
-    "start-live": "node ./live-runner.js",
-    "start": "npm run build && electron --inspect=5858 ./",
-    "pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.json",
+    "electron:start-live": "node ./live-runner.js",
+    "electron:start": "npm run build && electron --inspect=5858 ./",
+    "pack": "npm run build && electron-builder build --dir -c ./electron-builder.config.js",
     "pack:macos": "npm run pack -- --macos dmg",
     "pack:windows": "npm run pack -- --windows nsis --ia32",
     "pack:linux": "npm run pack -- --linux deb --ia32",
     "pack:all": "npm run pack:macos && npm run pack:windows",
-    "make": "npm run build && electron-builder build -c ./electron-builder.config.json -p always"
+    "make": "npm run build && electron-builder build -c ./electron-builder.config.js -p always"
   },
   "dependencies": {
     "@capacitor-community/electron": "^5.0.0",

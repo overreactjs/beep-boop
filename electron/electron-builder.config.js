@@ -1,8 +1,11 @@
-{
+const isDemo = process.env.NODE_ENV === 'demo';
+
+module.exports = {
   "appId": "com.overreact.beepboop",
   "productName": "Beep Boop",
   "directories": {
-    "buildResources": "resources"
+    "buildResources": "resources",
+    "output": isDemo ? "dist-demo" : "dist-full",
   },
   "files": [
     "assets/**/*",
@@ -24,23 +27,23 @@
     "icon": "assets/appIcon.png"
   },
   "dmg": {
-      "icon": "assets/appIcon.png",
-      "iconSize": 75,
-      "window": {
-        "width": 544,
-        "height": 408
+    "icon": "assets/appIcon.png",
+    "iconSize": 75,
+    "window": {
+      "width": 544,
+      "height": 408
+    },
+    "contents": [
+      {
+        "x": 450,
+        "y": 280
       },
-      "contents": [
-        {
-          "x": 450,
-          "y": 280
-        },
-        {
-          "x": 450,
-          "y": 170,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    }
-}
+      {
+        "x": 450,
+        "y": 170,
+        "type": "link",
+        "path": "/Applications"
+      }
+    ]
+  }
+};
