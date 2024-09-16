@@ -18,7 +18,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
   // When the player touches a live enemy, kill the player!
   useTaggedCollision(collider, 'enemy', () => {
     if (player.canBeKilled()) {
-      player.alive.current = false;
+      player.kill();
       sfx.play('PlayerDeath');
     }
   });
@@ -29,7 +29,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
       const [bx, by] = player.block.current;
       
       if (game.glitch.check([bx, by - 1])) {
-        player.alive.current = false;
+        player.kill();
         sfx.play('PlayerDeath');
       }
     }

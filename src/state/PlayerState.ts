@@ -91,6 +91,10 @@ export class PlayerState extends EntityObjectState {
     this.powerups = this.powerups.filter((powerup) => !expired.includes(powerup));
   }
 
+  kill() {
+    this.alive.current = false;
+  }
+
   respawn() {
     const x = this.player === 0 ? 32 : 224;
     this.pos.current = [x, (this.game.level.current - 1) * 200 + 192];

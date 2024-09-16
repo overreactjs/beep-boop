@@ -29,7 +29,7 @@ export const EnemyFireball: React.FC<ProjectileProps<EnemyFireballState>> = ({ p
   useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
     for (const { b: { entity: player } } of collisions) {
       if (player?.canBeKilled()) {
-        player.alive.current = false;
+        player.kill();
         sfx.play('PlayerDeath');
       }
     }

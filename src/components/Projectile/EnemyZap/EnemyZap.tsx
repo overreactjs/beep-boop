@@ -21,7 +21,7 @@ export const EnemyZap: React.FC<ProjectileProps<EnemyZapState>> = ({ projectile 
   useTaggedCollision<PlayerState>(collider, 'player', (collisions) => {
     for (const { b: { entity: player } } of collisions) {
       if (player?.canBeKilled()) {
-        player.alive.current = false;
+        player.kill();
         sfx.play('PlayerDeath');
         projectile.destroy();
       }
