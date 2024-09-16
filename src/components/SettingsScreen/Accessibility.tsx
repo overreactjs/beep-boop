@@ -22,6 +22,7 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
   const dyslexiaFont = useBooleanOption(settings.dyslexiaFont);
   const firingMode = useDynamicProperty(settings.firingMode, (mode) => mode.toUpperCase().padStart(10, ' '));
   const showPlayerIndicators = useBooleanOption(settings.showPlayerIndicators);
+  const hurryUpMode = useMappedOption(settings.hurryUpMode, { 'normal': '   NORMAL', 'noGlitch': 'NO GLITCH', 'off': '      OFF'});
   
   const handleSelect = (index: number) => {
     switch (index) {
@@ -50,6 +51,8 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
         return settings.firingMode.next(direction);
       case 9:
         return settings.showPlayerIndicators.toggle();
+      case 10:
+        return settings.hurryUpMode.next(direction);
     }
   };
 
@@ -84,6 +87,9 @@ export const Accessibility: React.FC<AccessibilityProps> = (props) => {
 
       <MenuLabel index={9} pos={[32, 192]} text="PLAYER INDICATORS" />
       <MenuItem index={9} pos={[216, 192]} text={showPlayerIndicators} hasOptions />
+
+      <MenuLabel index={10} pos={[32, 208]} text="HURRY UP" />
+      <MenuItem index={10} pos={[168, 208]} text={hurryUpMode} hasOptions />
     </Menu>
   );
 };

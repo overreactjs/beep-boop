@@ -133,17 +133,21 @@ export class GameState extends ObjectState {
     this.lastEnemyTime.current += delta;
 
     // Hurry mode isn't applicable to boss fights.
-    if (!this.hurryMode.current && this.level.current % 20 !== 0) {
-      if (this.levelTime.current >= 30000 && this.enemyCount > 0) {
-        this.enableHurryMode();
-      } else if (this.lastEnemyTime.current >= 8000 && this.enemyCount === 1) {
-        this.enableHurryMode();
+    if (['normal', 'noGlitch'].includes(this.settings.hurryUpMode.current)) {
+      if (!this.hurryMode.current && this.level.current % 20 !== 0) {
+        if (this.levelTime.current >= 30000 && this.enemyCount > 0) {
+          this.enableHurryMode();
+        } else if (this.lastEnemyTime.current >= 8000 && this.enemyCount === 1) {
+          this.enableHurryMode();
+        }
       }
     }
 
     // Glitch mode after hurry mode has been going for a while.
-    if (!this.glitchMode.current && this.levelTime.current >= 40000) {
-      this.enableGlitchMode();
+    if (this.settings.hurryUpMode.current === 'normal') {
+      if (!this.glitchMode.current && this.levelTime.current >= 40000) {
+        this.enableGlitchMode();
+      }
     }
 
     // Keep track of how long it's been since the last item landed in a level, and when it's been

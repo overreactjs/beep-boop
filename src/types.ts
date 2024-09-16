@@ -205,6 +205,8 @@ export type FlyingStarColor = 'yellow' | 'green' | 'cyan' | 'magenta' | 'red';
 
 export type PlayerFiringMode = 'manual' | 'continuous' | 'automatic';
 
+export type HurryUpMode = 'normal' | 'noGlitch' | 'off';
+
 export type SoundEffectConfig = {
   url: string;
   volume: number;
