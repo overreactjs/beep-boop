@@ -7,7 +7,7 @@ import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHand
 
 import { itemHandlers } from "./itemHandlers";
 
-import { BaseEnemyState, EnemyState } from "./EnemyState";
+import { BaseEnemyState, EnemyState, GlitchBotState } from "./EnemyState";
 import { ItemState } from "./ItemState";
 import { ObjectState } from "./ObjectState";
 import { PlayerState } from "./PlayerState";
@@ -15,6 +15,7 @@ import { PointsState } from "./PointsState";
 import { PositionedObjectState } from "./PositionedObjectState";
 import { EnemyFireballState, EnemyZapState, FlyingStarState, ProjectileState } from "./ProjectileState";
 import { SettingsState } from "./SettingsState";
+import { GlitchState } from "./GlitchState";
 
 export class GameState extends ObjectState {
 
@@ -42,6 +43,8 @@ export class GameState extends ObjectState {
 
   hurryMode = new VariableProperty(false);
 
+  glitchMode = new VariableProperty(false);
+
   circuits = new VariableProperty(0);
 
   itemHandlers: Partial<Record<ItemType, ItemHandler>> = {};
@@ -60,6 +63,8 @@ export class GameState extends ObjectState {
 
   powerups: GamePowerup[] = [];
 
+  glitch: GlitchState = new GlitchState();
+
   settings: SettingsState;
 
   get levelData() {
@@ -68,6 +73,10 @@ export class GameState extends ObjectState {
 
   get playerCount() {
     return this.players[1].active.current ? 2 : 1;
+  }
+
+  get enemyCount() {
+    return this.enemies.length - (this.glitchMode.current ? this.playerCount : 0);
   }
 
   constructor(levels: LevelData[], settings: SettingsState) {
@@ -108,6 +117,7 @@ export class GameState extends ObjectState {
       this.updatePowerups(delta);
       this.updateGameOver(onGameOver);
       this.updateRandomItems(delta);
+      this.updateGlitch(delta);
     }
   }
 
@@ -124,16 +134,21 @@ export class GameState extends ObjectState {
 
     // Hurry mode isn't applicable to boss fights.
     if (!this.hurryMode.current && this.level.current % 20 !== 0) {
-      if (this.levelTime.current >= 30000 && this.enemies.length > 0) {
-        this.hurry();
-      } else if (this.lastEnemyTime.current >= 8000 && this.enemies.length === 1) {
-        this.hurry();
+      if (this.levelTime.current >= 30000 && this.enemyCount > 0) {
+        this.enableHurryMode();
+      } else if (this.lastEnemyTime.current >= 8000 && this.enemyCount === 1) {
+        this.enableHurryMode();
       }
+    }
+
+    // Glitch mode after hurry mode has been going for a while.
+    if (!this.glitchMode.current && this.levelTime.current >= 40000) {
+      this.enableGlitchMode();
     }
 
     // Keep track of how long it's been since the last item landed in a level, and when it's been
     // six seconds, move on to the next level.
-    if (this.enemies.length === 0 && !this.items.some((item) => item.state.current === 'falling')) {
+    if (this.enemyCount === 0 && !this.items.some((item) => item.state.current === 'falling')) {
       this.nextLevelTime.current += delta;
 
       if (this.nextLevelTime.current >= 6000) {
@@ -168,7 +183,7 @@ export class GameState extends ObjectState {
   }
 
   updateRandomItems(delta: number) {
-    if (this.initialized.current && this.enemies.length > 0) {
+    if (this.initialized.current && this.enemyCount > 0) {
       this.nextRandomItemTime.current -= delta;
 
       if (this.nextRandomItemTime.current <= 0) {
@@ -176,6 +191,10 @@ export class GameState extends ObjectState {
         this.createRandomItem();
       }
     }
+  }
+
+  updateGlitch(delta: number) {
+    this.glitch.update(delta * (this.enemyCount === 0 ? 3 : 1));
   }
 
   /*
@@ -210,10 +229,12 @@ export class GameState extends ObjectState {
       this.lastEnemyTime.current = 5000;
       this.nextLevelTime.current = 0;
       this.hurryMode.current = false;
+      this.glitchMode.current = false;
       this.timescale.current = this.settings.gameSpeed.current;
       this.players.forEach((player) => player.respawn());
       this.enemies = [...this.levelData.enemies];
       this.items = [];
+      this.glitch.reset();
       this.clearLevelPowerups();
     }
   }
@@ -239,7 +260,7 @@ export class GameState extends ObjectState {
     this.enemies = [];
   }
 
-  hurry() {
+  enableHurryMode() {
     this.hurryMode.current = true;
     this.timescale.current = 0;
     this.signalEnemies('anger');
@@ -247,6 +268,11 @@ export class GameState extends ObjectState {
     setTimeout(() => {
       this.timescale.current = this.settings.gameSpeed.current;
     }, 1000);
+  }
+
+  enableGlitchMode() {
+    this.glitchMode.current = true;
+    this.enemies.push(new GlitchBotState([32, 24 + (this.level.current - 1) * 200], 0));
   }
 
   isSolid(x: number, y: number): boolean {

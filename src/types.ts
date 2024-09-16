@@ -19,6 +19,7 @@ export type ProjectileType =
 export type EnemyType =
   | 'bounceBot'
   | 'flyingBot'
+  | 'glitchBot'
   | 'greenOgre'
   | 'guardBot'
   | 'invertedBot'

@@ -2,6 +2,7 @@ export { BaseEnemyState } from './BaseEnemyState';
 export { BaseBossState } from './BaseBossState';
 export { BounceBotState } from './BounceBotState';
 export { FlyingBotState } from './FlyingBotState';
+export { GlitchBotState } from './GlitchBotState';
 export { GreenOgreState } from './GreenOgreState';
 export { GuardBotState } from './GuardBotState';
 export { InvertedBotState } from './InvertedBotState';

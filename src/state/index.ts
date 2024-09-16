@@ -3,6 +3,7 @@ export {
   BaseBossState,
   BounceBotState,
   FlyingBotState,
+  GlitchBotState,
   GuardBotState,
   InvertedBotState,
   PathfinderBotState,

@@ -1,8 +1,9 @@
-import { useTaggedCollision } from "@overreact/engine";
+import { useTaggedCollision, useUpdate } from "@overreact/engine";
 import { PlayerState } from "../../state";
-import { useSoundEffects } from "../../hooks";
+import { useGame, useSoundEffects } from "../../hooks";
 
 export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) => {
+  const game = useGame();
   const sfx = useSoundEffects();
 
   // When the player touches a stunned enemy, do a little jump.
@@ -19,6 +20,18 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
     if (player.canBeKilled()) {
       player.alive.current = false;
       sfx.play('PlayerDeath');
+    }
+  });
+
+  // When the player touches the glitch, kill the player!
+  useUpdate(() => {
+    if (player.canBeKilled()) {
+      const [bx, by] = player.block.current;
+      
+      if (game.glitch.check([bx, by - 1])) {
+        player.alive.current = false;
+        sfx.play('PlayerDeath');
+      }
     }
   });
 };

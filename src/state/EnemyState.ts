@@ -3,6 +3,7 @@ import {
   BaseEnemyState,
   BounceBotState,
   FlyingBotState,
+  GlitchBotState,
   GuardBotState,
   InvertedBotState,
   PathfinderBotState,
@@ -18,6 +19,7 @@ export {
   BaseEnemyState,
   BounceBotState,
   FlyingBotState,
+  GlitchBotState,
   GuardBotState,
   InvertedBotState,
   PathfinderBotState,
@@ -31,6 +33,7 @@ export {
 export type EnemyState =
   | BounceBotState
   | FlyingBotState
+  | GlitchBotState
   | GuardBotState
   | InvertedBotState
   | PathfinderBotState

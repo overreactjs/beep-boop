@@ -1,11 +1,12 @@
 import { useId } from "react";
 import { VirtualInput, useTaggedCollision } from "@overreact/engine";
 import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState } from "../../state";
-import { GreenOgreState, InvertedBotState, PathfinderBotState, RedOgreState, TeleportBotState } from "../../state/EnemyState";
+import { GlitchBotState, GreenOgreState, InvertedBotState, PathfinderBotState, RedOgreState, TeleportBotState } from "../../state/EnemyState";
 import { useGame } from "../../hooks";
 
 import { BounceBot } from "./BounceBot";
 import { FlyingBot } from "./FlyingBot";
+import { GlitchBot } from "./GlitchBot";
 import { GreenOgre } from "./GreenOgre";
 import { GuardBot } from "./GuardBot";
 import { InvertedBot } from "./InvertedBot";
@@ -34,6 +35,9 @@ export const Enemy: React.FC<{ enemy: EnemyState }> = ({ enemy }) => {
       )}
       {enemy.type === 'guardBot' && (
         <GuardBot enemy={enemy as GuardBotState} collider={collider} />
+      )}
+      {enemy.type === 'glitchBot' && (
+        <GlitchBot enemy={enemy as GlitchBotState} collider={collider} />
       )}
       {enemy.type === 'invertedBot' && (
         <InvertedBot enemy={enemy as InvertedBotState} collider={collider} />

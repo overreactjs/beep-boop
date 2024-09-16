@@ -9,6 +9,7 @@ import { Player } from "../Player";
 import { Points } from "../Points";
 import { Projectile } from "../Projectile";
 import { Ending } from "../Ending";
+import { Glitch } from "../Glitch";
 
 type ArenaProps = {
   onEndGame: () => void;
@@ -33,6 +34,8 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
   for (let i = min; i <= max; i++) {
     levels.push(<Level key={i} level={i} />);
   }
+
+  const glitchMode = useSync(() => game.glitchMode.current);
 
   return (
     <Node timeScale={game.timescale}>
@@ -60,6 +63,8 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
               </Node>
               
               <PlayerProjectilesList />
+
+              {glitchMode && <Glitch />}
 
               <Node pos={camera}>
                 <Camera />
