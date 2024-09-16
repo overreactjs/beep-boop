@@ -16,7 +16,7 @@ export function useTeleportBotCollisions<T extends BaseEnemyState>(collider: str
 
   const active = useCachedDynamicProperty(fsm.current.state, (state) => state !== 'dead');
 
-  useTaggedCollision(collider, 'zap', () => {
+  useTaggedCollision(collider, ['zap', 'playerRainbow'], () => {
     if (tags.current.includes('enemy')) {
       fsm.current.replace('stunned');
     }
