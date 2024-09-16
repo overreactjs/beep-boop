@@ -32,11 +32,6 @@ export const useSoundtrack = (game?: GameState) => {
       return BossFight;
     }
 
-    // Hurry mode = boss fight music.
-    if (game?.hurryMode.current) {
-      return BossFight;
-    }
-
     return MainTheme;
   });
 

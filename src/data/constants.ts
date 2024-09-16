@@ -38,6 +38,7 @@ export const ENEMY_POINTS: Record<EnemyType, number> = {
   teleportBot: 1000,
   greenOgre: 32000,
   redOgre: 32000,
+  glitchBot: 64000,
 };
 
 export const ENEMY_ITEMS: Record<EnemyType, number> = {
@@ -51,6 +52,7 @@ export const ENEMY_ITEMS: Record<EnemyType, number> = {
   teleportBot: 2,
   greenOgre: 16,
   redOgre: 16,
+  glitchBot: 16,
 };
 
 export const FLASH_COLORS: string[] = [

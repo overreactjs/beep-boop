@@ -95,7 +95,7 @@ const snapshotLevel = (game: GameState, level: number): Promise<HTMLCanvasElemen
     securityBot,
     teleportBot,
   ]) => {
-    const ENEMIES: Record<EnemyType, HTMLImageElement> = {
+    const ENEMIES: Partial<Record<EnemyType, HTMLImageElement>> = {
       bounceBot,
       flyingBot,
       greenOgre,
@@ -139,15 +139,18 @@ const snapshotLevel = (game: GameState, level: number): Promise<HTMLCanvasElemen
         const size = level % 20 === 0 ? 32 : 16;
         const dx = x - (size / 2);
         const dy = y - ((level - 1) * 200) - size;
+        const image = ENEMIES[enemy.type];
 
-        if (enemy.direction.current === 'left') {
-          ctx.save();
-          ctx.scale(-1, 1);
-          ctx.translate(-size, 0);
-          ctx.drawImage(ENEMIES[enemy.type], 0, 0, size, size, -dx, dy, size, size);
-          ctx.restore();
-        } else {
-          ctx.drawImage(ENEMIES[enemy.type], 0, 0, size, size, dx, dy, size, size);
+        if (image) {
+          if (enemy.direction.current === 'left') {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.translate(-size, 0);
+            ctx.drawImage(image, 0, 0, size, size, -dx, dy, size, size);
+            ctx.restore();
+          } else {
+            ctx.drawImage(image, 0, 0, size, size, dx, dy, size, size);
+          }
         }
       }
     }

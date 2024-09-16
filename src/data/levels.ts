@@ -1,6 +1,6 @@
 import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
-import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState, InvertedBotState } from '../state';
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState, InvertedBotState, GlitchBotState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID, SPECIAL } from './constants';
 import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
@@ -313,6 +313,8 @@ export function createEnemy(type: EnemyType, pos: Position, direction: Direction
       return new FlyingBotState(pos, direction);
     case 'greenOgre':
       return new GreenOgreState(pos, direction);
+    case 'glitchBot':
+      return new GlitchBotState(pos, 0);
     case 'guardBot':
       return new GuardBotState(pos, direction);
     case 'invertedBot':
