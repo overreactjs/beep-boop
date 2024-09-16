@@ -28,14 +28,16 @@ export class GlitchState extends ObjectState {
   }
 
   trigger(x: number, y: number) {
-    console.log('trigger...', x, y);
     if (x >= 0 && x < 32 && y >= 0 && y < 25) {
       this.cells[y * 32 + x].current = 1500 + Math.random() * 4000;
     }
   }
 
   check([x, y]: Position) {
-    console.log('check...', x, y, this.cells[y * 32 + x].current);
-    return this.cells[y * 32 + x].current > 0;
+    if (x >= 0 && x < 32 && y >= 0 && y < 25) {
+      return this.cells[y * 32 + x].current > 0;
+    } else {
+      return false;
+    }
   }
 }
