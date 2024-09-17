@@ -146,7 +146,7 @@ export class GameState extends ObjectState {
 
     // Glitch mode after hurry mode has been going for a while.
     if (this.settings.hurryUpMode.current === 'normal') {
-      if (!this.glitchMode.current && this.levelTime.current >= 40000) {
+      if (!this.glitchMode.current && this.levelTime.current >= 45000) {
         this.enableGlitchMode();
       }
     }

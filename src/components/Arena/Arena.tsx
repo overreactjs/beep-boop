@@ -10,6 +10,7 @@ import { Points } from "../Points";
 import { Projectile } from "../Projectile";
 import { Ending } from "../Ending";
 import { Glitch } from "../Glitch";
+import { HurryUpMessage } from "./HurryUpMessage";
 
 type ArenaProps = {
   onEndGame: () => void;
@@ -38,41 +39,45 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
   const glitchMode = useSync(() => game.glitchMode.current);
 
   return (
-    <Node timeScale={game.timescale}>
-      <ParticleEngine>
-        <Box pos={[0, 24]} size={[256, 200]} color="#000">
-          <Viewport>
-            <World>
-              {levels}
-              <Ending onEndGame={onEndGame} />
+    <Node>
+      <Box pos={[0, 24]} size={[256, 200]} color="#000">
+        <Node timeScale={game.timescale}>
+          <ParticleEngine>
+            <Viewport>
+              <World>
+                {levels}
+                <Ending onEndGame={onEndGame} />
 
-              <Particles />
-              <ItemList />
-              <PointsList />
-              
-              <VirtualInput>
-                <Player index={1} />
-              </VirtualInput>
-              <VirtualInput>
-                <Player index={0} />
-              </VirtualInput>
-              
-              <Node timeScale={settings.enemySpeed}>
-                <EnemyList />
-                <EnemyProjectilesList />
-              </Node>
-              
-              <PlayerProjectilesList />
+                <Particles />
+                <ItemList />
+                <PointsList />
+                
+                <VirtualInput>
+                  <Player index={1} />
+                </VirtualInput>
+                <VirtualInput>
+                  <Player index={0} />
+                </VirtualInput>
+                
+                <Node timeScale={settings.enemySpeed}>
+                  <EnemyList />
+                  <EnemyProjectilesList />
+                </Node>
+                
+                <PlayerProjectilesList />
 
-              {glitchMode && <Glitch />}
+                {glitchMode && <Glitch />}
 
-              <Node pos={camera}>
-                <Camera />
-              </Node>
-            </World>
-          </Viewport>
-        </Box>
-      </ParticleEngine>
+                <Node pos={camera}>
+                  <Camera />
+                </Node>
+              </World>
+            </Viewport>
+          </ParticleEngine>
+        </Node>
+
+        <HurryUpMessage />
+      </Box>
     </Node>
   );
 };
