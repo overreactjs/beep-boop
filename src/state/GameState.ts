@@ -272,12 +272,17 @@ export class GameState extends ObjectState {
     
     setTimeout(() => {
       this.timescale.current = this.settings.gameSpeed.current;
-    }, 1000);
+    }, 2500);
   }
 
   enableGlitchMode() {
     this.glitchMode.current = true;
+    this.timescale.current = 0;
     this.enemies.push(new GlitchBotState([32, 24 + (this.level.current - 1) * 200], 0));
+
+    setTimeout(() => {
+      this.timescale.current = this.settings.gameSpeed.current;
+    }, 2500);
   }
 
   isSolid(x: number, y: number): boolean {

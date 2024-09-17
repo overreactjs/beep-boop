@@ -11,6 +11,7 @@ import { Projectile } from "../Projectile";
 import { Ending } from "../Ending";
 import { Glitch } from "../Glitch";
 import { HurryUpMessage } from "./HurryUpMessage";
+import { TooLateMessage } from "./TooLateMessage";
 
 type ArenaProps = {
   onEndGame: () => void;
@@ -77,6 +78,7 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
         </Node>
 
         <HurryUpMessage />
+        <TooLateMessage />
       </Box>
     </Node>
   );
