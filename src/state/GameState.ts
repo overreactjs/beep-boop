@@ -137,7 +137,8 @@ export class GameState extends ObjectState {
       if (!this.hurryMode.current && this.level.current % 20 !== 0) {
         if (this.levelTime.current >= 30000 && this.enemyCount > 0) {
           this.enableHurryMode();
-        } else if (this.lastEnemyTime.current >= 8000 && this.enemyCount === 1) {
+        }
+        else if (this.lastEnemyTime.current >= 15000 && this.enemyCount === 1) {
           this.enableHurryMode();
         }
       }
