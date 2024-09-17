@@ -10,8 +10,7 @@ import { Points } from "../Points";
 import { Projectile } from "../Projectile";
 import { Ending } from "../Ending";
 import { Glitch } from "../Glitch";
-import { HurryUpMessage } from "./HurryUpMessage";
-import { TooLateMessage } from "./TooLateMessage";
+import { Message } from "./Message";
 
 type ArenaProps = {
   onEndGame: () => void;
@@ -77,8 +76,7 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
           </ParticleEngine>
         </Node>
 
-        <HurryUpMessage />
-        <TooLateMessage />
+        <Messages />
       </Box>
     </Node>
   );
@@ -115,3 +113,14 @@ const PlayerProjectilesList: React.FC = () => {
   const projectiles = useSync(() => game.projectiles.filter(({ type }) => !ENEMY_PROJECTILES.includes(type)));
   return <>{projectiles.map((entry) => <Projectile key={entry.id} projectile={entry} />)}</>;
 };
+
+const Messages: React.FC = () => {
+  const game = useGame();
+
+  return (
+    <>
+      <Message text="HURRY UP!!!" color1="#ff0" color2="#f00" condition={game.hurryMode} />
+      <Message text="TOO LATE!!!" color1="#f00" color2="#f0f" condition={game.glitchMode} />
+    </>
+  )
+}
