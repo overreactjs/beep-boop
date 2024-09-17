@@ -19,7 +19,7 @@ export const GlitchBot: React.FC<EnemyProps<GlitchBotState>> = ({ enemy }) => {
       pos.current[1] += velocity.current[1] * delta;
 
       const [gx, gy] = pos.current;
-      const [px, py] = game.players[0].pos.current;
+      const [px, py] = game.nearestPlayer(enemy).pos.current;
 
       const x = (gx - 4) >> 3;
       const y = (gy - 4 - ((game.level.current - 1) * 200)) >> 3;
