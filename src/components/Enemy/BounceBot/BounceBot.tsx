@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
-import { useWrapAround, useEnemyCollisions, usePlatformMovement, useEnemyStateMachine, useEnemyAnimation } from "../../../hooks";
+import { useWrapAround, useEnemyCollisions, usePlatformMovement, useEnemyStateMachine, useEnemyAnimation, useBitmapPreload } from "../../../hooks";
 import { BounceBotState } from "../../../state";
 import { IDLE, IDLE_ANGRY, JUMPING, JUMPING_ANGRY, STUNNED, STUNNED_ANGRY } from "./assets";
 import { useDeadState, useIdleState, useJumpingState, useStunnedState } from "./states";
@@ -11,6 +11,9 @@ export const BounceBot: React.FC<EnemyProps<BounceBotState>> = ({ enemy, collide
   const { angle, flip, pos, scale, velocity } = enemy;
   const maxFallSpeed = useProperty(0.2);
   const animation = useEnemyAnimation(enemy);
+
+  // Preload all images.
+  useBitmapPreload([IDLE, IDLE_ANGRY, JUMPING, JUMPING_ANGRY, STUNNED, STUNNED_ANGRY]);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy, { direction: 'downwards' });

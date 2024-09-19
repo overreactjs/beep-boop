@@ -1,5 +1,5 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useDynamicProperty, useProperty } from "@overreact/engine";
-import { usePlatformMovement, useWrapAround, useEnemyStateMachine, useEnemyAnimation, useTeleportBotCollisions } from "../../../hooks";
+import { usePlatformMovement, useWrapAround, useEnemyStateMachine, useEnemyAnimation, useTeleportBotCollisions, useBitmapPreload } from "../../../hooks";
 import { TeleportBotState } from "../../../state";
 import { IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY, TELEPORT_IN, TELEPORT_IN_ANGRY, TELEPORT_OUT, TELEPORT_OUT_ANGRY } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useTeleportState, useThinkingState } from "./states";
@@ -11,6 +11,9 @@ export const TeleportBot: React.FC<EnemyProps<TeleportBotState>> = ({ enemy, col
   const maxFallSpeed = useProperty(0.08);
   const speed = useDynamicProperty(angry, (angry) => angry ? 0.040 : 0.025);
   const animation = useEnemyAnimation(enemy);
+
+  // Preload all images.
+  useBitmapPreload([IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY, TELEPORT_IN, TELEPORT_IN_ANGRY, TELEPORT_OUT, TELEPORT_OUT_ANGRY]);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy, { direction: 'downwards' });

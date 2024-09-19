@@ -1,5 +1,5 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useFlash, useMergeProperty, useProperty, useUpdate } from "@overreact/engine";
-import { useBossCollisions, useEnemyStateMachine, usePlatformMovement, useWrapAround } from "../../../hooks";
+import { useBitmapPreload, useBossCollisions, useEnemyStateMachine, usePlatformMovement, useWrapAround } from "../../../hooks";
 import { RedOgreState } from "../../../state";
 import { useAppearState, useDeadState, useDisappearState, useFireState, useIdleState } from "./states";
 import { EnemyProps } from "../types";
@@ -8,6 +8,9 @@ import { IDLE, TELEPORT } from "./assets";
 export const RedOgre: React.FC<EnemyProps<RedOgreState>> = ({ enemy, collider }) => {
   const { angle, flip, pos, scale, velocity, animation } = enemy;
   const maxFallSpeed = useProperty(0.12);
+
+  // Preload all images.
+  useBitmapPreload([IDLE, TELEPORT]);
 
   // Flash the boss's visibility when they are invulnerable.
   const visible = useMergeProperty(enemy.invulnerable, useFlash(100), (invulnerable, flash) => invulnerable <= 0 || flash);

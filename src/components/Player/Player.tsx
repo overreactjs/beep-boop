@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { CollisionBox, Node, useKeyboardMap, BitmapSprite, SpriteSet, Size, useMergeProperty, useUpdate, useFlash, useGamepadButtonMap, useGamepadAxisMap, useDynamicProperty, useEventHandler } from "@overreact/engine";
 
-import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useSettings, useCalculatedProperty } from "../../hooks";
+import { usePlatformMovement, useGame, useWrapAround, useSoundEffects, useSettings, useCalculatedProperty, useBitmapPreload } from "../../hooks";
 import { PlayerIndex } from "../../types";
 import { ArcadeText } from "../ArcadeText";
 
@@ -28,6 +28,9 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
   const { flip, pos, velocity } = player;
   const platformCollider = useId();
   const interactionCollider = useId();
+
+  // Preload all sprites.
+  useBitmapPreload([DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2, INACTIVE_P1]);
 
   // Show player indicators if enabled, and the player is active.
   const showIndicators = useMergeProperty(settings.showPlayerIndicators, player.active, (a, b) => a && b);

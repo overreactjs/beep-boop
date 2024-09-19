@@ -1,5 +1,5 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useDynamicProperty, useProperty } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine, useEnemyAnimation } from "../../../hooks";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine, useEnemyAnimation, useBitmapPreload } from "../../../hooks";
 import { GuardBotState } from "../../../state";
 import { IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
@@ -11,6 +11,9 @@ export const GuardBot: React.FC<EnemyProps<GuardBotState>> = ({ enemy, collider 
   const maxFallSpeed = useProperty(0.08);
   const speed = useDynamicProperty(angry, (angry) => angry ? 0.05 : 0.03);
   const animation = useEnemyAnimation(enemy);
+
+  // Preload all images.
+  useBitmapPreload([IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY]);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy, { direction: 'downwards' });

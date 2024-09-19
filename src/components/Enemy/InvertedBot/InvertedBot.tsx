@@ -1,5 +1,5 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useDynamicProperty, useProperty } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine, useEnemyAnimation } from "../../../hooks";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine, useEnemyAnimation, useBitmapPreload } from "../../../hooks";
 import { InvertedBotState } from "../../../state";
 import { IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY } from "./assets";
 import { useDeadState, useFallingState, useIdleState, useJumpingState, usePatrolState, useStunnedState, useThinkingState } from "./states";
@@ -12,6 +12,9 @@ export const InvertedBot: React.FC<EnemyProps<InvertedBotState>> = ({ enemy, col
   const maxFallSpeed = useProperty(FALL_SPEED);
   const speed = useDynamicProperty(angry, (angry) => angry ? SPEED_ANGRY : SPEED_REGULAR);
   const animation = useEnemyAnimation(enemy);
+
+  // Preload all images.
+  useBitmapPreload([IDLE, IDLE_ANGRY, RUN, RUN_ANGRY, STUNNED, STUNNED_ANGRY]);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy, { direction: 'upwards' });

@@ -2,6 +2,7 @@ export { useAppState } from "./useAppState";
 export { useAudioSettingsStartupSync } from "./useAudioSettingsStartupSync";
 export { useBaseDeadState } from "./useBaseDeadState";
 export { useBaseStunnedState } from "./useBaseStunnedState";
+export { useBitmapPreload } from "./useBitmapPreload";
 export { useBossCollisions } from "./useBossCollisions";
 export { useCalculatedProperty } from "./useCalculatedProperty";
 export { useCamera } from "./useCamera";

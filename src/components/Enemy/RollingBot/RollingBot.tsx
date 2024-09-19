@@ -1,5 +1,5 @@
 import { BitmapSprite, CollisionBox, Node, Size, SpriteSet, useProperty } from "@overreact/engine";
-import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine } from "../../../hooks";
+import { usePlatformMovement, useEnemyCollisions, useWrapAround, useEnemyStateMachine, useBitmapPreload } from "../../../hooks";
 import { RollingBotState } from "../../../state";
 import { IDLE, ROLLING, JUMPING, STUNNED } from "./assets";
 import { EnemyProps } from "../types";
@@ -9,6 +9,9 @@ import { Dizzy } from "../../Dizzy";
 export const RollingBot: React.FC<EnemyProps<RollingBotState>> = ({ enemy, collider }) => {
   const { angle, animation, flip, pos, scale, velocity } = enemy;
   const maxFallSpeed = useProperty(0.2);
+
+  // Preload all images.
+  useBitmapPreload([IDLE, ROLLING, JUMPING, STUNNED]);
 
   // When the bot leaves the screen, wrap to the other side.
   useWrapAround(enemy, { direction: 'downwards' });
