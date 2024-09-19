@@ -41,9 +41,5 @@ npm run electron:dev:demo
 To build and package the game as native macOS and Windows apps:
 
 ```
-# full game
-npm run electron:pack:full
-
-# demo
-npm run electron:pack:demo
+npm run electron:pack
 ```
