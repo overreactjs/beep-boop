@@ -5,10 +5,11 @@ import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useInitGame
 import { SettingsState } from "./state";
 import { GameContext } from "./components/Game/Game";
 import { CreditsScreen } from "./components/CreditsScreen";
+import { GameOver } from "./components/GameOver";
 
 export const SettingsContext = React.createContext<SettingsState>(SettingsState.load());
 
-type AppState = 'titleScreen' | 'playing' | 'settings' | 'credits';
+type AppState = 'titleScreen' | 'playing' | 'settings' | 'credits' | 'gameOver';
 
 export const App = () => {
   const settings = useMemo(() => SettingsState.load(), []);
@@ -24,7 +25,7 @@ export const App = () => {
   useSoundtrack(game);
 
   const onEndGame = () => {
-    go('titleScreen')();
+    go('gameOver')();
     reset();
   };
 
@@ -50,6 +51,9 @@ export const App = () => {
           )}
           {state === 'credits' && (
             <CreditsScreen onBack={go('titleScreen')} />
+          )}
+          {state === 'gameOver' && (
+            <GameOver onBack={go('titleScreen')} />
           )}
         </Device>
       </GameContext.Provider>
