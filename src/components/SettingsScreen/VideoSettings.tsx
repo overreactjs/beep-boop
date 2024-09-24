@@ -15,7 +15,7 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
   const keyboard = useKeyboard();
 
   const crtFilter = useBooleanOption(settings.crtFilter);
-  const windowMode = useDynamicProperty(settings.windowMode, (mode) => mode.toUpperCase().padStart(10, ' '));
+  const windowMode = useDynamicProperty(settings.windowMode, (mode) => mode.toUpperCase());
   const showFrameRate = useBooleanOption(settings.showFrameRate);
   
   const handleSelect = (index: number) => {
@@ -48,13 +48,13 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
 
       <MenuLabel index={1} pos={[32, 64]} text="WINDOW MODE" />
-      <MenuItem index={1} pos={[160, 64]} text={windowMode} hasOptions />
+      <MenuItem index={1} pos={[240, 64]} text={windowMode} hasOptions align="right" />
       
       <MenuLabel index={2} pos={[32, 80]} text="CRT FILTER" />
-      <MenuItem index={2} pos={[216, 80]} text={crtFilter} hasOptions />
+      <MenuItem index={2} pos={[240, 80]} text={crtFilter} hasOptions align="right" />
       
       <MenuLabel index={3} pos={[32, 96]} text="SHOW FRATE RATE" />
-      <MenuItem index={3} pos={[216, 96]} text={showFrameRate} hasOptions />
+      <MenuItem index={3} pos={[240, 96]} text={showFrameRate} hasOptions align="right" />
     </Menu>
   );
 };

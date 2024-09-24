@@ -13,8 +13,8 @@ export const AudioSettings: React.FC<AudioSettingsProps> = (props) => {
   const audio = useAudioEngine();
   const settings = useSettings();
 
-  const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : ' NO');
-  const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : ' NO');
+  const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : 'NO');
+  const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : 'NO');
   
   const handleSelect = (index: number) => {
     switch (index) {
@@ -40,10 +40,12 @@ export const AudioSettings: React.FC<AudioSettingsProps> = (props) => {
     <Menu onSelect={handleSelect} onChange={handleChange} onBack={onBack}>
       <MenuStatic pos={[16, 32]} text="AUDIO SETTINGS" color="#f0f" />
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
+
       <MenuLabel index={1} pos={[32, 64]} text="SOUNDS" />
-      <MenuItem index={1} pos={[216, 64]} text={soundsText} hasOptions />
+      <MenuItem index={1} pos={[240, 64]} text={soundsText} hasOptions align="right" />
+      
       <MenuLabel index={2} pos={[32, 80]} text="MUSIC" />
-      <MenuItem index={2} pos={[216, 80]} text={musicText} hasOptions />
+      <MenuItem index={2} pos={[240, 80]} text={musicText} hasOptions align="right" />
     </Menu>
   );
 };
