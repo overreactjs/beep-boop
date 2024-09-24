@@ -10,10 +10,6 @@ export const KEYBOARD_MAP: Record<string, string> = {
   ArrowRight: 'menu_right',
   Enter: 'menu_select',
   Space: 'menu_select',
-  KeyW: 'menu_up',
-  KeyS: 'menu_down',
-  KeyA: 'menu_left',
-  KeyD: 'menu_right',
 };
 
 export const GAMEPAD_BUTTON_MAP: GamepadButtonMap = {
