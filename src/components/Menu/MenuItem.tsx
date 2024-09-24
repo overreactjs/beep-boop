@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
-import { Box, Node, Position, Prop, Size, useCachedDynamicProperty, useMergeProperty, useProperty } from "@overreact/engine";
-import { ArcadeText } from "../ArcadeText";
+import { Position, Prop, useCachedDynamicProperty, useMergeProperty, useProperty } from "@overreact/engine";
+import { TintedArcadeText } from "../ArcadeText";
 import { MenuContext } from "./MenuContext";
 import { useMenuItemFlash } from "./useMenuItemFlash";
 
@@ -17,7 +17,6 @@ export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, arrows, hasOptio
   const menu = useContext(MenuContext);
 
   const text = useProperty(props.text);
-  const size = useCachedDynamicProperty(text, (text): Size => [text.length * 8 + 32, 12]);
   const align = useProperty(props.align || 'left');
   
   const selected = useCachedDynamicProperty(menu.selected, (selected) => selected === index);
@@ -29,19 +28,14 @@ export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, arrows, hasOptio
   });
 
   const color = useMergeProperty(menu.index, flash, (active, flash) => {
-    return flash || (active === index ? '#ff0' : '#777');
+    return flash || (active === index ? '#ff0' : '#888');
   });
 
   const offset = useMergeProperty(text, align, (text, align): Position => [-16 - (align === 'left' ? 0 : text.length * 8), 0]);
 
   useEffect(() => menu.register(index, { hasOptions }), [hasOptions, index, menu]);
 
-  return (
-    <Node pos={pos} offset={offset}>
-      <ArcadeText color="white" text={label} />
-      <Node offset={[0, -2]}>
-        <Box size={size} color={color} className="mix-blend-multiply" />
-      </Node>
-    </Node>
-  );
+  return <TintedArcadeText text={label} pos={pos} offset={offset} color={color} />;
 };
+
+

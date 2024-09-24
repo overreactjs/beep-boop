@@ -1,1 +1,1 @@
-export { ArcadeText } from "./ArcadeText";
+export { ArcadeText, TintedArcadeText } from "./ArcadeText";

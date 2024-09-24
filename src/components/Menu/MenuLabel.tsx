@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { Box, Node, Position, useCachedDynamicProperty } from "@overreact/engine";
+import { Position, useCachedDynamicProperty } from "@overreact/engine";
 import { MenuContext } from "./MenuContext";
-import { ArcadeText } from "../ArcadeText";
+import { TintedArcadeText } from "../ArcadeText";
 
 type MenuLabelProps = {
   index: number;
@@ -11,17 +11,8 @@ type MenuLabelProps = {
 
 export const MenuLabel: React.FC<MenuLabelProps> = ({ index, pos, text }) => {
   const menu = useContext(MenuContext);
-  
-  const color = useCachedDynamicProperty(menu.index, (active) => {
-    return active === index ? '#fff' : '#777';
-  });
-
-  return (
-    <Node pos={pos}>
-      <ArcadeText color="white" text={text} />
-      <Box size={[text.length * 8, 8]} color={color} className="mix-blend-multiply" />
-    </Node>
-  );
+  const color = useCachedDynamicProperty(menu.index, (active) => active === index ? '#fff' : '#888');
+  return <TintedArcadeText text={text} pos={pos} color={color} />;
 };
 
 type MenuStaticProps = {
@@ -31,10 +22,5 @@ type MenuStaticProps = {
 }
 
 export const MenuStatic: React.FC<MenuStaticProps> = ({ pos, text, color }) => {
-  return (
-    <Node pos={pos}>
-      <ArcadeText color="white" text={text} />
-      <Box size={[text.length * 8, 8]} color={color} className="mix-blend-multiply" />
-    </Node>
-  );
+  return <TintedArcadeText text={text} pos={pos} color={color} />;
 }
