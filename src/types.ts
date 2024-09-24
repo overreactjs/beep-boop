@@ -1,4 +1,4 @@
-import { Position, VariableProperty } from "@overreact/engine";
+import { KeyboardKeyName, KeyboardMap, Position, VariableProperty } from "@overreact/engine";
 import { EnemyState, GameState, ItemState, PlayerState } from "./state";
 
 export type Direction = 'left' | 'right';
@@ -247,6 +247,31 @@ export class CannedProperty<T> extends VariableProperty<T> {
     this.current = direction === 1
       ? this.options[(index + 1) % this.options.length]
       : this.options[(index + this.options.length - 1) % this.options.length];
+  }
+}
+
+export class KeyboardingBindingsProperty extends VariableProperty<KeyboardMap> {
+
+  constructor(initial: KeyboardMap) {
+    super(initial);
+  }
+
+  clear(action: string) {
+    for (const key of Object.keys(this.current)) {
+      if (this.current[key as KeyboardKeyName] === action) {
+        this.current[key as KeyboardKeyName] = undefined;
+      }
+    }
+  }
+
+  set(action: string, key: KeyboardKeyName) {
+    for (const existing of Object.keys(this.current)) {
+      if (existing === key) {
+        this.current[existing as KeyboardKeyName] = undefined;
+      }
+    }
+
+    this.current[key] = action;
   }
 }
 

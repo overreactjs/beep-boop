@@ -12,9 +12,10 @@ type MenuProps = {
   onSelect: (index: number) => void;
   onChange?: (index: number, direction: -1 | 1) => void;
   onBack?: () => void;
+  selectionCooldown?: number;
 }
 
-export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack, ...props }) => {
+export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack, selectionCooldown, ...props }) => {
   const sfx = useSoundEffects();
   const index = useProperty(0);
   const selected = useProperty<number | null>(null);
@@ -56,7 +57,7 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack
   useMenuAction('menu_select', () => {
     if (active.current && !items.current.get(index.current)?.hasOptions) {
       selected.current = index.current;
-      cooldown.current = SELECTION_COOLDOWN;
+      cooldown.current = selectionCooldown ?? SELECTION_COOLDOWN;
       sfx.play('MenuSelect');
     }
   });

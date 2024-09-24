@@ -6,7 +6,7 @@ import { PlayerIndex } from "../../types";
 import { ArcadeText } from "../ArcadeText";
 
 import { DEAD_P1, FALL_P1, IDLE_P1, JUMP_P1, RUN_P1, DEAD_P2, FALL_P2, IDLE_P2, JUMP_P2, RUN_P2, INACTIVE_P2, INACTIVE_P1 } from "./assets";
-import { GAMEPAD_AXIS_MAP, GAMEPAD_BUTTON_MAP, KEYBOARD_MAP, MOVEMENT_PROPS } from "./constants";
+import { GAMEPAD_AXIS_MAP, GAMEPAD_BUTTON_MAP, MOVEMENT_PROPS } from "./constants";
 import { usePlayerEnemyCollisions } from "./usePlayerEnemyCollisions";
 import { usePlayerFireZaps } from "./usePlayerFireZaps";
 import { usePlayerUpdateState } from "./usePlayerUpdateState";
@@ -50,7 +50,7 @@ export const Player: React.FC<PlayerProps> = ({ index }) => {
 
   // Map from keyboard input to virtual inputs.
   const keyboardActive = useMergeProperty(controlsActive, settings.keyboardAssign, (active, assign) => assign[index] && active);
-  useKeyboardMap(KEYBOARD_MAP, keyboardActive);
+  useKeyboardMap(settings.keyBindings, keyboardActive);
 
   // Map from gamepad input to virtual inputs.
   const gamepadIndex = useDynamicProperty(settings.gamepadAssign, (assign) => assign[index]);

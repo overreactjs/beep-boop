@@ -1,9 +1,9 @@
 import { Box, useSync } from "@overreact/engine";
 import { useAppState, useGame } from "../../hooks";
 import { Menu, MenuItem } from "../Menu";
-import { Accessibility, AudioSettings, Controls, SettingsMenu, VideoSettings } from "../SettingsScreen";
+import { Accessibility, AudioSettings, KeyboardControls, SettingsMenu, VideoSettings } from "../SettingsScreen";
 
-type State = 'pause' | 'settings' | 'audioSettings' | 'videoSettings' | 'accessibility' | 'controls';
+type State = 'pause' | 'settings' | 'audioSettings' | 'videoSettings' | 'accessibility' | 'keyboardControls';
 
 type PauseMenuProps = {
   onEndGame: () => void;
@@ -46,7 +46,7 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onEndGame }) => {
           onAudioSettings={go('audioSettings')}
           onVideoSettings={go('videoSettings')}
           onAccessibility={go('accessibility')}
-          onControls={go('controls')}
+          onKeyboardControls={go('keyboardControls')}
         />
       )}
       {state === 'audioSettings' && (
@@ -58,8 +58,8 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onEndGame }) => {
       {state === 'accessibility' && (
         <Accessibility onBack={go('settings')} />
       )}
-      {state === 'controls' && (
-        <Controls onBack={go('settings')} />
+      {state === 'keyboardControls' && (
+        <KeyboardControls onBack={go('settings')} />
       )}
     </Box>
   );

@@ -7,7 +7,7 @@ type SettingsMenuProps = {
   onAudioSettings: () => void;
   onVideoSettings: () => void;
   onAccessibility: () => void;
-  onControls: () => void;
+  onKeyboardControls: () => void;
 };
 
 export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
@@ -25,7 +25,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
       case 3:
         return props.onAccessibility();
       case 4:
-        return props.onControls();
+        return props.onKeyboardControls();
     }
   };
 
@@ -36,7 +36,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
       <MenuItem index={1} pos={[32, 64]} text="AUDIO SETTINGS" />
       <MenuItem index={2} pos={[32, 80]} text="VIDEO SETTINGS" />
       <MenuItem index={3} pos={[32, 96]} text="ACCESSIBILITY" />
-      <MenuItem index={4} pos={[32, 112]} text="CONTROLS" />
+      <MenuItem index={4} pos={[32, 112]} text="KEYBOARD CONTROLS" />
     </Menu>
   );
 };

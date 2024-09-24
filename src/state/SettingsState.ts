@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { VariableProperty } from "@overreact/engine";
-import { BooleanProperty, CannedProperty, HurryUpMode, PlayerFiringMode, WindowMode } from "../types";
+import { BooleanProperty, CannedProperty, HurryUpMode, KeyboardingBindingsProperty, PlayerFiringMode, WindowMode } from "../types";
 import { PersistableState } from "./PersistableState";
+import { KEYBOARD_MAP } from "../components/Player/constants";
 
 type GamepadAssignment = 0 | 1 | 2 | 3 | null;
 
@@ -31,6 +32,9 @@ export class SettingsState extends PersistableState {
   // Controls
   keyboardAssign = new VariableProperty<[boolean, boolean]>([true, false]);
   gamepadAssign = new VariableProperty<[GamepadAssignment, GamepadAssignment]>([null, null]);
+
+  // Bindings
+  keyBindings = new KeyboardingBindingsProperty(KEYBOARD_MAP);
 
   constructor() {
     super();
