@@ -2,7 +2,7 @@ import { useGamepadButtonMap, useKeyboardMap, useProperty, useUpdate, useVirtual
 import { useGame } from "../../hooks";
 
 export const useGamePause = () => {
-  useKeyboardMap({ KeyP: 'pause', Escape: 'pause' });
+  useKeyboardMap({ Escape: 'pause' });
   useGamepadButtonMap(0, { Select: 'pause' });
   useGamepadButtonMap(1, { Select: 'pause' });
 

@@ -1,5 +1,5 @@
 import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useSync } from "@overreact/engine";
-import { useCamera, useCheatCodes, useGame, useSettings } from "../../hooks";
+import { useCamera, useCheatCodes, useDeveloperMode, useGame, useSettings } from "../../hooks";
 import { ProjectileType } from "../../types";
 
 import { Enemy } from "../Enemy";
@@ -22,7 +22,7 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
   const camera = useCamera();
 
   // Enable a whole bunch of special developer key bindings.
-  // useDeveloperMode(camera);
+  useDeveloperMode();
 
   // Enable some cheat codes.
   useCheatCodes(camera);

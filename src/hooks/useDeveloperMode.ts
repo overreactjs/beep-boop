@@ -1,11 +1,11 @@
 import { useCallback } from "react";
-import { Position, Property, useKeySequence, VariableProperty } from "@overreact/engine";
+import { useKeySequence, VariableProperty } from "@overreact/engine";
 import { ItemState, PlayerState } from "../state";
 import { useGame } from "./useGame";
 import { snapshotGame } from "../services/snapshot";
 import { ItemType } from "../types";
 
-export const useDeveloperMode = (camera: Property<Position>) => {
+export const useDeveloperMode = () => {
   const game = useGame();
 
   const collectItem = useCallback((player: PlayerState, type: ItemType) => {
@@ -15,19 +15,7 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     } as unknown as ItemState);
   }, [game]);
 
-  useKeySequenceInDevMode('ZZ', () => {
-    game.nextLevel();
-    camera.current[1] = (game.level.current - 1) * 200 + 100;
-  });
-
-  useKeySequenceInDevMode('ZX', () => {
-    for (let i = 0; i < 10; i++) {
-      game.nextLevel();
-    }
-    camera.current[1] = (game.level.current - 1) * 200 + 100;
-  });
-
-  useKeySequenceInDevMode('ZC', () => {
+  useKeySequenceInDevMode('DEV1', () => {
     ['rainbow', 'potion_magenta'].forEach((item) => {
       game.players.forEach((player) => {
         collectItem(player, item as ItemType);
@@ -35,7 +23,7 @@ export const useDeveloperMode = (camera: Property<Position>) => {
     });
   });
 
-  useKeySequenceInDevMode('ZB', async () => {
+  useKeySequenceInDevMode('DEV2', async () => {
     snapshotGame(game);
   });
 };
