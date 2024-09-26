@@ -16,9 +16,10 @@ export const GameContext = React.createContext<GameState>(new GameState([], new 
 
 type GameProps = {
   onEndGame: () => void;
+  onGameOver: () => void;
 }
 
-export const Game: React.FC<GameProps> = ({ onEndGame }) => {
+export const Game: React.FC<GameProps> = ({ onEndGame, onGameOver }) => {
   const game = useGame();
 
   // Pause and unpause.
@@ -26,7 +27,7 @@ export const Game: React.FC<GameProps> = ({ onEndGame }) => {
 
   // Update the game state.
   useUpdate((delta) => {
-    game?.update(delta, onEndGame);
+    game?.update(delta, onGameOver);
   });
 
   return game && (

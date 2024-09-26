@@ -25,6 +25,11 @@ export const App = () => {
   useSoundtrack(game);
 
   const onEndGame = () => {
+    go('titleScreen')();
+    reset();
+  };
+
+  const onGameOver = () => {
     go('gameOver')();
     reset();
   };
@@ -34,14 +39,16 @@ export const App = () => {
     game?.start();
   };
 
-  const onQuit = () => window.engine?.quit();
+  const onQuit = () => {
+    window.engine?.quit();
+  };
 
   return (
     <SettingsContext.Provider value={settings}>
       <GameContext.Provider value={game!}>
         <Device mode="desktop" bg="black" showFPS={showFrameRate} hideClose>
           {state === 'playing' && (
-            <Game onEndGame={onEndGame} />
+            <Game onEndGame={onEndGame} onGameOver={onGameOver} />
           )}
           {state === 'titleScreen' && (
             <TitleScreen onStart={onStartGame} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
