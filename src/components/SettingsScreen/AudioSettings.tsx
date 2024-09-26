@@ -1,6 +1,5 @@
-import { useAudioEngine, useSync } from "@overreact/engine";
-import { Menu, MenuItem } from "../Menu";
-import { MenuLabel, MenuStatic } from "../Menu/MenuLabel";
+import { useAudioEngine, useCachedDynamicProperty } from "@overreact/engine";
+import { Menu, MenuItem, MenuItemBar, MenuLabel, MenuStatic } from "../Menu";
 import { useSettings } from "../../hooks";
 
 type AudioSettingsProps = {
@@ -13,8 +12,8 @@ export const AudioSettings: React.FC<AudioSettingsProps> = (props) => {
   const audio = useAudioEngine();
   const settings = useSettings();
 
-  const soundsText = useSync(() => audio.getChannel('sounds').gain.value > 0 ? 'YES' : 'NO');
-  const musicText = useSync(() => audio.getChannel('music').gain.value > 0 ? 'YES' : 'NO');
+  const playSounds = useCachedDynamicProperty(settings.muteSounds, (value) => value ? 'NO' : 'YES');
+  const playMusic = useCachedDynamicProperty(settings.muteMusic, (value) => value ? 'NO' : 'YES');
   
   const handleSelect = (index: number) => {
     switch (index) {
@@ -23,15 +22,23 @@ export const AudioSettings: React.FC<AudioSettingsProps> = (props) => {
     }
   };
 
-  const handleChange = (index: number) => {
+  const handleChange = (index: number, direction: -1 | 1) => {
     switch (index) {
       case 1:
         settings.muteSounds.toggle();
         audio.toggle('sounds');
         return;
       case 2:
+        settings.volumeSounds.next(direction);
+        audio.setVolume('sounds', settings.volumeSounds.current);
+        return;
+      case 3:
         settings.muteMusic.toggle();
         audio.toggle('music');
+        return;
+      case 4:
+        settings.volumeMusic.next(direction);
+        audio.setVolume('music', settings.volumeMusic.current);
         return;
     }
   };
@@ -42,10 +49,16 @@ export const AudioSettings: React.FC<AudioSettingsProps> = (props) => {
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
 
       <MenuLabel index={1} pos={[32, 64]} text="SOUNDS" />
-      <MenuItem index={1} pos={[240, 64]} text={soundsText} hasOptions align="right" />
+      <MenuItem index={1} pos={[240, 64]} text={playSounds} hasOptions align="right" />
+
+      <MenuLabel index={2} pos={[32, 80]} text="SOUND VOLUME" />
+      <MenuItemBar index={2} pos={[160, 80]} value={settings.volumeSounds} />
       
-      <MenuLabel index={2} pos={[32, 80]} text="MUSIC" />
-      <MenuItem index={2} pos={[240, 80]} text={musicText} hasOptions align="right" />
+      <MenuLabel index={3} pos={[32, 96]} text="MUSIC" />
+      <MenuItem index={3} pos={[240, 96]} text={playMusic} hasOptions align="right" />
+
+      <MenuLabel index={4} pos={[32, 112]} text="MUSIC VOLUME" />
+      <MenuItemBar index={4} pos={[160, 112]} value={settings.volumeMusic} />
     </Menu>
   );
 };

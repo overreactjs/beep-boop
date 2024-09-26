@@ -4,7 +4,7 @@ import { TintedArcadeText } from "../ArcadeText";
 import { MenuContext } from "./MenuContext";
 import { useMenuItemFlash } from "./useMenuItemFlash";
 
-type MenuItemProps = {
+export type MenuItemProps = {
   index: number;
   pos: Position;
   text: Prop<string>;
@@ -15,6 +15,7 @@ type MenuItemProps = {
 
 export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, arrows, hasOptions = false, ...props }) => {
   const menu = useContext(MenuContext);
+  useEffect(() => menu.register(index, { hasOptions }), [hasOptions, index, menu]);
 
   const text = useProperty(props.text);
   const align = useProperty(props.align || 'left');
@@ -31,11 +32,9 @@ export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, arrows, hasOptio
     return flash || (active === index ? '#ff0' : '#888');
   });
 
-  const offset = useMergeProperty(text, align, (text, align): Position => [-16 - (align === 'left' ? 0 : text.length * 8), 0]);
-
-  useEffect(() => menu.register(index, { hasOptions }), [hasOptions, index, menu]);
+  const offset = useMergeProperty(text, align, (text, align): Position => {
+    return [-16 - (align === 'left' ? 0 : text.length * 8), 0];
+  });
 
   return <TintedArcadeText text={label} pos={pos} offset={offset} color={color} />;
 };
-
-

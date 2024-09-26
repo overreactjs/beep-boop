@@ -14,46 +14,46 @@ import { SoundEffect, SoundEffectConfig } from "../../types";
 export const SOUNDS: Record<SoundEffect, SoundEffectConfig> = {
   Explosion: {
     url: Explosion,
-    volume: 0.3,
+    volume: 0.5,
   },
   Fireball: {
     url: Fireball,
-    volume: 0.2,
+    volume: 0.4,
   },
   MenuNavigate: {
     url: MenuNavigate,
-    volume: 0.1,
+    volume: 0.2,
   },
   MenuSelect: {
     url: MenuSelect,
-    volume: 0.1,
+    volume: 0.2,
   },
   PlayerCollect: {
     url: PlayerCollect,
-    volume: 0.2,
+    volume: 0.4,
   },
   PlayerDeath: {
     url: PlayerDeath,
-    volume: 0.2,
+    volume: 0.5,
   },
   PlayerFire: {
     url: PlayerFire,
-    volume: 0.1,
+    volume: 0.2,
   },
   PlayerJump: {
     url: PlayerJump,
-    volume: 0.06,
+    volume: 0.12,
   },
   PlayerKill: {
     url: PlayerKill,
-    volume: 0.2,
+    volume: 0.4,
   },
   Powerup: {
     url: Powerup,
-    volume: 0.2,
+    volume: 0.4,
   },
   Stars: {
     url: Stars,
-    volume: 0.2,
+    volume: 0.4,
   },
 };

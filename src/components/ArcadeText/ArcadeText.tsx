@@ -53,14 +53,14 @@ export const ArcadeText: React.FC<ArcadeTextProps> = ({ color = 'white', ...prop
 
 type TintedArcadeTextProps = {
   text: Prop<string>;
-  pos: Prop<Position>;
+  pos?: Prop<Position>;
   offset?: Prop<Position>;
   color: Prop<string>;
 }
 
 export const TintedArcadeText: React.FC<TintedArcadeTextProps> = (props) => {
   const text = useProperty(props.text);
-  const pos = useProperty(props.pos);
+  const pos = usePosition(props.pos);
   const color = useProperty(props.color);
   const offset = useProperty<Position>(props.offset || [0, 0]);
   const size = useCachedDynamicProperty(text, (text): Size => [text.length * 8, 12]);

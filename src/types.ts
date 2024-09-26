@@ -1,4 +1,4 @@
-import { KeyboardKeyName, KeyboardMap, Position, VariableProperty } from "@overreact/engine";
+import { clamp, KeyboardKeyName, KeyboardMap, Position, VariableProperty } from "@overreact/engine";
 import { EnemyState, GameState, ItemState, PlayerState } from "./state";
 
 export type Direction = 'left' | 'right';
@@ -247,6 +247,23 @@ export class CannedProperty<T> extends VariableProperty<T> {
     this.current = direction === 1
       ? this.options[(index + 1) % this.options.length]
       : this.options[(index + this.options.length - 1) % this.options.length];
+  }
+}
+
+export class NumericalProperty extends VariableProperty<number> {
+  min: number;
+  max: number;
+  step: number
+
+  constructor(initial: number, min: number, max: number, step: number) {
+    super(initial);
+    this.min = min;
+    this.max = max;
+    this.step = step;
+  }
+
+  next(direction: -1 | 1 = 1) {
+    this.current = clamp(this.current + (direction * this.step), this.min, this.max);
   }
 }
 

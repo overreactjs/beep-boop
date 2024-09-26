@@ -12,5 +12,11 @@ export const useAudioSettingsStartupSync = (settings: SettingsState) => {
     if (settings.muteSounds.current) {
       audio.mute('sounds');
     }
+    if (settings.volumeMusic.current) {
+      audio.setVolume('music', settings.volumeMusic.current);
+    }
+    if (settings.volumeSounds.current) {
+      audio.setVolume('sounds', settings.volumeSounds.current);
+    }
   }, [audio, settings]);
 };

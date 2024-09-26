@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { VariableProperty } from "@overreact/engine";
-import { BooleanProperty, CannedProperty, HurryUpMode, KeyboardingBindingsProperty, PlayerFiringMode, WindowMode } from "../types";
+import { BooleanProperty, CannedProperty, HurryUpMode, KeyboardingBindingsProperty, NumericalProperty, PlayerFiringMode, WindowMode } from "../types";
 import { PersistableState } from "./PersistableState";
 import { KEYBOARD_MAP } from "../components/Player/constants";
 
@@ -10,7 +10,9 @@ export class SettingsState extends PersistableState {
 
   // Audio
   muteSounds = new BooleanProperty(false);
+  volumeSounds = new NumericalProperty(0.5, 0.1, 1.0, 0.1);
   muteMusic = new BooleanProperty(false);
+  volumeMusic = new NumericalProperty(0.5, 0.1, 1.0, 0.1);
 
   // Video
   windowMode = new CannedProperty<WindowMode>('windowed', ['windowed', 'fullscreen']);
