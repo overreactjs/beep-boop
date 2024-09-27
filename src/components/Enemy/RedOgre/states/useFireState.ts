@@ -35,7 +35,7 @@ export const useFireState = (): StateFunction<RedOgreState> => {
 
       // Clockwise if facing right, anti-clockwise if facing left.
       const angle = (fired.current * GAP * (isLeft ? 1 : -1)) + (isLeft ? -OFFSET : OFFSET);
-      const speed = fsm.entity.health.current > 5 ? REGULAR_SPEED : ANGRY_SPEED;
+      const speed = (fsm.entity.health.current > 5 ? REGULAR_SPEED : ANGRY_SPEED) + (Math.random() * 0.2 - 0.1);
       const dx = Math.sin(angle) * speed;
       const dy = Math.cos(angle) * speed;
       

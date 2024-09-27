@@ -1,4 +1,4 @@
-import { Position, VariableProperty, clamp, dist } from "@overreact/engine";
+import { Position, VariableProperty, Velocity, clamp, dist } from "@overreact/engine";
 import { ITEMS } from "../data";
 import { REGULAR_ITEMS, SPECIAL_ITEMS } from "../data/items";
 import { ENEMY_ITEMS, ENEMY_POINTS } from "../data/constants";
@@ -391,7 +391,9 @@ export class GameState extends ObjectState {
   fireEnemyFireball(enemy: EnemyState, angle: number) {
     const [x, y] = enemy.pos.current;
     const direction = enemy.flip.current ? -1 : 1;
-    this.fireProjectile(new EnemyFireballState(this, [x + direction * 12, y - 16], [Math.sin(angle) * 0.75, Math.cos(angle) * 0.75]));
+    const pos: Position = [x + direction * 12, y - 16];
+    const velocity: Velocity = [Math.sin(angle) * 0.75, Math.cos(angle) * 0.75]
+    this.fireProjectile(new EnemyFireballState(this, pos, velocity));
   }
 
   fireEnemyZap(enemy: EnemyState) {
