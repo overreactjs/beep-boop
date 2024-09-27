@@ -9,7 +9,7 @@ export function useBossCollisions<T extends BaseBossState>(collider: string, fsm
   const tags = useCachedDynamicProperty(fsm.current.entity.animation, (animation): string[] => animation === 'teleport' ? ['enemy-teleport'] : ['enemy']);
   const active = useCachedDynamicProperty(fsm.current.state, (state) => state !== 'dead');
 
-  useTaggedCollision(collider, ['zap', 'playerFireball', 'flyingStar'], () => {
+  useTaggedCollision(collider, ['zap', 'playerFireball', 'flyingStar', 'playerRainbow'], () => {
     if (fsm.current.entity.invulnerable.current <= 0) {
       fsm.current.entity.hit();
 
