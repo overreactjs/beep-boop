@@ -318,10 +318,29 @@ export class GameState extends ObjectState {
   createRandomItem() {
     const type = SPECIAL_ITEMS[Math.floor(Math.random() * SPECIAL_ITEMS.length)];
     const targets = this.levelData.targets;
-    const [tx, ty] = targets[Math.floor(Math.random() * targets.length)];
     const offset = (this.level.current - 1) * 200;
-    const item = new ItemState([tx, offset + ty], [tx, offset + ty], type, 'landed');
-    this.items = [...this.items, item];
+    const [p1, p2] = this.players;
+
+    let bestCandidate: Position | null = null;
+    let bestDistance = 0;
+
+    for (let i = 0; i < 5; i++) {
+      const [tx, ty] = targets[Math.floor(Math.random() * targets.length)];
+      const pos: Position = [tx, offset + ty];
+      const d1 = p1.active.current ? dist(pos, p1.pos.current) : Number.MAX_VALUE;
+      const d2 = p2.active.current ? dist(pos, p2.pos.current) : Number.MAX_VALUE;
+      const min = Math.min(d1, d2);
+
+      if (min > bestDistance) {
+        bestDistance = min;
+        bestCandidate = pos;
+      }
+    }
+
+    if (bestCandidate && bestDistance >= 64) {
+      const item = new ItemState([...bestCandidate], [...bestCandidate], type, 'landed');
+      this.items = [...this.items, item];
+    }
   }
 
   createFallingItem() {
