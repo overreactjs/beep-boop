@@ -45,7 +45,7 @@ export const Screen: React.FC<ScreenProps> = ({ children, scale, ...props }) => 
       <div ref={element.ref} style={crtFilter ? { filter: 'blur(0.33px) brightness(1.7) contrast(1.3)' } : {}}>
         {children}
         {crtFilter && (
-          <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: `url(${crtUrl})`, backgroundSize: '1px', imageRendering: 'pixelated' }} />
+          <div className="absolute top-0 left-0 w-full h-full z-[1000]" style={{ backgroundImage: `url(${crtUrl})`, backgroundSize: '1px' }} />
         )}
       </div>
     </div>
