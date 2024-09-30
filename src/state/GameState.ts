@@ -149,21 +149,23 @@ export class GameState extends ObjectState {
     }
 
     // Hurry mode isn't applicable to boss fights.
-    if (['normal', 'noGlitch'].includes(this.settings.hurryUpMode.current)) {
-      if (!this.hurryMode.current && !isBossLevel) {
-        if (this.levelTime.current >= 30000 && this.enemyCount > 0) {
-          this.enableHurryMode();
-        }
-        else if (this.lastEnemyTime.current >= 15000 && this.enemyCount === 1) {
-          this.enableHurryMode();
+    if (this.enemyCount > 0) {
+      if (['normal', 'noGlitch'].includes(this.settings.hurryUpMode.current)) {
+        if (!this.hurryMode.current && !isBossLevel) {
+          if (this.levelTime.current >= 30000) {
+            this.enableHurryMode();
+          }
+          else if (this.lastEnemyTime.current >= 15000 && this.enemyCount === 1) {
+            this.enableHurryMode();
+          }
         }
       }
-    }
 
-    // Glitch mode after hurry mode has been going for a while.
-    if (this.settings.hurryUpMode.current === 'normal') {
-      if (!this.glitchMode.current && this.levelTime.current >= 45000 && !isBossLevel) {
-        this.enableGlitchMode();
+      // Glitch mode after hurry mode has been going for a while.
+      if (this.settings.hurryUpMode.current === 'normal') {
+        if (!this.glitchMode.current && this.levelTime.current >= 45000 && !isBossLevel) {
+          this.enableGlitchMode();
+        }
       }
     }
 
