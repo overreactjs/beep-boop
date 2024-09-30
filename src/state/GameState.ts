@@ -28,6 +28,8 @@ export class GameState extends ObjectState {
   initialized = new VariableProperty(false);
 
   highscore = new VariableProperty(getHighScore());
+
+  camera = new VariableProperty<Position>([128, 100]);
   
   level = new VariableProperty(1);
 

@@ -1,5 +1,5 @@
-import { Box, Camera, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useSync } from "@overreact/engine";
-import { useCamera, useCheatCodes, useDeveloperMode, useGame, useSettings } from "../../hooks";
+import { Box, Node, ParticleEngine, Particles, Viewport, VirtualInput, World, useSync } from "@overreact/engine";
+import { useCheatCodes, useDeveloperMode, useGame, useSettings } from "../../hooks";
 import { ProjectileType } from "../../types";
 
 import { Enemy } from "../Enemy";
@@ -11,6 +11,7 @@ import { Projectile } from "../Projectile";
 import { Ending } from "../Ending";
 import { Glitch } from "../Glitch";
 import { Message } from "./Message";
+import { GameCamera } from "./GameCamera";
 
 type ArenaProps = {
   onEndGame: () => void;
@@ -19,13 +20,12 @@ type ArenaProps = {
 export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
   const game = useGame();
   const settings = useSettings();
-  const camera = useCamera();
 
   // Enable a whole bunch of special developer key bindings.
   useDeveloperMode();
 
   // Enable some cheat codes.
-  useCheatCodes(camera);
+  useCheatCodes();
 
   // Only show the previous level, the current level, and the next level.
   const currentLevel = useSync(() => game.level.current);
@@ -68,9 +68,7 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
 
                 {glitchMode && <Glitch />}
 
-                <Node pos={camera}>
-                  <Camera />
-                </Node>
+                <GameCamera />
               </World>
             </Viewport>
           </ParticleEngine>
