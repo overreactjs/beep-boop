@@ -32,7 +32,7 @@ export const PauseMenu: React.FC<PauseMenuProps> = ({ onEndGame }) => {
   }
 
   return (
-    <Box pos={[0, 0]} size={[256, 240]} color="#000" visible={false}>
+    <Box pos={[0, 0]} size={[256, 240]} color="#000">
       {state === 'pause' && (
         <Menu onSelect={handleSelect}>
           <MenuItem index={0} pos={[72, 100]} text="CONTINUE GAME" />
