@@ -53,7 +53,7 @@ export const VideoSettings: React.FC<VideoSettingsProps> = (props) => {
       <MenuLabel index={2} pos={[32, 80]} text="CRT FILTER" />
       <MenuItem index={2} pos={[240, 80]} text={crtFilter} hasOptions align="right" />
       
-      <MenuLabel index={3} pos={[32, 96]} text="SHOW FRATE RATE" />
+      <MenuLabel index={3} pos={[32, 96]} text="SHOW FRAME RATE" />
       <MenuItem index={3} pos={[240, 96]} text={showFrameRate} hasOptions align="right" />
     </Menu>
   );
