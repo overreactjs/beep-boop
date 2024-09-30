@@ -17,6 +17,7 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
   const keyRight = useKeyBinding(settings.keyBindings, 'right');
   const keyJump = useKeyBinding(settings.keyBindings, 'jump');
   const keyFire = useKeyBinding(settings.keyBindings, 'fire');
+  const keyDown = useKeyBinding(settings.keyBindings, 'down');
 
   const active = useProperty(true);
   const editing = useProperty<string | null>(null);
@@ -32,6 +33,8 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
       case 3:
         return setEditing('jump');
       case 4:
+        return setEditing('down');
+      case 5:
         return setEditing('fire');
     }
   };
@@ -63,7 +66,7 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
       if (Object.keys(KEYS).includes(key)) {
         settings.keyBindings.set(editing.current, key);
         editing.current = null;
-        active.current = true;
+        setTimeout(() => active.current = true, 250);
       }
     }
   });
@@ -73,17 +76,20 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
       <MenuStatic pos={[16, 32]} text="KEYBOARD CONTROLS" color="#f0f" />
       <MenuItem index={0} pos={[32, 48]} text="BACK" />
 
-      <MenuLabel index={1} pos={[32, 64]} text="MOVE LEFT" />
+      <MenuLabel index={1} pos={[32, 64]} text="MOVE / MENU LEFT" />
       <MenuItem index={1} pos={[240, 64]} text={keyLeft} arrows={ARROWS} align="right" />
 
-      <MenuLabel index={2} pos={[32, 80]} text="MOVE RIGHT" />
+      <MenuLabel index={2} pos={[32, 80]} text="MOVE / MENU RIGHT" />
       <MenuItem index={2} pos={[240, 80]} text={keyRight} arrows={ARROWS} align="right" />
 
-      <MenuLabel index={3} pos={[32, 96]} text="JUMP" />
+      <MenuLabel index={3} pos={[32, 96]} text="JUMP / MENU UP" />
       <MenuItem index={3} pos={[240, 96]} text={keyJump} arrows={ARROWS} align="right" />
 
-      <MenuLabel index={4} pos={[32, 112]} text="FIRE" />
-      <MenuItem index={4} pos={[240, 112]} text={keyFire} arrows={ARROWS} align="right" />
+      <MenuLabel index={4} pos={[32, 112]} text="MENU DOWN" />
+      <MenuItem index={4} pos={[240, 112]} text={keyDown} arrows={ARROWS} align="right" />
+
+      <MenuLabel index={5} pos={[32, 128]} text="FIRE / SELECT" />
+      <MenuItem index={5} pos={[240, 128]} text={keyFire} arrows={ARROWS} align="right" />
     </Menu>
   );
 };

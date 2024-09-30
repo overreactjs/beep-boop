@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef } from "react";
-import { Prop, useGamepadAxisMap, useGamepadButtonMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
-import { useSoundEffects } from "../../hooks";
+import { Prop, useCachedDynamicProperty, useDynamicProperty, useGamepadAxisMap, useGamepadButtonMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
+import { useSettings, useSoundEffects } from "../../hooks";
 import { GAMEPAD_AXIS_MAP, GAMEPAD_BUTTON_MAP, KEYBOARD_MAP, SELECTION_COOLDOWN } from "./constants";
 import { MenuItem } from "./types";
 import { MenuContext } from "./MenuContext";
@@ -28,7 +28,11 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack
     return () => items.current.delete(index);
   }, [items]);
 
-  useKeyboardMap(KEYBOARD_MAP);
+  // Configurable keyboard bindings.
+  const settings = useSettings();
+  const keyboard = useDynamicProperty(settings.keyBindings, (bindings) => ({ ...bindings, ...KEYBOARD_MAP }));
+  useKeyboardMap(keyboard);
+
   useGamepadButtonMap(0, GAMEPAD_BUTTON_MAP);
   useGamepadButtonMap(1, GAMEPAD_BUTTON_MAP);
   useGamepadAxisMap(0, GAMEPAD_AXIS_MAP);
@@ -40,21 +44,21 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack
     }
   });
 
-  useMenuAction('menu_down', () => {
+  useMenuAction('down', () => {
     if (active.current && selected.current === null) {
       index.current = (index.current + 1) % items.current.size;
       sfx.play('MenuNavigate');
     }
   });
 
-  useMenuAction('menu_up', () => {
+  useMenuAction('jump', () => {
     if (active.current && selected.current === null) {
       index.current = (index.current + items.current.size - 1) % items.current.size;
       sfx.play('MenuNavigate');
     }
   });
 
-  useMenuAction('menu_select', () => {
+  useMenuAction('fire', () => {
     if (active.current && !items.current.get(index.current)?.hasOptions) {
       selected.current = index.current;
       cooldown.current = selectionCooldown ?? SELECTION_COOLDOWN;
@@ -62,14 +66,14 @@ export const Menu: React.FC<MenuProps> = ({ children, onSelect, onChange, onBack
     }
   });
 
-  useMenuAction('menu_left', () => {
+  useMenuAction('left', () => {
     if (active.current && items.current.get(index.current)?.hasOptions) {
       onChange?.(index.current, -1);
       sfx.play('MenuNavigate');
     }
   });
 
-  useMenuAction('menu_right', () => {
+  useMenuAction('right', () => {
     if (active.current && items.current.get(index.current)?.hasOptions) {
       onChange?.(index.current, 1);
       sfx.play('MenuNavigate');
