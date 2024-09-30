@@ -1,7 +1,7 @@
 {
   "name": "beep-boop",
   "private": true,
-  "version": "0.1.2",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev:full": "concurrently \"NODE_ENV=full vite --force\" \"npm run dev:styles\"",
