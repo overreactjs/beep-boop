@@ -80,7 +80,7 @@ export class GameState extends ObjectState {
   }
 
   get enemyCount() {
-    return this.enemies.length - (this.glitchMode.current ? this.playerCount : 0);
+    return this.enemies.length - (this.glitchMode.current ? 1 : 0);
   }
 
   constructor(levels: LevelData[], settings: SettingsState) {
