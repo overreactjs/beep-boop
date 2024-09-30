@@ -73,7 +73,7 @@ export const Arena: React.FC<ArenaProps> = ({ onEndGame }) => {
             </Viewport>
           </ParticleEngine>
         </Node>
-
+        
         <Messages />
       </Box>
     </Node>

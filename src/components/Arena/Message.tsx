@@ -1,5 +1,6 @@
 import { Box, Node, Position, Property, useDynamicProperty, useFlash, useProperty, useUpdate } from "@overreact/engine";
 import { ArcadeText } from "../ArcadeText";
+import { useGame } from "../../hooks";
 
 type MessageProps = {
 text: string;
@@ -12,6 +13,7 @@ export const Message: React.FC<MessageProps> = ({ text, color1, color2, conditio
   const width = text.length * 8;
   const x = (256 - Math.ceil(width / 16) * 16) / 2;
 
+  const game = useGame();
   const pos = useProperty<Position>([x, 0]);
   const flash = useFlash(100);
   const color = useDynamicProperty(flash, (flash) => flash ? color1 : color2);
@@ -19,7 +21,7 @@ export const Message: React.FC<MessageProps> = ({ text, color1, color2, conditio
   useUpdate((delta) => {
     if (!condition.current) {
       pos.current = [x, 200];
-    } else {
+    } else if (!game.paused.current) {
       pos.current[1] -= delta / 16;
     }
   });

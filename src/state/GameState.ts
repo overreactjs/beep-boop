@@ -43,6 +43,8 @@ export class GameState extends ObjectState {
 
   skipLevelCount = new VariableProperty(0);
 
+  messageTimeout = new VariableProperty(0);
+
   hurryMode = new VariableProperty(false);
 
   glitchMode = new VariableProperty(false);
@@ -135,6 +137,16 @@ export class GameState extends ObjectState {
     this.lastEnemyTime.current += delta;
 
     const isBossLevel = this.level.current % 20 === 0;
+
+    // Unpause the game when the message has been on screen for long enough.
+    if (this.messageTimeout.current > 0) {
+      this.messageTimeout.current -= delta;
+
+      if (this.messageTimeout.current <= 0) {
+        this.messageTimeout.current = 0;
+        this.timescale.current = this.settings.gameSpeed.current;
+      }
+    }
 
     // Hurry mode isn't applicable to boss fights.
     if (['normal', 'noGlitch'].includes(this.settings.hurryUpMode.current)) {
@@ -273,20 +285,14 @@ export class GameState extends ObjectState {
     this.hurryMode.current = true;
     this.timescale.current = 0;
     this.signalEnemies('anger');
-    
-    setTimeout(() => {
-      this.timescale.current = this.settings.gameSpeed.current;
-    }, 2500);
+    this.messageTimeout.current = 1000;
   }
 
   enableGlitchMode() {
     this.glitchMode.current = true;
     this.timescale.current = 0;
     this.enemies.push(new GlitchBotState([32, 24 + (this.level.current - 1) * 200], 0));
-
-    setTimeout(() => {
-      this.timescale.current = this.settings.gameSpeed.current;
-    }, 2500);
+    this.messageTimeout.current = 1000;
   }
 
   isSolid(x: number, y: number): boolean {
