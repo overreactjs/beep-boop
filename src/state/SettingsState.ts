@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { VariableProperty } from "@overreact/engine";
 import { BooleanProperty, CannedProperty, HurryUpMode, KeyboardingBindingsProperty, NumericalProperty, PlayerFiringMode, WindowMode } from "../types";
 import { PersistableState } from "./PersistableState";
