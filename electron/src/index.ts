@@ -63,6 +63,7 @@ if (electronIsDev) {
 
   // Toggle between windowed and full-screen mode.
   ipcMain.handle('setWindowMode', (event, mode: string) => {
+    myCapacitorApp.getMainWindow().setAutoHideMenuBar(mode === 'fullscreen');
     myCapacitorApp.getMainWindow().setFullScreen(mode === 'fullscreen');
   });
 })();
