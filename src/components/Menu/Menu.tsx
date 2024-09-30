@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from "react";
-import { Prop, useCachedDynamicProperty, useDynamicProperty, useGamepadAxisMap, useGamepadButtonMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
+import { Prop, useDynamicProperty, useGamepadAxisMap, useGamepadButtonMap, useKeyboardMap, useProperty, useUpdate } from "@overreact/engine";
 import { useSettings, useSoundEffects } from "../../hooks";
 import { GAMEPAD_AXIS_MAP, GAMEPAD_BUTTON_MAP, KEYBOARD_MAP, SELECTION_COOLDOWN } from "./constants";
 import { MenuItem } from "./types";
