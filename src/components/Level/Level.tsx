@@ -46,10 +46,10 @@ export const Level: React.FC<LevelProps> = ({ level }) => {
 
       {/* Additional collision boxes to prevent the player jumping out of the arena. */}
       <Node offset={[0, -16]}>
-        <CollisionBox size={[16, 16]} tags={['platform', 'right']} />
+        <CollisionBox size={[16, 16]} tags={['platform', 'right']} active={active} />
       </Node>
       <Node offset={[240, -16]}>
-        <CollisionBox size={[16, 16]} tags={['platform', 'left']} />
+        <CollisionBox size={[16, 16]} tags={['platform', 'left']} active={active} />
       </Node>
       
       {/* Level number */}
