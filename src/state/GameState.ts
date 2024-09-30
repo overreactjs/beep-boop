@@ -209,8 +209,8 @@ export class GameState extends ObjectState {
     if (this.initialized.current && this.enemyCount > 0) {
       this.nextRandomItemTime.current -= delta;
 
-      if (this.nextRandomItemTime.current <= 0) {
-        this.nextRandomItemTime.current = 10000 + Math.round(Math.random() * 15000);
+      if (this.nextRandomItemTime.current <= 0 && this.levelTime.current >= 10000) {
+        this.nextRandomItemTime.current = 20000 + Math.round(Math.random() * 20000);
         this.createRandomItem();
       }
     }

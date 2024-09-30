@@ -319,6 +319,6 @@ export const SPECIAL_ITEMS: ItemType[] = [
   'potion_magenta',
   'chest_gold',
   'chest_silver',
-  'teleporter',
+  // 'teleporter',
   'rainbow',
 ];
