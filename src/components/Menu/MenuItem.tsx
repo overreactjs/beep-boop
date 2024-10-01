@@ -1,22 +1,23 @@
 import { useContext, useEffect } from "react";
-import { Position, Prop, useCachedDynamicProperty, useMergeProperty, useProperty } from "@overreact/engine";
+import { Position, Prop, useCachedDynamicProperty, useMergeProperty, usePosition, useProperty } from "@overreact/engine";
 import { TintedArcadeText } from "../ArcadeText";
 import { MenuContext } from "./MenuContext";
 import { useMenuItemFlash } from "./useMenuItemFlash";
 
 export type MenuItemProps = {
   index: number;
-  pos: Position;
+  pos?: Prop<Position>;
   text: Prop<string>;
   hasOptions?: boolean;
   arrows?: [string, string];
   align?: 'left' | 'right';
 };
 
-export const MenuItem: React.FC<MenuItemProps> = ({ index, pos, arrows, hasOptions = false, ...props }) => {
+export const MenuItem: React.FC<MenuItemProps> = ({ index, arrows, hasOptions = false, ...props }) => {
   const menu = useContext(MenuContext);
   useEffect(() => menu.register(index, { hasOptions }), [hasOptions, index, menu]);
 
+  const pos = usePosition(props.pos);
   const text = useProperty(props.text);
   const align = useProperty(props.align || 'left');
   
