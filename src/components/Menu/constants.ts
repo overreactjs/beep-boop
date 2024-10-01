@@ -1,8 +1,8 @@
-import { GamepadAxisMap, GamepadButtonMap } from "@overreact/engine";
+import { GamepadAxisMap, GamepadButtonMap, KeyboardMap } from "@overreact/engine";
 
 export const SELECTION_COOLDOWN = 600;
 
-export const KEYBOARD_MAP: Record<string, string> = {
+export const KEYBOARD_MAP: KeyboardMap = {
   Escape: 'menu_back',
   ArrowUp: 'jump',
   ArrowDown: 'down',

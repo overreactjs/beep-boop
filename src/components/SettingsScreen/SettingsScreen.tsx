@@ -6,8 +6,9 @@ import { Accessibility } from "./Accessibility";
 import { VideoSettings } from "./VideoSettings";
 import { AudioSettings } from "./AudioSettings";
 import { KeyboardControls } from "./KeyboardControls";
+import { GamepadControls } from "./GamepadControls";
 
-type SettingsState = 'settings' | 'audioSettings' | 'videoSettings' | 'accessibility' | 'keyboardControls';
+type SettingsState = 'settings' | 'audioSettings' | 'videoSettings' | 'accessibility' | 'gamepadControls' | 'keyboardControls';
 
 type SettingsScreenProps = {
   onBack: () => void;
@@ -27,6 +28,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = (props) => {
             onVideoSettings={go('videoSettings')} 
             onAccessibility={go('accessibility')}
             onKeyboardControls={go('keyboardControls')}
+            onGamepadControls={go('gamepadControls')}
           />
         )}
         {state === 'audioSettings' && (
@@ -40,6 +42,9 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = (props) => {
         )}
         {state === 'keyboardControls' && (
           <KeyboardControls onBack={go('settings')} />
+        )}
+        {state === 'gamepadControls' && (
+          <GamepadControls onBack={go('settings')} />
         )}
       </Box>
     </Screen>

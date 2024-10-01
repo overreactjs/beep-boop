@@ -1,9 +1,7 @@
-import { VariableProperty } from "@overreact/engine";
-import { BooleanProperty, CannedProperty, HurryUpMode, KeyboardingBindingsProperty, NumericalProperty, PlayerFiringMode, WindowMode } from "../types";
+import { GamepadButtonName, KeyboardKeyName, VariableProperty } from "@overreact/engine";
+import { BooleanProperty, CannedProperty, GamepadAssignment, HurryUpMode, InputBindingsProperty, NumericalProperty, PlayerFiringMode, WindowMode } from "../types";
 import { PersistableState } from "./PersistableState";
-import { KEYBOARD_MAP } from "../components/Player/constants";
-
-type GamepadAssignment = 0 | 1 | 2 | 3 | null;
+import { GAMEPAD_BUTTON_MAP, KEYBOARD_MAP } from "../components/Player/constants";
 
 export class SettingsState extends PersistableState {
 
@@ -35,7 +33,8 @@ export class SettingsState extends PersistableState {
   gamepadAssign = new VariableProperty<[GamepadAssignment, GamepadAssignment]>([null, null]);
 
   // Bindings
-  keyBindings = new KeyboardingBindingsProperty(KEYBOARD_MAP);
+  keyBindings = new InputBindingsProperty<KeyboardKeyName>(KEYBOARD_MAP);
+  gamepadBindings = new InputBindingsProperty<GamepadButtonName>(GAMEPAD_BUTTON_MAP);
 
   constructor() {
     super();

@@ -1,4 +1,4 @@
-import { KeyboardKeyName } from "@overreact/engine";
+import { GamepadButtonName, KeyboardKeyName } from "@overreact/engine";
 
 export const ARROWS = ['[', ']'] as [string, string];
 
@@ -44,4 +44,19 @@ export const KEYS: Partial<Record<KeyboardKeyName, string>> = {
   ArrowLeft: 'LEFT',
   ArrowRight: 'RIGHT',
   Space: 'SPACE',
+};
+
+export const BUTTONS: Partial<Record<GamepadButtonName, number>> = {
+  A: 24,
+  B: 16,
+  X: 8,
+  Y: 0,
+  Shoulder_L1: 32,
+  Shoulder_L2: 40,
+  Shoulder_R1: 48,
+  Shoulder_R2: 56,
+  Up: 80,
+  Down: 88,
+  Left: 64,
+  Right: 72
 };

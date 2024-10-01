@@ -1,5 +1,7 @@
-import { clamp, KeyboardKeyName, KeyboardMap, Position, VariableProperty } from "@overreact/engine";
+import { clamp, Position, VariableProperty } from "@overreact/engine";
 import { EnemyState, GameState, ItemState, PlayerState } from "./state";
+
+export type GamepadAssignment = 0 | 1 | 2 | 3 | null;
 
 export type Direction = 'left' | 'right';
 
@@ -267,24 +269,34 @@ export class NumericalProperty extends VariableProperty<number> {
   }
 }
 
-export class KeyboardingBindingsProperty extends VariableProperty<KeyboardMap> {
+export class InputBindingsProperty<T extends string> extends VariableProperty<Partial<Record<T, string | undefined>>> {
 
-  constructor(initial: KeyboardMap) {
+  constructor(initial: Partial<Record<T, string | undefined>>) {
     super(initial);
   }
 
   clear(action: string) {
     for (const key of Object.keys(this.current)) {
-      if (this.current[key as KeyboardKeyName] === action) {
-        this.current[key as KeyboardKeyName] = undefined;
+      if (this.current[key as T] === action) {
+        this.current[key as T] = undefined;
       }
     }
   }
 
-  set(action: string, key: KeyboardKeyName) {
+  get(action: string): T | null {
+    for (const entry of Object.entries(this.current)) {
+      if (entry[1] === action) {
+        return entry[0] as T;
+      }
+    }
+
+    return null;
+  }
+
+  set(action: string, key: T) {
     for (const existing of Object.keys(this.current)) {
       if (existing === key) {
-        this.current[existing as KeyboardKeyName] = undefined;
+        this.current[existing as T] = undefined;
       }
     }
 

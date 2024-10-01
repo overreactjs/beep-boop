@@ -21,7 +21,6 @@ export const GAMEPAD_BUTTON_MAP: GamepadButtonMap = {
   Right: 'right',
   A: 'jump',
   X: 'fire',
-  Shoulder_R2: 'fire',
 };
 
 export const GAMEPAD_AXIS_MAP: GamepadAxisMap = {
