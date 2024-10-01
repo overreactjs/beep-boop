@@ -1,4 +1,4 @@
-import { useTaggedCollision } from "@overreact/engine";
+import { useGamepad, useTaggedCollision } from "@overreact/engine";
 import { useGame, useSoundEffects } from "../../hooks";
 import { PlayerState, ItemState } from "../../state";
 import { ItemType } from "../../types";
@@ -26,25 +26,31 @@ const STARS: ItemType[] = [
 export const usePlayerCollectItems = (collider: string, player: PlayerState) => {
   const game = useGame();
   const sfx = useSoundEffects();
+  const gamepad = useGamepad();
 
-  const playSoundEffect = useCallback((type: ItemType) => {
+  const triggerEffects = useCallback((type: ItemType) => {
     if (type === 'dynamite') {
       sfx.play('Explosion');
+      gamepad.vibrate(game.settings.gamepadAssign.current[0], 2000, 0.5);
+      gamepad.vibrate(game.settings.gamepadAssign.current[1], 2000, 0.5);
+
     } else if (POWERUPS.includes(type)) {
       sfx.play('Powerup');
+
     } else if (STARS.includes(type)) {
       sfx.play('Stars');
+
     } else {
       sfx.play('PlayerCollect');
     }
-  }, [sfx]);
+  }, [game.settings.gamepadAssign, gamepad, sfx]);
 
   useTaggedCollision<ItemState>(collider, 'item', (collisions) => {
     if (player.active.current) {
       collisions.forEach(({ b }) => {
         if (b.entity) {
           game.collectItem(player, b.entity);
-          playSoundEffect(b.entity.type);
+          triggerEffects(b.entity.type);
         }
       });
     }
