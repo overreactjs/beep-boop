@@ -1,4 +1,4 @@
-import { KeyboardKeyName, useDynamicProperty, useKeyboard, useProperty, useUpdate, VariableProperty } from "@overreact/engine";
+import { KeyboardKeyName, useDynamicProperty, useKeyboard, useProperty, useUpdate, useVirtualAction, VariableProperty } from "@overreact/engine";
 import { Menu, MenuItem } from "../Menu";
 import { MenuLabel, MenuStatic } from "../Menu/MenuLabel";
 import { useSettings } from "../../hooks";
@@ -21,6 +21,7 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
 
   const active = useProperty(true);
   const editing = useProperty<string | null>(null);
+  const previous = useProperty<KeyboardKeyName | null>(null);
 
   const handleSelect = (index: number) => {
     switch (index) {
@@ -50,6 +51,7 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
    * Switch to edit mode, for the given player action.
    */
   const setEditing = (action: string) => {
+    previous.current = settings.keyBindings.get(action);
     settings.keyBindings.clear(action);
     editing.current = action;
     active.current = false;
@@ -66,8 +68,21 @@ export const KeyboardControls: React.FC<KeyboardControlsProps> = (props) => {
       if (Object.keys(KEYS).includes(key)) {
         settings.keyBindings.set(editing.current, key);
         editing.current = null;
+        previous.current = null;
         setTimeout(() => active.current = true, 250);
       }
+    }
+  });
+
+  /**
+   * 
+   */
+  useVirtualAction('menu_back', () => {
+    if (editing.current !== null && previous.current !== null && !active.current) {
+      settings.keyBindings.set(editing.current, previous.current);
+      editing.current = null;
+      previous.current = null;
+      setTimeout(() => active.current = true, 250);
     }
   });
 
