@@ -13,6 +13,7 @@ export const KEYBOARD_MAP: KeyboardMap = {
   KeyA: 'left',
   KeyD: 'right',
   KeyW: 'jump',
+  KeyS: 'down',
   Space: 'fire',
 };
 
