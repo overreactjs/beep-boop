@@ -1,11 +1,10 @@
 import { Position } from '@overreact/engine';
 import { Direction, EnemyType, LevelData, LevelMetadata, LevelPortalData } from '../types';
-import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState, InvertedBotState, GlitchBotState } from '../state';
+import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotState, RollingBotState, PathfinderBotState, TeleportBotState, RedOgreState, InvertedBotState, GlitchBotState, GreenOgreState } from '../state';
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID, SPECIAL } from './constants';
-import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
-const getDemoLevels = () => import.meta.glob('./levels/demo/*.txt', { query: '?raw' });
-const getFullLevels = () => import.meta.glob('./levels/full/*.txt', { query: '?raw' });
+const getDemoLevels = () => import.meta.glob('./levels/demo/*.txt', { query: '?raw', eager: true });
+const getFullLevels = () => import.meta.glob('./levels/full/*.txt', { query: '?raw', eager: true });
 
 export async function buildLevels(): Promise<LevelData[]> {
   const build = process.env.NODE_ENV || 'full';
@@ -14,7 +13,7 @@ export async function buildLevels(): Promise<LevelData[]> {
   const levels: LevelData[] = [];
 
   for (let i = 0; i < keys.length; i++) {
-    const data = (await modules[keys[i]]() as { default: string }).default;
+    const data = (modules[keys[i]] as { default: string}).default;
     levels.push(buildLevel(i + 1, data));
   }
 
