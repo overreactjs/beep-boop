@@ -4,16 +4,16 @@ import { EnemyState, BounceBotState, FlyingBotState, GuardBotState, SecurityBotS
 import { EMPTY, ENEMIES, LEFT, PORTAL, RIGHT, SOLID, SPECIAL } from './constants';
 import { GreenOgreState } from '../state/enemies/GreenOgreState';
 
-const DEMO_LEVEL_COUNT = 40;
+const getDemoLevels = () => import.meta.glob('./levels/demo/*.txt', { query: '?raw' });
+const getFullLevels = () => import.meta.glob('./levels/full/*.txt', { query: '?raw' });
 
 export async function buildLevels(): Promise<LevelData[]> {
   const build = process.env.NODE_ENV || 'full';
-  const modules = import.meta.glob('./levels/*.txt', { query: '?raw' });
+  const modules = build === 'full' ? getFullLevels() : getDemoLevels();
   const keys = Object.keys(modules).filter(name => !name.includes('template')).sort();
-  const count = build === 'full' ? keys.length : Math.min(keys.length, DEMO_LEVEL_COUNT);
   const levels: LevelData[] = [];
 
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < keys.length; i++) {
     const data = (await modules[keys[i]]() as { default: string }).default;
     levels.push(buildLevel(i + 1, data));
   }
