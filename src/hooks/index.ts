@@ -15,6 +15,7 @@ export { useGame } from "./useGame";
 export { useGamepadIndex } from "./useGamepadIndex";
 export { useHideStatusBar } from "./useHideStatusBar";
 export { useInitGameState } from "./useInitGameState";
+export { useMergeBooleans } from "./useMergeBooleans";
 export { useMusic } from "./useMusic";
 export { usePlatformMovement } from "./usePlatformMovement";
 export { useSettings } from "./useSettings";

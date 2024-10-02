@@ -28,13 +28,14 @@ export class SettingsState extends PersistableState {
   firingMode = new CannedProperty<PlayerFiringMode>('manual', ['manual', 'continuous', 'automatic']);
   hurryUpMode = new CannedProperty<HurryUpMode>('normal', ['normal', 'noGlitch', 'off']);
 
-  // Controls
+  // Keyboard
   keyboardAssign = new VariableProperty<[boolean, boolean]>([true, false]);
-  gamepadAssign = new VariableProperty<[GamepadAssignment, GamepadAssignment]>([null, null]);
-
-  // Bindings
   keyBindings = new InputBindingsProperty<KeyboardKeyName>(KEYBOARD_MAP);
-  gamepadBindings = new InputBindingsProperty<GamepadButtonName>(GAMEPAD_BUTTON_MAP);
+
+  // Gamepad
+  gamepadAssign = new VariableProperty<[GamepadAssignment, GamepadAssignment]>([null, null]);
+  gamepadAnalogStick = new BooleanProperty(true);
+  buttonBindings = new InputBindingsProperty<GamepadButtonName>(GAMEPAD_BUTTON_MAP);
 
   constructor() {
     super();

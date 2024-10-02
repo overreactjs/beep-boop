@@ -6,6 +6,7 @@ import { MenuLabel, MenuStatic } from "../Menu/MenuLabel";
 import { useSettings } from "../../hooks";
 import { ARROWS, BUTTONS } from "./constants";
 import { GAMEPAD_IMAGE } from "./assets";
+import { useBooleanOption } from './useBooleanOption';
 
 type GamepadControlsProps = {
   onBack: () => void;
@@ -16,10 +17,11 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
 
   const gamepad = useGamepad();
   const settings = useSettings(); 
-  const buttonLeft = useButtonBinding(settings.gamepadBindings, 'left');
-  const buttonRight = useButtonBinding(settings.gamepadBindings, 'right');
-  const buttonJump = useButtonBinding(settings.gamepadBindings, 'jump');
-  const buttonFire = useButtonBinding(settings.gamepadBindings, 'fire');
+  const buttonLeft = useButtonBinding(settings.buttonBindings, 'left');
+  const buttonRight = useButtonBinding(settings.buttonBindings, 'right');
+  const buttonJump = useButtonBinding(settings.buttonBindings, 'jump');
+  const buttonFire = useButtonBinding(settings.buttonBindings, 'fire');
+  const analogStick = useBooleanOption(settings.gamepadAnalogStick);
 
   const active = useProperty(true);
   const editing = useProperty<string | null>(null);
@@ -42,8 +44,8 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
 
   const handleChange = (index: number) => {
     switch (index) {
-      case 1:
-        return;
+      case 5:
+        return settings.gamepadAnalogStick.toggle();
     }
   };
 
@@ -51,8 +53,8 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
    * Switch to edit mode, for the given player action.
    */
   const setEditing = (action: string) => {
-    previous.current = settings.gamepadBindings.get(action);
-    settings.gamepadBindings.clear(action);
+    previous.current = settings.buttonBindings.get(action);
+    settings.buttonBindings.clear(action);
     editing.current = action;
     active.current = false;
   };
@@ -68,7 +70,7 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
       const button = [...gamepad.down.current][0];
 
       if (Object.keys(BUTTONS).includes(button)) {
-        settings.gamepadBindings.set(editing.current, button);
+        settings.buttonBindings.set(editing.current, button);
         editing.current = null;
         setTimeout(() => active.current = true, 250);
       }
@@ -77,7 +79,7 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
 
   useVirtualAction('menu_back', () => {
     if (editing.current !== null && previous.current !== null && !active.current) {
-      settings.gamepadBindings.set(editing.current, previous.current);
+      settings.buttonBindings.set(editing.current, previous.current);
       editing.current = null;
       setTimeout(() => active.current = true, 250);
     }
@@ -97,8 +99,11 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
       <MenuLabel index={3} pos={[32, 96]} text="JUMP UP" />
       <MenuGamepadButtonItem index={3} pos={[208, 96]} offset={buttonJump} />
 
-      <MenuLabel index={4} pos={[32, 128]} text="FIRE" />
-      <MenuGamepadButtonItem index={5} pos={[208, 128]} offset={buttonFire} />
+      <MenuLabel index={4} pos={[32, 112]} text="FIRE" />
+      <MenuGamepadButtonItem index={4} pos={[208, 112]} offset={buttonFire} />
+
+      <MenuLabel index={5} pos={[32, 128]} text="ANALOG STICK" />
+      <MenuItem index={5} pos={[240, 128]} text={analogStick} hasOptions align="right" />
     </Menu>
   );
 };
@@ -107,7 +112,7 @@ const useButtonBinding = (bindings: VariableProperty<Partial<Record<GamepadButto
   return useDynamicProperty(bindings, (bindings): Position => {
     const button = Object.entries(bindings).find((entry) => entry[1] === action)?.[0] as GamepadButtonName;
     const offset = BUTTONS[button];
-    return offset ? [0, offset] : [0, 96];
+    return offset !== undefined ? [0, offset] : [0, 96];
   });
 };
 
