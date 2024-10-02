@@ -1,5 +1,5 @@
-import { useGamepad, useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
-import { useGame, useGamepadIndex, useSettings, useSoundEffects } from "../../hooks";
+import { useProperty, useUpdate, useVirtualInput } from "@overreact/engine";
+import { useGame, useGamepadRumble, useSettings, useSoundEffects } from "../../hooks";
 import { PlayerState } from "../../state";
 import { useCallback } from "react";
 
@@ -13,8 +13,7 @@ export const usePlayerFireZaps = (player: PlayerState) => {
   const game = useGame();
   const sfx = useSoundEffects();
   const input = useVirtualInput();
-  const gamepad = useGamepad();
-  const gamepadIndex = useGamepadIndex(player.player);
+  const rumble = useGamepadRumble(player.player);
 
   const released = useProperty(true);
   const cooldown = useProperty(0);
@@ -23,25 +22,25 @@ export const usePlayerFireZaps = (player: PlayerState) => {
   const fireFireball = useCallback(() => {
     game.firePlayerFireball(player);
     sfx.play('Fireball');
-    gamepad.vibrate(gamepadIndex.current, 50, 0.3);
+    rumble(50, 0.3);
     cooldown.current = FIREBALL_COOLDOWN;
-  }, [cooldown, game, gamepad, gamepadIndex, player, sfx]);
+  }, [cooldown, game, player, rumble, sfx]);
 
   // Fire a rainbow, which stuns enemies, but can pass through multiple enemies.
   const fireRainbow = useCallback(() => {
     game.firePlayerRainbow(player);
     sfx.play('PlayerFire');
-    gamepad.vibrate(gamepadIndex.current, 50, 0.3);
+    rumble(50, 0.3);
     cooldown.current = player.hasPowerup('zapSpeed') ? ZAP_COOLDOWN_FAST : ZAP_COOLDOWN;
-  }, [cooldown, game, gamepad, gamepadIndex, player, sfx]);
+  }, [cooldown, game, player, rumble, sfx]);
 
   // Fire a regular zap, which stuns the first enemy it hits.
   const fireZap = useCallback(() => {
     game.firePlayerZap(player);
     sfx.play('PlayerFire');
-    gamepad.vibrate(gamepadIndex.current, 50, 0.3);
+    rumble(50, 0.3);
     cooldown.current = player.hasPowerup('zapSpeed') ? ZAP_COOLDOWN_FAST : ZAP_COOLDOWN;
-  }, [cooldown, game, gamepad, gamepadIndex, player, sfx]);
+  }, [cooldown, game, player, rumble, sfx]);
 
   useUpdate((delta) => {
     // The fire button is held down, or the user has auto mode enabled.

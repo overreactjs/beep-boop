@@ -1,12 +1,11 @@
-import { useGamepad, useTaggedCollision, useUpdate } from "@overreact/engine";
+import { useTaggedCollision, useUpdate } from "@overreact/engine";
 import { PlayerState } from "../../state";
-import { useGame, useGamepadIndex, useSoundEffects } from "../../hooks";
+import { useGame, useGamepadRumble, useSoundEffects } from "../../hooks";
 
 export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) => {
   const game = useGame();
   const sfx = useSoundEffects();
-  const gamepad = useGamepad();
-  const gamepadIndex = useGamepadIndex(player.player);
+  const rumble = useGamepadRumble(player.player);
 
   // When the player touches a stunned enemy, do a little jump.
   useTaggedCollision(collider, 'stunned', () => {
@@ -14,7 +13,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
       player.velocity.current[1] = Math.min(-0.125, player.velocity.current[1]);
       player.combo.current++;
       sfx.play('PlayerKill');
-      gamepad.vibrate(gamepadIndex.current, 100, 0.5);
+      rumble(100, 0.5);
     }
   });
 
@@ -23,7 +22,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
     if (player.canBeKilled()) {
       player.kill();
       sfx.play('PlayerDeath');
-      gamepad.vibrate(gamepadIndex.current, 500, 1.0);
+      rumble(100, 0.5);
     }
   });
 
@@ -35,7 +34,7 @@ export const usePlayerEnemyCollisions = (collider: string, player: PlayerState) 
       if (game.glitch.check([bx, by - 1])) {
         player.kill();
         sfx.play('PlayerDeath');
-        gamepad.vibrate(gamepadIndex.current, 500, 1.0);
+        rumble(100, 0.5);
       }
     }
   });

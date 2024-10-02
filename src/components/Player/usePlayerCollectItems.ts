@@ -1,8 +1,8 @@
-import { useGamepad, useTaggedCollision } from "@overreact/engine";
-import { useGame, useSoundEffects } from "../../hooks";
+import { useCallback } from "react";
+import { useTaggedCollision } from "@overreact/engine";
+import { useGame, useGamepadRumble, useSoundEffects } from "../../hooks";
 import { PlayerState, ItemState } from "../../state";
 import { ItemType } from "../../types";
-import { useCallback } from "react";
 
 const POWERUPS: ItemType[] = [
   'potion_blue',
@@ -26,13 +26,14 @@ const STARS: ItemType[] = [
 export const usePlayerCollectItems = (collider: string, player: PlayerState) => {
   const game = useGame();
   const sfx = useSoundEffects();
-  const gamepad = useGamepad();
+  const rumble1 = useGamepadRumble(0);
+  const rumble2 = useGamepadRumble(1);
 
   const triggerEffects = useCallback((type: ItemType) => {
     if (type === 'dynamite') {
       sfx.play('Explosion');
-      gamepad.vibrate(game.settings.gamepadAssign.current[0], 2000, 0.5);
-      gamepad.vibrate(game.settings.gamepadAssign.current[1], 2000, 0.5);
+      rumble1(2000, 0.5);
+      rumble2(2000, 0.5);
 
     } else if (POWERUPS.includes(type)) {
       sfx.play('Powerup');
@@ -43,7 +44,7 @@ export const usePlayerCollectItems = (collider: string, player: PlayerState) => 
     } else {
       sfx.play('PlayerCollect');
     }
-  }, [game.settings.gamepadAssign, gamepad, sfx]);
+  }, [rumble1, rumble2, sfx]);
 
   useTaggedCollision<ItemState>(collider, 'item', (collisions) => {
     if (player.active.current) {

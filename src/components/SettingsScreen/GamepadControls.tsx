@@ -21,7 +21,8 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
   const buttonRight = useButtonBinding(settings.buttonBindings, 'right');
   const buttonJump = useButtonBinding(settings.buttonBindings, 'jump');
   const buttonFire = useButtonBinding(settings.buttonBindings, 'fire');
-  const analogStick = useBooleanOption(settings.gamepadAnalogStick);
+  const gamepadAnalogStick = useBooleanOption(settings.gamepadAnalogStick);
+  const gamepadRumble = useBooleanOption(settings.gamepadRumble);
 
   const active = useProperty(true);
   const editing = useProperty<string | null>(null);
@@ -46,6 +47,8 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
     switch (index) {
       case 5:
         return settings.gamepadAnalogStick.toggle();
+      case 6:
+        return settings.gamepadRumble.toggle();
     }
   };
 
@@ -103,7 +106,10 @@ export const GamepadControls: React.FC<GamepadControlsProps> = (props) => {
       <MenuGamepadButtonItem index={4} pos={[208, 112]} offset={buttonFire} />
 
       <MenuLabel index={5} pos={[32, 128]} text="ANALOG STICK" />
-      <MenuItem index={5} pos={[240, 128]} text={analogStick} hasOptions align="right" />
+      <MenuItem index={5} pos={[240, 128]} text={gamepadAnalogStick} hasOptions align="right" />
+
+      <MenuLabel index={6} pos={[32, 144]} text="RUMBLE" />
+      <MenuItem index={6} pos={[240, 144]} text={gamepadRumble} hasOptions align="right" />
     </Menu>
   );
 };

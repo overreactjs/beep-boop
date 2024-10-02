@@ -13,6 +13,7 @@ export { useEnemyStateMachine } from "./useEnemyStateMachine";
 export { useFlyingMovement } from "./useFlyingMovement";
 export { useGame } from "./useGame";
 export { useGamepadIndex } from "./useGamepadIndex";
+export { useGamepadRumble } from "./useGamepadRumble";
 export { useHideStatusBar } from "./useHideStatusBar";
 export { useInitGameState } from "./useInitGameState";
 export { useMergeBooleans } from "./useMergeBooleans";

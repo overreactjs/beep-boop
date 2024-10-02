@@ -35,6 +35,7 @@ export class SettingsState extends PersistableState {
   // Gamepad
   gamepadAssign = new VariableProperty<[GamepadAssignment, GamepadAssignment]>([null, null]);
   gamepadAnalogStick = new BooleanProperty(true);
+  gamepadRumble = new BooleanProperty(true);
   buttonBindings = new InputBindingsProperty<GamepadButtonName>(GAMEPAD_BUTTON_MAP);
 
   constructor() {
