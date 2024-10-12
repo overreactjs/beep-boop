@@ -1,7 +1,7 @@
 {
   "name": "beep-boop",
   "private": true,
-  "version": "0.3.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev:full": "concurrently \"NODE_ENV=full vite --force\" \"npm run dev:styles\"",
@@ -29,7 +29,8 @@
     "pack:full": "npm run electron:sync:full && cd electron && NODE_ENV=full npm run pack:all",
     "pack:demo": "npm run electron:sync:demo && cd electron && NODE_ENV=demo npm run pack:all",
     "pack": "npm run pack:full && npm run pack:demo",
-    "appflow:build": "npm run build:capacitor:full"
+    "appflow:build": "npm run appflow:version && npm run build:capacitor:full",
+    "appflow:version": "npx capacitor-set-version -v $(npm pkg get version | tr -d \") -b $(date +%y%m%d%H%M)"
   },
   "dependencies": {
     "@capacitor-community/electron": "^5.0.1",
