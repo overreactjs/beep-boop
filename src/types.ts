@@ -215,6 +215,7 @@ export type SoundEffectConfig = {
 };
 
 export type SoundEffect =
+| 'EnemyStun'
   | 'Explosion'
   | 'Fireball'
   | 'MenuNavigate'

@@ -1,3 +1,4 @@
+import EnemyStun from "../../assets/sounds/EnemyStun.wav";
 import Explosion from "../../assets/sounds/Explosion.wav";
 import Fireball from "../../assets/sounds/Fireball.wav";
 import MenuNavigate from "../../assets/sounds/MenuNavigate.wav";
@@ -12,6 +13,10 @@ import Stars from "../../assets/sounds/Stars.wav";
 import { SoundEffect, SoundEffectConfig } from "../../types";
 
 export const SOUNDS: Record<SoundEffect, SoundEffectConfig> = {
+  EnemyStun: {
+    url: EnemyStun,
+    volume: 0.3,
+  },
   Explosion: {
     url: Explosion,
     volume: 0.5,
