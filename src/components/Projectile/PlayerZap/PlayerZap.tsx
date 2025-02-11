@@ -1,4 +1,4 @@
-import { useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, BitmapSprite, useMergeProperty, useParticles } from "@overreact/engine";
+import { useUpdate, useTaggedCollision, CollisionBox, Node, useProperty, SpriteSet, BitmapSprite, useMergeProperty, useParticles, useFixedUpdate } from "@overreact/engine";
 import { useCallback, useId } from "react";
 import { PlayerZapState } from "../../../state";
 import { ProjectileProps } from "../types";
@@ -32,6 +32,10 @@ export const PlayerZap: React.FC<ProjectileProps<PlayerZapState>> = ({ projectil
     if (age.current > projectile.ttl.current + 50) {
       projectile.destroy();
     }
+  });
+
+  useFixedUpdate(60, () => {
+    particles.attach(ZapParticle.fromZap(projectile));
   });
 
   // Destroy projectiles when they hit walls, but only walls that have left/right collisions enabled.
