@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React from "react";
 import { useUpdate } from "@overreact/engine";
 
 import { useGame } from "../../hooks";

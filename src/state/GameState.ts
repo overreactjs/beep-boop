@@ -2,7 +2,7 @@ import { Position, VariableProperty, Velocity, clamp, dist } from "@overreact/en
 import { ITEMS } from "../data";
 import { REGULAR_ITEMS, SPECIAL_ITEMS } from "../data/items";
 import { ENEMY_ITEMS, ENEMY_POINTS } from "../data/constants";
-import { getHighScore, setHighScore } from "../services/highscores";
+import { getHighscore } from "../services/highscores";
 import { FlyingStarColor, GamePowerup, GamePowerupEnd, GamePowerupType, ItemHandler, ItemType, LevelData, LevelPortalData, PointsLabel, PointsValue } from "../types";
 
 import { itemHandlers } from "./itemHandlers";
@@ -27,7 +27,7 @@ export class GameState extends ObjectState {
 
   initialized = new VariableProperty(false);
 
-  highscore = new VariableProperty(getHighScore());
+  highscore = new VariableProperty(getHighscore().score);
 
   camera = new VariableProperty<Position>([128, 100]);
   
@@ -405,7 +405,6 @@ export class GameState extends ObjectState {
 
     if (max > this.highscore.current) {
       this.highscore.current = max;
-      setHighScore(this.highscore.current);
     }
   }
 

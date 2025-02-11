@@ -1,15 +1,14 @@
 import React, { useMemo } from "react";
 import { Device, useSync } from "@overreact/engine";
-import { Game, SettingsScreen, TitleScreen } from "./components";
+import { CreditsScreen, Game, GameContext, GameOver, HighscoreInput, SettingsScreen, TitleScreen } from "./components";
 import { useAppState, useAudioSettingsStartupSync, useHideStatusBar, useInitGameState, useSoundEffectsPreload, useSoundtrack, useVideoSettingsStartupSync } from "./hooks";
+import { isLeaderboardScore } from "./services";
 import { SettingsState } from "./state";
-import { GameContext } from "./components/Game/Game";
-import { CreditsScreen } from "./components/CreditsScreen";
-import { GameOver } from "./components/GameOver";
+import { HighscoreTable } from "./components/HighscoreTable";
 
 export const SettingsContext = React.createContext<SettingsState>(SettingsState.load());
 
-type AppState = 'titleScreen' | 'playing' | 'settings' | 'credits' | 'gameOver';
+type AppState = 'titleScreen' | 'playing' | 'settings' | 'credits' | 'gameOver' | 'highscoreTable' | 'highscoreInput';
 
 export const App = () => {
   const settings = useMemo(() => SettingsState.load(), []);
@@ -30,8 +29,13 @@ export const App = () => {
   };
 
   const onGameOver = () => {
-    go('gameOver')();
-    reset();
+    if (game && isLeaderboardScore(game.players[0].score.current, game.level.current)) {
+      game.pause();
+      go('highscoreInput')();
+    } else {
+      go('gameOver')();
+      reset();
+    }
   };
 
   const onStartGame = () => {
@@ -51,7 +55,7 @@ export const App = () => {
             <Game onEndGame={onEndGame} onGameOver={onGameOver} />
           )}
           {state === 'titleScreen' && (
-            <TitleScreen onStart={onStartGame} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
+            <TitleScreen onStart={onStartGame} onHighscoreTable={go('highscoreTable')} onSettings={go('settings')} onCredits={go('credits')} onQuit={onQuit} />
           )}
           {state === 'settings' && (
             <SettingsScreen onBack={go('titleScreen')} />
@@ -61,6 +65,12 @@ export const App = () => {
           )}
           {state === 'gameOver' && (
             <GameOver onBack={go('titleScreen')} />
+          )}
+          {state === 'highscoreTable' && (
+            <HighscoreTable onBack={go('titleScreen')} />
+          )}
+          {state === 'highscoreInput' && (
+            <HighscoreInput onBack={go('titleScreen')} />
           )}
         </Device>
       </GameContext.Provider>

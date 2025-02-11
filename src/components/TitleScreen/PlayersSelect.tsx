@@ -29,7 +29,7 @@ export const PlayersSelect: React.FC<PlayersSelectProps> = (props) => {
 
   return (
     <>
-      <BitmapImage image={LOGO} pos={[64, 8]} size={[128, 128]} offset={[0, 0]} />
+      <BitmapImage image={LOGO} pos={[64, 0]} size={[128, 128]} offset={[0, 0]} />
       <Menu onSelect={handleSelect} onBack={onBack}>
         <MenuItem index={0} pos={[96, 160]} text="1 PLAYER" />
         <MenuItem index={1} pos={[96, 176]} text="2 PLAYERS" />

@@ -1,6 +1,13 @@
 import { clamp, Position, VariableProperty } from "@overreact/engine";
 import { EnemyState, GameState, ItemState, PlayerState } from "./state";
 
+export type Highscore = {
+  score: number;
+  stage: number;
+  name: string;
+  timestamp: number;
+};
+
 export type GamepadAssignment = 0 | 1 | 2 | 3 | null;
 
 export type Direction = 'left' | 'right';
@@ -215,7 +222,7 @@ export type SoundEffectConfig = {
 };
 
 export type SoundEffect =
-| 'EnemyStun'
+  | 'EnemyStun'
   | 'Explosion'
   | 'Fireball'
   | 'MenuNavigate'
