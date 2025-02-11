@@ -132,7 +132,7 @@ export class PlayerState extends EntityObjectState {
   createZap(game: GameState): PlayerZapState {
     const [x, y] = this.pos.current;
     const direction = this.flip.current ? -1 : 1;
-    const ttl = this.hasPowerup('zapDistance') ? 600 : 500;
+    const ttl = this.hasPowerup('zapDistance') ? 700 : 550;
     return new PlayerZapState(game, [x + direction * 4, y - 8], direction, this.player, ttl);
   }
 
