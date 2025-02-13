@@ -46,9 +46,10 @@ function parseLevelMetadata(data: string[]): LevelMetadata {
         metadata.tileset = parseInt(value, 10);
         break;
       case 'scheme':
-        if (value === 'autotile') {
-          metadata.scheme = value;
-        }
+        metadata.scheme = value === 'autotile' ? value : undefined;
+        break;
+      case 'boss':
+        metadata.boss = value === 'true';
         break;
     }
   }

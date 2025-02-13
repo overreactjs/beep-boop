@@ -27,8 +27,8 @@ export const useSoundtrack = (game?: GameState) => {
       return SwingingLevel;
     }
 
-    // Boss fights (every 20 levels)
-    if ((game?.level.current || 0) % 20 === 0) {
+    // Boss fights
+    if (game?.levelData.meta.boss) {
       return BossFight;
     }
 

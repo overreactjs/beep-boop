@@ -136,7 +136,7 @@ export class GameState extends ObjectState {
     this.levelTime.current += delta;
     this.lastEnemyTime.current += delta;
 
-    const isBossLevel = this.level.current % 20 === 0;
+    const isBossLevel = this.levelData.meta.boss;
 
     // Unpause the game when the message has been on screen for long enough.
     if (this.messageTimeout.current > 0) {

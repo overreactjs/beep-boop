@@ -25,3 +25,4 @@
 00000000000000000000000000000000
 tileset:71
 scheme:autotile
+boss:true
